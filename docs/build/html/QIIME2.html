@@ -1,0 +1,275 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>QIIME2 &#8212; MAVERIC Informatics  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="UNIX/LINUX Introduction and Guide" href="Linux-Unix.html" />
+    <link rel="prev" title="OSC Introduction and Guide" href="OSC.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="qiime2">
+<span id="id1"></span><h1>QIIME2<a class="headerlink" href="#qiime2" title="Permalink to this headline">¶</a></h1>
+<p>Nearly all of this documentation is taken directly from lecture and text guides from class. QIIME2 instructions to
+process the “moving pictures” dataset are from Instructor Shareef’s guide found on <a class="reference external" href="https://carmen.osu.edu/#">Carmen</a>.
+If you’d like to read up more about this dataset, they can be found <a class="reference external" href="https://genomebiology.biomedcentral.com/articles/10.1186/gb-2011-12-5-r50">here</a>.</p>
+<dl class="docutils">
+<dt>Before beginning, you’ll want to copy the two examples files from the project directory (/fs/project/PAS1573) on scratch to</dt>
+<dd>your home directory!</dd>
+</dl>
+<p>Sequencing data: /fs/project/PAS1573/week3_16S/qiime2/moving_pictures/single_end</p>
+<p>Metadata: /fs/project/PAS1573/week3_16S/qiime2/moving_pictures/mp_sample_metadata.tsv</p>
+<p>Please check out the OSC/linux intro if you have any questions/need help for how to copy files from one location to another.</p>
+<div class="section" id="data-import">
+<h2>Data Import<a class="headerlink" href="#data-import" title="Permalink to this headline">¶</a></h2>
+<p>We start by importing our single end sequencing data into a QIIME2-compatible format, the *.qza.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime tools import --type EMPSingleEndSequences --input-path data/single_end/ --output-path emp-single-end-sequences.qza
+</pre></div>
+</div>
+<p>Remember, QIIME2 thinks in terms of methods –&gt; artifacts, which in this case is EMPSingleEndSequences, and visualizers
+(not shown here, yet), in visualizations.</p>
+</div>
+<div class="section" id="demultiplexing">
+<h2>Demultiplexing<a class="headerlink" href="#demultiplexing" title="Permalink to this headline">¶</a></h2>
+<p>Next we’ll demultiplex the sequences</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime demux emp-single --i-seqs emp-single-end-sequences.qza --m-barcodes-file sample_metadata.tsv --m-barcodes-column barcode-sequence --o-per-sample-sequences demux.qza --o-error-correction-details demux-details.qza
+</pre></div>
+</div>
+<p>You should generate two files:</p>
+<p>Saved SampleData[SequencesWithQuality] to: demux.qza</p>
+<p>Saved ErrorCorrectionDetails to: demux-details.qza</p>
+<p>After demultiplexing, we need to summarize the data to see what we got!</p>
+</div>
+<div class="section" id="summarize">
+<h2>Summarize<a class="headerlink" href="#summarize" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime demux summarize --i-data demux.qza --o-visualization demux.qzv
+</pre></div>
+</div>
+<p>Notice how we now have a *.qzv file? This is QIIME2’s <strong>v</strong>isualization file that can be uploaded to the
+<a class="reference external" href="https://view.qiime2.org/">QIIME2 view page</a>. Go ahead and try it and see what happens.</p>
+</div>
+<div class="section" id="quality-control-and-creating-the-feature-table">
+<h2>Quality Control and Creating the Feature Table<a class="headerlink" href="#quality-control-and-creating-the-feature-table" title="Permalink to this headline">¶</a></h2>
+<p>Sequence quality control and feature table construction</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime quality-filter q-score --i-demux demux.qza --o-filtered-sequences demux-filtered.qza --o-filter-stats demux-filter-stats.qza
+</pre></div>
+</div>
+<p>Saved SampleData[SequencesWithQuality] to: demux-filtered.qza</p>
+<p>Saved QualityFilterStats to: demux-filter-stats.qza</p>
+<p>Next we’re going to use deblur to clean up our 16S data.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime deblur denoise-16S --i-demultiplexed-seqs demux-filtered.qza --p-trim-length <span class="m">120</span> --o-representative-sequences rep-seqs-deblur.qza --o-table tble-deblur.qza --p-sample-stats --o-stats deblur-stats.qza
+</pre></div>
+</div>
+<p>Saved FeatureTable[Frequency] to: table-deblur.qza</p>
+<p>Saved FeatureData[Sequence] to: rep-seqs-deblur.qza</p>
+<p>Saved DeblurStats to: deblur-stats.qza</p>
+<p>FeatureTable and FeatureData summaries</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime feature-table summarize --i-table table-deblur.qza --o-visualization table-deblur.qzv --m-sample-metadata-file mp_sample_metadata.tsv
+</pre></div>
+</div>
+<p>Saved Visualization to: table-deblur.qzv</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime feature-table tabulate-seqs --i-data rep-seqs-deblur.qza --o-visualization rep-seqs-deblur.qzv
+</pre></div>
+</div>
+<p>Saved Visualization to: rep-seqs-deblur.qzv</p>
+<p>Generate a tree for phylogenetic diversity analyses</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime phylogeny align-to-tree-mafft-fasttree --i-sequences rep-seqs-deblur.qza --o-alignment aligned-rep-seqs.qza --o-masked-alignment masked-aligned-rep-seqs.qza --o-tree unrooted-tree.qza --o-rooted-tree rooted-tree.qza
+</pre></div>
+</div>
+<p>Saved FeatureData[AlignedSequence] to: aligned-rep-seqs.qza</p>
+<p>Saved FeatureData[AlignedSequence] to: masked-aligned-rep-seqs.qza</p>
+<p>Saved Phylogeny[Unrooted] to: unrooted-tree.qza</p>
+<p>Saved Phylogeny[Rooted] to: rooted-tree.qza</p>
+</div>
+<div class="section" id="alpha-and-beta-diversity-analyses">
+<h2>Alpha and Beta Diversity Analyses<a class="headerlink" href="#alpha-and-beta-diversity-analyses" title="Permalink to this headline">¶</a></h2>
+<p>Alpha diversity can be measured in a few ways. QIIME2 supports many of these. The ones we’ll be looking at are:</p>
+<ul class="simple">
+<li>Shannon’s diversity index</li>
+<li>Observed OTUs</li>
+<li>Faith’s phylogenetic diversity</li>
+<li>Evenness</li>
+</ul>
+<p>For Beta diversity:</p>
+<ul class="simple">
+<li>Jaccard distance</li>
+<li>Bray-Curtise distance</li>
+<li>unweighted UniFrac distance</li>
+<li>weighted UniFrac distance</li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime diversity core-metrics-phylogenetic --i-phylogeny rooted-tree.qza --i-table table-deblur.qza --p-sampling-depth <span class="m">850</span> --m-metadata-file mp_sample_metadata.tsv --output-dir core-metrics-results-850
+</pre></div>
+</div>
+<p>Saved FeatureTable[Frequency] to: core-metrics-results-850/rarefied_table.qza</p>
+<p>Saved SampleData[AlphaDiversity] % Properties(‘phylogenetic’) to: core-metrics-results-850/faith_pd_vector.qza</p>
+<p>Saved SampleData[AlphaDiversity] to: core-metrics-results-850/observed_otus_vector.qza</p>
+<p>Saved SampleData[AlphaDiversity] to: core-metrics-results-850/shannon_vector.qza</p>
+<p>Saved SampleData[AlphaDiversity] to: core-metrics-results-850/evenness_vector.qza</p>
+<p>Saved DistanceMatrix % Properties(‘phylogenetic’) to: core-metrics-results-850/unweighted_unifrac_distance_matrix.qza</p>
+<p>Saved DistanceMatrix % Properties(‘phylogenetic’) to: core-metrics-results-850/weighted_unifrac_distance_matrix.qza</p>
+<p>Saved DistanceMatrix to: core-metrics-results-850/jaccard_distance_matrix.qza</p>
+<p>Saved DistanceMatrix to: core-metrics-results-850/bray_curtis_distance_matrix.qza</p>
+<p>Saved PCoAResults to: core-metrics-results-850/unweighted_unifrac_pcoa_results.qza</p>
+<p>Saved PCoAResults to: core-metrics-results-850/weighted_unifrac_pcoa_results.qza</p>
+<p>Saved PCoAResults to: core-metrics-results-850/jaccard_pcoa_results.qza</p>
+<p>Saved PCoAResults to: core-metrics-results-850/bray_curtis_pcoa_results.qza</p>
+<p>Saved Visualization to: core-metrics-results-850/unweighted_unifrac_emperor.qzv</p>
+<p>Saved Visualization to: core-metrics-results-850/weighted_unifrac_emperor.qzv</p>
+<p>Saved Visualization to: core-metrics-results-850/jaccard_emperor.qzv</p>
+<p>Saved Visualization to: core-metrics-results-850/bray_curtis_emperor.qzv</p>
+<p>Wow. That was a lot of outputs. Always been aware of <strong>what</strong> you’re looking at. The filename has what kind of analysis
+was performed, but it’s up to you to figure out what it means!</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime diversity alpha-group-significance --i-alpha-diversity core-metrics-results/faith_pd_vector.qza --m-metadata-file mp_sample_metadata.tsv --o-visualization core-metrics-results/faith_pd_group-significance.qzv
+</pre></div>
+</div>
+<p>Saved Visualization to: core-metrics-results-741/faith_pd_group-significance.qzv</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime diversity alpha-group-significance --i-alpha-diversity core-metrics-results/evenness_vector.qza --m-metadata-file mp_sample_metadata.tsv --o-visualization core-metrics-results/evenness-group-significance.qzv
+</pre></div>
+</div>
+<p>Saved Visualization to: core-metrics-results/evenness-group-significance.qzv</p>
+<p>Next we’re going to look at beta diversity, looking to compare different metadata.</p>
+<p>Body site</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime diversity beta-group-significance --i-distance-matrix core-metrics-results/unweighted_unifrac_distance_matrix.qza --m-metadata-file mp_sample_metadata.tsv --m-metadata-column body-site --o-visualization core-metrics-results/unweighted_unifrac-body-site-sig.qzv --p-pairwise
+</pre></div>
+</div>
+<p>Saved Visualization to: core-metrics-results/unweighted_unifrac-body-site-sig.qzv</p>
+<p>Subject</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime diversity beta-group-significance --i-distance-matrix core-metrics-results/unweighted_unifrac_distance_matrix.qza --m-metadata-file mp_sample_metadata.tsv --m-metadata-column subject --o-visualization core-metrics-results/unweighted_unifrac-subject-sig.qzv --p-pairwise
+</pre></div>
+</div>
+<p>Saved Visualization to: core-metrics-results/unweighted_unifrac-subject-sig.qzv</p>
+<p>Longitudinal</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime emperor plot --i-pcoa core-metrics-results/unweighted_unifrac_pcoa_results.qza --m-metadata-file mp_sample_metadata.tsv --p-custom-axes days-since-experiment-start --o-visualization core-metrics-results/unweighted_unifrac-emperor-dses.qzv
+</pre></div>
+</div>
+<p>Saved Visualization to: core-metrics-results/unweighted_unifrac-emperor-dses.qzv</p>
+<p>Alpha rarefaction</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime diversity alpha-rarefaction --i-table table-deblur.qza --i-phylogeny rooted-tree.qza --p-max-depth <span class="m">4000</span> --m-metadata-file mp_sample_metadata.tsv --o-visualization alpha-rarefaction.qzv
+</pre></div>
+</div>
+<p>Assign taxonomy</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime feature-classifier classify-sklearn --i-classifier /fs/project/PAS1573/week3_16S/qiime2/gg-13-8-99-515-806-nb-classifier.qza --i-reads rep-seqs-deblur.qza --o-classification taxonomy-deblur.qza
+</pre></div>
+</div>
+<p>Saved FeatureData[Taxonomy] to: taxonomy-deblur.qza</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime metadata tabulate --m-input-file taxonomy-deblur.qza--o-visualization taxonomy.qzv
+</pre></div>
+</div>
+<p>Saved Visualization to: taxonomy.qzv</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime taxa barplot --i-table table-deblur.qza --i-taxonomy taxonomy-deblur.qza --m-metadata-file mp_sample_metadata.tsv --o-visualization taxa-bar-plots.qzv
+</pre></div>
+</div>
+<p>Saved Visualization to: taxa-bar-plots.qzv</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">MAVERIC Informatics</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Introduction and Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Microbial-Informatics.html">Microbial Informatics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="OSC.html">OSC Introduction and Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">QIIME2</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#data-import">Data Import</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#demultiplexing">Demultiplexing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#summarize">Summarize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quality-control-and-creating-the-feature-table">Quality Control and Creating the Feature Table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#alpha-and-beta-diversity-analyses">Alpha and Beta Diversity Analyses</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Linux-Unix.html">UNIX/LINUX Introduction and Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Modules-and-Tools.html">Modules and Tools on OSC!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Building-Modules-and-Tools.html">Building Modules and Tools on OSC</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="OSC.html" title="previous chapter">OSC Introduction and Guide</a></li>
+      <li>Next: <a href="Linux-Unix.html" title="next chapter">UNIX/LINUX Introduction and Guide</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Benjamin Bolduc.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/QIIME2.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
