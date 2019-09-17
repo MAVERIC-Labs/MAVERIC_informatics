@@ -1,8 +1,7 @@
 .. _Tools:
 
-#########################
 Modules and Tools on OSC
-#########################
+========================
 
 On OSC there are a number of different ways to run a tool/app/executable/binary/etc.
 
@@ -14,12 +13,11 @@ The easiest way of illustrating this point is to use NCBI's BLAST+ set of tools.
 set of proteins (myProteins.faa) against NCBI's non-redundant (nr) database, we need to load and run blastp
 (protein-protein comparison).
 
-*************
 Running Tools
-*************
+-------------
 
 Directly
-********
+~~~~~~~~
 
 If you know the exact location of the blastp executable on the system, then you can call the program directly using the
 "full path" to the executable:
@@ -30,7 +28,7 @@ If you know the exact location of the blastp executable on the system, then you 
 
 
 Using Modules
-*************
+~~~~~~~~~~~~~
 
 Sometimes a tool requires other tools as dependencies or you might want to run a pipeline of tools, and you don't want
 to remember the full path to every tool. Instead, you can build and/or load a module, which extends your $PATH (i.e.
@@ -61,7 +59,7 @@ BLAST+ family, but it serves to illustrate this example. One module = many tools
 For a complete description of how to build your own modules, go to :ref:`buildingTools`.
 
 Singularity containers
-**********************
+~~~~~~~~~~~~~~~~~~~~~~
 
 For some tools, they might require dependencies that OSC won't install, or can't. These are often tools or libraries that
 need to be installed system-wide. The problem is that oftentimes dependencies among tools can conflict, so OSC doesn't
@@ -105,7 +103,7 @@ For a complete description of how to build your own modules, go to :ref:`buildin
 
 
 Available Environmental Microbiology ("eMicro") Apps and Tools
-##############################################################
+==============================================================
 
 Below is a list and description of the apps available to anyone on OSC. Please keep in mind that this list is not 100%
 comprehensive and *does not* detail the methods underlying the tool. Where possible, citations have been included so users
@@ -118,7 +116,7 @@ and literature.
 **Keep in mind that none of these apps/tools should be run on the login nodes. Please create a job script and submit it or incur OSC's wrath!**
 
 Quality Control
-===============
+---------------
 
 Generally speaking, quality control (QC) is a technique applied to to [most commonly] raw read data. This ensures that
 the data going into the assembly (common next step) is of high quality. Poor read quality can result in mis- or
@@ -126,7 +124,7 @@ incorrectly assembled sequences. Most frequently, read data QC involves trimming
 scores. Although some assemblers do not require QC’d reads, we highly recommend it!
 
 Trimmomatic
------------
+~~~~~~~~~~~
 
 **Reference**: Bolger, A. M., Lohse, M., & Usadel, B. (2014). Trimmomatic: A flexible trimmer for Illumina Sequence Data. Bioinformatics, btu170.
 
@@ -141,10 +139,10 @@ Trimmomatic
 
 
 Assembly
-========
+--------
 
 gsAssembler (aka Newbler)
--------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Reference**: Genivaldo, GZ; Silva, Bas E; Dutilh, David; Matthews, Keri; Elkins, Robert; Schmieder, Elizabeth A;
 Dinsdale, Robert A Edwards. "Combining de novo and reference-guided assembly with scaffold_builder". Source Code
@@ -166,7 +164,7 @@ good reason otherwise (i.e. reproducing previous results). These are 2.3 and 2.5
 The singularity container *does contain* the mapper, but for all intents and purposes, the tool uses runAssembly.
 
 SPAdes
-------
+~~~~~~
 
 **Reference**: Bankevich A., Nurk S., Antipov D., Gurevich A., Dvorkin M., Kulikov A. S., Lesin V., Nikolenko S.,
 Pham S., Prjibelski A., Pyshkin A., Sirotkin A., Vyahhi N., Tesler G., Alekseyev M. A., Pevzner P. A. SPAdes: A New
@@ -187,7 +185,7 @@ There are multiple implementations on OSC using different runtimes and memory al
     singularity run SPAdes-3.13.1.simg
 
 IDBA-UD
--------
+~~~~~~~
 
 **Reference**: Peng, Y., et al. (2010) IDBA- A Practical Iterative de Bruijn Graph De Novo Assembler. RECOMB. Lisbon.
 
@@ -210,7 +208,7 @@ regions. (taken from website)
 Forthcoming!
 
 Trinity
--------
+~~~~~~~
 
 **Reference**: Grabherr MG, Haas BJ, Yassour M, Levin JZ, Thompson DA, Amit I, Adiconis X, Fan L, Raychowdhury R, Zeng
 Q, Chen Z, Mauceli E, Hacohen N, Gnirke A, Rhind N, di Palma F, Birren BW, Nusbaum C, Lindblad-Toh K, Friedman N, Regev
@@ -228,10 +226,10 @@ May 15;29(7):644-52. doi: 10.1038/nbt.1883. PubMed PMID: 21572440.
 
 
 Gene Callers
-============
+------------
 
 FragGeneScan
-------------
+~~~~~~~~~~~~
 
 **Reference**: Mina Rho, Haixu Tang, and Yuzhen Ye. FragGeneScan: Predicting Genes in Short and Error-prone Reads. Nucl. Acids Res., 2010 doi: 10.1093/nar/gkq747
 
@@ -245,7 +243,7 @@ FragGeneScan
     singularity run FragGeneScan-1.30.0.img
 
 Prodigal
---------
+~~~~~~~~
 
 **Reference**: Hyatt, D. Prodigal (2.6.3) [Software]. Available at https://github.com/hyattpd/Prodigal
 
@@ -259,7 +257,7 @@ Prodigal
     singularity run Prodigal-2.6.3.img -i metagenome.fna -o coords.gbk -a proteins.faa -p anon
 
 MetaGeneAnnotator ("MGA")
--------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Reference**: Noguchi, H., Taniguchi, T., & Itoh, T. (2008). MetaGeneAnnotator: Detecting Species-Specific Patterns of
 Ribosomal Binding Site for Precise Gene Prediction in Anonymous Prokaryotic and Phage Genomes. DNA Research, 15(6),
@@ -276,10 +274,10 @@ Ribosomal Binding Site for Precise Gene Prediction in Anonymous Prokaryotic and 
 
 
 Annotation and Analyses
-=======================
+-----------------------
 
 Prokka
-------
+~~~~~~
 
 **Reference**: Seemann T. Prokka: rapid prokaryotic genome annotation Bioinformatics 2014 Jul 15;30(14):2068-9.
 PMID:24642063
@@ -296,7 +294,7 @@ standards-compliant output files
 
 
 Diamond
--------
+~~~~~~~
 
 **Reference**: B. Buchfink, Xie C., D. Huson, "Fast and sensitive protein alignment using DIAMOND", Nature Methods 12,
 59-60 (2015)
@@ -312,7 +310,7 @@ performance analysis of big sequence data.
     singularity run Diamond-0.9.10.img
 
 CAT
----
+~~~
 
 **Reference**: https://github.com/dutilh/CAT
 
@@ -332,12 +330,12 @@ databases installed.
     singularity run CAT-4.3.3.simg contigs -c {contigs fasta} -d 2019-03-31_CAT_database -t 2019-03-31_taxonomy
 
 Viral Analyses
-==============
+--------------
 
 "Consider something viral in your research" - F. Rohwer
 
 VIRSorter
----------
+~~~~~~~~~
 
 **Reference**: Roux S, Enault F, Hurwitz BL, Sullivan MB. (2015) VirSorter: mining viral signal from microbial genomic
 data. PeerJ 3:e985 https://doi.org/10.7717/peerj.985
@@ -352,7 +350,7 @@ data. PeerJ 3:e985 https://doi.org/10.7717/peerj.985
     singularity run VirSorter-1.0.5.img
 
 vConTACT
---------
+~~~~~~~~
 
 vConTACT is a suite a tools that classify contigs/genomes based on their shared gene content. v1 "requires"
 3 tools, whereas v2 (below) only requires 2.
@@ -374,7 +372,7 @@ classify double-stranded DNA viruses that infect Archaea and Bacteria. PeerJ 5: 
 More forthcoming!!!
 
 vConTACT2
----------
+~~~~~~~~~
 
 **Reference**: Bin Jang, H., Bolduc, B., Zablocki, O., Kuhn, J. H., Roux, S., Adriaenssens, E. M., …
 Sullivan, M. B. (2019). Taxonomic assignment of uncultivated prokaryotic virus genomes is enabled by
