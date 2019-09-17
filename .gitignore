@@ -13,3 +13,6 @@ gen
 _build
 _static
 _templates
+
+# User
+style_guide.txt
