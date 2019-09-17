@@ -1,7 +1,8 @@
 Microbial Informatics
-=====================
+#####################
 
-Microbiology 8194: Microbiome Informatics (Fall 2019)
+Read on for Microbiology 8194: Microbiome Informatics (Fall 2019). Here, you'll find a list of topics covered by the course
+and a set of references (if available) on this website.
 
 Week 1: Intro to the Course and OSC (see :ref:`OSC`)
 

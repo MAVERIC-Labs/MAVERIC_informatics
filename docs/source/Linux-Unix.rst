@@ -1,7 +1,7 @@
 .. _UNIX_LINUX:
 
 UNIX/LINUX Introduction and Guide
-=================================
+#################################
 
 There are anthologies to using Unix operating systems. Unix is a family of many different OS's, including Apple's macOS
 and Linux distributions (derivatives of unix). We won't cover **any** of the histories or flavors of them here. There's

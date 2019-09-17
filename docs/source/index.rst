@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 Welcome to MAVERIC Informatics's documentation!
-===============================================
+###############################################
 
 This guide is a work in progress! It is being built, week-by-week, as OSU's microbiome informatics course (M8194) is
 being taught during the Fall of 2019. The goal is to provide a centralized resource for all things microbial and viral

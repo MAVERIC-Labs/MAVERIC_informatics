@@ -1,7 +1,7 @@
 .. _QIIME2:
 
 QIIME2
-======
+######
 
 Nearly all of this documentation is taken directly from lecture and text guides from class. QIIME2 instructions to
 process the "moving pictures" dataset are from Instructor Shareef's guide found on `Carmen <https://carmen.osu.edu/#>`_.
