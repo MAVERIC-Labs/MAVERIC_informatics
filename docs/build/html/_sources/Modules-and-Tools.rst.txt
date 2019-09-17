@@ -97,3 +97,8 @@ Notice in the last line you don't even need to call singularity? That's because 
 to tell the system that it needs Singularity to execute it.
 
 For a complete description of how to build your own modules, go to :ref:`buildingTools`.
+
+Available Environmental Microbiology ("eMicro") Apps and Tools
+--------------------------------------------------------------
+
+

@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>OSC Introduction and Guide &#8212; MAVERIC Informatics  documentation</title>
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -16,21 +16,27 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="QIIME2" href="QIIME2.html" />
-    <link rel="prev" title="Microbial Informatics" href="Microbial-Informatics.html" />
-   
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
+    <link rel="prev" title="Microbial Informatics" href="Microbial-Informatics.html" /> 
   </head><body>
-  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="QIIME2.html" title="QIIME2"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Microbial-Informatics.html" title="Microbial Informatics"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li> 
+      </ul>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          
-
           <div class="body" role="main">
             
   <div class="section" id="osc-introduction-and-guide">
@@ -315,51 +321,57 @@ as a basic guide to UNIX commands.</p>
 
 
           </div>
-          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="index.html">MAVERIC Informatics</a></h1>
-
-
-
-
-
-
-
-
-<h3>Navigation</h3>
-<p class="caption"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="Overview.html">Introduction and Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Microbial-Informatics.html">Microbial Informatics</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">OSC Introduction and Guide</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#systems">Systems</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#login-nodes">Login Nodes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#filesystems">Filesystems</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#connecting-to-osc">Connecting to OSC</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#transferring-data-to-from-osc">Transferring Data to/from OSC</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#batch-processing-i-e-submitting-jobs">Batch Processing (i.e. submitting jobs)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#modules">Modules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#links">Links</a></li>
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">OSC Introduction and Guide</a><ul>
+<li><a class="reference internal" href="#systems">Systems</a></li>
+<li><a class="reference internal" href="#login-nodes">Login Nodes</a></li>
+<li><a class="reference internal" href="#filesystems">Filesystems</a><ul>
+<li><a class="reference internal" href="#home">Home</a></li>
+<li><a class="reference internal" href="#project">Project</a></li>
+<li><a class="reference internal" href="#scratch">Scratch</a></li>
+<li><a class="reference internal" href="#tmpdir">$TMPDIR</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="QIIME2.html">QIIME2</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Linux-Unix.html">UNIX/LINUX Introduction and Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Modules-and-Tools.html">Modules and Tools on OSC!</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Building-Modules-and-Tools.html">Building Modules and Tools on OSC</a></li>
+<li><a class="reference internal" href="#connecting-to-osc">Connecting to OSC</a></li>
+<li><a class="reference internal" href="#transferring-data-to-from-osc">Transferring Data to/from OSC</a><ul>
+<li><a class="reference internal" href="#ondemand">OnDemand</a></li>
+<li><a class="reference internal" href="#sftp-scp">SFTP/SCP</a></li>
+<li><a class="reference internal" href="#cyberduck">Cyberduck</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#batch-processing-i-e-submitting-jobs">Batch Processing (i.e. submitting jobs)</a><ul>
+<li><a class="reference internal" href="#creating-a-batch-script">Creating a batch script</a></li>
+<li><a class="reference internal" href="#submitting-the-job">Submitting the job</a></li>
+<li><a class="reference internal" href="#job-gets-queued">Job gets queued</a></li>
+<li><a class="reference internal" href="#when-resources-become-available-job-runs">When resources become available, job runs</a></li>
+<li><a class="reference internal" href="#job-finishes-up-with-results">Job finishes up, with results!</a></li>
+<li><a class="reference internal" href="#other-cases">Other cases</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#modules">Modules</a></li>
+<li><a class="reference internal" href="#links">Links</a></li>
+</ul>
+</li>
 </ul>
 
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="Microbial-Informatics.html" title="previous chapter">Microbial Informatics</a></li>
-      <li>Next: <a href="QIIME2.html" title="next chapter">QIIME2</a></li>
-  </ul></li>
-</ul>
-</div>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Microbial-Informatics.html"
+                        title="previous chapter">Microbial Informatics</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="QIIME2.html"
+                        title="next chapter">QIIME2</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/OSC.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <div class="searchformwrapper">
@@ -372,32 +384,28 @@ as a basic guide to UNIX commands.</p>
     </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
-
-
-
-
-
-
-
-
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="footer">
-      &copy;2019, Benjamin Bolduc.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
-      
-      |
-      <a href="_sources/OSC.rst.txt"
-          rel="nofollow">Page source</a>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="QIIME2.html" title="QIIME2"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Microbial-Informatics.html" title="Microbial Informatics"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li> 
+      </ul>
     </div>
-
-    
-
-    
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Benjamin Bolduc.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.
+    </div>
   </body>
 </html>
