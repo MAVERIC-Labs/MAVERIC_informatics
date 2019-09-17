@@ -12,7 +12,7 @@ using OSC's (among others) resources. The guides presented here build upon lectu
 enough information to support class projects and research overall.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Contents:
 
    Overview
