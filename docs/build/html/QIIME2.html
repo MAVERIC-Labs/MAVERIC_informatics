@@ -42,7 +42,7 @@
   <div class="section" id="qiime2">
 <span id="id1"></span><h1>QIIME2<a class="headerlink" href="#qiime2" title="Permalink to this headline">¶</a></h1>
 <p>Nearly all of this documentation is taken directly from lecture and text guides from class. QIIME2 instructions to
-process the “moving pictures” dataset are from Instructor Shareef’s guide found on <a class="reference external" href="https://carmen.osu.edu/#">Carmen</a>.
+process the “moving pictures” dataset are from Dr. Shareef Dabdoub’s guide found on <a class="reference external" href="https://carmen.osu.edu/#">Carmen</a>.
 If you’d like to read up more about this dataset, they can be found <a class="reference external" href="https://genomebiology.biomedcentral.com/articles/10.1186/gb-2011-12-5-r50">here</a>.</p>
 <dl class="docutils">
 <dt>Before beginning, you’ll want to copy the two examples files from the project directory (/fs/project/PAS1573) on scratch to</dt>
@@ -54,7 +54,8 @@ If you’d like to read up more about this dataset, they can be found <a class="
 <div class="section" id="data-import">
 <h2>Data Import<a class="headerlink" href="#data-import" title="Permalink to this headline">¶</a></h2>
 <p>We start by importing our single end sequencing data into a QIIME2-compatible format, the *.qza.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime tools import --type EMPSingleEndSequences --input-path data/single_end/ --output-path emp-single-end-sequences.qza
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime tools import --type EMPSingleEndSequences --input-path moving_pictures/single_end/ --output-path emp-single-end-sequences.qza
+Imported moving_pictures/single_end/ as EMPSingleEndDirFmt to emp-single-end-sequences.qza
 </pre></div>
 </div>
 <p>Remember, QIIME2 thinks in terms of methods –&gt; artifacts, which in this case is EMPSingleEndSequences, and visualizers
@@ -63,54 +64,59 @@ If you’d like to read up more about this dataset, they can be found <a class="
 <div class="section" id="demultiplexing">
 <h2>Demultiplexing<a class="headerlink" href="#demultiplexing" title="Permalink to this headline">¶</a></h2>
 <p>Next we’ll demultiplex the sequences</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime demux emp-single --i-seqs emp-single-end-sequences.qza --m-barcodes-file sample_metadata.tsv --m-barcodes-column barcode-sequence --o-per-sample-sequences demux.qza --o-error-correction-details demux-details.qza
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime demux emp-single --i-seqs emp-single-end-sequences.qza --m-barcodes-file moving_pictures/mp_sample_metadata.tsv --m-barcodes-column barcode-sequence --o-per-sample-sequences demux.qza --o-error-correction-details demux-details.qza
+Saved SampleData<span class="o">[</span>SequencesWithQuality<span class="o">]</span> to: demux.qza
+Saved ErrorCorrectionDetails to: demux-details.qza
 </pre></div>
 </div>
-<p>You should generate two files:</p>
-<p>Saved SampleData[SequencesWithQuality] to: demux.qza</p>
-<p>Saved ErrorCorrectionDetails to: demux-details.qza</p>
+<p>You should generate two files. Notice the qza format. Artifacts.</p>
 <p>After demultiplexing, we need to summarize the data to see what we got!</p>
 </div>
 <div class="section" id="summarize">
 <h2>Summarize<a class="headerlink" href="#summarize" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime demux summarize --i-data demux.qza --o-visualization demux.qzv
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime demux summarize --i-data demux.qza --o-visualization demux.qzv
+Saved Visualization to: demux.qzv
 </pre></div>
 </div>
 <p>Notice how we now have a *.qzv file? This is QIIME2’s <strong>v</strong>isualization file that can be uploaded to the
 <a class="reference external" href="https://view.qiime2.org/">QIIME2 view page</a>. Go ahead and try it and see what happens.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/screencapture-demux-visualization.png"><img alt="QIIME2 View of demux" src="_images/screencapture-demux-visualization.png" style="width: 1440.0px; height: 739.0px;" /></a>
+</div>
 </div>
 <div class="section" id="quality-control-and-creating-the-feature-table">
 <h2>Quality Control and Creating the Feature Table<a class="headerlink" href="#quality-control-and-creating-the-feature-table" title="Permalink to this headline">¶</a></h2>
 <p>Sequence quality control and feature table construction</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime quality-filter q-score --i-demux demux.qza --o-filtered-sequences demux-filtered.qza --o-filter-stats demux-filter-stats.qza
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime quality-filter q-score --i-demux demux.qza --o-filtered-sequences demux-filtered.qza --o-filter-stats demux-filter-stats.qza
+Saved SampleData<span class="o">[</span>SequencesWithQuality<span class="o">]</span> to: demux-filtered.qza
+Saved QualityFilterStats to: demux-filter-stats.qza
 </pre></div>
 </div>
-<p>Saved SampleData[SequencesWithQuality] to: demux-filtered.qza</p>
-<p>Saved QualityFilterStats to: demux-filter-stats.qza</p>
 <p>Next we’re going to use deblur to clean up our 16S data.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime deblur denoise-16S --i-demultiplexed-seqs demux-filtered.qza --p-trim-length <span class="m">120</span> --o-representative-sequences rep-seqs-deblur.qza --o-table tble-deblur.qza --p-sample-stats --o-stats deblur-stats.qza
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime deblur denoise-16S --i-demultiplexed-seqs demux-filtered.qza --p-trim-length <span class="m">120</span> --o-representative-sequences rep-seqs-deblur.qza --o-table table-deblur.qza --p-sample-stats --o-stats deblur-stats.qza
+Saved FeatureTable<span class="o">[</span>Frequency<span class="o">]</span> to: table-deblur.qza
+Saved FeatureData<span class="o">[</span>Sequence<span class="o">]</span> to: rep-seqs-deblur.qza
+Saved DeblurStats to: deblur-stats.qza
 </pre></div>
 </div>
-<p>Saved FeatureTable[Frequency] to: table-deblur.qza</p>
-<p>Saved FeatureData[Sequence] to: rep-seqs-deblur.qza</p>
-<p>Saved DeblurStats to: deblur-stats.qza</p>
 <p>FeatureTable and FeatureData summaries</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime feature-table summarize --i-table table-deblur.qza --o-visualization table-deblur.qzv --m-sample-metadata-file mp_sample_metadata.tsv
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime feature-table summarize --i-table table-deblur.qza --o-visualization table-deblur.qzv --m-sample-metadata-file moving_pictures/mp_sample_metadata.tsv
+Saved Visualization to: table-deblur.qzv
 </pre></div>
 </div>
-<p>Saved Visualization to: table-deblur.qzv</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime feature-table tabulate-seqs --i-data rep-seqs-deblur.qza --o-visualization rep-seqs-deblur.qzv
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime feature-table tabulate-seqs --i-data rep-seqs-deblur.qza --o-visualization rep-seqs-deblur.qzv
+Saved Visualization to: rep-seqs-deblur.qzv
 </pre></div>
 </div>
-<p>Saved Visualization to: rep-seqs-deblur.qzv</p>
 <p>Generate a tree for phylogenetic diversity analyses</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime phylogeny align-to-tree-mafft-fasttree --i-sequences rep-seqs-deblur.qza --o-alignment aligned-rep-seqs.qza --o-masked-alignment masked-aligned-rep-seqs.qza --o-tree unrooted-tree.qza --o-rooted-tree rooted-tree.qza
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime phylogeny align-to-tree-mafft-fasttree --i-sequences rep-seqs-deblur.qza --o-alignment aligned-rep-seqs.qza --o-masked-alignment masked-aligned-rep-seqs.qza --o-tree unrooted-tree.qza --o-rooted-tree rooted-tree.qza
+Saved FeatureData<span class="o">[</span>AlignedSequence<span class="o">]</span> to: aligned-rep-seqs.qza
+Saved FeatureData<span class="o">[</span>AlignedSequence<span class="o">]</span> to: masked-aligned-rep-seqs.qza
+Saved Phylogeny<span class="o">[</span>Unrooted<span class="o">]</span> to: unrooted-tree.qza
+Saved Phylogeny<span class="o">[</span>Rooted<span class="o">]</span> to: rooted-tree.qza
+Saved FeatureData<span class="o">[</span>AlignedSequence<span class="o">]</span> to: aligned-rep-seqs.qza
 </pre></div>
 </div>
-<p>Saved FeatureData[AlignedSequence] to: aligned-rep-seqs.qza</p>
-<p>Saved FeatureData[AlignedSequence] to: masked-aligned-rep-seqs.qza</p>
-<p>Saved Phylogeny[Unrooted] to: unrooted-tree.qza</p>
-<p>Saved Phylogeny[Rooted] to: rooted-tree.qza</p>
 </div>
 <div class="section" id="alpha-and-beta-diversity-analyses">
 <h2>Alpha and Beta Diversity Analyses<a class="headerlink" href="#alpha-and-beta-diversity-analyses" title="Permalink to this headline">¶</a></h2>
@@ -128,69 +134,70 @@ If you’d like to read up more about this dataset, they can be found <a class="
 <li>unweighted UniFrac distance</li>
 <li>weighted UniFrac distance</li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime diversity core-metrics-phylogenetic --i-phylogeny rooted-tree.qza --i-table table-deblur.qza --p-sampling-depth <span class="m">850</span> --m-metadata-file mp_sample_metadata.tsv --output-dir core-metrics-results-850
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime diversity core-metrics-phylogenetic --i-phylogeny rooted-tree.qza --i-table table-deblur.qza --p-sampling-depth <span class="m">850</span> --m-metadata-file moving_pictures/mp_sample_metadata.tsv --output-dir core-metrics-results-850
+Saved FeatureTable<span class="o">[</span>Frequency<span class="o">]</span> to: core-metrics-results-850/rarefied_table.qza
+Saved SampleData<span class="o">[</span>AlphaDiversity<span class="o">]</span> % Properties<span class="o">(</span><span class="s1">&#39;phylogenetic&#39;</span><span class="o">)</span> to: core-metrics-results-850/faith_pd_vector.qza
+Saved SampleData<span class="o">[</span>AlphaDiversity<span class="o">]</span> to: core-metrics-results-850/observed_otus_vector.qza
+Saved SampleData<span class="o">[</span>AlphaDiversity<span class="o">]</span> to: core-metrics-results-850/shannon_vector.qza
+Saved SampleData<span class="o">[</span>AlphaDiversity<span class="o">]</span> to: core-metrics-results-850/evenness_vector.qza
+Saved DistanceMatrix % Properties<span class="o">(</span><span class="s1">&#39;phylogenetic&#39;</span><span class="o">)</span> to: core-metrics-results-850/unweighted_unifrac_distance_matrix.qza
+Saved DistanceMatrix % Properties<span class="o">(</span><span class="s1">&#39;phylogenetic&#39;</span><span class="o">)</span> to: core-metrics-results-850/weighted_unifrac_distance_matrix.qza
+Saved DistanceMatrix to: core-metrics-results-850/jaccard_distance_matrix.qza
+Saved DistanceMatrix to: core-metrics-results-850/bray_curtis_distance_matrix.qza
+Saved PCoAResults to: core-metrics-results-850/unweighted_unifrac_pcoa_results.qza
+Saved PCoAResults to: core-metrics-results-850/weighted_unifrac_pcoa_results.qza
+Saved PCoAResults to: core-metrics-results-850/jaccard_pcoa_results.qza
+Saved PCoAResults to: core-metrics-results-850/bray_curtis_pcoa_results.qza
+Saved Visualization to: core-metrics-results-850/unweighted_unifrac_emperor.qzv
+Saved Visualization to: core-metrics-results-850/weighted_unifrac_emperor.qzv
+Saved Visualization to: core-metrics-results-850/jaccard_emperor.qzv
+Saved Visualization to: core-metrics-results-850/bray_curtis_emperor.qzv
 </pre></div>
 </div>
-<p>Saved FeatureTable[Frequency] to: core-metrics-results-850/rarefied_table.qza</p>
-<p>Saved SampleData[AlphaDiversity] % Properties(‘phylogenetic’) to: core-metrics-results-850/faith_pd_vector.qza</p>
-<p>Saved SampleData[AlphaDiversity] to: core-metrics-results-850/observed_otus_vector.qza</p>
-<p>Saved SampleData[AlphaDiversity] to: core-metrics-results-850/shannon_vector.qza</p>
-<p>Saved SampleData[AlphaDiversity] to: core-metrics-results-850/evenness_vector.qza</p>
-<p>Saved DistanceMatrix % Properties(‘phylogenetic’) to: core-metrics-results-850/unweighted_unifrac_distance_matrix.qza</p>
-<p>Saved DistanceMatrix % Properties(‘phylogenetic’) to: core-metrics-results-850/weighted_unifrac_distance_matrix.qza</p>
-<p>Saved DistanceMatrix to: core-metrics-results-850/jaccard_distance_matrix.qza</p>
-<p>Saved DistanceMatrix to: core-metrics-results-850/bray_curtis_distance_matrix.qza</p>
-<p>Saved PCoAResults to: core-metrics-results-850/unweighted_unifrac_pcoa_results.qza</p>
-<p>Saved PCoAResults to: core-metrics-results-850/weighted_unifrac_pcoa_results.qza</p>
-<p>Saved PCoAResults to: core-metrics-results-850/jaccard_pcoa_results.qza</p>
-<p>Saved PCoAResults to: core-metrics-results-850/bray_curtis_pcoa_results.qza</p>
-<p>Saved Visualization to: core-metrics-results-850/unweighted_unifrac_emperor.qzv</p>
-<p>Saved Visualization to: core-metrics-results-850/weighted_unifrac_emperor.qzv</p>
-<p>Saved Visualization to: core-metrics-results-850/jaccard_emperor.qzv</p>
-<p>Saved Visualization to: core-metrics-results-850/bray_curtis_emperor.qzv</p>
 <p>Wow. That was a lot of outputs. Always been aware of <strong>what</strong> you’re looking at. The filename has what kind of analysis
 was performed, but it’s up to you to figure out what it means!</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime diversity alpha-group-significance --i-alpha-diversity core-metrics-results/faith_pd_vector.qza --m-metadata-file mp_sample_metadata.tsv --o-visualization core-metrics-results/faith_pd_group-significance.qzv
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime diversity alpha-group-significance --i-alpha-diversity core-metrics-results-850/faith_pd_vector.qza --m-metadata-file moving_pictures/mp_sample_metadata.tsv --o-visualization core-metrics-results-850/faith_pd_group-significance.qzv
+Saved Visualization to: core-metrics-results-850/faith_pd_group-significance.qzv
 </pre></div>
 </div>
-<p>Saved Visualization to: core-metrics-results-741/faith_pd_group-significance.qzv</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime diversity alpha-group-significance --i-alpha-diversity core-metrics-results/evenness_vector.qza --m-metadata-file mp_sample_metadata.tsv --o-visualization core-metrics-results/evenness-group-significance.qzv
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime diversity alpha-group-significance --i-alpha-diversity core-metrics-results-850/evenness_vector.qza --m-metadata-file moving_pictures/mp_sample_metadata.tsv --o-visualization core-metrics-results-850/evenness-group-significance.qzv
+Saved Visualization to: core-metrics-results-850/evenness-group-significance.qzv
 </pre></div>
 </div>
-<p>Saved Visualization to: core-metrics-results/evenness-group-significance.qzv</p>
 <p>Next we’re going to look at beta diversity, looking to compare different metadata.</p>
 <p>Body site</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime diversity beta-group-significance --i-distance-matrix core-metrics-results/unweighted_unifrac_distance_matrix.qza --m-metadata-file mp_sample_metadata.tsv --m-metadata-column body-site --o-visualization core-metrics-results/unweighted_unifrac-body-site-sig.qzv --p-pairwise
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime diversity beta-group-significance --i-distance-matrix core-metrics-results-850/unweighted_unifrac_distance_matrix.qza --m-metadata-file moving_pictures/mp_sample_metadata.tsv --m-metadata-column body-site --o-visualization core-metrics-results-850/unweighted_unifrac-body-site-sig.qzv --p-pairwise
+Saved Visualization to: core-metrics-results-850/unweighted_unifrac-body-site-sig.qzv
 </pre></div>
 </div>
-<p>Saved Visualization to: core-metrics-results/unweighted_unifrac-body-site-sig.qzv</p>
 <p>Subject</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime diversity beta-group-significance --i-distance-matrix core-metrics-results/unweighted_unifrac_distance_matrix.qza --m-metadata-file mp_sample_metadata.tsv --m-metadata-column subject --o-visualization core-metrics-results/unweighted_unifrac-subject-sig.qzv --p-pairwise
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime diversity beta-group-significance --i-distance-matrix core-metrics-results-850/unweighted_unifrac_distance_matrix.qza --m-metadata-file moving_pictures/mp_sample_metadata.tsv --m-metadata-column subject --o-visualization core-metrics-results-850/unweighted_unifrac-subject-sig.qzv --p-pairwise
+Saved Visualization to: core-metrics-results-850/unweighted_unifrac-subject-sig.qzv
 </pre></div>
 </div>
-<p>Saved Visualization to: core-metrics-results/unweighted_unifrac-subject-sig.qzv</p>
 <p>Longitudinal</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime emperor plot --i-pcoa core-metrics-results/unweighted_unifrac_pcoa_results.qza --m-metadata-file mp_sample_metadata.tsv --p-custom-axes days-since-experiment-start --o-visualization core-metrics-results/unweighted_unifrac-emperor-dses.qzv
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime emperor plot --i-pcoa core-metrics-results-850/unweighted_unifrac_pcoa_results.qza --m-metadata-file moving_pictures/mp_sample_metadata.tsv --p-custom-axes days-since-experiment-start --o-visualization core-metrics-results-850/unweighted_unifrac-emperor-dses.qzv
+Saved Visualization to: core-metrics-results-850/unweighted_unifrac-emperor-dses.qzv
 </pre></div>
 </div>
-<p>Saved Visualization to: core-metrics-results/unweighted_unifrac-emperor-dses.qzv</p>
 <p>Alpha rarefaction</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime diversity alpha-rarefaction --i-table table-deblur.qza --i-phylogeny rooted-tree.qza --p-max-depth <span class="m">4000</span> --m-metadata-file mp_sample_metadata.tsv --o-visualization alpha-rarefaction.qzv
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime diversity alpha-rarefaction --i-table table-deblur.qza --i-phylogeny rooted-tree.qza --p-max-depth <span class="m">4000</span> --m-metadata-file moving_pictures/mp_sample_metadata.tsv --o-visualization alpha-rarefaction.qzv
+Saved Visualization to: alpha-rarefaction.qzv
 </pre></div>
 </div>
 <p>Assign taxonomy</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime feature-classifier classify-sklearn --i-classifier /fs/project/PAS1573/week3_16S/qiime2/gg-13-8-99-515-806-nb-classifier.qza --i-reads rep-seqs-deblur.qza --o-classification taxonomy-deblur.qza
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime feature-classifier classify-sklearn --i-classifier gg-13-8-99-515-806-nb-classifier.qza --i-reads rep-seqs-deblur.qza --o-classification taxonomy-deblur.qza
+Saved FeatureData<span class="o">[</span>Taxonomy<span class="o">]</span> to: taxonomy-deblur.qza
 </pre></div>
 </div>
-<p>Saved FeatureData[Taxonomy] to: taxonomy-deblur.qza</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime metadata tabulate --m-input-file taxonomy-deblur.qza--o-visualization taxonomy.qzv
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime metadata tabulate --m-input-file taxonomy-deblur.qza --o-visualization taxonomy.qzv
+Saved Visualization to: taxonomy.qzv
 </pre></div>
 </div>
-<p>Saved Visualization to: taxonomy.qzv</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qiime taxa barplot --i-table table-deblur.qza --i-taxonomy taxonomy-deblur.qza --m-metadata-file mp_sample_metadata.tsv --o-visualization taxa-bar-plots.qzv
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime taxa barplot --i-table table-deblur.qza --i-taxonomy taxonomy-deblur.qza --m-metadata-file moving_pictures/mp_sample_metadata.tsv --o-visualization taxa-bar-plots.qzv
+Saved Visualization to: taxa-bar-plots.qzv
 </pre></div>
 </div>
-<p>Saved Visualization to: taxa-bar-plots.qzv</p>
 </div>
 </div>
 

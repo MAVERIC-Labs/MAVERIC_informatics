@@ -129,6 +129,19 @@ can read the original source’s documentation and theory.</p>
 <p>Some of this documentation is lifted from the <a class="reference external" href="https://ivirus.readthedocs.io/en/latest/">iVirus project</a> to avoid
 reinventing the wheel. Every effort is being made to ensure that <strong>both</strong> locations are up-to-date with the latest tools
 and literature.</p>
+<p>One last thing to note: All of the singularity images are located at:</p>
+<p>/users/PAS1117/osu9664/eMicro-Apps/</p>
+<p>So you must prepend each *.img, *.simg or *.sif Singularity container w/ this path OR link them (see <a class="reference internal" href="Linux-Unix.html#unix-linux"><span class="std std-ref">UNIX/LINUX Introduction and Guide</span></a>).</p>
+<p><strong>Example</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run Prokka-1.12.0.img -h
+</pre></div>
+</div>
+<p><strong>should be</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run /users/PAS1117/osu9664/eMicro-Apps/Prokka-1.12.0.img -h
+</pre></div>
+</div>
 <p><strong>Keep in mind that none of these apps/tools should be run on the login nodes. Please create a job script and submit it or incur OSC’s wrath!</strong></p>
 <div class="section" id="quality-control">
 <h2>Quality Control<a class="headerlink" href="#quality-control" title="Permalink to this headline">¶</a></h2>
@@ -329,6 +342,7 @@ gene-sharing networks. Nature Biotechnology. <a class="reference external" href=
 <p><strong>Short description</strong>: Guilt-by-contig-association automatic classification of viral contigs</p>
 <p><strong>Singularity use</strong>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run vContact-Gene2Contig-1.0.0.img
 singularity run vConTACT2-0.9.9.simg
 </pre></div>
 </div>

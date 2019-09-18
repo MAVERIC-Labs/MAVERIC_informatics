@@ -1,7 +1,7 @@
 .. _OSC:
 
 OSC Introduction and Guide
-##########################
+==========================
 
 This documentation is taken from a variety of resources, with a number of links and external resources available at the
 end of this guide.

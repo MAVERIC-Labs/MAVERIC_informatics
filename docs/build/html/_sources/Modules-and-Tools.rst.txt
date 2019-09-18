@@ -113,7 +113,28 @@ Some of this documentation is lifted from the `iVirus project <https://ivirus.re
 reinventing the wheel. Every effort is being made to ensure that **both** locations are up-to-date with the latest tools
 and literature.
 
+One last thing to note: All of the singularity images are located at:
+
+/users/PAS1117/osu9664/eMicro-Apps/
+
+So you must prepend each \*.img, \*.simg or \*.sif Singularity container w/ this path OR link them (see :ref:`UNIX_LINUX`).
+
+**Example**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run Prokka-1.12.0.img -h
+
+**should be**
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/Prokka-1.12.0.img -h
+
 **Keep in mind that none of these apps/tools should be run on the login nodes. Please create a job script and submit it or incur OSC's wrath!**
+
 
 Quality Control
 ---------------
@@ -385,6 +406,7 @@ gene-sharing networks. Nature Biotechnology. https://doi.org/10.1038/s41587-019-
 .. code-block:: bash
 
     module load singularity/current
+    singularity run vContact-Gene2Contig-1.0.0.img
     singularity run vConTACT2-0.9.9.simg
 
 
