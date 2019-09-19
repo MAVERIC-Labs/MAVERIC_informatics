@@ -15,7 +15,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="UNIX/LINUX Introduction and Guide" href="Linux-Unix.html" />
+    <link rel="next" title="Building Modules and Tools on OSC" href="Building-Modules-and-Tools.html" />
     <link rel="prev" title="OSC Introduction and Guide" href="OSC.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -25,7 +25,7 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="Linux-Unix.html" title="UNIX/LINUX Introduction and Guide"
+          <a href="Building-Modules-and-Tools.html" title="Building Modules and Tools on OSC"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="OSC.html" title="OSC Introduction and Guide"
@@ -44,13 +44,18 @@
 <p>Nearly all of this documentation is taken directly from lecture and text guides from class. QIIME2 instructions to
 process the “moving pictures” dataset are from Dr. Shareef Dabdoub’s guide found on <a class="reference external" href="https://carmen.osu.edu/#">Carmen</a>.
 If you’d like to read up more about this dataset, they can be found <a class="reference external" href="https://genomebiology.biomedcentral.com/articles/10.1186/gb-2011-12-5-r50">here</a>.</p>
-<dl class="docutils">
-<dt>Before beginning, you’ll want to copy the two examples files from the project directory (/fs/project/PAS1573) on scratch to</dt>
-<dd>your home directory!</dd>
-</dl>
-<p>Sequencing data: /fs/project/PAS1573/week3_16S/qiime2/moving_pictures/single_end</p>
-<p>Metadata: /fs/project/PAS1573/week3_16S/qiime2/moving_pictures/mp_sample_metadata.tsv</p>
+<p>For M8194 students, you’ll want to copy the two examples files from the project directory on scratch to your home directory!</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Copy sequencing data</span>
+cp -r /fs/project/PAS1573/week3_16S/qiime2/moving_pictures/single_end <span class="nv">$HOME</span>
+
+<span class="c1"># Copy the metadata file over</span>
+cp /fs/project/PAS1573/week3_16S/qiime2/moving_pictures/mp_sample_metadata.tsv <span class="nv">$HOME</span>
+</pre></div>
+</div>
 <p>Please check out the OSC/linux intro if you have any questions/need help for how to copy files from one location to another.</p>
+<p>For the rest of this walkthrough, we’ll be in our $HOME directory. You’ll notice that references to the moving pictures
+data often start with “moving_pictures/…” That’s because we’re using our <em>relative location</em> to point QIIME2 to where
+files are located.</p>
 <div class="section" id="data-import">
 <h2>Data Import<a class="headerlink" href="#data-import" title="Permalink to this headline">¶</a></h2>
 <p>We start by importing our single end sequencing data into a QIIME2-compatible format, the *.qza.</p>
@@ -63,14 +68,15 @@ Imported moving_pictures/single_end/ as EMPSingleEndDirFmt to emp-single-end-seq
 </div>
 <div class="section" id="demultiplexing">
 <h2>Demultiplexing<a class="headerlink" href="#demultiplexing" title="Permalink to this headline">¶</a></h2>
-<p>Next we’ll demultiplex the sequences</p>
+<p>Next we’ll demultiplex the sequences, that is, separate out each sample within the sequencing data. We’ll be using the
+barcode information from the metadata table.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime demux emp-single --i-seqs emp-single-end-sequences.qza --m-barcodes-file moving_pictures/mp_sample_metadata.tsv --m-barcodes-column barcode-sequence --o-per-sample-sequences demux.qza --o-error-correction-details demux-details.qza
 Saved SampleData<span class="o">[</span>SequencesWithQuality<span class="o">]</span> to: demux.qza
 Saved ErrorCorrectionDetails to: demux-details.qza
 </pre></div>
 </div>
 <p>You should generate two files. Notice the qza format. Artifacts.</p>
-<p>After demultiplexing, we need to summarize the data to see what we got!</p>
+<p>After demultiplexing, we need to summarize the data to <em>visualize</em> what we got!</p>
 </div>
 <div class="section" id="summarize">
 <h2>Summarize<a class="headerlink" href="#summarize" title="Permalink to this headline">¶</a></h2>
@@ -81,25 +87,28 @@ Saved Visualization to: demux.qzv
 <p>Notice how we now have a *.qzv file? This is QIIME2’s <strong>v</strong>isualization file that can be uploaded to the
 <a class="reference external" href="https://view.qiime2.org/">QIIME2 view page</a>. Go ahead and try it and see what happens.</p>
 <div class="figure">
-<a class="reference internal image-reference" href="_images/screencapture-demux-visualization.png"><img alt="QIIME2 View of demux" src="_images/screencapture-demux-visualization.png" style="width: 1440.0px; height: 739.0px;" /></a>
+<a class="reference internal image-reference" href="_images/screencapture-demux-visualization.png"><img alt="Demux QIIME2 View" src="_images/screencapture-demux-visualization.png" style="width: 720.0px; height: 369.5px;" /></a>
 </div>
 </div>
 <div class="section" id="quality-control-and-creating-the-feature-table">
 <h2>Quality Control and Creating the Feature Table<a class="headerlink" href="#quality-control-and-creating-the-feature-table" title="Permalink to this headline">¶</a></h2>
-<p>Sequence quality control and feature table construction</p>
+<p>We need to do a little quality control here by filtering according to q-score.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime quality-filter q-score --i-demux demux.qza --o-filtered-sequences demux-filtered.qza --o-filter-stats demux-filter-stats.qza
 Saved SampleData<span class="o">[</span>SequencesWithQuality<span class="o">]</span> to: demux-filtered.qza
 Saved QualityFilterStats to: demux-filter-stats.qza
 </pre></div>
 </div>
-<p>Next we’re going to use deblur to clean up our 16S data.</p>
+<p>Next we’re going to use deblur to clean up our 16S data. There’s <strong>two</strong> major ways of cleaning up sequencing data in
+QIIME2: <a class="reference external" href="https://www.nature.com/articles/nmeth.3869">Dada2</a> and <a class="reference external" href="http://msystems.asm.org/content/2/2/e00191-16">Deblur</a>.
+What both of these tools do is help us figure out what is <em>true</em> sequence diversity and what are sequencing errors. <strong>They
+are both good methods</strong> though they have their <em>slight</em> advantages and disadvantages.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime deblur denoise-16S --i-demultiplexed-seqs demux-filtered.qza --p-trim-length <span class="m">120</span> --o-representative-sequences rep-seqs-deblur.qza --o-table table-deblur.qza --p-sample-stats --o-stats deblur-stats.qza
 Saved FeatureTable<span class="o">[</span>Frequency<span class="o">]</span> to: table-deblur.qza
 Saved FeatureData<span class="o">[</span>Sequence<span class="o">]</span> to: rep-seqs-deblur.qza
 Saved DeblurStats to: deblur-stats.qza
 </pre></div>
 </div>
-<p>FeatureTable and FeatureData summaries</p>
+<p>Now for the FeatureTable and FeatureData summaries.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime feature-table summarize --i-table table-deblur.qza --o-visualization table-deblur.qzv --m-sample-metadata-file moving_pictures/mp_sample_metadata.tsv
 Saved Visualization to: table-deblur.qzv
 </pre></div>
@@ -108,7 +117,30 @@ Saved Visualization to: table-deblur.qzv
 Saved Visualization to: rep-seqs-deblur.qzv
 </pre></div>
 </div>
-<p>Generate a tree for phylogenetic diversity analyses</p>
+<p>Let’s take a look at the visualizations.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/screencapture-deblur-overview-table.png"><img alt="Deblur Overview table QIIME2 View" src="_images/screencapture-deblur-overview-table.png" style="width: 720.0px; height: 345.0px;" /></a>
+</div>
+<p>This gives a basic overview of the deblur results.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/screencapture-deblur-sample-details-barcode.png"><img alt="Deblur Sample details with barcode QIIME2 View" src="_images/screencapture-deblur-sample-details-barcode.png" style="width: 720.0px; height: 369.5px;" /></a>
+</div>
+<p>The interactive sample detail gives us a little more to work with. Notice how I’ve adjusted the sampling depth slider
+(right side) to 750. Samples with a sequencing depth below this level would be excluded from the analysis. This might
+not make immediate sense since barcodes are a bit abstract. Instead, let’s adjust the metadata category to “body site”
+and keep the sequencing depth to 750.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/screencapture-deblur-sample-details-bodysite.png"><img alt="Deblur Sample details with bodysite QIIME2 View" src="_images/screencapture-deblur-sample-details-bodysite.png" style="width: 720.0px; height: 369.5px;" /></a>
+</div>
+<p>Now one can see what effect a sampling depth of 750 would have: only 5 of the 9 right palm samples would be retained.</p>
+<p>Let’s finally take a look at the representative sequences</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/screencapture-deblur-representatives.png"><img alt="Deblur Sample details QIIME2 View" src="_images/screencapture-deblur-representatives.png" style="width: 720.0px; height: 345.0px;" /></a>
+</div>
+<p>Now, we need to generate a tree for phylogenetic diversity analyses. Why? Well, if we want to calculate any alpha or beta
+diversity metrics that are phylogenetics-based, we’ll need this tree. (Spoiler: Notice that we’ll be using
+“core-metrics-phylogenetic” for QIIME2 diversity…) We won’t be going into <em>why</em> we’re using MAFFT at this point. We’ll
+leave that as bonus.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime phylogeny align-to-tree-mafft-fasttree --i-sequences rep-seqs-deblur.qza --o-alignment aligned-rep-seqs.qza --o-masked-alignment masked-aligned-rep-seqs.qza --o-tree unrooted-tree.qza --o-rooted-tree rooted-tree.qza
 Saved FeatureData<span class="o">[</span>AlignedSequence<span class="o">]</span> to: aligned-rep-seqs.qza
 Saved FeatureData<span class="o">[</span>AlignedSequence<span class="o">]</span> to: masked-aligned-rep-seqs.qza
@@ -156,13 +188,20 @@ Saved Visualization to: core-metrics-results-850/bray_curtis_emperor.qzv
 </div>
 <p>Wow. That was a lot of outputs. Always been aware of <strong>what</strong> you’re looking at. The filename has what kind of analysis
 was performed, but it’s up to you to figure out what it means!</p>
+<p>Let’s look at a few of the results:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime diversity alpha-group-significance --i-alpha-diversity core-metrics-results-850/faith_pd_vector.qza --m-metadata-file moving_pictures/mp_sample_metadata.tsv --o-visualization core-metrics-results-850/faith_pd_group-significance.qzv
 Saved Visualization to: core-metrics-results-850/faith_pd_group-significance.qzv
 </pre></div>
 </div>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/screencapture-diversity-alpha-faiths.png"><img alt="Deblur Sample details QIIME2 View" src="_images/screencapture-diversity-alpha-faiths.png" style="width: 720.0px; height: 699.75px;" /></a>
+</div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime diversity alpha-group-significance --i-alpha-diversity core-metrics-results-850/evenness_vector.qza --m-metadata-file moving_pictures/mp_sample_metadata.tsv --o-visualization core-metrics-results-850/evenness-group-significance.qzv
 Saved Visualization to: core-metrics-results-850/evenness-group-significance.qzv
 </pre></div>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/screencapture-diversity-alpha-evenness.png"><img alt="Deblur Sample details QIIME2 View" src="_images/screencapture-diversity-alpha-evenness.png" style="width: 720.0px; height: 700.75px;" /></a>
 </div>
 <p>Next we’re going to look at beta diversity, looking to compare different metadata.</p>
 <p>Body site</p>
@@ -223,8 +262,8 @@ Saved Visualization to: taxa-bar-plots.qzv
   <p class="topless"><a href="OSC.html"
                         title="previous chapter">OSC Introduction and Guide</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="Linux-Unix.html"
-                        title="next chapter">UNIX/LINUX Introduction and Guide</a></p>
+  <p class="topless"><a href="Building-Modules-and-Tools.html"
+                        title="next chapter">Building Modules and Tools on OSC</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -255,7 +294,7 @@ Saved Visualization to: taxa-bar-plots.qzv
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="Linux-Unix.html" title="UNIX/LINUX Introduction and Guide"
+          <a href="Building-Modules-and-Tools.html" title="Building Modules and Tools on OSC"
              >next</a> |</li>
         <li class="right" >
           <a href="OSC.html" title="OSC Introduction and Guide"

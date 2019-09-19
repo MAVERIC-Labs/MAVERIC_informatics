@@ -7,14 +7,21 @@ Nearly all of this documentation is taken directly from lecture and text guides 
 process the "moving pictures" dataset are from Dr. Shareef Dabdoub's guide found on `Carmen <https://carmen.osu.edu/#>`_.
 If you'd like to read up more about this dataset, they can be found `here <https://genomebiology.biomedcentral.com/articles/10.1186/gb-2011-12-5-r50>`_.
 
-Before beginning, you'll want to copy the two examples files from the project directory (/fs/project/PAS1573) on scratch to
- your home directory!
+For M8194 students, you'll want to copy the two examples files from the project directory on scratch to your home directory!
 
-Sequencing data: /fs/project/PAS1573/week3_16S/qiime2/moving_pictures/single_end
+.. code-block:: bash
 
-Metadata: /fs/project/PAS1573/week3_16S/qiime2/moving_pictures/mp_sample_metadata.tsv
+    # Copy sequencing data
+    cp -r /fs/project/PAS1573/week3_16S/qiime2/moving_pictures/single_end $HOME
+
+    # Copy the metadata file over
+    cp /fs/project/PAS1573/week3_16S/qiime2/moving_pictures/mp_sample_metadata.tsv $HOME
 
 Please check out the OSC/linux intro if you have any questions/need help for how to copy files from one location to another.
+
+For the rest of this walkthrough, we'll be in our $HOME directory. You'll notice that references to the moving pictures
+data often start with "moving_pictures/..." That's because we're using our *relative location* to point QIIME2 to where
+files are located.
 
 Data Import
 -----------
@@ -32,7 +39,8 @@ Remember, QIIME2 thinks in terms of methods --> artifacts, which in this case is
 Demultiplexing
 --------------
 
-Next we'll demultiplex the sequences
+Next we'll demultiplex the sequences, that is, separate out each sample within the sequencing data. We'll be using the
+barcode information from the metadata table.
 
 .. code-block:: bash
 
@@ -42,7 +50,7 @@ Next we'll demultiplex the sequences
 
 You should generate two files. Notice the qza format. Artifacts.
 
-After demultiplexing, we need to summarize the data to see what we got!
+After demultiplexing, we need to summarize the data to *visualize* what we got!
 
 Summarize
 ---------
@@ -52,17 +60,18 @@ Summarize
     $ qiime demux summarize --i-data demux.qza --o-visualization demux.qzv
     Saved Visualization to: demux.qzv
 
-Notice how we now have a \*.qzv file? This is QIIME2's **v**\ isualization file that can be uploaded to the
+Notice how we now have a \*.qzv file? This is QIIME2's **v**\isualization file that can be uploaded to the
 `QIIME2 view page <https://view.qiime2.org/>`_. Go ahead and try it and see what happens.
 
 .. figure:: screencapture-demux-visualization.png
-   :scale: 50 %
-   :alt: QIIME2 View of demux
+   :scale: 25 %
+   :width: 2880
+   :alt: Demux QIIME2 View
 
 Quality Control and Creating the Feature Table
 ----------------------------------------------
 
-Sequence quality control and feature table construction
+We need to do a little quality control here by filtering according to q-score.
 
 .. code-block:: bash
 
@@ -70,7 +79,10 @@ Sequence quality control and feature table construction
     Saved SampleData[SequencesWithQuality] to: demux-filtered.qza
     Saved QualityFilterStats to: demux-filter-stats.qza
 
-Next we're going to use deblur to clean up our 16S data.
+Next we're going to use deblur to clean up our 16S data. There's **two** major ways of cleaning up sequencing data in
+QIIME2: `Dada2 <https://www.nature.com/articles/nmeth.3869>`_ and `Deblur <http://msystems.asm.org/content/2/2/e00191-16>`_.
+What both of these tools do is help us figure out what is *true* sequence diversity and what are sequencing errors. **They
+are both good methods** though they have their *slight* advantages and disadvantages.
 
 .. code-block:: bash
 
@@ -79,20 +91,56 @@ Next we're going to use deblur to clean up our 16S data.
     Saved FeatureData[Sequence] to: rep-seqs-deblur.qza
     Saved DeblurStats to: deblur-stats.qza
 
-FeatureTable and FeatureData summaries
+Now for the FeatureTable and FeatureData summaries.
 
 .. code-block:: bash
 
     $ qiime feature-table summarize --i-table table-deblur.qza --o-visualization table-deblur.qzv --m-sample-metadata-file moving_pictures/mp_sample_metadata.tsv
     Saved Visualization to: table-deblur.qzv
 
-
 .. code-block:: bash
 
     $ qiime feature-table tabulate-seqs --i-data rep-seqs-deblur.qza --o-visualization rep-seqs-deblur.qzv
     Saved Visualization to: rep-seqs-deblur.qzv
 
-Generate a tree for phylogenetic diversity analyses
+Let's take a look at the visualizations.
+
+.. figure:: screencapture-deblur-overview-table.png
+   :scale: 25 %
+   :width: 2880
+   :alt: Deblur Overview table QIIME2 View
+
+This gives a basic overview of the deblur results.
+
+.. figure:: screencapture-deblur-sample-details-barcode.png
+   :scale: 25 %
+   :width: 2880
+   :alt: Deblur Sample details with barcode QIIME2 View
+
+The interactive sample detail gives us a little more to work with. Notice how I've adjusted the sampling depth slider
+(right side) to 750. Samples with a sequencing depth below this level would be excluded from the analysis. This might
+not make immediate sense since barcodes are a bit abstract. Instead, let's adjust the metadata category to "body site"
+and keep the sequencing depth to 750.
+
+.. figure:: screencapture-deblur-sample-details-bodysite.png
+   :scale: 25 %
+   :width: 2880
+   :alt: Deblur Sample details with bodysite QIIME2 View
+
+Now one can see what effect a sampling depth of 750 would have: only 5 of the 9 right palm samples would be retained.
+
+Let's finally take a look at the representative sequences
+
+.. figure:: screencapture-deblur-representatives.png
+   :scale: 25 %
+   :width: 2880
+   :alt: Deblur Sample details QIIME2 View
+
+
+Now, we need to generate a tree for phylogenetic diversity analyses. Why? Well, if we want to calculate any alpha or beta
+diversity metrics that are phylogenetics-based, we'll need this tree. (Spoiler: Notice that we'll be using
+"core-metrics-phylogenetic" for QIIME2 diversity...) We won't be going into *why* we're using MAFFT at this point. We'll
+leave that as bonus.
 
 .. code-block:: bash
 
@@ -145,15 +193,27 @@ For Beta diversity:
 Wow. That was a lot of outputs. Always been aware of **what** you're looking at. The filename has what kind of analysis
 was performed, but it's up to you to figure out what it means!
 
+Let's look at a few of the results:
+
 .. code-block:: bash
 
     $ qiime diversity alpha-group-significance --i-alpha-diversity core-metrics-results-850/faith_pd_vector.qza --m-metadata-file moving_pictures/mp_sample_metadata.tsv --o-visualization core-metrics-results-850/faith_pd_group-significance.qzv
     Saved Visualization to: core-metrics-results-850/faith_pd_group-significance.qzv
 
+.. figure:: screencapture-diversity-alpha-faiths.png
+   :scale: 25 %
+   :width: 2880
+   :alt: Deblur Sample details QIIME2 View
+
 .. code-block:: bash
 
     $ qiime diversity alpha-group-significance --i-alpha-diversity core-metrics-results-850/evenness_vector.qza --m-metadata-file moving_pictures/mp_sample_metadata.tsv --o-visualization core-metrics-results-850/evenness-group-significance.qzv
     Saved Visualization to: core-metrics-results-850/evenness-group-significance.qzv
+
+.. figure:: screencapture-diversity-alpha-evenness.png
+   :scale: 25 %
+   :width: 2880
+   :alt: Deblur Sample details QIIME2 View
 
 Next we're going to look at beta diversity, looking to compare different metadata.
 
