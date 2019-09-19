@@ -216,6 +216,9 @@ Saved Visualization to: core-metrics-results-850/evenness-group-significance.qzv
 Saved Visualization to: core-metrics-results-850/unweighted_unifrac-body-site-sig.qzv
 </pre></div>
 </div>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/screencapture-diversity-unweighted_unifrac_bodysite.png"><img alt="Beta Diversity Examining Body Site in QIIME2 View" src="_images/screencapture-diversity-unweighted_unifrac_bodysite.png" style="width: 720.0px; height: 980.25px;" /></a>
+</div>
 <p>Subject</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime diversity beta-group-significance --i-distance-matrix core-metrics-results-850/unweighted_unifrac_distance_matrix.qza --m-metadata-file moving_pictures/mp_sample_metadata.tsv --m-metadata-column subject --o-visualization core-metrics-results-850/unweighted_unifrac-subject-sig.qzv --p-pairwise
 Saved Visualization to: core-metrics-results-850/unweighted_unifrac-subject-sig.qzv
@@ -231,20 +234,47 @@ Saved Visualization to: core-metrics-results-850/unweighted_unifrac-emperor-dses
 Saved Visualization to: alpha-rarefaction.qzv
 </pre></div>
 </div>
-<p>Assign taxonomy</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime feature-classifier classify-sklearn --i-classifier gg-13-8-99-515-806-nb-classifier.qza --i-reads rep-seqs-deblur.qza --o-classification taxonomy-deblur.qza
+<div class="figure">
+<a class="reference internal image-reference" href="_images/screencapture-diversity-alpha_rarefaction_barcode.png"><img alt="Alpha Diversity Rarefaction of Barcode in QIIME2 View" src="_images/screencapture-diversity-alpha_rarefaction_barcode.png" style="width: 720.0px; height: 369.5px;" /></a>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/screencapture-diversity-alpha_rarefaction_bodysite.png"><img alt="Alpha Diversity Rarefaction of Bodysite in QIIME2 View" src="_images/screencapture-diversity-alpha_rarefaction_bodysite.png" style="width: 720.0px; height: 369.5px;" /></a>
+</div>
+<p>Next we’ll need to assign taxonomy. For this we’ll need a classifier. In this example, we’ll use one pre-trained on the
+GreenGenes ribosomal database at 99%. If you haven’t downloaded it, run the 1st line, which will download
+“gg-13-8-99-515-806-nb-classifier.qza” to the directory you’re in.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ wget https://data.qiime2.org/2018.2/common/gg-13-8-99-515-806-nb-classifier.qza
+$ qiime feature-classifier classify-sklearn --i-classifier gg-13-8-99-515-806-nb-classifier.qza --i-reads rep-seqs-deblur.qza --o-classification taxonomy-deblur.qza
 Saved FeatureData<span class="o">[</span>Taxonomy<span class="o">]</span> to: taxonomy-deblur.qza
 </pre></div>
 </div>
+<p>Next we’ll need to tabulate this data.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime metadata tabulate --m-input-file taxonomy-deblur.qza --o-visualization taxonomy.qzv
 Saved Visualization to: taxonomy.qzv
 </pre></div>
 </div>
-<p>This visualization is a little lite on <em>visualization</em>.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/screencapture-diversity_taxonomy.png"><img alt="" src="_images/screencapture-diversity_taxonomy.png" style="width: 720.0px; height: 369.5px;" /></a>
+</div>
+<p>This visualization is a little lite on <em>visualization</em> - it just shows a list of each taxon identified in the samples.
+Let’s make a bar plot of this, it’s easier to see.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime taxa barplot --i-table table-deblur.qza --i-taxonomy taxonomy-deblur.qza --m-metadata-file moving_pictures/mp_sample_metadata.tsv --o-visualization taxa-bar-plots.qzv
 Saved Visualization to: taxa-bar-plots.qzv
 </pre></div>
 </div>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/screencapture-diversity_taxonomy_barplot.png"><img alt="Taxonomy Barplot in QIIME2 View" src="_images/screencapture-diversity_taxonomy_barplot.png" style="width: 720.0px; height: 369.5px;" /></a>
+</div>
+<p>This view shows the taxonomy in a barplot. Don’t worry if it’s all green. Notice that there’s only 1 taxonomic level shown,
+identifying only the kingdom Bacteria (note the k__ preceeding the Bacteria in the legend). Let’s look at the next level down</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/screencapture-diversity_taxonomy_barplot_lvl2.png"><img alt="Taxonomy Barplot at level 2 in QIIME2 View" src="_images/screencapture-diversity_taxonomy_barplot_lvl2.png" style="width: 720.0px; height: 483.0px;" /></a>
+</div>
+<p>Now we’re looking at the phylum level (level 2). We can start seeing the diversity of microbes in the sample. Level 3!</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/screencapture-diversity_taxonomy_barplot_lvl3.png"><img alt="Taxonomy Barplot at level 3 in QIIME2 View" src="_images/screencapture-diversity_taxonomy_barplot_lvl3.png" style="width: 720.0px; height: 481.5px;" /></a>
+</div>
+<p>Class. Without going into too many details, you can see how certain groups are distributed differently between samples.</p>
 </div>
 </div>
 

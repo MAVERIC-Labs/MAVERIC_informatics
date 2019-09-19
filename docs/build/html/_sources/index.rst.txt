@@ -32,6 +32,7 @@ the lectures of M8194, with the goal of providing sufficient information to supp
    QIIME2
    Building-Modules-and-Tools
    Modules-and-Tools
+   R
 
 
 
