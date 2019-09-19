@@ -23,6 +23,16 @@ For the rest of this walkthrough, we'll be in our $HOME directory. You'll notice
 data often start with "moving_pictures/..." That's because we're using our *relative location* to point QIIME2 to where
 files are located.
 
+**One final note**: For M8194 students, we went over how to install QIIME2 during Shareef's lecture. Look at that. For
+the eMicro crowd, you can access a QIIME2 (version 2019.7) Singularity container, like so:
+
+.. code-block:: bash
+
+    /users/PAS1117/osu9664/QIIME2-2019.7.sif <rest-of-command>
+
+*Every single example below* used this QIIME2 container to test. Simply substitute "qiime" for "QIIME2-2019.7.sif" (as
+above) and everything should work. If something does not work, please notify Ben so he can fix it promptly.
+
 Data Import
 -----------
 
@@ -253,11 +263,12 @@ Assign taxonomy
     $ qiime feature-classifier classify-sklearn --i-classifier gg-13-8-99-515-806-nb-classifier.qza --i-reads rep-seqs-deblur.qza --o-classification taxonomy-deblur.qza
     Saved FeatureData[Taxonomy] to: taxonomy-deblur.qza
 
-
 .. code-block:: bash
 
     $ qiime metadata tabulate --m-input-file taxonomy-deblur.qza --o-visualization taxonomy.qzv
     Saved Visualization to: taxonomy.qzv
+
+This visualization is a little lite on *visualization*.
 
 .. code-block:: bash
 

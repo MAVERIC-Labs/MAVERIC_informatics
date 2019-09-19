@@ -135,6 +135,11 @@ So you must prepend each \*.img, \*.simg or \*.sif Singularity container w/ this
 
 **Keep in mind that none of these apps/tools should be run on the login nodes. Please create a job script and submit it or incur OSC's wrath!**
 
+Also to note: There are several cases where these tools have been used in the `CyVerse cyberinfrastructure <https://www.cyverse.org/>`_.
+For these, there is a `protocols.io <https://www.protocols.io/>`_ link. We're continually developing these protocols and
+trying to keep them up to date (though if it's not broke and a current version, it'll likely not be updated), so always
+make sure it's the latest version.
+
 
 Quality Control
 ---------------
@@ -150,6 +155,8 @@ Trimmomatic
 **Reference**: Bolger, A. M., Lohse, M., & Usadel, B. (2014). Trimmomatic: A flexible trimmer for Illumina Sequence Data. Bioinformatics, btu170.
 
 **Short description**: Identifies adapter sequences in raw sequencing reads and quality filters
+
+**Protocols.io**: `Trimmomatic on CyVerse <https://dx.doi.org/10.17504/protocols.io.gvybw7w>`_
 
 **Singularity use**:
 
@@ -193,6 +200,8 @@ Genome Assembly Algorithm and Its Applications to Single-Cell Sequencing. Journa
 
 **Short description**: SPAdes – St. Petersburg genome assembler – is an assembly toolkit containing various assembly
 pipelines
+
+**Protocols.io**: `Running SPAdes on CyVerse <https://dx.doi.org/10.17504/protocols.io.ewrbfd6>`_
 
 **Notes on use**: SPAdes, as with many de Bruijn assemblers, can consume incredibly amounts of memory. In the context
 of viral metagenomics, it's been known to use 2-3, and upwards of 6 TB of memory (and more if you give it more data!).
@@ -363,6 +372,8 @@ data. PeerJ 3:e985 https://doi.org/10.7717/peerj.985
 
 **Short description**: Identify viral contigs in a microbial metagenomes
 
+**Protocols.io**: `VIRSorter on CyVerse <https://dx.doi.org/10.17504/protocols.io.eyjbfun>`_
+
 **Singularity use**:
 
 .. code-block:: bash
@@ -370,34 +381,21 @@ data. PeerJ 3:e985 https://doi.org/10.7717/peerj.985
     module load singularity/current
     singularity run VirSorter-1.0.5.img
 
-vConTACT
-~~~~~~~~
-
-vConTACT is a suite a tools that classify contigs/genomes based on their shared gene content. v1 "requires"
-3 tools, whereas v2 (below) only requires 2.
-
-**Reference**: Bolduc B, Jang H Bin, Doulcier G, You Z, Roux S, Sullivan MB. (2017). vConTACT: an iVirus tool to
-classify double-stranded DNA viruses that infect Archaea and Bacteria. PeerJ 5: e3243.
-
-**Short description**: Guilt-by-contig-association automatic classification of viral contigs
-
-**Singularity use**:
-
-.. code-block:: bash
-
-    module load singularity/current
-    singularity run vContact-Gene2Contig-1.0.0.img
-    singularity run vContact_PCs-0.1.60.img
-    singularity run vContact-1.60.0.img
-
-More forthcoming!!!
-
 vConTACT2
 ~~~~~~~~~
 
-**Reference**: Bin Jang, H., Bolduc, B., Zablocki, O., Kuhn, J. H., Roux, S., Adriaenssens, E. M., …
+vConTACT2 is a tool designed to classify viruses based on their shared gene content. It is *intended for* archaeal and
+bacterial viruses. It *can* work for *some* eukaryotic viruses, but may utterly fail *or* totally work - regardless -
+it hasn't been vetted or tested for use with them.
+
+**Reference (V2)**: Bin Jang, H., Bolduc, B., Zablocki, O., Kuhn, J. H., Roux, S., Adriaenssens, E. M., …
 Sullivan, M. B. (2019). Taxonomic assignment of uncultivated prokaryotic virus genomes is enabled by
 gene-sharing networks. Nature Biotechnology. https://doi.org/10.1038/s41587-019-0100-8
+
+**Reference (Theory)**: Bolduc B, Jang H Bin, Doulcier G, You Z, Roux S, Sullivan MB. (2017). vConTACT: an iVirus tool
+to classify double-stranded DNA viruses that infect Archaea and Bacteria. PeerJ 5: e3243.
+
+**Protocols.io**: `Running vConTACT2 on VIRSorter output in CyVerse <https://dx.doi.org/10.17504/protocols.io.x5xfq7n>`_
 
 **Short description**: Guilt-by-contig-association automatic classification of viral contigs
 

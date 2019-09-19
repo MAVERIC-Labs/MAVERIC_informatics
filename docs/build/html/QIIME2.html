@@ -56,6 +56,13 @@ cp /fs/project/PAS1573/week3_16S/qiime2/moving_pictures/mp_sample_metadata.tsv <
 <p>For the rest of this walkthrough, we’ll be in our $HOME directory. You’ll notice that references to the moving pictures
 data often start with “moving_pictures/…” That’s because we’re using our <em>relative location</em> to point QIIME2 to where
 files are located.</p>
+<p><strong>One final note</strong>: For M8194 students, we went over how to install QIIME2 during Shareef’s lecture. Look at that. For
+the eMicro crowd, you can access a QIIME2 (version 2019.7) Singularity container, like so:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/users/PAS1117/osu9664/QIIME2-2019.7.sif &lt;rest-of-command&gt;
+</pre></div>
+</div>
+<p><em>Every single example below</em> used this QIIME2 container to test. Simply substitute “qiime” for “QIIME2-2019.7.sif” (as
+above) and everything should work. If something does not work, please notify Ben so he can fix it promptly.</p>
 <div class="section" id="data-import">
 <h2>Data Import<a class="headerlink" href="#data-import" title="Permalink to this headline">¶</a></h2>
 <p>We start by importing our single end sequencing data into a QIIME2-compatible format, the *.qza.</p>
@@ -233,6 +240,7 @@ Saved FeatureData<span class="o">[</span>Taxonomy<span class="o">]</span> to: ta
 Saved Visualization to: taxonomy.qzv
 </pre></div>
 </div>
+<p>This visualization is a little lite on <em>visualization</em>.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime taxa barplot --i-table table-deblur.qza --i-taxonomy taxonomy-deblur.qza --m-metadata-file moving_pictures/mp_sample_metadata.tsv --o-visualization taxa-bar-plots.qzv
 Saved Visualization to: taxa-bar-plots.qzv
 </pre></div>
