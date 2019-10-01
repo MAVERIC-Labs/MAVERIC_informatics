@@ -47,7 +47,7 @@ can read the original source’s documentation and theory.</p>
 <p>Some of this documentation is lifted from the <a class="reference external" href="https://ivirus.readthedocs.io/en/latest/">iVirus project</a> to avoid
 reinventing the wheel. Every effort is being made to ensure that <strong>both</strong> locations are up-to-date with the latest tools
 and literature.</p>
-<p>One last thing to note: All of the singularity images are located at:</p>
+<p><strong>One last thing to note: All of the singularity images are located at:</strong></p>
 <p>/users/PAS1117/osu9664/eMicro-Apps/</p>
 <p>So you must prepend each *.img, *.simg or *.sif Singularity container w/ this path OR link them (see <a class="reference internal" href="Linux-Unix.html#unix-linux"><span class="std std-ref">UNIX/LINUX Introduction and Guide</span></a>).</p>
 <p><strong>Example</strong>:</p>
@@ -65,8 +65,14 @@ singularity run /users/PAS1117/osu9664/eMicro-Apps/Prokka-1.12.0.img -h
 For these, there is a <a class="reference external" href="https://www.protocols.io/">protocols.io</a> link. We’re continually developing these protocols and
 trying to keep them up to date (though if it’s not broke and a current version, it’ll likely not be updated), so always
 make sure it’s the latest version.</p>
-<div class="section" id="quality-control">
-<h2>Quality Control<a class="headerlink" href="#quality-control" title="Permalink to this headline">¶</a></h2>
+<p><strong>For Sullivan lab members, also included are OSC’s module system, to use:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use /fs/project/PAS1117/modulefiles  <span class="c1"># Load Sullivan lab&#39;s modules</span>
+module load Prokka/1.13
+prokka -h
+</pre></div>
+</div>
+<div class="section" id="quality-control-reads">
+<h2>Quality Control (Reads)<a class="headerlink" href="#quality-control-reads" title="Permalink to this headline">¶</a></h2>
 <p>Generally speaking, quality control (QC) is a technique applied to to [most commonly] raw read data. This ensures that
 the data going into the assembly (common next step) is of high quality. Poor read quality can result in mis- or
 incorrectly assembled sequences. Most frequently, read data QC involves trimming reads according to their quality
@@ -81,6 +87,14 @@ scores. Although some assemblers do not require QC’d reads, we highly recommen
 singularity run Trimmomatic-0.36.0.img PE -phred33 input_forward.fq.gz input_reverse.fq.gz output_forward_paired.fq.gz output_forward_unpaired.fq.gz output_reverse_paired.fq.gz output_reverse_unpaired.fq.gz ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36
 </pre></div>
 </div>
+<p><strong>Module use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use /fs/project/PAS1117/modulefiles
+module load trimmomatic/0.36-sulli
+trimmomatic PE -phred33 input_forward.fq.gz input_reverse.fq.gz output_forward_paired.fq.gz output_forward_unpaired.fq.gz output_reverse_paired.fq.gz output_reverse_unpaired.fq.gz ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36
+</pre></div>
+</div>
+<p><strong>Notes</strong>: Trimmomatic is a java jar file, and <em>normally</em> needs to be executed with “java -jar trimmomatic.jar [commands]”,
+but a tiny bash script has been written to automate this, which is why you can call “trimmomatic” without the java component.</p>
 </div>
 </div>
 <div class="section" id="assembly">
@@ -114,7 +128,12 @@ of viral metagenomics, it’s been known to use 2-3, and upwards of 6 TB of memo
 There are multiple implementations on OSC using different runtimes and memory allocations.</p>
 <p><strong>Singularity use</strong>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
-singularity run SPAdes-3.13.1.simg
+singularity run SPAdes-3.13.0.sif
+</pre></div>
+</div>
+<p><strong>Module use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use /fs/project/PAS1117/modulefiles
+module load spades/3.13.1
 </pre></div>
 </div>
 </div>
@@ -170,6 +189,12 @@ singularity run FragGeneScan-1.30.0.img
 singularity run Prodigal-2.6.3.img -i metagenome.fna -o coords.gbk -a proteins.faa -p anon
 </pre></div>
 </div>
+<p><strong>Module use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use /fs/project/PAS1117/modulefiles
+module load prodigal/2.6.3
+prodigal -i metagenome.fna -o coords.gbk -a proteins.faa -p anon
+</pre></div>
+</div>
 </div>
 <div class="section" id="metageneannotator-mga">
 <h3>MetaGeneAnnotator (“MGA”)<a class="headerlink" href="#metageneannotator-mga" title="Permalink to this headline">¶</a></h3>
@@ -197,6 +222,11 @@ standards-compliant output files</p>
 singularity run Prokka-1.12.0.img
 </pre></div>
 </div>
+<p><strong>Module use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use /fs/project/PAS1117/modulefiles
+module load Prokka/1.13
+</pre></div>
+</div>
 </div>
 <div class="section" id="diamond">
 <h3>Diamond<a class="headerlink" href="#diamond" title="Permalink to this headline">¶</a></h3>
@@ -207,6 +237,11 @@ performance analysis of big sequence data.</p>
 <p><strong>Singularity use</strong>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
 singularity run Diamond-0.9.10.img
+</pre></div>
+</div>
+<p><strong>Module use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use /fs/project/PAS1117/modulefiles
+module load diamond/0.9.24
 </pre></div>
 </div>
 </div>
@@ -224,6 +259,117 @@ databases installed.</p>
 <p><strong>Singularity use</strong>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
 singularity run CAT-4.3.3.simg contigs -c <span class="o">{</span>contigs fasta<span class="o">}</span> -d <span class="m">2019</span>-03-31_CAT_database -t <span class="m">2019</span>-03-31_taxonomy
+</pre></div>
+</div>
+<p><strong>Module use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use /fs/project/PAS1117/modulefiles
+module load CAT/4.3.3
+</pre></div>
+</div>
+</div>
+<div class="section" id="metabat2">
+<h3>MetaBAT2<a class="headerlink" href="#metabat2" title="Permalink to this headline">¶</a></h3>
+<p><strong>Reference</strong>: <a class="reference external" href="https://bitbucket.org/berkeleylab/metabat">https://bitbucket.org/berkeleylab/metabat</a></p>
+<p><strong>Reference</strong>: Kang, D. D., Froula, J., Egan, R., &amp; Wang, Z. (2015). MetaBAT, an efficient tool for accurately
+reconstructing single genomes from complex microbial communities. PeerJ, 3(8), e1165. <a class="reference external" href="https://doi.org/10.7717/peerj.1165">https://doi.org/10.7717/peerj.1165</a></p>
+<p><strong>Short description</strong>: A robust statistical framework for reconstructing genomes from metagenomic data</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run MetaBAT2-2.14.sif
+
+<span class="c1"># Download test data (instructions from https://bitbucket.org/berkeleylab/metabat/wiki/Best%20Binning%20Practices)</span>
+wget https://portal.nersc.gov/dna/RD/Metagenome_RD/MetaBAT/Files/BestPractices/V2/CASE1/assembly.fa.gz
+wget https://portal.nersc.gov/dna/RD/Metagenome_RD/MetaBAT/Files/BestPractices/V2/CASE1/depth.txt
+
+<span class="c1"># Run MetaBAT2</span>
+singularity run MetaBAT2-2.14.sif -i assembly.fa.gz -a depth.txt -o resA1/bin -v
+</pre></div>
+</div>
+</div>
+<div class="section" id="checkm">
+<h3>CheckM<a class="headerlink" href="#checkm" title="Permalink to this headline">¶</a></h3>
+<p><strong>Website</strong>: <a class="reference external" href="https://github.com/Ecogenomics/CheckM">https://github.com/Ecogenomics/CheckM</a></p>
+<p><strong>Reference</strong>: Parks DH, Imelfort M, Skennerton CT, Hugenholtz P, Tyson GW. 2015. CheckM: assessing the quality of
+microbial genomes recovered from isolates, single cells, and metagenomes. Genome Research, 25: 1043–1055.</p>
+<p><strong>Short description</strong>: CheckM provides a set of tools for assessing the quality of genomes recovered from isolates,
+single cells, or metagenomes. It provides robust estimates of genome completeness and contamination by using collocated
+sets of genes that are ubiquitous and single-copy within a phylogenetic lineage.</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run CheckM-1.0.18.sif
+</pre></div>
+</div>
+</div>
+<div class="section" id="bamm">
+<h3>BamM<a class="headerlink" href="#bamm" title="Permalink to this headline">¶</a></h3>
+<p><strong>Website</strong>: <a class="reference external" href="http://ecogenomics.github.io/BamM/">http://ecogenomics.github.io/BamM/</a></p>
+<p><strong>Short description</strong>: Metagenomics-focused BAM file manipulation</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run BamM-1.7.0.sif
+</pre></div>
+</div>
+<p><strong>Note</strong>: This is no longer actively maintained. CoverM is a direct replacement.</p>
+</div>
+<div class="section" id="maxbin2">
+<h3>MaxBin2<a class="headerlink" href="#maxbin2" title="Permalink to this headline">¶</a></h3>
+<p><strong>Website</strong>: <a class="reference external" href="https://downloads.jbei.org/data/microbial_communities/MaxBin/MaxBin.html">https://downloads.jbei.org/data/microbial_communities/MaxBin/MaxBin.html</a></p>
+<p><strong>Website (alt)</strong>: <a class="reference external" href="https://sourceforge.net/projects/maxbin/">https://sourceforge.net/projects/maxbin/</a></p>
+<p><strong>Reference</strong> (MaxBin1): Wu, Y.-W., Tang, Y.-H., Tringe, S. G., Simmons, B. A., &amp; Singer, S. W. (2014). MaxBin: an
+automated binning method to recover individual genomes from metagenomes using an expectation-maximization algorithm.
+Microbiome, 2(1), 26. <a class="reference external" href="https://doi.org/10.1186/2049-2618-2-26">https://doi.org/10.1186/2049-2618-2-26</a></p>
+<p><strong>Reference</strong> (MaxBin2): Yu-Wei Wu, Blake A. Simmons, Steven W. Singer, MaxBin 2.0: an automated binning algorithm to
+recover genomes from multiple metagenomic datasets, Bioinformatics, Volume 32, Issue 4, 15 February 2016, Pages 605–607,
+<a class="reference external" href="https://doi.org/10.1093/bioinformatics/btv638">https://doi.org/10.1093/bioinformatics/btv638</a></p>
+<p><strong>Short description</strong>: MaxBin2 is the next-generation of MaxBin () that supports multiple samples at the same time.
+MaxBin is a software for binning assembled metagenomic sequences based on an Expectation-Maximization algorithm. Users
+could understand the underlying bins (genomes) of the microbes in their metagenomes by simply providing assembled
+metagenomic sequences and the reads coverage information or sequencing reads. For users’ convenience MaxBin will report
+genome-related statistics, including estimated completeness, GC content and genome size in the binning summary page.
+Users could use MEGAN or similar software on MaxBin bins to find out the taxonomy of each bin after the binning process
+is finished.</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run MaxBin2.sif
+
+<span class="c1"># Download test data</span>
+wget -O 20x.scaffold https://downloads.jbei.org/data/microbial_communities/MaxBin/getfile.php?20x.scaffold
+wget -O 20x.abund https://downloads.jbei.org/data/microbial_communities/MaxBin/getfile.php?20x.abund
+
+<span class="c1"># Run MaxBin2</span>
+singularity run MaxBin2.sif -contig 20x.scaffold -abund 20x.abund -out 20x.out -thread <span class="m">4</span>
+</pre></div>
+</div>
+<p><strong>Module use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use /fs/project/PAS1117/modulefiles
+module load MaxBin/2.2.6
+</pre></div>
+</div>
+</div>
+<div class="section" id="multiqc">
+<h3>MultiQC<a class="headerlink" href="#multiqc" title="Permalink to this headline">¶</a></h3>
+<p><strong>Website</strong>: <a class="reference external" href="https://multiqc.info/">https://multiqc.info/</a></p>
+<p><strong>Reference</strong>: Ewels, P., Magnusson, M., Lundin, S., &amp; Käller, M. (2016). MultiQC: Summarize analysis results for
+multiple tools and samples in a single report. Bioinformatics, 32(19), 3047–3048. <a class="reference external" href="https://doi.org/10.1093/bioinformatics/btw354">https://doi.org/10.1093/bioinformatics/btw354</a></p>
+<p><strong>Short description</strong>: MultiQC searches a given directory for analysis logs and compiles a HTML report. It’s a general
+use tool, perfect for summarising the output from numerous bioinformatics tools</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run MultiQC-1.7.sif
+</pre></div>
+</div>
+</div>
+<div class="section" id="bbtools">
+<h3>BBTools<a class="headerlink" href="#bbtools" title="Permalink to this headline">¶</a></h3>
+<p><strong>Reference</strong>: <a class="reference external" href="http://sourceforge.net/projects/bbmap/">http://sourceforge.net/projects/bbmap/</a></p>
+<p><strong>Reference</strong> (BBMerge): Bushnell, B., Rood, J., &amp; Singer, E. (2017). BBMerge – Accurate paired shotgun read merging
+via overlap. PLOS ONE, 12(10), e0185056. <a class="reference external" href="https://doi.org/10.1371/journal.pone.0185056">https://doi.org/10.1371/journal.pone.0185056</a></p>
+<p><strong>Short description</strong>: BBTools is a suite of fast, multithreaded bioinformatics tools designed for analysis of DNA and
+RNA sequence data. BBTools can handle common sequencing file formats such as fastq, fasta, sam, scarf, fasta+qual,
+compressed or raw, with autodetection of quality encoding and interleaving.</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run BBTools-38.69.sif
 </pre></div>
 </div>
 </div>
@@ -261,6 +407,11 @@ singularity run vContact-Gene2Contig-1.0.0.img
 singularity run vConTACT2-0.9.9.simg
 </pre></div>
 </div>
+<p><strong>Module use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use /fs/project/PAS1117/modulefiles
+module load vConTACT2/
+</pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -274,7 +425,7 @@ singularity run vConTACT2-0.9.9.simg
   <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Available Environmental Microbiology (“eMicro”) Apps and Tools</a><ul>
-<li><a class="reference internal" href="#quality-control">Quality Control</a><ul>
+<li><a class="reference internal" href="#quality-control-reads">Quality Control (Reads)</a><ul>
 <li><a class="reference internal" href="#trimmomatic">Trimmomatic</a></li>
 </ul>
 </li>
@@ -295,6 +446,12 @@ singularity run vConTACT2-0.9.9.simg
 <li><a class="reference internal" href="#prokka">Prokka</a></li>
 <li><a class="reference internal" href="#diamond">Diamond</a></li>
 <li><a class="reference internal" href="#cat">CAT</a></li>
+<li><a class="reference internal" href="#metabat2">MetaBAT2</a></li>
+<li><a class="reference internal" href="#checkm">CheckM</a></li>
+<li><a class="reference internal" href="#bamm">BamM</a></li>
+<li><a class="reference internal" href="#maxbin2">MaxBin2</a></li>
+<li><a class="reference internal" href="#multiqc">MultiQC</a></li>
+<li><a class="reference internal" href="#bbtools">BBTools</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#viral-analyses">Viral Analyses</a><ul>
