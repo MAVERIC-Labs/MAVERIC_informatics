@@ -1,0 +1,358 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Available Environmental Microbiology (“eMicro”) Apps and Tools &#8212; MAVERIC Informatics  documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Modules and Tools on OSC" href="Modules-and-Tools.html" />
+    <link rel="prev" title="Building Modules and Tools on OSC" href="Building-Modules-and-Tools.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Modules-and-Tools.html" title="Modules and Tools on OSC"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Building-Modules-and-Tools.html" title="Building Modules and Tools on OSC"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="available-environmental-microbiology-emicro-apps-and-tools">
+<span id="emicroapps"></span><h1>Available Environmental Microbiology (“eMicro”) Apps and Tools<a class="headerlink" href="#available-environmental-microbiology-emicro-apps-and-tools" title="Permalink to this headline">¶</a></h1>
+<p>Below is a list and description of the apps available to anyone on OSC. Please keep in mind that this list is not 100%
+comprehensive and <em>does not</em> detail the methods underlying the tool. Where possible, citations have been included so users
+can read the original source’s documentation and theory.</p>
+<p>Some of this documentation is lifted from the <a class="reference external" href="https://ivirus.readthedocs.io/en/latest/">iVirus project</a> to avoid
+reinventing the wheel. Every effort is being made to ensure that <strong>both</strong> locations are up-to-date with the latest tools
+and literature.</p>
+<p>One last thing to note: All of the singularity images are located at:</p>
+<p>/users/PAS1117/osu9664/eMicro-Apps/</p>
+<p>So you must prepend each *.img, *.simg or *.sif Singularity container w/ this path OR link them (see <a class="reference internal" href="Linux-Unix.html#unix-linux"><span class="std std-ref">UNIX/LINUX Introduction and Guide</span></a>).</p>
+<p><strong>Example</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run Prokka-1.12.0.img -h
+</pre></div>
+</div>
+<p><strong>should be</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run /users/PAS1117/osu9664/eMicro-Apps/Prokka-1.12.0.img -h
+</pre></div>
+</div>
+<p><strong>Keep in mind that none of these apps/tools should be run on the login nodes. Please create a job script and submit it or incur OSC’s wrath!</strong></p>
+<p>Also to note: There are several cases where these tools have been used in the <a class="reference external" href="https://www.cyverse.org/">CyVerse cyberinfrastructure</a>.
+For these, there is a <a class="reference external" href="https://www.protocols.io/">protocols.io</a> link. We’re continually developing these protocols and
+trying to keep them up to date (though if it’s not broke and a current version, it’ll likely not be updated), so always
+make sure it’s the latest version.</p>
+<div class="section" id="quality-control">
+<h2>Quality Control<a class="headerlink" href="#quality-control" title="Permalink to this headline">¶</a></h2>
+<p>Generally speaking, quality control (QC) is a technique applied to to [most commonly] raw read data. This ensures that
+the data going into the assembly (common next step) is of high quality. Poor read quality can result in mis- or
+incorrectly assembled sequences. Most frequently, read data QC involves trimming reads according to their quality
+scores. Although some assemblers do not require QC’d reads, we highly recommend it!</p>
+<div class="section" id="trimmomatic">
+<h3>Trimmomatic<a class="headerlink" href="#trimmomatic" title="Permalink to this headline">¶</a></h3>
+<p><strong>Reference</strong>: Bolger, A. M., Lohse, M., &amp; Usadel, B. (2014). Trimmomatic: A flexible trimmer for Illumina Sequence Data. Bioinformatics, btu170.</p>
+<p><strong>Short description</strong>: Identifies adapter sequences in raw sequencing reads and quality filters</p>
+<p><strong>Protocols.io</strong>: <a class="reference external" href="https://dx.doi.org/10.17504/protocols.io.gvybw7w">Trimmomatic on CyVerse</a></p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run Trimmomatic-0.36.0.img PE -phred33 input_forward.fq.gz input_reverse.fq.gz output_forward_paired.fq.gz output_forward_unpaired.fq.gz output_reverse_paired.fq.gz output_reverse_unpaired.fq.gz ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="assembly">
+<h2>Assembly<a class="headerlink" href="#assembly" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="gsassembler-aka-newbler">
+<h3>gsAssembler (aka Newbler)<a class="headerlink" href="#gsassembler-aka-newbler" title="Permalink to this headline">¶</a></h3>
+<p><strong>Reference</strong>: Genivaldo, GZ; Silva, Bas E; Dutilh, David; Matthews, Keri; Elkins, Robert; Schmieder, Elizabeth A;
+Dinsdale, Robert A Edwards. “Combining de novo and reference-guided assembly with scaffold_builder”. Source Code
+Biomed Central. 8 (23). doi:10.1186/1751-0473-8-23.</p>
+<p><strong>Short description</strong>: De novo assembly based on overlap-layout-consensus</p>
+<p><strong>Notes on use</strong>: 454 Life Sciences was purchased by Roche in 2007 and shut down in 2013. There haven’t been <strong>any</strong>
+updates for the software since then, making it an increasingly aging tool.</p>
+<p><strong>Singularity use</strong>: We provide several versions of the tool on OSC, but please use the latest version unless you have a
+good reason otherwise (i.e. reproducing previous results). These are 2.3 and 2.5.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run Newbler-2.9.img -o output_dir /path/to/sff/file
+</pre></div>
+</div>
+<p>The singularity container <em>does contain</em> the mapper, but for all intents and purposes, the tool uses runAssembly.</p>
+</div>
+<div class="section" id="spades">
+<h3>SPAdes<a class="headerlink" href="#spades" title="Permalink to this headline">¶</a></h3>
+<p><strong>Reference</strong>: Bankevich A., Nurk S., Antipov D., Gurevich A., Dvorkin M., Kulikov A. S., Lesin V., Nikolenko S.,
+Pham S., Prjibelski A., Pyshkin A., Sirotkin A., Vyahhi N., Tesler G., Alekseyev M. A., Pevzner P. A. SPAdes: A New
+Genome Assembly Algorithm and Its Applications to Single-Cell Sequencing. Journal of Computational Biology, 2012</p>
+<p><strong>Short description</strong>: SPAdes – St. Petersburg genome assembler – is an assembly toolkit containing various assembly
+pipelines</p>
+<p><strong>Protocols.io</strong>: <a class="reference external" href="https://dx.doi.org/10.17504/protocols.io.ewrbfd6">Running SPAdes on CyVerse</a></p>
+<p><strong>Notes on use</strong>: SPAdes, as with many de Bruijn assemblers, can consume incredibly amounts of memory. In the context
+of viral metagenomics, it’s been known to use 2-3, and upwards of 6 TB of memory (and more if you give it more data!).
+There are multiple implementations on OSC using different runtimes and memory allocations.</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run SPAdes-3.13.1.simg
+</pre></div>
+</div>
+</div>
+<div class="section" id="idba-ud">
+<h3>IDBA-UD<a class="headerlink" href="#idba-ud" title="Permalink to this headline">¶</a></h3>
+<p><strong>Reference</strong>: Peng, Y., et al. (2010) IDBA- A Practical Iterative de Bruijn Graph De Novo Assembler. RECOMB. Lisbon.</p>
+<p>Peng, Y., et al. (2012) IDBA-UD: a de novo assembler for single-cell and metagenomic sequencing data with highly uneven
+depth, Bioinformatics, 28, 1420-1428.</p>
+<p><strong>Short description</strong>: IDBA-UD is a iterative De Bruijn Graph De Novo Assembler for Short Reads Sequencing data with
+Highly Uneven Sequencing Depth. It is an extension of IDBA algorithm.</p>
+<p><strong>Long description</strong>: IDBA-UD is a iterative De Bruijn Graph De Novo Assembler for Short Reads Sequencing data with
+Highly Uneven Sequencing Depth. It is an extension of IDBA algorithm. IDBA-UD also iterates from small k to a large k.
+In each iteration, short and low-depth contigs are removed iteratively with cutoff threshold from low to high to reduce
+the errors in low-depth and high-depth regions. Paired-end reads are aligned to contigs and assembled locally to
+generate some missing k-mers in low-depth regions. With these technologies, IDBA-UD can iterate k value of de Bruijn
+graph to a very large value with less gaps and less branches to form long contigs in both low-depth and high-depth
+regions. (taken from website)</p>
+<p><strong>Singularity use</strong>:</p>
+<p>Forthcoming!</p>
+</div>
+<div class="section" id="trinity">
+<h3>Trinity<a class="headerlink" href="#trinity" title="Permalink to this headline">¶</a></h3>
+<p><strong>Reference</strong>: Grabherr MG, Haas BJ, Yassour M, Levin JZ, Thompson DA, Amit I, Adiconis X, Fan L, Raychowdhury R, Zeng
+Q, Chen Z, Mauceli E, Hacohen N, Gnirke A, Rhind N, di Palma F, Birren BW, Nusbaum C, Lindblad-Toh K, Friedman N, Regev
+A. Full-length transcriptome assembly from RNA-seq data without a reference genome. Nat Biotechnol. 2011
+May 15;29(7):644-52. doi: 10.1038/nbt.1883. PubMed PMID: 21572440.</p>
+<p><strong>Short description</strong>: Trinity assembles transcript sequences from Illumina RNA-Seq data.</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run Trinity-2.4.0.img
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="gene-callers">
+<h2>Gene Callers<a class="headerlink" href="#gene-callers" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="fraggenescan">
+<h3>FragGeneScan<a class="headerlink" href="#fraggenescan" title="Permalink to this headline">¶</a></h3>
+<p><strong>Reference</strong>: Mina Rho, Haixu Tang, and Yuzhen Ye. FragGeneScan: Predicting Genes in Short and Error-prone Reads. Nucl. Acids Res., 2010 doi: 10.1093/nar/gkq747</p>
+<p><strong>Short description</strong>: FragGeneScan is an application for finding (fragmented) genes in short reads</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run FragGeneScan-1.30.0.img
+</pre></div>
+</div>
+</div>
+<div class="section" id="prodigal">
+<h3>Prodigal<a class="headerlink" href="#prodigal" title="Permalink to this headline">¶</a></h3>
+<p><strong>Reference</strong>: Hyatt, D. Prodigal (2.6.3) [Software]. Available at <a class="reference external" href="https://github.com/hyattpd/Prodigal">https://github.com/hyattpd/Prodigal</a></p>
+<p><strong>Short description</strong>: Fast, reliable protein-coding gene prediction for prokaryotic genomes.</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run Prodigal-2.6.3.img -i metagenome.fna -o coords.gbk -a proteins.faa -p anon
+</pre></div>
+</div>
+</div>
+<div class="section" id="metageneannotator-mga">
+<h3>MetaGeneAnnotator (“MGA”)<a class="headerlink" href="#metageneannotator-mga" title="Permalink to this headline">¶</a></h3>
+<p><strong>Reference</strong>: Noguchi, H., Taniguchi, T., &amp; Itoh, T. (2008). MetaGeneAnnotator: Detecting Species-Specific Patterns of
+Ribosomal Binding Site for Precise Gene Prediction in Anonymous Prokaryotic and Phage Genomes. DNA Research, 15(6),
+387–396. <a class="reference external" href="https://doi.org/10.1093/dnares/dsn027">https://doi.org/10.1093/dnares/dsn027</a></p>
+<p><strong>Short description</strong>: MetaGeneAnnotator is a gene-finding program for prokaryote and phage</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run MetaGeneAnnotator-1.1.0.img
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="annotation-and-analyses">
+<h2>Annotation and Analyses<a class="headerlink" href="#annotation-and-analyses" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="prokka">
+<h3>Prokka<a class="headerlink" href="#prokka" title="Permalink to this headline">¶</a></h3>
+<p><strong>Reference</strong>: Seemann T. Prokka: rapid prokaryotic genome annotation Bioinformatics 2014 Jul 15;30(14):2068-9.
+PMID:24642063</p>
+<p><strong>Short description</strong>: Prokka is a software tool to annotate bacterial, archaeal and viral genomes quickly and produce
+standards-compliant output files</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run Prokka-1.12.0.img
+</pre></div>
+</div>
+</div>
+<div class="section" id="diamond">
+<h3>Diamond<a class="headerlink" href="#diamond" title="Permalink to this headline">¶</a></h3>
+<p><strong>Reference</strong>: B. Buchfink, Xie C., D. Huson, “Fast and sensitive protein alignment using DIAMOND”, Nature Methods 12,
+59-60 (2015)</p>
+<p><strong>Short description</strong>: DIAMOND is a sequence aligner for protein and translated DNA searches, designed for high
+performance analysis of big sequence data.</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run Diamond-0.9.10.img
+</pre></div>
+</div>
+</div>
+<div class="section" id="cat">
+<h3>CAT<a class="headerlink" href="#cat" title="Permalink to this headline">¶</a></h3>
+<p><strong>Reference</strong>: <a class="reference external" href="https://github.com/dutilh/CAT">https://github.com/dutilh/CAT</a></p>
+<dl class="docutils">
+<dt><strong>Short description</strong>: Contig Annotation Tool (CAT) is a pipeline for the taxonomic classification of long DNA sequences</dt>
+<dd>and metagenome assembled genomes (MAGs/bins) of both known and (highly) unknown microorganisms, as generated by
+contemporary metagenomics studies.</dd>
+</dl>
+<p><strong>Other notes</strong>: There are two versions of CAT. A pre-4.x version (“1.0.0”) and a post 4.x version (“4.3.3”). The new one
+is superior in all aspects, except database setup. The paths provided will not work unless you have the appropriate
+databases installed.</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run CAT-4.3.3.simg contigs -c <span class="o">{</span>contigs fasta<span class="o">}</span> -d <span class="m">2019</span>-03-31_CAT_database -t <span class="m">2019</span>-03-31_taxonomy
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="viral-analyses">
+<h2>Viral Analyses<a class="headerlink" href="#viral-analyses" title="Permalink to this headline">¶</a></h2>
+<p>“Consider something viral in your research” - F. Rohwer</p>
+<div class="section" id="virsorter">
+<h3>VIRSorter<a class="headerlink" href="#virsorter" title="Permalink to this headline">¶</a></h3>
+<p><strong>Reference</strong>: Roux S, Enault F, Hurwitz BL, Sullivan MB. (2015) VirSorter: mining viral signal from microbial genomic
+data. PeerJ 3:e985 <a class="reference external" href="https://doi.org/10.7717/peerj.985">https://doi.org/10.7717/peerj.985</a></p>
+<p><strong>Short description</strong>: Identify viral contigs in a microbial metagenomes</p>
+<p><strong>Protocols.io</strong>: <a class="reference external" href="https://dx.doi.org/10.17504/protocols.io.eyjbfun">VIRSorter on CyVerse</a></p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run VirSorter-1.0.5.img
+</pre></div>
+</div>
+</div>
+<div class="section" id="vcontact2">
+<h3>vConTACT2<a class="headerlink" href="#vcontact2" title="Permalink to this headline">¶</a></h3>
+<p>vConTACT2 is a tool designed to classify viruses based on their shared gene content. It is <em>intended for</em> archaeal and
+bacterial viruses. It <em>can</em> work for <em>some</em> eukaryotic viruses, but may utterly fail <em>or</em> totally work - regardless -
+it hasn’t been vetted or tested for use with them.</p>
+<p><strong>Reference (V2)</strong>: Bin Jang, H., Bolduc, B., Zablocki, O., Kuhn, J. H., Roux, S., Adriaenssens, E. M., …
+Sullivan, M. B. (2019). Taxonomic assignment of uncultivated prokaryotic virus genomes is enabled by
+gene-sharing networks. Nature Biotechnology. <a class="reference external" href="https://doi.org/10.1038/s41587-019-0100-8">https://doi.org/10.1038/s41587-019-0100-8</a></p>
+<p><strong>Reference (Theory)</strong>: Bolduc B, Jang H Bin, Doulcier G, You Z, Roux S, Sullivan MB. (2017). vConTACT: an iVirus tool
+to classify double-stranded DNA viruses that infect Archaea and Bacteria. PeerJ 5: e3243.</p>
+<p><strong>Protocols.io</strong>: <a class="reference external" href="https://dx.doi.org/10.17504/protocols.io.x5xfq7n">Running vConTACT2 on VIRSorter output in CyVerse</a></p>
+<p><strong>Short description</strong>: Guilt-by-contig-association automatic classification of viral contigs</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run vContact-Gene2Contig-1.0.0.img
+singularity run vConTACT2-0.9.9.simg
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Available Environmental Microbiology (“eMicro”) Apps and Tools</a><ul>
+<li><a class="reference internal" href="#quality-control">Quality Control</a><ul>
+<li><a class="reference internal" href="#trimmomatic">Trimmomatic</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#assembly">Assembly</a><ul>
+<li><a class="reference internal" href="#gsassembler-aka-newbler">gsAssembler (aka Newbler)</a></li>
+<li><a class="reference internal" href="#spades">SPAdes</a></li>
+<li><a class="reference internal" href="#idba-ud">IDBA-UD</a></li>
+<li><a class="reference internal" href="#trinity">Trinity</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#gene-callers">Gene Callers</a><ul>
+<li><a class="reference internal" href="#fraggenescan">FragGeneScan</a></li>
+<li><a class="reference internal" href="#prodigal">Prodigal</a></li>
+<li><a class="reference internal" href="#metageneannotator-mga">MetaGeneAnnotator (“MGA”)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#annotation-and-analyses">Annotation and Analyses</a><ul>
+<li><a class="reference internal" href="#prokka">Prokka</a></li>
+<li><a class="reference internal" href="#diamond">Diamond</a></li>
+<li><a class="reference internal" href="#cat">CAT</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#viral-analyses">Viral Analyses</a><ul>
+<li><a class="reference internal" href="#virsorter">VIRSorter</a></li>
+<li><a class="reference internal" href="#vcontact2">vConTACT2</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Building-Modules-and-Tools.html"
+                        title="previous chapter">Building Modules and Tools on OSC</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Modules-and-Tools.html"
+                        title="next chapter">Modules and Tools on OSC</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/eMicro-Apps.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Modules-and-Tools.html" title="Modules and Tools on OSC"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Building-Modules-and-Tools.html" title="Building Modules and Tools on OSC"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Benjamin Bolduc.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.
+    </div>
+  </body>
+</html>

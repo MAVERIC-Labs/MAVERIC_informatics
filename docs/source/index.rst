@@ -31,6 +31,7 @@ the lectures of M8194, with the goal of providing sufficient information to supp
    OSC
    QIIME2
    Building-Modules-and-Tools
+   eMicro-Apps
    Modules-and-Tools
    R
 
