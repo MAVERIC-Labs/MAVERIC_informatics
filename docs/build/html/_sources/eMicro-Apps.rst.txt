@@ -502,12 +502,28 @@ to classify double-stranded DNA viruses that infect Archaea and Bacteria. PeerJ 
 .. code-block:: bash
 
     module load singularity/current
-    singularity run vContact-Gene2Contig-1.0.0.img
-    singularity run vConTACT2-0.9.9.simg
+    singularity run vConTACT2-0.9.9.sif
 
-**Module use**:
+
+IVA
+~~~
+
+**Website**: https://sanger-pathogens.github.io/iva/
+
+**Reference**: Hunt, M., Gall, A., Ong, S. H., Brener, J., Ferns, B., Goulder, P., … Otto, T. D. (2015). IVA: Accurate
+de novo assembly of RNA virus genomes. Bioinformatics, 31(14), 2374–2376. https://doi.org/10.1093/bioinformatics/btv120
+
+**Short description**: IVA is a de novo assembler designed to assemble virus genomes that have no repeat sequences,
+using Illumina read pairs sequenced from mixed populations at extremely high and variable depth.
+
+**Singularity use**:
 
 .. code-block:: bash
 
-    module use /fs/project/PAS1117/modulefiles
-    module load vConTACT2/
+    module load singularity/current
+    singularity run IVA-1.0.9.sif
+
+    # You can test the installation
+    singularity run IVA-1.0.9.sif --test outdir
+
+

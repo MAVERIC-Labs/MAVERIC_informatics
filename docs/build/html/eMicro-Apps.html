@@ -403,13 +403,23 @@ to classify double-stranded DNA viruses that infect Archaea and Bacteria. PeerJ 
 <p><strong>Short description</strong>: Guilt-by-contig-association automatic classification of viral contigs</p>
 <p><strong>Singularity use</strong>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
-singularity run vContact-Gene2Contig-1.0.0.img
-singularity run vConTACT2-0.9.9.simg
+singularity run vConTACT2-0.9.9.sif
 </pre></div>
 </div>
-<p><strong>Module use</strong>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use /fs/project/PAS1117/modulefiles
-module load vConTACT2/
+</div>
+<div class="section" id="iva">
+<h3>IVA<a class="headerlink" href="#iva" title="Permalink to this headline">¶</a></h3>
+<p><strong>Website</strong>: <a class="reference external" href="https://sanger-pathogens.github.io/iva/">https://sanger-pathogens.github.io/iva/</a></p>
+<p><strong>Reference</strong>: Hunt, M., Gall, A., Ong, S. H., Brener, J., Ferns, B., Goulder, P., … Otto, T. D. (2015). IVA: Accurate
+de novo assembly of RNA virus genomes. Bioinformatics, 31(14), 2374–2376. <a class="reference external" href="https://doi.org/10.1093/bioinformatics/btv120">https://doi.org/10.1093/bioinformatics/btv120</a></p>
+<p><strong>Short description</strong>: IVA is a de novo assembler designed to assemble virus genomes that have no repeat sequences,
+using Illumina read pairs sequenced from mixed populations at extremely high and variable depth.</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run IVA-1.0.9.sif
+
+<span class="c1"># You can test the installation</span>
+singularity run IVA-1.0.9.sif --test outdir
 </pre></div>
 </div>
 </div>
@@ -457,6 +467,7 @@ module load vConTACT2/
 <li><a class="reference internal" href="#viral-analyses">Viral Analyses</a><ul>
 <li><a class="reference internal" href="#virsorter">VIRSorter</a></li>
 <li><a class="reference internal" href="#vcontact2">vConTACT2</a></li>
+<li><a class="reference internal" href="#iva">IVA</a></li>
 </ul>
 </li>
 </ul>
