@@ -34,6 +34,7 @@ the lectures of M8194, with the goal of providing sufficient information to supp
    eMicro-Apps
    Modules-and-Tools
    R
+   Processing-a-Microbial-Metagenome
 
 
 

@@ -527,3 +527,57 @@ using Illumina read pairs sequenced from mixed populations at extremely high and
     singularity run IVA-1.0.9.sif --test outdir
 
 
+MetaWRAP
+~~~~~~~~
+
+**Website**: https://github.com/bxlab/metaWRAP
+
+**Reference**: Uritskiy, G. V., DiRuggiero, J., & Taylor, J. (2018). MetaWRAP—a flexible pipeline for genome-resolved
+metagenomic data analysis. Microbiome, 6(1), 158. https://doi.org/10.1186/s40168-018-0541-1
+
+**Short description**: MetaWRAP aims to be an easy-to-use metagenomic wrapper suite that accomplishes the core tasks of
+metagenomic analysis from start to finish: read quality control, assembly, visualization, taxonomic profiling, extracting
+draft genomes (binning), and functional annotation. Additionally, metaWRAP takes bin extraction and analysis to the
+next level (see module overview below). While there is no single best approach for processing metagenomic data,
+metaWRAP is meant to be a fast and simple approach before you delve deeper into parameterization of your analysis.
+MetaWRAP can be applied to a variety of environments, including gut, water, and soil microbiomes (see metaWRAP paper
+for benchmarks). Each individual module of metaWRAP is a standalone program, which means you can use only the modules
+you are interested in for your data.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load metaWRAP
+
+DAS_Tool
+~~~~~~~~
+
+**Website**: https://github.com/cmks/DAS_Tool
+
+**Reference**: Sieber, C. M. K., Probst, A. J., Sharrar, A., Thomas, B. C., Hess, M., Tringe, S. G., & Banfield,
+ J. F. (2018). Recovery of genomes from metagenomes via a dereplication, aggregation and scoring strategy. Nature
+ Microbiology, 3(7), 836–843. https://doi.org/10.1038/s41564-018-0171-1
+
+**Short description**: DAS Tool is an automated method that integrates the results of a flexible number of binning
+algorithms to calculate an optimized, non-redundant set of bins from a single assembly.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run DAS_Tool.sif
+
+    # You can test the installation
+    git clone https://github.com/cmks/DAS_Tool.git
+    singularity run DAS_Tool.sif -i DAS_Tool/sample_data/sample.human.gut_concoct_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_maxbin2_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_metabat_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_tetraESOM_scaffolds2bin.tsv -l concoct,maxbin,metabat,tetraESOM -c DAS_Tool/sample_data/sample.human.gut_contigs.fa --search_engine diamond -o DASToolTestRun
+
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load DAS_Tool

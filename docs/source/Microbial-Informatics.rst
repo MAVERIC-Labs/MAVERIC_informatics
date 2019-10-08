@@ -39,7 +39,7 @@ Week 6: "Meta" databases
 
 Week 7: Project options and exploration of available datasets
 
-Week 8: Front-end metagenomic procssing
+Week 8: Front-end metagenomic processing
 
 Week 9: Discuss projects!
 
