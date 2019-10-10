@@ -31,7 +31,8 @@ So you must prepend each \*.img, \*.simg or \*.sif Singularity container w/ this
     module load singularity/current
     singularity run /users/PAS1117/osu9664/eMicro-Apps/Prokka-1.12.0.img -h
 
-**Keep in mind that none of these apps/tools should be run on the login nodes. Please create a job script and submit it or incur OSC's wrath!**
+**Keep in mind that NONE of these apps/tools should be run on the login nodes. Please create a job script and submit it
+or incur OSC's wrath!**
 
 Also to note: There are several cases where these tools have been used in the `CyVerse cyberinfrastructure <https://www.cyverse.org/>`_.
 For these, there is a `protocols.io <https://www.protocols.io/>`_ link. We're continually developing these protocols and
@@ -82,6 +83,70 @@ Trimmomatic
 **Notes**: Trimmomatic is a java jar file, and *normally* needs to be executed with "java -jar trimmomatic.jar [commands]",
 but a tiny bash script has been written to automate this, which is why you can call "trimmomatic" without the java component.
 
+
+BBTools
+~~~~~~~
+
+**Reference**: http://sourceforge.net/projects/bbmap/
+
+**Reference** (BBMerge): Bushnell, B., Rood, J., & Singer, E. (2017). BBMerge – Accurate paired shotgun read merging
+via overlap. PLOS ONE, 12(10), e0185056. https://doi.org/10.1371/journal.pone.0185056
+
+**Short description**: BBTools is a suite of fast, multithreaded bioinformatics tools designed for analysis of DNA and
+RNA sequence data. BBTools can handle common sequencing file formats such as fastq, fasta, sam, scarf, fasta+qual,
+compressed or raw, with autodetection of quality encoding and interleaving.
+
+**Note**: This is SEVERAL tools, BBDuk (discussed below) is just one of them. We'll be working on detailing this here,
+but in the meantime, any tool available on https://jgi.doe.gov/data-and-tools/bbtools/ is available through this image.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run BBTools-38.69.sif
+
+BBDuk
+~~~~~
+
+**Website**: https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/bbduk-guide/
+
+**Short description**: “Duk” stands for Decontamination Using Kmers. BBDuk was developed to combine most common
+data-quality-related trimming, filtering, and masking operations into a single high-performance tool. It is capable of
+quality-trimming and filtering, adapter-trimming, contaminant-filtering via kmer matching, sequence masking,
+GC-filtering, length filtering, entropy-filtering, format conversion, histogram generation, subsampling, quality-score
+recalibration, kmer cardinality estimation, and various other operations in a single pass.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    # Just adapter trimming
+    singularity run BBTools-38.69.sif bbduk.sh in1=<input-pair1> in2=<input-pair2> out1=<trimmed-pair1> out2=<trimmed-pair2> ref=/bbmap/resources/adapters.fa ktrim=r k=23 mink=11 hdist=1 tpe tbo
+    # Just quality filtering
+    singularity run BBTools-38.69.sif bbduk.sh in1=<trimmed-pair1> in2=<trimmed-pair2> qtrim=rl trimq=10 out1=<trimmed-and-quality-pair1> out2=<trimmed-and-quality-pair2>
+    # Adapter and quality filtering
+    singularity run BBTools-38.69.sif bbduk.sh in1=<input-pair1> in2=<input-pair2> out1=<qc-trimmed-pair1> out2=<qc-trimmed-pair2> ref=/bbmap/resources/adapters.fa ktrim=r k=23 mink=11 hdist=1 tpe tbo trimq=10 qtrim=rl minlength=35
+
+
+MultiQC
+~~~~~~~
+
+**Website**: https://multiqc.info/
+
+**Reference**: Ewels, P., Magnusson, M., Lundin, S., & Käller, M. (2016). MultiQC: Summarize analysis results for
+multiple tools and samples in a single report. Bioinformatics, 32(19), 3047–3048. https://doi.org/10.1093/bioinformatics/btw354
+
+**Short description**: MultiQC searches a given directory for analysis logs and compiles a HTML report. It's a general
+use tool, perfect for summarising the output from numerous bioinformatics tools
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run MultiQC-1.7.sif
 
 Assembly
 --------
@@ -160,7 +225,9 @@ regions. (taken from website)
 
 **Singularity use**:
 
-Forthcoming!
+.. code-block:: bash
+
+    singularity run IDBA-UD-1.1.3.sif --num_threads <threads> -r <reads-in-fasta-format> -o <output-dir>
 
 Trinity
 ~~~~~~~
@@ -178,6 +245,149 @@ May 15;29(7):644-52. doi: 10.1038/nbt.1883. PubMed PMID: 21572440.
 
     module load singularity/current
     singularity run Trinity-2.4.0.img
+
+MEGAHIT
+~~~~~~~
+
+**Reference**: Li, D., Liu, C. M., Luo, R., Sadakane, K., & Lam, T. W. (2014). MEGAHIT: An ultra-fast single-node
+solution for large and complex metagenomics assembly via succinct de Bruijn graph. Bioinformatics, 31(10), 1674–1676.
+https://doi.org/10.1093/bioinformatics/btv033
+
+**Short description**: MEGAHIT is an ultra-fast and memory-efficient NGS assembler. It is optimized for metagenomes,
+but also works well on generic single genome assembly (small or mammalian size) and single-cell assembly.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run MEGAHIT-1.2.8.sif --k-list 21,41,61,81,99 -t <threads> -m 0.9 -1 <for-reads> -2 <rev-reads> -o <output-dir>
+
+Binning
+-------
+
+MetaBAT2
+~~~~~~~~
+
+**Reference**: https://bitbucket.org/berkeleylab/metabat
+
+**Reference**: Kang, D. D., Froula, J., Egan, R., & Wang, Z. (2015). MetaBAT, an efficient tool for accurately
+reconstructing single genomes from complex microbial communities. PeerJ, 3(8), e1165. https://doi.org/10.7717/peerj.1165
+
+**Short description**: A robust statistical framework for reconstructing genomes from metagenomic data
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run MetaBAT2-2.14.sif
+
+    # Download test data (instructions from https://bitbucket.org/berkeleylab/metabat/wiki/Best%20Binning%20Practices)
+    wget https://portal.nersc.gov/dna/RD/Metagenome_RD/MetaBAT/Files/BestPractices/V2/CASE1/assembly.fa.gz
+    wget https://portal.nersc.gov/dna/RD/Metagenome_RD/MetaBAT/Files/BestPractices/V2/CASE1/depth.txt
+
+    # Run MetaBAT2
+    singularity run MetaBAT2-2.14.sif -i assembly.fa.gz -a depth.txt -o resA1/bin -v
+
+MaxBin2
+~~~~~~~
+
+**Website**: https://downloads.jbei.org/data/microbial_communities/MaxBin/MaxBin.html
+
+**Website (alt)**: https://sourceforge.net/projects/maxbin/
+
+**Reference** (MaxBin1): Wu, Y.-W., Tang, Y.-H., Tringe, S. G., Simmons, B. A., & Singer, S. W. (2014). MaxBin: an
+automated binning method to recover individual genomes from metagenomes using an expectation-maximization algorithm.
+Microbiome, 2(1), 26. https://doi.org/10.1186/2049-2618-2-26
+
+**Reference** (MaxBin2): Yu-Wei Wu, Blake A. Simmons, Steven W. Singer, MaxBin 2.0: an automated binning algorithm to
+recover genomes from multiple metagenomic datasets, Bioinformatics, Volume 32, Issue 4, 15 February 2016, Pages 605–607,
+https://doi.org/10.1093/bioinformatics/btv638
+
+**Short description**: MaxBin2 is the next-generation of MaxBin () that supports multiple samples at the same time.
+MaxBin is a software for binning assembled metagenomic sequences based on an Expectation-Maximization algorithm. Users
+could understand the underlying bins (genomes) of the microbes in their metagenomes by simply providing assembled
+metagenomic sequences and the reads coverage information or sequencing reads. For users' convenience MaxBin will report
+genome-related statistics, including estimated completeness, GC content and genome size in the binning summary page.
+Users could use MEGAN or similar software on MaxBin bins to find out the taxonomy of each bin after the binning process
+is finished.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run MaxBin2.sif
+
+    # Download test data
+    wget -O 20x.scaffold https://downloads.jbei.org/data/microbial_communities/MaxBin/getfile.php?20x.scaffold
+    wget -O 20x.abund https://downloads.jbei.org/data/microbial_communities/MaxBin/getfile.php?20x.abund
+
+    # Run MaxBin2
+    singularity run MaxBin2.sif -contig 20x.scaffold -abund 20x.abund -out 20x.out -thread 4
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load MaxBin/2.2.6
+
+MetaWRAP
+~~~~~~~~
+
+**Website**: https://github.com/bxlab/metaWRAP
+
+**Reference**: Uritskiy, G. V., DiRuggiero, J., & Taylor, J. (2018). MetaWRAP—a flexible pipeline for genome-resolved
+metagenomic data analysis. Microbiome, 6(1), 158. https://doi.org/10.1186/s40168-018-0541-1
+
+**Short description**: MetaWRAP aims to be an easy-to-use metagenomic wrapper suite that accomplishes the core tasks of
+metagenomic analysis from start to finish: read quality control, assembly, visualization, taxonomic profiling, extracting
+draft genomes (binning), and functional annotation. Additionally, metaWRAP takes bin extraction and analysis to the
+next level (see module overview below). While there is no single best approach for processing metagenomic data,
+metaWRAP is meant to be a fast and simple approach before you delve deeper into parameterization of your analysis.
+MetaWRAP can be applied to a variety of environments, including gut, water, and soil microbiomes (see metaWRAP paper
+for benchmarks). Each individual module of metaWRAP is a standalone program, which means you can use only the modules
+you are interested in for your data.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load metaWRAP
+
+DAS_Tool
+~~~~~~~~
+
+**Website**: https://github.com/cmks/DAS_Tool
+
+**Reference**: Sieber, C. M. K., Probst, A. J., Sharrar, A., Thomas, B. C., Hess, M., Tringe, S. G., & Banfield,
+ J. F. (2018). Recovery of genomes from metagenomes via a dereplication, aggregation and scoring strategy. Nature
+ Microbiology, 3(7), 836–843. https://doi.org/10.1038/s41564-018-0171-1
+
+**Short description**: DAS Tool is an automated method that integrates the results of a flexible number of binning
+algorithms to calculate an optimized, non-redundant set of bins from a single assembly.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run DAS_Tool.sif
+
+    # You can test the installation
+    git clone https://github.com/cmks/DAS_Tool.git
+    singularity run DAS_Tool.sif -i DAS_Tool/sample_data/sample.human.gut_concoct_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_maxbin2_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_metabat_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_tetraESOM_scaffolds2bin.tsv -l concoct,maxbin,metabat,tetraESOM -c DAS_Tool/sample_data/sample.human.gut_contigs.fa --search_engine diamond -o DASToolTestRun
+
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load DAS_Tool
 
 
 Gene Callers
@@ -314,29 +524,6 @@ databases installed.
     module use /fs/project/PAS1117/modulefiles
     module load CAT/4.3.3
 
-MetaBAT2
-~~~~~~~~
-
-**Reference**: https://bitbucket.org/berkeleylab/metabat
-
-**Reference**: Kang, D. D., Froula, J., Egan, R., & Wang, Z. (2015). MetaBAT, an efficient tool for accurately
-reconstructing single genomes from complex microbial communities. PeerJ, 3(8), e1165. https://doi.org/10.7717/peerj.1165
-
-**Short description**: A robust statistical framework for reconstructing genomes from metagenomic data
-
-**Singularity use**:
-
-.. code-block:: bash
-
-    module load singularity/current
-    singularity run MetaBAT2-2.14.sif
-
-    # Download test data (instructions from https://bitbucket.org/berkeleylab/metabat/wiki/Best%20Binning%20Practices)
-    wget https://portal.nersc.gov/dna/RD/Metagenome_RD/MetaBAT/Files/BestPractices/V2/CASE1/assembly.fa.gz
-    wget https://portal.nersc.gov/dna/RD/Metagenome_RD/MetaBAT/Files/BestPractices/V2/CASE1/depth.txt
-
-    # Run MetaBAT2
-    singularity run MetaBAT2-2.14.sif -i assembly.fa.gz -a depth.txt -o resA1/bin -v
 
 CheckM
 ~~~~~~
@@ -374,88 +561,6 @@ BamM
 
 **Note**: This is no longer actively maintained. CoverM is a direct replacement.
 
-
-MaxBin2
-~~~~~~~
-
-**Website**: https://downloads.jbei.org/data/microbial_communities/MaxBin/MaxBin.html
-
-**Website (alt)**: https://sourceforge.net/projects/maxbin/
-
-**Reference** (MaxBin1): Wu, Y.-W., Tang, Y.-H., Tringe, S. G., Simmons, B. A., & Singer, S. W. (2014). MaxBin: an
-automated binning method to recover individual genomes from metagenomes using an expectation-maximization algorithm.
-Microbiome, 2(1), 26. https://doi.org/10.1186/2049-2618-2-26
-
-**Reference** (MaxBin2): Yu-Wei Wu, Blake A. Simmons, Steven W. Singer, MaxBin 2.0: an automated binning algorithm to
-recover genomes from multiple metagenomic datasets, Bioinformatics, Volume 32, Issue 4, 15 February 2016, Pages 605–607,
-https://doi.org/10.1093/bioinformatics/btv638
-
-**Short description**: MaxBin2 is the next-generation of MaxBin () that supports multiple samples at the same time.
-MaxBin is a software for binning assembled metagenomic sequences based on an Expectation-Maximization algorithm. Users
-could understand the underlying bins (genomes) of the microbes in their metagenomes by simply providing assembled
-metagenomic sequences and the reads coverage information or sequencing reads. For users' convenience MaxBin will report
-genome-related statistics, including estimated completeness, GC content and genome size in the binning summary page.
-Users could use MEGAN or similar software on MaxBin bins to find out the taxonomy of each bin after the binning process
-is finished.
-
-**Singularity use**:
-
-.. code-block:: bash
-
-    module load singularity/current
-    singularity run MaxBin2.sif
-
-    # Download test data
-    wget -O 20x.scaffold https://downloads.jbei.org/data/microbial_communities/MaxBin/getfile.php?20x.scaffold
-    wget -O 20x.abund https://downloads.jbei.org/data/microbial_communities/MaxBin/getfile.php?20x.abund
-
-    # Run MaxBin2
-    singularity run MaxBin2.sif -contig 20x.scaffold -abund 20x.abund -out 20x.out -thread 4
-
-**Module use**:
-
-.. code-block:: bash
-
-    module use /fs/project/PAS1117/modulefiles
-    module load MaxBin/2.2.6
-
-
-MultiQC
-~~~~~~~
-
-**Website**: https://multiqc.info/
-
-**Reference**: Ewels, P., Magnusson, M., Lundin, S., & Käller, M. (2016). MultiQC: Summarize analysis results for
-multiple tools and samples in a single report. Bioinformatics, 32(19), 3047–3048. https://doi.org/10.1093/bioinformatics/btw354
-
-**Short description**: MultiQC searches a given directory for analysis logs and compiles a HTML report. It's a general
-use tool, perfect for summarising the output from numerous bioinformatics tools
-
-**Singularity use**:
-
-.. code-block:: bash
-
-    module load singularity/current
-    singularity run MultiQC-1.7.sif
-
-BBTools
-~~~~~~~
-
-**Reference**: http://sourceforge.net/projects/bbmap/
-
-**Reference** (BBMerge): Bushnell, B., Rood, J., & Singer, E. (2017). BBMerge – Accurate paired shotgun read merging
-via overlap. PLOS ONE, 12(10), e0185056. https://doi.org/10.1371/journal.pone.0185056
-
-**Short description**: BBTools is a suite of fast, multithreaded bioinformatics tools designed for analysis of DNA and
-RNA sequence data. BBTools can handle common sequencing file formats such as fastq, fasta, sam, scarf, fasta+qual,
-compressed or raw, with autodetection of quality encoding and interleaving.
-
-**Singularity use**:
-
-.. code-block:: bash
-
-    module load singularity/current
-    singularity run BBTools-38.69.sif
 
 Viral Analyses
 --------------
@@ -525,59 +630,3 @@ using Illumina read pairs sequenced from mixed populations at extremely high and
 
     # You can test the installation
     singularity run IVA-1.0.9.sif --test outdir
-
-
-MetaWRAP
-~~~~~~~~
-
-**Website**: https://github.com/bxlab/metaWRAP
-
-**Reference**: Uritskiy, G. V., DiRuggiero, J., & Taylor, J. (2018). MetaWRAP—a flexible pipeline for genome-resolved
-metagenomic data analysis. Microbiome, 6(1), 158. https://doi.org/10.1186/s40168-018-0541-1
-
-**Short description**: MetaWRAP aims to be an easy-to-use metagenomic wrapper suite that accomplishes the core tasks of
-metagenomic analysis from start to finish: read quality control, assembly, visualization, taxonomic profiling, extracting
-draft genomes (binning), and functional annotation. Additionally, metaWRAP takes bin extraction and analysis to the
-next level (see module overview below). While there is no single best approach for processing metagenomic data,
-metaWRAP is meant to be a fast and simple approach before you delve deeper into parameterization of your analysis.
-MetaWRAP can be applied to a variety of environments, including gut, water, and soil microbiomes (see metaWRAP paper
-for benchmarks). Each individual module of metaWRAP is a standalone program, which means you can use only the modules
-you are interested in for your data.
-
-**Module use**:
-
-.. code-block:: bash
-
-    module use /fs/project/PAS1117/modulefiles
-    module load metaWRAP
-
-DAS_Tool
-~~~~~~~~
-
-**Website**: https://github.com/cmks/DAS_Tool
-
-**Reference**: Sieber, C. M. K., Probst, A. J., Sharrar, A., Thomas, B. C., Hess, M., Tringe, S. G., & Banfield,
- J. F. (2018). Recovery of genomes from metagenomes via a dereplication, aggregation and scoring strategy. Nature
- Microbiology, 3(7), 836–843. https://doi.org/10.1038/s41564-018-0171-1
-
-**Short description**: DAS Tool is an automated method that integrates the results of a flexible number of binning
-algorithms to calculate an optimized, non-redundant set of bins from a single assembly.
-
-**Singularity use**:
-
-.. code-block:: bash
-
-    module load singularity/current
-    singularity run DAS_Tool.sif
-
-    # You can test the installation
-    git clone https://github.com/cmks/DAS_Tool.git
-    singularity run DAS_Tool.sif -i DAS_Tool/sample_data/sample.human.gut_concoct_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_maxbin2_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_metabat_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_tetraESOM_scaffolds2bin.tsv -l concoct,maxbin,metabat,tetraESOM -c DAS_Tool/sample_data/sample.human.gut_contigs.fa --search_engine diamond -o DASToolTestRun
-
-
-**Module use**:
-
-.. code-block:: bash
-
-    module use /fs/project/PAS1117/modulefiles
-    module load DAS_Tool

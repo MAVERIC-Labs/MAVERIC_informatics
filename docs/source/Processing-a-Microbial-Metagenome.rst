@@ -62,7 +62,8 @@ file. If you have your own custom primers/adapters, you'll need to add your sequ
 file.
 
 Next, BBDuk. BBDuk is usually done in 2-3 steps, with 1st being an adapter trimming step, and 2nd with the removal of
-low quality sequences.
+low quality sequences. You can do both steps in a single command, but doing so in two steps allows us to see what was
+removed during each.
 
 .. code-block:: bash
 

@@ -60,7 +60,8 @@ singularity run Prokka-1.12.0.img -h
 singularity run /users/PAS1117/osu9664/eMicro-Apps/Prokka-1.12.0.img -h
 </pre></div>
 </div>
-<p><strong>Keep in mind that none of these apps/tools should be run on the login nodes. Please create a job script and submit it or incur OSC’s wrath!</strong></p>
+<p><strong>Keep in mind that NONE of these apps/tools should be run on the login nodes. Please create a job script and submit it
+or incur OSC’s wrath!</strong></p>
 <p>Also to note: There are several cases where these tools have been used in the <a class="reference external" href="https://www.cyverse.org/">CyVerse cyberinfrastructure</a>.
 For these, there is a <a class="reference external" href="https://www.protocols.io/">protocols.io</a> link. We’re continually developing these protocols and
 trying to keep them up to date (though if it’s not broke and a current version, it’ll likely not be updated), so always
@@ -95,6 +96,54 @@ trimmomatic PE -phred33 input_forward.fq.gz input_reverse.fq.gz output_forward_p
 </div>
 <p><strong>Notes</strong>: Trimmomatic is a java jar file, and <em>normally</em> needs to be executed with “java -jar trimmomatic.jar [commands]”,
 but a tiny bash script has been written to automate this, which is why you can call “trimmomatic” without the java component.</p>
+</div>
+<div class="section" id="bbtools">
+<h3>BBTools<a class="headerlink" href="#bbtools" title="Permalink to this headline">¶</a></h3>
+<p><strong>Reference</strong>: <a class="reference external" href="http://sourceforge.net/projects/bbmap/">http://sourceforge.net/projects/bbmap/</a></p>
+<p><strong>Reference</strong> (BBMerge): Bushnell, B., Rood, J., &amp; Singer, E. (2017). BBMerge – Accurate paired shotgun read merging
+via overlap. PLOS ONE, 12(10), e0185056. <a class="reference external" href="https://doi.org/10.1371/journal.pone.0185056">https://doi.org/10.1371/journal.pone.0185056</a></p>
+<p><strong>Short description</strong>: BBTools is a suite of fast, multithreaded bioinformatics tools designed for analysis of DNA and
+RNA sequence data. BBTools can handle common sequencing file formats such as fastq, fasta, sam, scarf, fasta+qual,
+compressed or raw, with autodetection of quality encoding and interleaving.</p>
+<p><strong>Note</strong>: This is SEVERAL tools, BBDuk (discussed below) is just one of them. We’ll be working on detailing this here,
+but in the meantime, any tool available on <a class="reference external" href="https://jgi.doe.gov/data-and-tools/bbtools/">https://jgi.doe.gov/data-and-tools/bbtools/</a> is available through this image.</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run BBTools-38.69.sif
+</pre></div>
+</div>
+</div>
+<div class="section" id="bbduk">
+<h3>BBDuk<a class="headerlink" href="#bbduk" title="Permalink to this headline">¶</a></h3>
+<p><strong>Website</strong>: <a class="reference external" href="https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/bbduk-guide/">https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/bbduk-guide/</a></p>
+<p><strong>Short description</strong>: “Duk” stands for Decontamination Using Kmers. BBDuk was developed to combine most common
+data-quality-related trimming, filtering, and masking operations into a single high-performance tool. It is capable of
+quality-trimming and filtering, adapter-trimming, contaminant-filtering via kmer matching, sequence masking,
+GC-filtering, length filtering, entropy-filtering, format conversion, histogram generation, subsampling, quality-score
+recalibration, kmer cardinality estimation, and various other operations in a single pass.</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+<span class="c1"># Just adapter trimming</span>
+singularity run BBTools-38.69.sif bbduk.sh <span class="nv">in1</span><span class="o">=</span>&lt;input-pair1&gt; <span class="nv">in2</span><span class="o">=</span>&lt;input-pair2&gt; <span class="nv">out1</span><span class="o">=</span>&lt;trimmed-pair1&gt; <span class="nv">out2</span><span class="o">=</span>&lt;trimmed-pair2&gt; <span class="nv">ref</span><span class="o">=</span>/bbmap/resources/adapters.fa <span class="nv">ktrim</span><span class="o">=</span>r <span class="nv">k</span><span class="o">=</span><span class="m">23</span> <span class="nv">mink</span><span class="o">=</span><span class="m">11</span> <span class="nv">hdist</span><span class="o">=</span><span class="m">1</span> tpe tbo
+<span class="c1"># Just quality filtering</span>
+singularity run BBTools-38.69.sif bbduk.sh <span class="nv">in1</span><span class="o">=</span>&lt;trimmed-pair1&gt; <span class="nv">in2</span><span class="o">=</span>&lt;trimmed-pair2&gt; <span class="nv">qtrim</span><span class="o">=</span>rl <span class="nv">trimq</span><span class="o">=</span><span class="m">10</span> <span class="nv">out1</span><span class="o">=</span>&lt;trimmed-and-quality-pair1&gt; <span class="nv">out2</span><span class="o">=</span>&lt;trimmed-and-quality-pair2&gt;
+<span class="c1"># Adapter and quality filtering</span>
+singularity run BBTools-38.69.sif bbduk.sh <span class="nv">in1</span><span class="o">=</span>&lt;input-pair1&gt; <span class="nv">in2</span><span class="o">=</span>&lt;input-pair2&gt; <span class="nv">out1</span><span class="o">=</span>&lt;qc-trimmed-pair1&gt; <span class="nv">out2</span><span class="o">=</span>&lt;qc-trimmed-pair2&gt; <span class="nv">ref</span><span class="o">=</span>/bbmap/resources/adapters.fa <span class="nv">ktrim</span><span class="o">=</span>r <span class="nv">k</span><span class="o">=</span><span class="m">23</span> <span class="nv">mink</span><span class="o">=</span><span class="m">11</span> <span class="nv">hdist</span><span class="o">=</span><span class="m">1</span> tpe tbo <span class="nv">trimq</span><span class="o">=</span><span class="m">10</span> <span class="nv">qtrim</span><span class="o">=</span>rl <span class="nv">minlength</span><span class="o">=</span><span class="m">35</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="multiqc">
+<h3>MultiQC<a class="headerlink" href="#multiqc" title="Permalink to this headline">¶</a></h3>
+<p><strong>Website</strong>: <a class="reference external" href="https://multiqc.info/">https://multiqc.info/</a></p>
+<p><strong>Reference</strong>: Ewels, P., Magnusson, M., Lundin, S., &amp; Käller, M. (2016). MultiQC: Summarize analysis results for
+multiple tools and samples in a single report. Bioinformatics, 32(19), 3047–3048. <a class="reference external" href="https://doi.org/10.1093/bioinformatics/btw354">https://doi.org/10.1093/bioinformatics/btw354</a></p>
+<p><strong>Short description</strong>: MultiQC searches a given directory for analysis logs and compiles a HTML report. It’s a general
+use tool, perfect for summarising the output from numerous bioinformatics tools</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run MultiQC-1.7.sif
+</pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="assembly">
@@ -152,7 +201,9 @@ generate some missing k-mers in low-depth regions. With these technologies, IDBA
 graph to a very large value with less gaps and less branches to form long contigs in both low-depth and high-depth
 regions. (taken from website)</p>
 <p><strong>Singularity use</strong>:</p>
-<p>Forthcoming!</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>singularity run IDBA-UD-1.1.3.sif --num_threads &lt;threads&gt; -r &lt;reads-in-fasta-format&gt; -o &lt;output-dir&gt;
+</pre></div>
+</div>
 </div>
 <div class="section" id="trinity">
 <h3>Trinity<a class="headerlink" href="#trinity" title="Permalink to this headline">¶</a></h3>
@@ -164,6 +215,120 @@ May 15;29(7):644-52. doi: 10.1038/nbt.1883. PubMed PMID: 21572440.</p>
 <p><strong>Singularity use</strong>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
 singularity run Trinity-2.4.0.img
+</pre></div>
+</div>
+</div>
+<div class="section" id="megahit">
+<h3>MEGAHIT<a class="headerlink" href="#megahit" title="Permalink to this headline">¶</a></h3>
+<p><strong>Reference</strong>: Li, D., Liu, C. M., Luo, R., Sadakane, K., &amp; Lam, T. W. (2014). MEGAHIT: An ultra-fast single-node
+solution for large and complex metagenomics assembly via succinct de Bruijn graph. Bioinformatics, 31(10), 1674–1676.
+<a class="reference external" href="https://doi.org/10.1093/bioinformatics/btv033">https://doi.org/10.1093/bioinformatics/btv033</a></p>
+<p><strong>Short description</strong>: MEGAHIT is an ultra-fast and memory-efficient NGS assembler. It is optimized for metagenomes,
+but also works well on generic single genome assembly (small or mammalian size) and single-cell assembly.</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run MEGAHIT-1.2.8.sif --k-list <span class="m">21</span>,41,61,81,99 -t &lt;threads&gt; -m <span class="m">0</span>.9 -1 &lt;<span class="k">for</span>-reads&gt; -2 &lt;rev-reads&gt; -o &lt;output-dir&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="binning">
+<h2>Binning<a class="headerlink" href="#binning" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="metabat2">
+<h3>MetaBAT2<a class="headerlink" href="#metabat2" title="Permalink to this headline">¶</a></h3>
+<p><strong>Reference</strong>: <a class="reference external" href="https://bitbucket.org/berkeleylab/metabat">https://bitbucket.org/berkeleylab/metabat</a></p>
+<p><strong>Reference</strong>: Kang, D. D., Froula, J., Egan, R., &amp; Wang, Z. (2015). MetaBAT, an efficient tool for accurately
+reconstructing single genomes from complex microbial communities. PeerJ, 3(8), e1165. <a class="reference external" href="https://doi.org/10.7717/peerj.1165">https://doi.org/10.7717/peerj.1165</a></p>
+<p><strong>Short description</strong>: A robust statistical framework for reconstructing genomes from metagenomic data</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run MetaBAT2-2.14.sif
+
+<span class="c1"># Download test data (instructions from https://bitbucket.org/berkeleylab/metabat/wiki/Best%20Binning%20Practices)</span>
+wget https://portal.nersc.gov/dna/RD/Metagenome_RD/MetaBAT/Files/BestPractices/V2/CASE1/assembly.fa.gz
+wget https://portal.nersc.gov/dna/RD/Metagenome_RD/MetaBAT/Files/BestPractices/V2/CASE1/depth.txt
+
+<span class="c1"># Run MetaBAT2</span>
+singularity run MetaBAT2-2.14.sif -i assembly.fa.gz -a depth.txt -o resA1/bin -v
+</pre></div>
+</div>
+</div>
+<div class="section" id="maxbin2">
+<h3>MaxBin2<a class="headerlink" href="#maxbin2" title="Permalink to this headline">¶</a></h3>
+<p><strong>Website</strong>: <a class="reference external" href="https://downloads.jbei.org/data/microbial_communities/MaxBin/MaxBin.html">https://downloads.jbei.org/data/microbial_communities/MaxBin/MaxBin.html</a></p>
+<p><strong>Website (alt)</strong>: <a class="reference external" href="https://sourceforge.net/projects/maxbin/">https://sourceforge.net/projects/maxbin/</a></p>
+<p><strong>Reference</strong> (MaxBin1): Wu, Y.-W., Tang, Y.-H., Tringe, S. G., Simmons, B. A., &amp; Singer, S. W. (2014). MaxBin: an
+automated binning method to recover individual genomes from metagenomes using an expectation-maximization algorithm.
+Microbiome, 2(1), 26. <a class="reference external" href="https://doi.org/10.1186/2049-2618-2-26">https://doi.org/10.1186/2049-2618-2-26</a></p>
+<p><strong>Reference</strong> (MaxBin2): Yu-Wei Wu, Blake A. Simmons, Steven W. Singer, MaxBin 2.0: an automated binning algorithm to
+recover genomes from multiple metagenomic datasets, Bioinformatics, Volume 32, Issue 4, 15 February 2016, Pages 605–607,
+<a class="reference external" href="https://doi.org/10.1093/bioinformatics/btv638">https://doi.org/10.1093/bioinformatics/btv638</a></p>
+<p><strong>Short description</strong>: MaxBin2 is the next-generation of MaxBin () that supports multiple samples at the same time.
+MaxBin is a software for binning assembled metagenomic sequences based on an Expectation-Maximization algorithm. Users
+could understand the underlying bins (genomes) of the microbes in their metagenomes by simply providing assembled
+metagenomic sequences and the reads coverage information or sequencing reads. For users’ convenience MaxBin will report
+genome-related statistics, including estimated completeness, GC content and genome size in the binning summary page.
+Users could use MEGAN or similar software on MaxBin bins to find out the taxonomy of each bin after the binning process
+is finished.</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run MaxBin2.sif
+
+<span class="c1"># Download test data</span>
+wget -O 20x.scaffold https://downloads.jbei.org/data/microbial_communities/MaxBin/getfile.php?20x.scaffold
+wget -O 20x.abund https://downloads.jbei.org/data/microbial_communities/MaxBin/getfile.php?20x.abund
+
+<span class="c1"># Run MaxBin2</span>
+singularity run MaxBin2.sif -contig 20x.scaffold -abund 20x.abund -out 20x.out -thread <span class="m">4</span>
+</pre></div>
+</div>
+<p><strong>Module use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use /fs/project/PAS1117/modulefiles
+module load MaxBin/2.2.6
+</pre></div>
+</div>
+</div>
+<div class="section" id="metawrap">
+<h3>MetaWRAP<a class="headerlink" href="#metawrap" title="Permalink to this headline">¶</a></h3>
+<p><strong>Website</strong>: <a class="reference external" href="https://github.com/bxlab/metaWRAP">https://github.com/bxlab/metaWRAP</a></p>
+<p><strong>Reference</strong>: Uritskiy, G. V., DiRuggiero, J., &amp; Taylor, J. (2018). MetaWRAP—a flexible pipeline for genome-resolved
+metagenomic data analysis. Microbiome, 6(1), 158. <a class="reference external" href="https://doi.org/10.1186/s40168-018-0541-1">https://doi.org/10.1186/s40168-018-0541-1</a></p>
+<p><strong>Short description</strong>: MetaWRAP aims to be an easy-to-use metagenomic wrapper suite that accomplishes the core tasks of
+metagenomic analysis from start to finish: read quality control, assembly, visualization, taxonomic profiling, extracting
+draft genomes (binning), and functional annotation. Additionally, metaWRAP takes bin extraction and analysis to the
+next level (see module overview below). While there is no single best approach for processing metagenomic data,
+metaWRAP is meant to be a fast and simple approach before you delve deeper into parameterization of your analysis.
+MetaWRAP can be applied to a variety of environments, including gut, water, and soil microbiomes (see metaWRAP paper
+for benchmarks). Each individual module of metaWRAP is a standalone program, which means you can use only the modules
+you are interested in for your data.</p>
+<p><strong>Module use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use /fs/project/PAS1117/modulefiles
+module load metaWRAP
+</pre></div>
+</div>
+</div>
+<div class="section" id="das-tool">
+<h3>DAS_Tool<a class="headerlink" href="#das-tool" title="Permalink to this headline">¶</a></h3>
+<p><strong>Website</strong>: <a class="reference external" href="https://github.com/cmks/DAS_Tool">https://github.com/cmks/DAS_Tool</a></p>
+<dl class="docutils">
+<dt><strong>Reference</strong>: Sieber, C. M. K., Probst, A. J., Sharrar, A., Thomas, B. C., Hess, M., Tringe, S. G., &amp; Banfield,</dt>
+<dd>J. F. (2018). Recovery of genomes from metagenomes via a dereplication, aggregation and scoring strategy. Nature
+Microbiology, 3(7), 836–843. <a class="reference external" href="https://doi.org/10.1038/s41564-018-0171-1">https://doi.org/10.1038/s41564-018-0171-1</a></dd>
+</dl>
+<p><strong>Short description</strong>: DAS Tool is an automated method that integrates the results of a flexible number of binning
+algorithms to calculate an optimized, non-redundant set of bins from a single assembly.</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run DAS_Tool.sif
+
+<span class="c1"># You can test the installation</span>
+git clone https://github.com/cmks/DAS_Tool.git
+singularity run DAS_Tool.sif -i DAS_Tool/sample_data/sample.human.gut_concoct_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_maxbin2_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_metabat_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_tetraESOM_scaffolds2bin.tsv -l concoct,maxbin,metabat,tetraESOM -c DAS_Tool/sample_data/sample.human.gut_contigs.fa --search_engine diamond -o DASToolTestRun
+</pre></div>
+</div>
+<p><strong>Module use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use /fs/project/PAS1117/modulefiles
+module load DAS_Tool
 </pre></div>
 </div>
 </div>
@@ -267,25 +432,6 @@ module load CAT/4.3.3
 </pre></div>
 </div>
 </div>
-<div class="section" id="metabat2">
-<h3>MetaBAT2<a class="headerlink" href="#metabat2" title="Permalink to this headline">¶</a></h3>
-<p><strong>Reference</strong>: <a class="reference external" href="https://bitbucket.org/berkeleylab/metabat">https://bitbucket.org/berkeleylab/metabat</a></p>
-<p><strong>Reference</strong>: Kang, D. D., Froula, J., Egan, R., &amp; Wang, Z. (2015). MetaBAT, an efficient tool for accurately
-reconstructing single genomes from complex microbial communities. PeerJ, 3(8), e1165. <a class="reference external" href="https://doi.org/10.7717/peerj.1165">https://doi.org/10.7717/peerj.1165</a></p>
-<p><strong>Short description</strong>: A robust statistical framework for reconstructing genomes from metagenomic data</p>
-<p><strong>Singularity use</strong>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
-singularity run MetaBAT2-2.14.sif
-
-<span class="c1"># Download test data (instructions from https://bitbucket.org/berkeleylab/metabat/wiki/Best%20Binning%20Practices)</span>
-wget https://portal.nersc.gov/dna/RD/Metagenome_RD/MetaBAT/Files/BestPractices/V2/CASE1/assembly.fa.gz
-wget https://portal.nersc.gov/dna/RD/Metagenome_RD/MetaBAT/Files/BestPractices/V2/CASE1/depth.txt
-
-<span class="c1"># Run MetaBAT2</span>
-singularity run MetaBAT2-2.14.sif -i assembly.fa.gz -a depth.txt -o resA1/bin -v
-</pre></div>
-</div>
-</div>
 <div class="section" id="checkm">
 <h3>CheckM<a class="headerlink" href="#checkm" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/Ecogenomics/CheckM">https://github.com/Ecogenomics/CheckM</a></p>
@@ -310,68 +456,6 @@ singularity run BamM-1.7.0.sif
 </pre></div>
 </div>
 <p><strong>Note</strong>: This is no longer actively maintained. CoverM is a direct replacement.</p>
-</div>
-<div class="section" id="maxbin2">
-<h3>MaxBin2<a class="headerlink" href="#maxbin2" title="Permalink to this headline">¶</a></h3>
-<p><strong>Website</strong>: <a class="reference external" href="https://downloads.jbei.org/data/microbial_communities/MaxBin/MaxBin.html">https://downloads.jbei.org/data/microbial_communities/MaxBin/MaxBin.html</a></p>
-<p><strong>Website (alt)</strong>: <a class="reference external" href="https://sourceforge.net/projects/maxbin/">https://sourceforge.net/projects/maxbin/</a></p>
-<p><strong>Reference</strong> (MaxBin1): Wu, Y.-W., Tang, Y.-H., Tringe, S. G., Simmons, B. A., &amp; Singer, S. W. (2014). MaxBin: an
-automated binning method to recover individual genomes from metagenomes using an expectation-maximization algorithm.
-Microbiome, 2(1), 26. <a class="reference external" href="https://doi.org/10.1186/2049-2618-2-26">https://doi.org/10.1186/2049-2618-2-26</a></p>
-<p><strong>Reference</strong> (MaxBin2): Yu-Wei Wu, Blake A. Simmons, Steven W. Singer, MaxBin 2.0: an automated binning algorithm to
-recover genomes from multiple metagenomic datasets, Bioinformatics, Volume 32, Issue 4, 15 February 2016, Pages 605–607,
-<a class="reference external" href="https://doi.org/10.1093/bioinformatics/btv638">https://doi.org/10.1093/bioinformatics/btv638</a></p>
-<p><strong>Short description</strong>: MaxBin2 is the next-generation of MaxBin () that supports multiple samples at the same time.
-MaxBin is a software for binning assembled metagenomic sequences based on an Expectation-Maximization algorithm. Users
-could understand the underlying bins (genomes) of the microbes in their metagenomes by simply providing assembled
-metagenomic sequences and the reads coverage information or sequencing reads. For users’ convenience MaxBin will report
-genome-related statistics, including estimated completeness, GC content and genome size in the binning summary page.
-Users could use MEGAN or similar software on MaxBin bins to find out the taxonomy of each bin after the binning process
-is finished.</p>
-<p><strong>Singularity use</strong>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
-singularity run MaxBin2.sif
-
-<span class="c1"># Download test data</span>
-wget -O 20x.scaffold https://downloads.jbei.org/data/microbial_communities/MaxBin/getfile.php?20x.scaffold
-wget -O 20x.abund https://downloads.jbei.org/data/microbial_communities/MaxBin/getfile.php?20x.abund
-
-<span class="c1"># Run MaxBin2</span>
-singularity run MaxBin2.sif -contig 20x.scaffold -abund 20x.abund -out 20x.out -thread <span class="m">4</span>
-</pre></div>
-</div>
-<p><strong>Module use</strong>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use /fs/project/PAS1117/modulefiles
-module load MaxBin/2.2.6
-</pre></div>
-</div>
-</div>
-<div class="section" id="multiqc">
-<h3>MultiQC<a class="headerlink" href="#multiqc" title="Permalink to this headline">¶</a></h3>
-<p><strong>Website</strong>: <a class="reference external" href="https://multiqc.info/">https://multiqc.info/</a></p>
-<p><strong>Reference</strong>: Ewels, P., Magnusson, M., Lundin, S., &amp; Käller, M. (2016). MultiQC: Summarize analysis results for
-multiple tools and samples in a single report. Bioinformatics, 32(19), 3047–3048. <a class="reference external" href="https://doi.org/10.1093/bioinformatics/btw354">https://doi.org/10.1093/bioinformatics/btw354</a></p>
-<p><strong>Short description</strong>: MultiQC searches a given directory for analysis logs and compiles a HTML report. It’s a general
-use tool, perfect for summarising the output from numerous bioinformatics tools</p>
-<p><strong>Singularity use</strong>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
-singularity run MultiQC-1.7.sif
-</pre></div>
-</div>
-</div>
-<div class="section" id="bbtools">
-<h3>BBTools<a class="headerlink" href="#bbtools" title="Permalink to this headline">¶</a></h3>
-<p><strong>Reference</strong>: <a class="reference external" href="http://sourceforge.net/projects/bbmap/">http://sourceforge.net/projects/bbmap/</a></p>
-<p><strong>Reference</strong> (BBMerge): Bushnell, B., Rood, J., &amp; Singer, E. (2017). BBMerge – Accurate paired shotgun read merging
-via overlap. PLOS ONE, 12(10), e0185056. <a class="reference external" href="https://doi.org/10.1371/journal.pone.0185056">https://doi.org/10.1371/journal.pone.0185056</a></p>
-<p><strong>Short description</strong>: BBTools is a suite of fast, multithreaded bioinformatics tools designed for analysis of DNA and
-RNA sequence data. BBTools can handle common sequencing file formats such as fastq, fasta, sam, scarf, fasta+qual,
-compressed or raw, with autodetection of quality encoding and interleaving.</p>
-<p><strong>Singularity use</strong>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
-singularity run BBTools-38.69.sif
-</pre></div>
-</div>
 </div>
 </div>
 <div class="section" id="viral-analyses">
@@ -423,50 +507,6 @@ singularity run IVA-1.0.9.sif --test outdir
 </pre></div>
 </div>
 </div>
-<div class="section" id="metawrap">
-<h3>MetaWRAP<a class="headerlink" href="#metawrap" title="Permalink to this headline">¶</a></h3>
-<p><strong>Website</strong>: <a class="reference external" href="https://github.com/bxlab/metaWRAP">https://github.com/bxlab/metaWRAP</a></p>
-<p><strong>Reference</strong>: Uritskiy, G. V., DiRuggiero, J., &amp; Taylor, J. (2018). MetaWRAP—a flexible pipeline for genome-resolved
-metagenomic data analysis. Microbiome, 6(1), 158. <a class="reference external" href="https://doi.org/10.1186/s40168-018-0541-1">https://doi.org/10.1186/s40168-018-0541-1</a></p>
-<p><strong>Short description</strong>: MetaWRAP aims to be an easy-to-use metagenomic wrapper suite that accomplishes the core tasks of
-metagenomic analysis from start to finish: read quality control, assembly, visualization, taxonomic profiling, extracting
-draft genomes (binning), and functional annotation. Additionally, metaWRAP takes bin extraction and analysis to the
-next level (see module overview below). While there is no single best approach for processing metagenomic data,
-metaWRAP is meant to be a fast and simple approach before you delve deeper into parameterization of your analysis.
-MetaWRAP can be applied to a variety of environments, including gut, water, and soil microbiomes (see metaWRAP paper
-for benchmarks). Each individual module of metaWRAP is a standalone program, which means you can use only the modules
-you are interested in for your data.</p>
-<p><strong>Module use</strong>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use /fs/project/PAS1117/modulefiles
-module load metaWRAP
-</pre></div>
-</div>
-</div>
-<div class="section" id="das-tool">
-<h3>DAS_Tool<a class="headerlink" href="#das-tool" title="Permalink to this headline">¶</a></h3>
-<p><strong>Website</strong>: <a class="reference external" href="https://github.com/cmks/DAS_Tool">https://github.com/cmks/DAS_Tool</a></p>
-<dl class="docutils">
-<dt><strong>Reference</strong>: Sieber, C. M. K., Probst, A. J., Sharrar, A., Thomas, B. C., Hess, M., Tringe, S. G., &amp; Banfield,</dt>
-<dd>J. F. (2018). Recovery of genomes from metagenomes via a dereplication, aggregation and scoring strategy. Nature
-Microbiology, 3(7), 836–843. <a class="reference external" href="https://doi.org/10.1038/s41564-018-0171-1">https://doi.org/10.1038/s41564-018-0171-1</a></dd>
-</dl>
-<p><strong>Short description</strong>: DAS Tool is an automated method that integrates the results of a flexible number of binning
-algorithms to calculate an optimized, non-redundant set of bins from a single assembly.</p>
-<p><strong>Singularity use</strong>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
-singularity run DAS_Tool.sif
-
-<span class="c1"># You can test the installation</span>
-git clone https://github.com/cmks/DAS_Tool.git
-singularity run DAS_Tool.sif -i DAS_Tool/sample_data/sample.human.gut_concoct_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_maxbin2_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_metabat_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_tetraESOM_scaffolds2bin.tsv -l concoct,maxbin,metabat,tetraESOM -c DAS_Tool/sample_data/sample.human.gut_contigs.fa --search_engine diamond -o DASToolTestRun
-</pre></div>
-</div>
-<p><strong>Module use</strong>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use /fs/project/PAS1117/modulefiles
-module load DAS_Tool
-</pre></div>
-</div>
-</div>
 </div>
 </div>
 
@@ -481,6 +521,9 @@ module load DAS_Tool
 <li><a class="reference internal" href="#">Available Environmental Microbiology (“eMicro”) Apps and Tools</a><ul>
 <li><a class="reference internal" href="#quality-control-reads">Quality Control (Reads)</a><ul>
 <li><a class="reference internal" href="#trimmomatic">Trimmomatic</a></li>
+<li><a class="reference internal" href="#bbtools">BBTools</a></li>
+<li><a class="reference internal" href="#bbduk">BBDuk</a></li>
+<li><a class="reference internal" href="#multiqc">MultiQC</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#assembly">Assembly</a><ul>
@@ -488,6 +531,14 @@ module load DAS_Tool
 <li><a class="reference internal" href="#spades">SPAdes</a></li>
 <li><a class="reference internal" href="#idba-ud">IDBA-UD</a></li>
 <li><a class="reference internal" href="#trinity">Trinity</a></li>
+<li><a class="reference internal" href="#megahit">MEGAHIT</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#binning">Binning</a><ul>
+<li><a class="reference internal" href="#metabat2">MetaBAT2</a></li>
+<li><a class="reference internal" href="#maxbin2">MaxBin2</a></li>
+<li><a class="reference internal" href="#metawrap">MetaWRAP</a></li>
+<li><a class="reference internal" href="#das-tool">DAS_Tool</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#gene-callers">Gene Callers</a><ul>
@@ -500,20 +551,14 @@ module load DAS_Tool
 <li><a class="reference internal" href="#prokka">Prokka</a></li>
 <li><a class="reference internal" href="#diamond">Diamond</a></li>
 <li><a class="reference internal" href="#cat">CAT</a></li>
-<li><a class="reference internal" href="#metabat2">MetaBAT2</a></li>
 <li><a class="reference internal" href="#checkm">CheckM</a></li>
 <li><a class="reference internal" href="#bamm">BamM</a></li>
-<li><a class="reference internal" href="#maxbin2">MaxBin2</a></li>
-<li><a class="reference internal" href="#multiqc">MultiQC</a></li>
-<li><a class="reference internal" href="#bbtools">BBTools</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#viral-analyses">Viral Analyses</a><ul>
 <li><a class="reference internal" href="#virsorter">VIRSorter</a></li>
 <li><a class="reference internal" href="#vcontact2">vConTACT2</a></li>
 <li><a class="reference internal" href="#iva">IVA</a></li>
-<li><a class="reference internal" href="#metawrap">MetaWRAP</a></li>
-<li><a class="reference internal" href="#das-tool">DAS_Tool</a></li>
 </ul>
 </li>
 </ul>
