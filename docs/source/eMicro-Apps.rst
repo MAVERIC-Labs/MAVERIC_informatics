@@ -334,6 +334,25 @@ is finished.
     module use /fs/project/PAS1117/modulefiles
     module load MaxBin/2.2.6
 
+CONCOCT
+~~~~~~~
+
+**Website**: https://concoct.readthedocs.io/en/latest/
+
+**Reference**: Alneberg, J., Bjarnason, B. S., de Bruijn, I., Schirmer, M., Quick, J., Ijaz, U. Z., … Quince, C. (2013).
+ CONCOCT: Clustering cONtigs on COverage and ComposiTion, 1–28. Retrieved from http://arxiv.org/abs/1312.4038
+
+**Short description**: CONCOCT “bins” metagenomic contigs. Metagenomic binning is the process of clustering sequences
+into clusters corresponding to operational taxonomic units of some level.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run CONCOCT.sif
+
+
 MetaWRAP
 ~~~~~~~~
 
@@ -450,6 +469,8 @@ Ribosomal Binding Site for Precise Gene Prediction in Anonymous Prokaryotic and 
 Annotation and Analyses
 -----------------------
 
+This is a catch-all category that doesn't fit with the other sections.
+
 Prokka
 ~~~~~~
 
@@ -472,7 +493,6 @@ standards-compliant output files
 
     module use /fs/project/PAS1117/modulefiles
     module load Prokka/1.13
-
 
 Diamond
 ~~~~~~~
@@ -524,6 +544,57 @@ databases installed.
     module use /fs/project/PAS1117/modulefiles
     module load CAT/4.3.3
 
+Centrifuge
+~~~~~~~~~~
+
+**Website**: http://www.ccb.jhu.edu/software/centrifuge
+
+**Reference**: Kim, D., Song, L., Breitwieser, F. P., & Salzberg, S. L. (2016). Centrifuge: rapid and sensitive
+classification of metagenomic sequences. Genome Research, 26(12), 1721–1729. https://doi.org/10.1101/gr.210641.116
+
+**Short description**: [Centrifuge] is a novel microbial classification engine that enables rapid, accurate and
+sensitive labeling of reads and quantification of species on desktop computers. The system uses a novel indexing
+scheme based on the Burrows-Wheeler transform (BWT) and the Ferragina-Manzini (FM) index, optimized specifically for
+the metagenomic classification problem. Centrifuge requires a relatively small index (4.7 GB for all complete bacterial
+and viral genomes plus the human genome) and classifies sequences at very high speed, allowing it to process the
+millions of reads from a typical high-throughput DNA sequencing run within a few minutes. Together these advances
+enable timely and accurate analysis of large metagenomics data sets on conventional desktop computers
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run Centrifuge-X.sif
+
+(more forthcoming!)
+
+VSEARCH
+~~~~~~~
+
+**Website**:https://github.com/torognes/vsearch
+
+**Reference**: Rognes, T., Flouri, T., Nichols, B., Quince, C., & Mahé, F. (2016). VSEARCH: a versatile open source
+tool for metagenomics. PeerJ, 4(10), e2584. https://doi.org/10.7717/peerj.2584
+
+**Short description**: VSEARCH is a fast, accurate and full-fledged alternative to USEARCH. It's free, isn't limited to
+32-bit, but is only for nucleotide, not protein work. VSEARCH is “more accurate than USEARCH when performing searching,
+clustering, chimera detection and subsampling, while on a par with USEARCH for paired-ends read merging. VSEARCH is
+slower than USEARCH when performing clustering and chimera detection, but significantly faster when performing
+paired-end reads merging and dereplication.” (Rognes et al, 2016. PeerJ)
+
+Long story short: it's a free alternative to USEARCH's 64-bit version. USEARCH does have a free 32-bit version, but that
+limits the available system memory to 4 GB, hardly sufficient to do large-scale metagenomic analyses.
+
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run VSEARCH-2.14.1.sif
+
+**Note**: VSEARCH has **a lot** of options. So. Many.
 
 CheckM
 ~~~~~~
@@ -560,6 +631,18 @@ BamM
     singularity run BamM-1.7.0.sif
 
 **Note**: This is no longer actively maintained. CoverM is a direct replacement.
+
+CoverM
+~~~~~~
+
+**Website**: https://github.com/wwood/CoverM
+
+**Short description**: CoverM aims to be a configurable, easy to use and fast DNA read coverage and relative abundance
+calculator focused on metagenomics applications. CoverM calculates coverage of genomes/MAGs (coverm genome) or
+individual contigs (coverm contig). Calculating coverage by read mapping, its input can either be BAM files sorted by
+reference, or raw reads and reference FASTA sequences.
+
+Forthcoming!
 
 
 Viral Analyses
@@ -630,3 +713,33 @@ using Illumina read pairs sequenced from mixed populations at extremely high and
 
     # You can test the installation
     singularity run IVA-1.0.9.sif --test outdir
+
+PhageTerm
+~~~~~~~~~
+
+**Website**: https://sourceforge.net/projects/phageterm/
+
+**Reference**: Garneau, J. R., Depardieu, F., Fortier, L.-C., Bikard, D., & Monot, M. (2017). PhageTerm: a tool for
+fast and accurate determination of phage termini and packaging mechanism using next-generation sequencing data.
+Scientific Reports, 7(1), 8292. https://doi.org/10.1038/s41598-017-07910-5
+
+**Short description**:  Here, we developed a theoretical and statistical framework to analyze DNA termini and phage
+packaging mechanisms using next-generation sequencing data. PhageTerm was validated on a set of phages with
+well-established packaging mechanisms representative of the termini diversity: 5’cos (lambda), 3’cos (HK97), pac (P1),
+headful without a pac site (T4), DTR (T7) and host fragment (Mu). In addition, we determined the termini of 9
+Clostridium difficile phages and 5 phages whose sequences where retrieved from the sequence read archive (SRA)
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run PhageTerm-1.0.12.sif
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load PhageTerm/1.0.11
+

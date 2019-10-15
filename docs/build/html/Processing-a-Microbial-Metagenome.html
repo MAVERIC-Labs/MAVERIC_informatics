@@ -46,7 +46,8 @@ can’t be nicely placed here, but are available (as links to files) or in the M
 <p>So you must prepend each *.img, *.simg or *.sif Singularity container w/ this path OR link them (see <a class="reference internal" href="Linux-Unix.html#unix-linux"><span class="std std-ref">UNIX/LINUX Introduction and Guide</span></a>).</p>
 <div class="section" id="downloading-the-data">
 <h2>Downloading the data<a class="headerlink" href="#downloading-the-data" title="Permalink to this headline">¶</a></h2>
-<p>We need to grab the data from the SRA.</p>
+<p>The first thing we need to do is grab the data from the SRA. You can do this a few ways, either through navigating the
+NCBI+SRA websites, or directly using their SRA Toolkit.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Move to project directory</span>
 $ <span class="nb">cd</span> /fs/project/PAS1573/week7_processing
 <span class="c1"># Load modules necessary</span>
@@ -60,6 +61,26 @@ reads written   : <span class="m">28</span>,291,796
 <p>In the example above, we used <em>fasterq-dump</em>, which is designated to download two paired end read files in fastq format.
 We also specified 4 threads (-e 4) so it would run a little faster. There should be <em>two</em> output files: SRR7151490_1.fastq
 and SRR7151490_2.fastq. fasterq-dump won’t compress the files for you, so you’ll have to do this after the download completes.</p>
+<p>Alternatively, you can manually download the data from the NCBI website:</p>
+<p>Go to <a class="reference external" href="https://www.ncbi.nlm.nih.gov/">https://www.ncbi.nlm.nih.gov/</a>, and under the search bar, select BioProject and type “PRJNA386568”. It should
+immediately pull up a single page:</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/screencapture-ncbi-bioproject.png"><img alt="NCBI BioProject" src="_images/screencapture-ncbi-bioproject.png" style="width: 593.0px; height: 647.0px;" /></a>
+</div>
+<p>Nagivate to SRA Experiments (should be 304 of them), select. This should pull up a list of… SRA experiments.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/screencapture-ncbi-sra.png"><img alt="NCBI SRA list of Experiments" src="_images/screencapture-ncbi-sra.png" style="width: 591.75px; height: 324.0px;" /></a>
+</div>
+<p>Select (or find) “metagenome of peat: 20120700_P3M”. Select.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/screencapture-ncbi-sra-accn.png"><img alt="NCBI SRA Experiment" src="_images/screencapture-ncbi-sra-accn.png" style="width: 595.25px; height: 310.75px;" /></a>
+</div>
+<p>Now we have some info about the SRA experiment. Click on the Run (should start with SRR) towards the bottom of the
+metadata fields and select the run.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/screencapture-ncbi-sra-run.png"><img alt="NCBI SRA Experiment" src="_images/screencapture-ncbi-sra-run.png" style="width: 484.5px; height: 466.5px;" /></a>
+</div>
+<p>Click on the “Data access” tab and <em>voila</em>, a download will start.</p>
 </div>
 <div class="section" id="read-quality-control">
 <h2>Read Quality Control<a class="headerlink" href="#read-quality-control" title="Permalink to this headline">¶</a></h2>
@@ -202,8 +223,7 @@ multiqc_data
 </div>
 <p>I’ve added comments to the command (above). <em>Normally</em>, this would NOT be in the output, but I’m commenting here to break
 down what files came from where.</p>
-<p>Let’s look at the results:</p>
-<p>(will be inserting results page shortly)</p>
+<p>Let’s look at the results <a class="reference download internal" download="" href="_downloads/36c1d2c8bb5a1fe47f4d00d1a48cd028/SRR7151490_all_reads_multiqc_report.html"><code class="xref download docutils literal notranslate"><span class="pre">here</span></code></a>.</p>
 </div>
 <div class="section" id="assembly">
 <h2>Assembly<a class="headerlink" href="#assembly" title="Permalink to this headline">¶</a></h2>
@@ -388,7 +408,267 @@ module load singularity
 </div>
 <div class="section" id="binning">
 <h2>Binning<a class="headerlink" href="#binning" title="Permalink to this headline">¶</a></h2>
-<p>Tune in next week for the next exciting adventure in microbial metagenome processing!</p>
+<p>For all the binning tools, we’re going to use the SPAdes assembly results that used the Trimmomatic-cleaned reads. Why?
+Because it’s the one I selected - no rhyme or reason. Feel free to choose SPAdes w/ BBDuk, or Megahit with BBDuk, or
+whichever assembler+QC reads you want.</p>
+<p>The first thing we need to do is run read mapping. We’ll be mapping reads from our QC pipeline against our assembled
+contigs. We do this because all the binning tools [we’ll be discussing] require read coverage information, generated
+from read mapping.</p>
+<p>We’ll use bowtie2 to do our read mapping. Alternatively, we could use [an equally good] BWA, and I selected bowtie2 just
+because we use it more in the lab. The first step is to create a bowtie2-indexed database file using our contigs from
+SPAdes.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ singularity <span class="nb">exec</span> /users/PAS1117/osu9664/eMicro-Apps/BamM-1.7.0.sif bowtie2-build -f /fs/project/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta contigs_bowtie2
+</pre></div>
+</div>
+<p>Next, we map our reads using bowtie2.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ singularity <span class="nb">exec</span> /users/PAS1117/osu9664/eMicro-Apps/BamM-1.7.0.sif bowtie2 -q --phred33 --end-to-end -p <span class="m">40</span> -I <span class="m">0</span> -X <span class="m">2000</span> --no-unal -x contigs_bowtie2 -1 /fs/project/PAS1573/week7_processing/trimmed_trimmomatic/SRR7151490_1_t_paired.fastq.gz -2 /fs/project/PAS1573/week7_processing/trimmed_trimmomatic/SRR7151490_2_t_paired.fastq.gz -S SPades_contigs_vs_SRR7151490.sam
+</pre></div>
+</div>
+<p>Convert the sam file into a bam via samtools. We’re essentially “viewing” with an input format of SAM and outputting a
+BAM format. Notice the use of the “&gt;” redirect.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ singularity <span class="nb">exec</span> /users/PAS1117/osu9664/eMicro-Apps/BamM-1.7.0.sif samtools view -Sb SPades_contigs_vs_SRR7151490.sam &gt; SPades_contigs_vs_SRR7151490.bam
+</pre></div>
+</div>
+<p>Now, sort… because most/many softwares require sorted BAM files.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ singularity <span class="nb">exec</span> /users/PAS1117/osu9664/eMicro-Apps/BamM-1.7.0.sif samtools sort -o SPades_contigs_vs_SRR7151490.sorted.bam SPades_contigs_vs_SRR7151490.bam
+</pre></div>
+</div>
+<p>Now we can run our 1st tool, MetaBAT2. We’ll use a convenient wrapper script, provided with MetaBAT2, that will run the
+entire Metabat pipeline.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ singularity <span class="nb">exec</span> /users/PAS1117/osu9664/eMicro-Apps/MetaBAT2-2.14.sif runMetaBat.sh /fs/project/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta SPades_contigs_vs_SRR7151490.sorted.bam
+Executing: <span class="s1">&#39;jgi_summarize_bam_contig_depths --outputDepth contigs.fasta.depth.txt --percentIdentity 97 --minContigLength 1000 --minContigDepth 1.0  --referenceFasta /fs/project/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta SPades_contigs_vs_SRR7151490.sorted.bam&#39;</span> at Mon Oct  <span class="m">7</span> <span class="m">16</span>:26:18 UTC <span class="m">2019</span>
+Output depth matrix to contigs.fasta.depth.txt
+Minimum percent identity <span class="k">for</span> a mapped read: <span class="m">0</span>.97
+minContigLength: <span class="m">1000</span>
+minContigDepth: <span class="m">1</span>
+Reference fasta file /fs/project/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta
+jgi_summarize_bam_contig_depths v2.14 <span class="m">2019</span>-10-01T04:25:59
+Output matrix to contigs.fasta.depth.txt
+Reading reference fasta file: /fs/project/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta
+... <span class="m">484282</span> sequences
+<span class="m">0</span>: Opening bam: SPades_contigs_vs_SRR7151490.sorted.bam
+Processing bam files
+Thread <span class="m">0</span> finished: SPades_contigs_vs_SRR7151490.sorted.bam with <span class="m">8146462</span> reads and <span class="m">7177777</span> readsWellMapped
+Creating depth matrix file: contigs.fasta.depth.txt
+Closing most bam files
+Closing last bam file
+Finished
+Finished jgi_summarize_bam_contig_depths at Mon Oct  <span class="m">7</span> <span class="m">16</span>:28:49 UTC <span class="m">2019</span>
+Creating depth file <span class="k">for</span> metabat at Mon Oct  <span class="m">7</span> <span class="m">16</span>:28:49 UTC <span class="m">2019</span>
+Executing: <span class="s1">&#39;metabat2  --inFile /fs/project/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta --outFile contigs.fasta.metabat-bins-20191007_162849/bin --abdFile contigs.fasta.depth.txt&#39;</span> at Mon Oct  <span class="m">7</span> <span class="m">16</span>:28:49 UTC <span class="m">2019</span>
+MetaBAT <span class="m">2</span> <span class="o">(</span>v2.14<span class="o">)</span> using minContig <span class="m">2500</span>, minCV <span class="m">1</span>.0, minCVSum <span class="m">1</span>.0, maxP <span class="m">95</span>%, minS <span class="m">60</span>, and maxEdges <span class="m">200</span>.
+<span class="m">8</span> bins <span class="o">(</span><span class="m">22664127</span> bases in total<span class="o">)</span> formed.
+</pre></div>
+</div>
+<p>The next tool we’re going to use is MaxBin2. It’s <em>probably</em> the easiest of the 3 binners we’ll use as it can handle the
+read mapping component in the background. Of course, we <em>could</em> re-use the bam files, generated earlier for MetaBAT2, but
+for this example we’ll be letting MaxBin2 handle everything!</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ singularity <span class="nb">exec</span> /users/PAS1117/osu9664/eMicro-Apps/MaxBin2.sif -contig /fs/project/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta -reads /fs/project/PAS1573/week7_processing/trimmed_trimmomatic/SRR7151490_1_t_paired.fastq.gz -reads2 /fs/project/PAS1573/week7_processing/trimmed_trimmomatic/SRR7151490_2_t_paired.fastq.gz -out maxbin2
+</pre></div>
+</div>
+<p>The last binning tool we’ll use is CONCOCT. Before getting started, we’re going to <em>index</em> our BAM-sorted file, so
+CONCOCT can (later) generate a coverage table from it. For this, we’ll continue to use the BamM singularity container
+because it has samtools already. In this example, I’ve also copied the BAM file from its earlier location (see setup,
+above) to our current location.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ cp ../spades_trimmomatic_metabat2/SPades_contigs_vs_SRR7151490.sorted.bam .
+$ singularity <span class="nb">exec</span> /users/PAS1117/osu9664/eMicro-Apps/BamM-1.7.0.sif samtools index SPades_contigs_vs_SRR7151490.sorted.bam
+</pre></div>
+</div>
+<p>Now we need to cut up our contigs into 10-kb chunks.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ singularity <span class="nb">exec</span> /users/PAS1117/osu9664/eMicro-Apps/CONCOCT-1.1.0.sif cut_up_fasta.py /fs/project/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta -c <span class="m">10000</span> -o <span class="m">0</span> --merge_last -b contigs_10K.bed &gt; contigs_10K.fa
+</pre></div>
+</div>
+<p>Next, we need to generate a CONCOCT-formatted coverage table from our BAM file.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ singularity <span class="nb">exec</span> /users/PAS1117/osu9664/eMicro-Apps/CONCOCT-1.1.0.sif concoct_coverage_table.py contigs_10K.bed SPades_contigs_vs_SRR7151490.sorted.bam &gt; coverage_table.tsv
+</pre></div>
+</div>
+<p>Now we can finally run CONCOCT!</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ singularity run /users/PAS1117/osu9664/eMicro-Apps/CONCOCT-1.1.0.sif --threads <span class="m">40</span> --composition_file contigs_10K.fa --coverage_file coverage_table.tsv -b concoct_output/
+Up and running. Check /fs/project/PAS1573/week7_processing/bins/spades_trimmomatic_concoct/concoct_output/log.txt <span class="k">for</span> progress
+<span class="m">29628</span> <span class="m">926</span> <span class="m">40</span>
+Setting <span class="m">40</span> OMP threads
+Generate input data
+<span class="m">0</span>,-2157228.566412,77771.939575
+<span class="m">1</span>,-2108159.159213,49069.407199
+<span class="m">2</span>,-2061582.303224,46576.855989
+<span class="m">3</span>,-1994050.599227,67531.703998
+<span class="m">4</span>,-1933958.933656,60091.665571
+<span class="m">5</span>,-1851248.853164,82710.080491
+<span class="m">6</span>,-1745647.721013,105601.132151
+<span class="m">7</span>,-1648890.787478,96756.933535
+...
+...
+<span class="m">495</span>,-1302524.814091,0.337423
+<span class="m">496</span>,-1302525.131015,0.316925
+<span class="m">497</span>,-1302524.727849,0.403166
+<span class="m">498</span>,-1302515.943374,8.784475
+<span class="m">499</span>,-1302497.827711,18.115663
+</pre></div>
+</div>
+<p>Note: I have trimmed the output from the program. Assume that there are lines for 8 - 494, above. <em>Almost</em> the last step,
+and for now, we need to merge the clustering results (as we split it up earlier).</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ singularity <span class="nb">exec</span> /users/PAS1117/osu9664/eMicro-Apps/CONCOCT-1.1.0.sif merge_cutup_clustering.py concoct_output/clustering_gt1000.csv &gt; concoct_output/clustering_merged.csv
+No consensus cluster <span class="k">for</span> contig NODE_13_length_87447_cov_2.121758: <span class="o">[(</span><span class="s1">&#39;10&#39;</span>, <span class="m">1</span><span class="o">)</span>, <span class="o">(</span><span class="s1">&#39;35&#39;</span>, <span class="m">7</span><span class="o">)]</span>    Chosen cluster: <span class="m">35</span>
+
+real        0m39.468s
+user        0m0.148s
+sys 0m0.185s
+</pre></div>
+</div>
+<p>Looks like CONCOCT couldn’t decide on where to place a contig. <em>Sometimes</em> this will happen - the binning tool isn’t
+perfect (well, none of them are) and it’s just what you get with environmental data.</p>
+<p>Finally, we need to extract each of the bins as fasta files (this makes downstream work easier).</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ singularity <span class="nb">exec</span> /users/PAS1117/osu9664/eMicro-Apps/CONCOCT-1.1.0.sif extract_fasta_bins.py /fs/project/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta concoct_output/clustering_merged.csv --output_path concoct_output/fasta_bins
+
+real        0m14.276s
+user        0m7.543s
+sys 0m1.313s
+</pre></div>
+</div>
+<p>And now that we finally have our bins, let’s check the quality with CheckM. For this we’re only going to use the
+MetaBat2 bins, but you can use any individual binning tool or the aggregated/consolidated results from DAS_Tool or
+MetaWRAP (that we’ll do below).</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ singularity run /users/PAS1117/osu9664/eMicro-Apps/CheckM-1.0.18.sif lineage_wf -t <span class="m">40</span> -x fa bins/spades_trimmomatic_metabat2/contigs.fasta.metabat-bins-20191007_162849 checkm_spades_trimmomatic_metabat2
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:29:16<span class="o">]</span> INFO: CheckM v1.0.18
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:29:16<span class="o">]</span> INFO: checkm lineage_wf -t <span class="m">40</span> -x fa bins/spades_trimmomatic_metabat2/contigs.fasta.metabat-bins-20191007_162849 checkm_spades_trimmomatic_metabat2
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:29:16<span class="o">]</span> INFO: <span class="o">[</span>CheckM - tree<span class="o">]</span> Placing bins in reference genome tree.
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:29:17<span class="o">]</span> INFO: Identifying marker genes in <span class="m">8</span> bins with <span class="m">40</span> threads:
+    Finished processing <span class="m">8</span> of <span class="m">8</span> <span class="o">(</span><span class="m">100</span>.00%<span class="o">)</span> bins.
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:29:37<span class="o">]</span> INFO: Saving HMM info to file.
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:29:37<span class="o">]</span> INFO: Calculating genome statistics <span class="k">for</span> <span class="m">8</span> bins with <span class="m">40</span> threads:
+    Finished processing <span class="m">8</span> of <span class="m">8</span> <span class="o">(</span><span class="m">100</span>.00%<span class="o">)</span> bins.
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:29:37<span class="o">]</span> INFO: Extracting marker genes to align.
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:29:37<span class="o">]</span> INFO: Parsing HMM hits to marker genes:
+    Finished parsing hits <span class="k">for</span> <span class="m">8</span> of <span class="m">8</span> <span class="o">(</span><span class="m">100</span>.00%<span class="o">)</span> bins.
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:29:38<span class="o">]</span> INFO: Extracting <span class="m">43</span> HMMs with <span class="m">40</span> threads:
+    Finished extracting <span class="m">43</span> of <span class="m">43</span> <span class="o">(</span><span class="m">100</span>.00%<span class="o">)</span> HMMs.
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:29:38<span class="o">]</span> INFO: Aligning <span class="m">43</span> marker genes with <span class="m">40</span> threads:
+    Finished aligning <span class="m">43</span> of <span class="m">43</span> <span class="o">(</span><span class="m">100</span>.00%<span class="o">)</span> marker genes.
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:29:39<span class="o">]</span> INFO: Reading marker alignment files.
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:29:39<span class="o">]</span> INFO: Concatenating alignments.
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:29:39<span class="o">]</span> INFO: Placing <span class="m">8</span> bins into the genome tree with pplacer <span class="o">(</span>be patient<span class="o">)</span>.
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:33:37<span class="o">]</span> INFO: <span class="o">{</span> Current stage: <span class="m">0</span>:04:21.041 <span class="o">||</span> Total: <span class="m">0</span>:04:21.041 <span class="o">}</span>
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:33:37<span class="o">]</span> INFO: <span class="o">[</span>CheckM - lineage_set<span class="o">]</span> Inferring lineage-specific marker sets.
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:33:37<span class="o">]</span> INFO: Reading HMM info from file.
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:33:37<span class="o">]</span> INFO: Parsing HMM hits to marker genes:
+    Finished parsing hits <span class="k">for</span> <span class="m">8</span> of <span class="m">8</span> <span class="o">(</span><span class="m">100</span>.00%<span class="o">)</span> bins.
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:33:38<span class="o">]</span> INFO: Determining marker sets <span class="k">for</span> each genome bin.
+    Finished processing <span class="m">8</span> of <span class="m">8</span> <span class="o">(</span><span class="m">100</span>.00%<span class="o">)</span> bins <span class="o">(</span>current: bin.2<span class="o">)</span>.
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:33:39<span class="o">]</span> INFO: Marker <span class="nb">set</span> written to: checkm_spades_trimmomatic_metabat2/lineage.ms
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:33:39<span class="o">]</span> INFO: <span class="o">{</span> Current stage: <span class="m">0</span>:00:01.964 <span class="o">||</span> Total: <span class="m">0</span>:04:23.006 <span class="o">}</span>
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:33:39<span class="o">]</span> INFO: <span class="o">[</span>CheckM - analyze<span class="o">]</span> Identifying marker genes in bins.
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:33:40<span class="o">]</span> INFO: Identifying marker genes in <span class="m">8</span> bins with <span class="m">40</span> threads:
+    Finished processing <span class="m">8</span> of <span class="m">8</span> <span class="o">(</span><span class="m">100</span>.00%<span class="o">)</span> bins.
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:34:46<span class="o">]</span> INFO: Saving HMM info to file.
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:34:46<span class="o">]</span> INFO: <span class="o">{</span> Current stage: <span class="m">0</span>:01:06.748 <span class="o">||</span> Total: <span class="m">0</span>:05:29.754 <span class="o">}</span>
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:34:46<span class="o">]</span> INFO: Parsing HMM hits to marker genes:
+    Finished parsing hits <span class="k">for</span> <span class="m">8</span> of <span class="m">8</span> <span class="o">(</span><span class="m">100</span>.00%<span class="o">)</span> bins.
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:34:47<span class="o">]</span> INFO: Aligning marker genes with multiple hits in a single bin:
+    Finished processing <span class="m">8</span> of <span class="m">8</span> <span class="o">(</span><span class="m">100</span>.00%<span class="o">)</span> bins.
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:34:52<span class="o">]</span> INFO: <span class="o">{</span> Current stage: <span class="m">0</span>:00:06.238 <span class="o">||</span> Total: <span class="m">0</span>:05:35.993 <span class="o">}</span>
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:34:52<span class="o">]</span> INFO: Calculating genome statistics <span class="k">for</span> <span class="m">8</span> bins with <span class="m">40</span> threads:
+    Finished processing <span class="m">8</span> of <span class="m">8</span> <span class="o">(</span><span class="m">100</span>.00%<span class="o">)</span> bins.
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:34:53<span class="o">]</span> INFO: <span class="o">{</span> Current stage: <span class="m">0</span>:00:00.299 <span class="o">||</span> Total: <span class="m">0</span>:05:36.292 <span class="o">}</span>
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:34:53<span class="o">]</span> INFO: <span class="o">[</span>CheckM - qa<span class="o">]</span> Tabulating genome statistics.
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:34:53<span class="o">]</span> INFO: Calculating AAI between multi-copy marker genes.
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:34:53<span class="o">]</span> INFO: Reading HMM info from file.
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:34:54<span class="o">]</span> INFO: Parsing HMM hits to marker genes:
+    Finished parsing hits <span class="k">for</span> <span class="m">8</span> of <span class="m">8</span> <span class="o">(</span><span class="m">100</span>.00%<span class="o">)</span> bins.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  Bin Id          Marker lineage         <span class="c1"># genomes   # markers   # marker sets    0     1    2    3   4   5+   Completeness   Contamination   Strain heterogeneity</span>
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  bin.8        k__Bacteria <span class="o">(</span>UID203<span class="o">)</span>         <span class="m">5449</span>        <span class="m">104</span>            <span class="m">58</span>         <span class="m">2</span>     <span class="m">51</span>   <span class="m">51</span>   <span class="m">0</span>   <span class="m">0</span>   <span class="m">0</span>       <span class="m">97</span>.41           <span class="m">43</span>.09               <span class="m">9</span>.80
+  bin.4    p__Actinobacteria <span class="o">(</span>UID1454<span class="o">)</span>      <span class="m">732</span>         <span class="m">200</span>           <span class="m">117</span>         <span class="m">8</span>    <span class="m">191</span>   <span class="m">1</span>    <span class="m">0</span>   <span class="m">0</span>   <span class="m">0</span>       <span class="m">93</span>.59            <span class="m">0</span>.43              <span class="m">100</span>.00
+  bin.6       k__Bacteria <span class="o">(</span>UID3187<span class="o">)</span>         <span class="m">2258</span>        <span class="m">188</span>           <span class="m">117</span>         <span class="m">85</span>    <span class="m">84</span>   <span class="m">15</span>   <span class="m">4</span>   <span class="m">0</span>   <span class="m">0</span>       <span class="m">59</span>.36           <span class="m">16</span>.20               <span class="m">7</span>.41
+  bin.2        k__Bacteria <span class="o">(</span>UID203<span class="o">)</span>         <span class="m">5449</span>        <span class="m">104</span>            <span class="m">58</span>         <span class="m">65</span>    <span class="m">34</span>   <span class="m">5</span>    <span class="m">0</span>   <span class="m">0</span>   <span class="m">0</span>       <span class="m">51</span>.90            <span class="m">6</span>.38              <span class="m">20</span>.00
+  bin.3       k__Bacteria <span class="o">(</span>UID2982<span class="o">)</span>          <span class="m">88</span>         <span class="m">227</span>           <span class="m">146</span>        <span class="m">131</span>    <span class="m">93</span>   <span class="m">3</span>    <span class="m">0</span>   <span class="m">0</span>   <span class="m">0</span>       <span class="m">46</span>.53            <span class="m">2</span>.05               <span class="m">0</span>.00
+  bin.1        k__Bacteria <span class="o">(</span>UID203<span class="o">)</span>         <span class="m">5449</span>        <span class="m">104</span>            <span class="m">58</span>         <span class="m">79</span>    <span class="m">23</span>   <span class="m">2</span>    <span class="m">0</span>   <span class="m">0</span>   <span class="m">0</span>       <span class="m">32</span>.04            <span class="m">2</span>.07               <span class="m">0</span>.00
+  bin.5        k__Bacteria <span class="o">(</span>UID203<span class="o">)</span>         <span class="m">5449</span>        <span class="m">104</span>            <span class="m">58</span>         <span class="m">88</span>    <span class="m">16</span>   <span class="m">0</span>    <span class="m">0</span>   <span class="m">0</span>   <span class="m">0</span>       <span class="m">15</span>.60            <span class="m">0</span>.00               <span class="m">0</span>.00
+  bin.7        k__Bacteria <span class="o">(</span>UID203<span class="o">)</span>         <span class="m">5449</span>        <span class="m">104</span>            <span class="m">58</span>         <span class="m">94</span>    <span class="m">10</span>   <span class="m">0</span>    <span class="m">0</span>   <span class="m">0</span>   <span class="m">0</span>       <span class="m">15</span>.52            <span class="m">0</span>.00               <span class="m">0</span>.00
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:34:55<span class="o">]</span> INFO: <span class="o">{</span> Current stage: <span class="m">0</span>:00:02.063 <span class="o">||</span> Total: <span class="m">0</span>:05:38.356 <span class="o">}</span>
+
+real        5m39.476s
+user        8m47.760s
+sys 0m44.529s
+</pre></div>
+</div>
+<p>As you can see, of the 8 bins determined by MetaBAT2, a few of them are more-or-less complete. One of the more complete
+genomes has a bit of contamination. Most of the other bins don’t have nearly as much contamination, but also aren’t nearly
+as complete. With a single metagenome and just testing these tools with <em>real</em> data, that’s pretty good. However, there’s
+a lot of things we can do with these results - not just post-binning analysis, but also re-assembly with different
+parameters <strong>or</strong> using bin refinement tools, such as MetaWRAP and DAS_Tool to get the <em>best</em> bins from the three
+different binning tools. This aggregation often results in superior bins - better than any binner can do individually.</p>
+<p>For the purposes of this exercise, we’ll be using DAS_Tool instead of MetaWRAP. For members of the Sullivan lab,
+MetaWRAP <em>is installed</em> to the lab project directory via modules. For everyone else (on OSC, or eMicro), DAS_Tool is
+available and instructions follow!</p>
+</div>
+<div class="section" id="bin-refinement">
+<h2>Bin Refinement<a class="headerlink" href="#bin-refinement" title="Permalink to this headline">¶</a></h2>
+<p>We’ll use DAS Tool to refine our bins generated from CONCOCT, MetaBAT2 and MaxBin2. Half the work is formatting the
+input files, so we’ll start with that.</p>
+<p>Convert the CONCOCT csv into a tsv.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ perl -pe <span class="s2">&quot;s/,/\tconcoct./g;&quot;</span> spades_trimmomatic_concoct/concoct_output/clustering_merged.csv &gt; spades_trimmomatic_das_tool/concoct.scaffolds2bin.tsv
+</pre></div>
+</div>
+<p>Note: Keep in mind that we’re using <em>clustering_merged.csv</em>.</p>
+<p>Now to convert MetaBAT2 into a tsv.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ /users/PAS1117/osu9664/eMicro-Apps/Fasta_to_Scaffolds2Bin.sh -i spades_trimmomatic_metabat2/contigs.fasta.metabat-bins-20191007_162849 -e fa &gt; spades_trimmomatic_das_tool/metabat2.scaffolds2bin.tsv
+</pre></div>
+</div>
+<p>And now MaxBin2…</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ /users/PAS1117/osu9664/eMicro-Apps/Fasta_to_Scaffolds2Bin.sh -i spades_trimmomatic_maxbin2 -e fasta &gt; spades_trimmomatic_das_tool/maxbin.scaffolds2bin.tsv
+</pre></div>
+</div>
+<p>Finally, let’s run DAS Tool!</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ singularity run /users/PAS1117/osu9664/eMicro-Apps/DAS_Tool.sif -i spades_trimmomatic_das_tool/concoct.scaffolds2bin.tsv,spades_trimmomatic_das_tool/maxbin.scaffolds2bin.tsv,spades_trimmomatic_das_tool/metabat2.scaffolds2bin.tsv -l concoct,maxbin,metabat -c /fs/project/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta -o spades_trimmomatic_das_tool/DAS_Tool_results --search_engine diamond --threads <span class="m">40</span>
+/miniconda3/bin//DAS_Tool: line <span class="m">241</span>: usearch: <span class="nb">command</span> not found
+Running DAS Tool using <span class="m">40</span> threads.
+predicting genes using Prodigal V2.6.3: February, <span class="m">2016</span>
+identifying single copy genes using diamond version <span class="m">0</span>.9.14
+During startup - Warning messages:
+<span class="m">1</span>: Setting LC_CTYPE failed, using <span class="s2">&quot;C&quot;</span>
+<span class="m">2</span>: Setting LC_COLLATE failed, using <span class="s2">&quot;C&quot;</span>
+<span class="m">3</span>: Setting LC_TIME failed, using <span class="s2">&quot;C&quot;</span>
+<span class="m">4</span>: Setting LC_MESSAGES failed, using <span class="s2">&quot;C&quot;</span>
+<span class="m">5</span>: Setting LC_MONETARY failed, using <span class="s2">&quot;C&quot;</span>
+<span class="m">6</span>: Setting LC_PAPER failed, using <span class="s2">&quot;C&quot;</span>
+<span class="m">7</span>: Setting LC_MEASUREMENT failed, using <span class="s2">&quot;C&quot;</span>
+WARNING: Some scaffold names ofspades_trimmomatic_das_tool/concoct.scaffolds2bin.tsv <span class="k">do</span> not match assembly headers:
+    contig_id
+evaluating bin-sets
+starting bin selection from <span class="m">39</span> bins
+<span class="o">||</span><span class="p">|</span>
+bin selection complete: <span class="m">3</span> bins above score threshold selected.
+
+real        0m56.315s
+user        17m52.350s
+sys 0m15.872s
+</pre></div>
+</div>
+<p>So there were only 3 bins that exceeded our [default] thresholds. We can work with that. What are the 3 bins?</p>
+<p>And what are the results?</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ ls -lh spades_trimmomatic_das_tool/
+total 165M
+maxbin.scaffolds2bin.tsv
+metabat2.scaffolds2bin.tsv
+concoct.scaffolds2bin.tsv
+DAS_Tool_results_proteins.faa
+DAS_Tool_results_proteins.faa.bacteria.scg
+DAS_Tool_results_proteins.faa.archaea.scg
+DAS_Tool_results.seqlength
+DAS_Tool_results_concoct.eval
+DAS_Tool_results_maxbin.eval
+DAS_Tool_results_metabat.eval
+DAS_Tool_results_DASTool_scaffolds2bin.txt
+DAS_Tool_results_DASTool_summary.txt
+DAS_Tool_results_DASTool.log
+DAS_Tool_results_DASTool_hqBins.pdf
+DAS_Tool_results_DASTool_scores.pdf
+</pre></div>
+</div>
+<p><strong>Now we’ve gone from raw sequence data, downloaded from NCBI SRA to bin-refined MAGs that have been quality-checked
+with CheckM. Only a little further and the manuscript will be published!</strong></p>
 </div>
 </div>
 
@@ -406,6 +686,7 @@ module load singularity
 <li><a class="reference internal" href="#read-quality-control-visualizing">Read Quality Control (Visualizing)</a></li>
 <li><a class="reference internal" href="#assembly">Assembly</a></li>
 <li><a class="reference internal" href="#binning">Binning</a></li>
+<li><a class="reference internal" href="#bin-refinement">Bin Refinement</a></li>
 </ul>
 </li>
 </ul>
