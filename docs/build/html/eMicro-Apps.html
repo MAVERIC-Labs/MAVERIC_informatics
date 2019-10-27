@@ -127,8 +127,29 @@ recalibration, kmer cardinality estimation, and various other operations in a si
 singularity run BBTools-38.69.sif bbduk.sh <span class="nv">in1</span><span class="o">=</span>&lt;input-pair1&gt; <span class="nv">in2</span><span class="o">=</span>&lt;input-pair2&gt; <span class="nv">out1</span><span class="o">=</span>&lt;trimmed-pair1&gt; <span class="nv">out2</span><span class="o">=</span>&lt;trimmed-pair2&gt; <span class="nv">ref</span><span class="o">=</span>/bbmap/resources/adapters.fa <span class="nv">ktrim</span><span class="o">=</span>r <span class="nv">k</span><span class="o">=</span><span class="m">23</span> <span class="nv">mink</span><span class="o">=</span><span class="m">11</span> <span class="nv">hdist</span><span class="o">=</span><span class="m">1</span> tpe tbo
 <span class="c1"># Just quality filtering</span>
 singularity run BBTools-38.69.sif bbduk.sh <span class="nv">in1</span><span class="o">=</span>&lt;trimmed-pair1&gt; <span class="nv">in2</span><span class="o">=</span>&lt;trimmed-pair2&gt; <span class="nv">qtrim</span><span class="o">=</span>rl <span class="nv">trimq</span><span class="o">=</span><span class="m">10</span> <span class="nv">out1</span><span class="o">=</span>&lt;trimmed-and-quality-pair1&gt; <span class="nv">out2</span><span class="o">=</span>&lt;trimmed-and-quality-pair2&gt;
-<span class="c1"># Adapter and quality filtering</span>
+<span class="c1"># Adapter and quality filtering *at the same time*</span>
 singularity run BBTools-38.69.sif bbduk.sh <span class="nv">in1</span><span class="o">=</span>&lt;input-pair1&gt; <span class="nv">in2</span><span class="o">=</span>&lt;input-pair2&gt; <span class="nv">out1</span><span class="o">=</span>&lt;qc-trimmed-pair1&gt; <span class="nv">out2</span><span class="o">=</span>&lt;qc-trimmed-pair2&gt; <span class="nv">ref</span><span class="o">=</span>/bbmap/resources/adapters.fa <span class="nv">ktrim</span><span class="o">=</span>r <span class="nv">k</span><span class="o">=</span><span class="m">23</span> <span class="nv">mink</span><span class="o">=</span><span class="m">11</span> <span class="nv">hdist</span><span class="o">=</span><span class="m">1</span> tpe tbo <span class="nv">trimq</span><span class="o">=</span><span class="m">10</span> <span class="nv">qtrim</span><span class="o">=</span>rl <span class="nv">minlength</span><span class="o">=</span><span class="m">35</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="fastqc">
+<h3>FastQC<a class="headerlink" href="#fastqc" title="Permalink to this headline">¶</a></h3>
+<p><strong>Website</strong>: <a class="reference external" href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/">https://www.bioinformatics.babraham.ac.uk/projects/fastqc/</a></p>
+<p><strong>Short description</strong>: FastQC aims to provide a simple way to do some quality control checks on raw sequence data
+coming from high throughput sequencing pipelines. It provides a modular set of analyses which you can use to give a
+quick impression of whether your data has any problems of which you should be aware before doing any further analysis.</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run FastQC-0.11.8.sif &lt;input-fastq-file&gt;
+</pre></div>
+</div>
+<p><strong>Module use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use /fs/project/PAS1117/modulefiles
+module load fastqc/0.11.5
+</pre></div>
+</div>
+<p><strong>Module use (directly from OSC)</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load fastqc/0.11.8
 </pre></div>
 </div>
 </div>
@@ -608,6 +629,7 @@ module load PhageTerm/1.0.11
 <li><a class="reference internal" href="#trimmomatic">Trimmomatic</a></li>
 <li><a class="reference internal" href="#bbtools">BBTools</a></li>
 <li><a class="reference internal" href="#bbduk">BBDuk</a></li>
+<li><a class="reference internal" href="#fastqc">FastQC</a></li>
 <li><a class="reference internal" href="#multiqc">MultiQC</a></li>
 </ul>
 </li>

@@ -1,0 +1,290 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Pathways and Metabolisms of MAGs &#8212; MAVERIC Informatics  documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="End-to-End Processing of a Microbial Metagenome" href="Processing-a-Microbial-Metagenome.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Processing-a-Microbial-Metagenome.html" title="End-to-End Processing of a Microbial Metagenome"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="pathways-and-metabolisms-of-mags">
+<span id="pathways-metabolism"></span><h1>Pathways and Metabolisms of MAGs<a class="headerlink" href="#pathways-and-metabolisms-of-mags" title="Permalink to this headline">¶</a></h1>
+<p>This section will be a little different than the others, as we’ll be exploring the tools more than defining
+best-practices or commonly used methods. Use whichever tool works best for your data and project objectives.</p>
+<p>We’ll continue working with the MAGs from our <a class="reference internal" href="Processing-a-Microbial-Metagenome.html#processing-microbe"><span class="std std-ref">End-to-End Processing of a Microbial Metagenome</span></a>, specifically the trimmomatic-cleaned,
+SPAdes-assembled, MetaBAT2-binned MAGs. You can/could choose any of the individual binning tools, or the aggregated
+bins (MetaWRAP, DAS_Tool) instead.</p>
+<p>We’ll be using Metapathways2 and Pathway Tools. In the future, I might be adding a few other methods, especially a few
+that are likely more suitable for large-scale metagenomic data.</p>
+<div class="section" id="before-beginning">
+<h2>Before beginning<a class="headerlink" href="#before-beginning" title="Permalink to this headline">¶</a></h2>
+<p>Unlike the other tools we’ve used, most of them we’re using to analyze pathways require an X Windows server. Put simply,
+it’s what lets you see graphics. Practically, that means is that you will need to install some software on your system
+to 1) run these tools on OSC or 2) on your local machine.</p>
+<p>For Windows: <a class="reference external" href="https://sourceforge.net/projects/xming/">Xming</a> (remember to start this before using PuTTy)</p>
+<p>For Mac: <a class="reference external" href="https://www.xquartz.org/">XQuartz</a></p>
+<p>For Linux: You’ll need to install xorg and xauth, either through apt-get, yum, aptitude, etc.</p>
+<p><em>Everytime</em> you want to interact with these tools <em>connecting to OSC</em>, you’ll need to enable the X server connection so
+it can communicate with the one you’ve installed/enabled (above).</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ ssh -X username@pitzer.osc.edu
+</pre></div>
+</div>
+<p>Alternatively, you can connect to OSC through <a class="reference external" href="http://ondemand.osc.edu/">onDemand</a> and request a desktop: Log in –&gt;
+“Interactive Apps” –&gt; “Pitzer Desktop”</p>
+</div>
+<div class="section" id="installing-meapathways2">
+<h2>Installing MeaPathways2<a class="headerlink" href="#installing-meapathways2" title="Permalink to this headline">¶</a></h2>
+<p>MetaPathways2 handles most of the processing from bins (MAGs) to the pathways part of the pipeline. To identify pathways,
+it runs Pathway Tools and collects the results from that tool to integrate it into its [MetaPathways2] final results.</p>
+<p>Complete instructions (far more detailed and… from the actual authors) are available <a class="reference external" href="https://github.com/hallamlab/metapathways2">here</a></p>
+<div class="section" id="on-mac-ubuntu-osc">
+<h3>On Mac/Ubuntu/OSC<a class="headerlink" href="#on-mac-ubuntu-osc" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ wget https://github.com/hallamlab/metapathways2/archive/v2.5.2.tar.gz
+$ tar xf v2.5.2.tar.gz
+$ <span class="nb">cd</span> metapathways2-2.5.2
+<span class="c1"># Download the database</span>
+$ wget https://www.dropbox.com/s/ye3kpve041e0r39/MetaPathways_DBs.zip
+$ unzip MetaPathways_DBs.zip
+<span class="c1"># Download and “install” CAZy</span>
+$ <span class="nb">cd</span> MetaPathways_DBs/functional
+$ wget https://www.dropbox.com/s/sewcecys04dk0ho/CAZY_2014_09_04.zip
+$ unzip CAZY_2014_09_04.zip
+</pre></div>
+</div>
+<p>If on a Mac, Navigate to the metapathways2-2.5.2 directory in Finder, find the MetaPathways2.dmg file, and copy-and-paste
+MetaPathways2 to Applications.</p>
+<p>If on Ubuntu/OSC, unzip MetaPathways2.Ubuntu.zip. The unzipped directory will have a bash script for MetaPathways2</p>
+</div>
+<div class="section" id="on-windows">
+<h3>On Windows<a class="headerlink" href="#on-windows" title="Permalink to this headline">¶</a></h3>
+<p>For Windows, you’ll need a virtual machine and the disk image <a class="reference external" href="https://www.dropbox.com/s/0nozjbmn7a4wzig/MetaPathways_2_5.vmdk.zip?dl=0">here</a>.
+More instructions are found <a class="reference external" href="https://github.com/hallamlab/metapathways2/wiki#setup-installation-and-configuration-1">on the wiki</a>.</p>
+</div>
+</div>
+<div class="section" id="installing-pathway-tools">
+<h2>Installing Pathway Tools<a class="headerlink" href="#installing-pathway-tools" title="Permalink to this headline">¶</a></h2>
+<p>Pathway Tools requires a license to download the tool and requisite pathway databases. A free academic license exists for
+the tool as well as the “Tier 1” databases (MetaCyc and EcoCyc). You can (and <em>should</em>) <a class="reference external" href="https://biocyc.org/download-bundle.shtml">fill out the license</a>.
+The website will send out a download link to both the executable/installer (for Windows, Mac, Linux) and datafiles. The
+download will include installation instructions, but a quick setup is below:</p>
+<p>Linux</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ chmod +x pathway-tools-23.0-linux-64-tier1-install
+$ ./pathway-tools-23.0-linux-64-tier1-install
+</pre></div>
+</div>
+<p>Mac</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Open pathway-tools-23.0-macosx-tier1-install.dmg</span>
+<span class="c1"># Open pathway-tools-23.0-macosx-tier1-install</span>
+</pre></div>
+</div>
+<p>Windows</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Open pathway-tools-23.0-mswindows-tier1-Setup.ex</span>
+</pre></div>
+</div>
+<p>An X-Windows GUI will open up an installer. Follow prompts. Defaults will be fine.</p>
+<p><em>For the rest of the guide, we’ll assume that the user has installed MetaPathways2 and Pathway Tools to their local
+machine that is a Unix-based system.</em> Both can be run from the command line (but still require X), and both can be run
+from their respective GUIs.</p>
+</div>
+<div class="section" id="processing-mags-with-metapathways2-and-pathway-tools">
+<h2>Processing MAGs with MetaPathways2 and Pathway Tools<a class="headerlink" href="#processing-mags-with-metapathways2-and-pathway-tools" title="Permalink to this headline">¶</a></h2>
+<p>So if you remember our bins from processing our microbial metagenome with MetaBAT2 (trimmomatic+SPAdes):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  Bin Id          Marker lineage         <span class="c1"># genomes   # markers   # marker sets    0     1    2    3   4   5+   Completeness   Contamination   Strain heterogeneity</span>
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  bin.8        k__Bacteria <span class="o">(</span>UID203<span class="o">)</span>         <span class="m">5449</span>        <span class="m">104</span>            <span class="m">58</span>         <span class="m">2</span>     <span class="m">51</span>   <span class="m">51</span>   <span class="m">0</span>   <span class="m">0</span>   <span class="m">0</span>       <span class="m">97</span>.41           <span class="m">43</span>.09               <span class="m">9</span>.80
+  bin.4    p__Actinobacteria <span class="o">(</span>UID1454<span class="o">)</span>      <span class="m">732</span>         <span class="m">200</span>           <span class="m">117</span>         <span class="m">8</span>    <span class="m">191</span>   <span class="m">1</span>    <span class="m">0</span>   <span class="m">0</span>   <span class="m">0</span>       <span class="m">93</span>.59            <span class="m">0</span>.43              <span class="m">100</span>.00
+  bin.6       k__Bacteria <span class="o">(</span>UID3187<span class="o">)</span>         <span class="m">2258</span>        <span class="m">188</span>           <span class="m">117</span>         <span class="m">85</span>    <span class="m">84</span>   <span class="m">15</span>   <span class="m">4</span>   <span class="m">0</span>   <span class="m">0</span>       <span class="m">59</span>.36           <span class="m">16</span>.20               <span class="m">7</span>.41
+  bin.2        k__Bacteria <span class="o">(</span>UID203<span class="o">)</span>         <span class="m">5449</span>        <span class="m">104</span>            <span class="m">58</span>         <span class="m">65</span>    <span class="m">34</span>   <span class="m">5</span>    <span class="m">0</span>   <span class="m">0</span>   <span class="m">0</span>       <span class="m">51</span>.90            <span class="m">6</span>.38              <span class="m">20</span>.00
+  bin.3       k__Bacteria <span class="o">(</span>UID2982<span class="o">)</span>          <span class="m">88</span>         <span class="m">227</span>           <span class="m">146</span>        <span class="m">131</span>    <span class="m">93</span>   <span class="m">3</span>    <span class="m">0</span>   <span class="m">0</span>   <span class="m">0</span>       <span class="m">46</span>.53            <span class="m">2</span>.05               <span class="m">0</span>.00
+  bin.1        k__Bacteria <span class="o">(</span>UID203<span class="o">)</span>         <span class="m">5449</span>        <span class="m">104</span>            <span class="m">58</span>         <span class="m">79</span>    <span class="m">23</span>   <span class="m">2</span>    <span class="m">0</span>   <span class="m">0</span>   <span class="m">0</span>       <span class="m">32</span>.04            <span class="m">2</span>.07               <span class="m">0</span>.00
+  bin.5        k__Bacteria <span class="o">(</span>UID203<span class="o">)</span>         <span class="m">5449</span>        <span class="m">104</span>            <span class="m">58</span>         <span class="m">88</span>    <span class="m">16</span>   <span class="m">0</span>    <span class="m">0</span>   <span class="m">0</span>   <span class="m">0</span>       <span class="m">15</span>.60            <span class="m">0</span>.00               <span class="m">0</span>.00
+  bin.7        k__Bacteria <span class="o">(</span>UID203<span class="o">)</span>         <span class="m">5449</span>        <span class="m">104</span>            <span class="m">58</span>         <span class="m">94</span>    <span class="m">10</span>   <span class="m">0</span>    <span class="m">0</span>   <span class="m">0</span>   <span class="m">0</span>       <span class="m">15</span>.52            <span class="m">0</span>.00               <span class="m">0</span>.00
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+</pre></div>
+</div>
+<p>We’ll need to copy these bins from Week 7 over to Week 10.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">cd</span> /fs/project/PAS1573/week10_pathways/
+$ cp -r ../week7_processing/bins/spades_trimmomatic_metabat2/contigs.fasta.metabat-bins-20191007_162849/ <span class="nv">$PWD</span>
+<span class="c1"># Rename files to make them suitable for MP2</span>
+$ rename bin. bin contigs.fasta.metabat-bins-20191007_162849/*
+$ rename fa fasta contigs.fasta.metabat-bins-20191007_162849/*
+</pre></div>
+</div>
+<p>For MetaPathways2 on OSC, we can use both the GUI and the command line. For this, we’ll use the command line. We can go
+over the GUI in the next step.</p>
+<p>There are two required files (well, only 1), template_param and template_config, that are already in the Week 10 directory.
+I’ve already adjusted these files to work on OSC. We’re only looking at bins 4, 6 and 8, as they were the most complete
+(they’re specified using -s)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ singularity <span class="nb">exec</span> MetaPathways2-PAS1573.sif python /metapathways2-2.5.1/MetaPathways.py -i contigs.fasta.metabat-bins-20191007_162849/ -o metabat_bins_results/ -p template_param.txt -c template_config.txt -d <span class="m">8</span> -s bin6 -s bin8 -s bin4
+</pre></div>
+</div>
+<p>And that’s it! You’re done. MetaPathways2 took care of everything for you. Seriously. You can either open the GUI (below)
+or navigate through the output folders for results.</p>
+<p>Alternatively, let’s use the GUI. To use the GUI, open up the MetaPathways2 app (on Mac) or run it via the bash script.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/screenshot-metapathways2-setup.png"><img alt="MetaPathways2 Setup" src="_images/screenshot-metapathways2-setup.png" style="width: 426.5px; height: 454.5px;" /></a>
+</div>
+<p>Fill in the settings as appropriate for your system.</p>
+<p>Once that’s done, we’ll move over to the parameters.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/screenshot-metapathways2-parameters.png"><img alt="MetaPathways2 Parameters" src="_images/screenshot-metapathways2-parameters.png" style="width: 495.0px; height: 454.5px;" /></a>
+</div>
+<p>Select the databases you’d like to use. You’ll notice that they only include databases that are in the MetaPathways_DBs
+folder that you uncompressed earlier. MetaPathways2 will handle database formatting.</p>
+<p>Then to set up what processing steps to Run, Skip, or Rerun.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/screenshot-metapathways2-stages.png"><img alt="MetaPathways2 Stages" src="_images/screenshot-metapathways2-stages.png" style="width: 456.0px; height: 454.5px;" /></a>
+</div>
+<p>For the purposes of processing our dataset, you can run everything except the RPKM. For that we’d need to move reads
+around, which we’ll “Skip” for now. <em>If your job ever fails, you can always rerun a stage</em>. Finally, set the input and
+output directories. We’ve updated the filenames to <em>remove</em> “.” and <em>replaced</em> “fa” with “fasta”. When MetaPathways2
+searches through the input directory, it will find each fasta bin. Once that’s done, you can select which samples to
+process.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/screenshot-metapathways2-sample_select.png"><img alt="MetaPathways2 Selecting Samples" src="_images/screenshot-metapathways2-sample_select.png" style="width: 197.5px; height: 164.5px;" /></a>
+</div>
+<p>Then, move over to the run tab and select “Run”. On the left side of the window you’ll see each stage as its processed,
+on the right, a text log (saved per bin in the results directory), and the bottom, the commands executed.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/screenshot-metapathways2-run.png"><img alt="MetaPathways2 Run" src="_images/screenshot-metapathways2-run.png" style="width: 543.0px; height: 454.5px;" /></a>
+</div>
+<p>Once done, select the results tab and click on the “+” to add the location of the output directory. Once done, you can
+select which samples to use.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/screenshot-metapathways2-results.png"><img alt="MetaPathways2 Results" src="_images/screenshot-metapathways2-results.png" style="width: 543.0px; height: 454.5px;" /></a>
+</div>
+<p>This will bring up a “RUN STATS” summary, along with a set of tabs corresponding to all the databases compared against.
+We won’t go into the details for each tab - you’ll need to explore on your own - but each database will have its own
+set of pathways and/or groups matched.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/screenshot-metapathways2-results_multisample.png"><img alt="MetaPathways2 Multi Sample Results" src="_images/screenshot-metapathways2-results_multisample.png" style="width: 543.0px; height: 454.5px;" /></a>
+</div>
+<p>One example…</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/screenshot-metapathways2-results_COG.png"><img alt="MetaPathways2 COG Results" src="_images/screenshot-metapathways2-results_COG.png" style="width: 512.0px; height: 454.5px;" /></a>
+</div>
+<div class="section" id="pathway-tools">
+<h3>Pathway Tools<a class="headerlink" href="#pathway-tools" title="Permalink to this headline">¶</a></h3>
+<p>With an appropriately installed Pathway Tools and a MetaPathways2 installation that is directed towards the Pathway
+Tools executable (handled in the setup tab), Pathway Tools should be run <em>by</em> MetaPathways2. <em>You’ll see a Pathway Tools window open up, don’t close it</em>.</p>
+<p>If there is a problem during MetaPathways2 running Pathway Tools, you can do so:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Change to the results directory of MetaPathways2</span>
+$ <span class="nb">cd</span> /fs/project/PAS1573/week10_pathways/metabat_bins_results
+<span class="c1"># On OSC</span>
+$ week10_pathways/pathway-tools/pathway-tools -patho ptools/ -no-taxonomic-pruning -no-web-cel-overview
+<span class="c1"># OR on Mac/Ubuntu</span>
+$ ~/pathway-tools/pathway-tools -patho ptools/ -no-taxonomic-pruning -no-web-cel-overview
+</pre></div>
+</div>
+<p>To run Pathway Tools separately, it’s just the above command without parameters.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pathway-tools/pathway-tools
+</pre></div>
+</div>
+<p>And when Pathway Tools open, you’ll see the Available Databases:</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/screenshot-pathwaytools-available_databases.png"><img alt="Pathway Tools" src="_images/screenshot-pathwaytools-available_databases.png" style="width: 716.0px; height: 436.0px;" /></a>
+</div>
+<p>From here you can navigate through all the menus. But at least you’ll notice that there’s 3 unclassified sequences.
+It’s not a coincidence that we selected our 3 most complete bins…</p>
+<p>We’ll let you explore it from here!</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Pathways and Metabolisms of MAGs</a><ul>
+<li><a class="reference internal" href="#before-beginning">Before beginning</a></li>
+<li><a class="reference internal" href="#installing-meapathways2">Installing MeaPathways2</a><ul>
+<li><a class="reference internal" href="#on-mac-ubuntu-osc">On Mac/Ubuntu/OSC</a></li>
+<li><a class="reference internal" href="#on-windows">On Windows</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#installing-pathway-tools">Installing Pathway Tools</a></li>
+<li><a class="reference internal" href="#processing-mags-with-metapathways2-and-pathway-tools">Processing MAGs with MetaPathways2 and Pathway Tools</a><ul>
+<li><a class="reference internal" href="#pathway-tools">Pathway Tools</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Processing-a-Microbial-Metagenome.html"
+                        title="previous chapter">End-to-End Processing of a Microbial Metagenome</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/Metabolic-and-Pathway-Analyses.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Processing-a-Microbial-Metagenome.html" title="End-to-End Processing of a Microbial Metagenome"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Benjamin Bolduc.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.
+    </div>
+  </body>
+</html>

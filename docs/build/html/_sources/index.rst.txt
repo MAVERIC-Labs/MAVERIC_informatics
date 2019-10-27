@@ -35,6 +35,7 @@ the lectures of M8194, with the goal of providing sufficient information to supp
    Modules-and-Tools
    R
    Processing-a-Microbial-Metagenome
+   Metabolic-and-Pathway-Analyses
 
 
 

@@ -126,8 +126,37 @@ recalibration, kmer cardinality estimation, and various other operations in a si
     singularity run BBTools-38.69.sif bbduk.sh in1=<input-pair1> in2=<input-pair2> out1=<trimmed-pair1> out2=<trimmed-pair2> ref=/bbmap/resources/adapters.fa ktrim=r k=23 mink=11 hdist=1 tpe tbo
     # Just quality filtering
     singularity run BBTools-38.69.sif bbduk.sh in1=<trimmed-pair1> in2=<trimmed-pair2> qtrim=rl trimq=10 out1=<trimmed-and-quality-pair1> out2=<trimmed-and-quality-pair2>
-    # Adapter and quality filtering
+    # Adapter and quality filtering *at the same time*
     singularity run BBTools-38.69.sif bbduk.sh in1=<input-pair1> in2=<input-pair2> out1=<qc-trimmed-pair1> out2=<qc-trimmed-pair2> ref=/bbmap/resources/adapters.fa ktrim=r k=23 mink=11 hdist=1 tpe tbo trimq=10 qtrim=rl minlength=35
+
+FastQC
+~~~~~~~
+
+**Website**: https://www.bioinformatics.babraham.ac.uk/projects/fastqc/
+
+**Short description**: FastQC aims to provide a simple way to do some quality control checks on raw sequence data
+coming from high throughput sequencing pipelines. It provides a modular set of analyses which you can use to give a
+quick impression of whether your data has any problems of which you should be aware before doing any further analysis.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run FastQC-0.11.8.sif <input-fastq-file>
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load fastqc/0.11.5
+
+**Module use (directly from OSC)**:
+
+.. code-block:: bash
+
+    module load fastqc/0.11.8
 
 
 MultiQC
