@@ -22,13 +22,6 @@ So you must prepend each \*.img, \*.simg or \*.sif Singularity container w/ this
 .. code-block:: bash
 
     module load singularity/current
-    singularity run Prokka-1.12.0.img -h
-
-**should be**
-
-.. code-block:: bash
-
-    module load singularity/current
     singularity run /users/PAS1117/osu9664/eMicro-Apps/Prokka-1.12.0.img -h
 
 **Keep in mind that NONE of these apps/tools should be run on the login nodes. Please create a job script and submit it
@@ -70,7 +63,7 @@ Trimmomatic
 .. code-block:: bash
 
     module load singularity/current
-    singularity run Trimmomatic-0.36.0.img PE -phred33 input_forward.fq.gz input_reverse.fq.gz output_forward_paired.fq.gz output_forward_unpaired.fq.gz output_reverse_paired.fq.gz output_reverse_unpaired.fq.gz ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/Trimmomatic-0.36.0.img PE -phred33 input_forward.fq.gz input_reverse.fq.gz output_forward_paired.fq.gz output_forward_unpaired.fq.gz output_reverse_paired.fq.gz output_reverse_unpaired.fq.gz ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36
 
 **Module use**:
 
@@ -104,7 +97,7 @@ but in the meantime, any tool available on https://jgi.doe.gov/data-and-tools/bb
 .. code-block:: bash
 
     module load singularity/current
-    singularity run BBTools-38.69.sif
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/BBTools-38.69.sif
 
 BBDuk
 ~~~~~
@@ -123,11 +116,16 @@ recalibration, kmer cardinality estimation, and various other operations in a si
 
     module load singularity/current
     # Just adapter trimming
-    singularity run BBTools-38.69.sif bbduk.sh in1=<input-pair1> in2=<input-pair2> out1=<trimmed-pair1> out2=<trimmed-pair2> ref=/bbmap/resources/adapters.fa ktrim=r k=23 mink=11 hdist=1 tpe tbo
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/BBTools-38.69.sif bbduk.sh in1=<input-pair1> in2=<input-pair2> out1=<trimmed-pair1> out2=<trimmed-pair2> ref=/bbmap/resources/adapters.fa ktrim=r k=23 mink=11 hdist=1 tpe tbo
     # Just quality filtering
-    singularity run BBTools-38.69.sif bbduk.sh in1=<trimmed-pair1> in2=<trimmed-pair2> qtrim=rl trimq=10 out1=<trimmed-and-quality-pair1> out2=<trimmed-and-quality-pair2>
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/BBTools-38.69.sif bbduk.sh in1=<trimmed-pair1> in2=<trimmed-pair2> qtrim=rl trimq=10 out1=<trimmed-and-quality-pair1> out2=<trimmed-and-quality-pair2>
+
+Alternatively, run them both at the same time!
+
+.. code-block:: bash
+
     # Adapter and quality filtering *at the same time*
-    singularity run BBTools-38.69.sif bbduk.sh in1=<input-pair1> in2=<input-pair2> out1=<qc-trimmed-pair1> out2=<qc-trimmed-pair2> ref=/bbmap/resources/adapters.fa ktrim=r k=23 mink=11 hdist=1 tpe tbo trimq=10 qtrim=rl minlength=35
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/BBTools-38.69.sif bbduk.sh in1=<input-pair1> in2=<input-pair2> out1=<qc-trimmed-pair1> out2=<qc-trimmed-pair2> ref=/bbmap/resources/adapters.fa ktrim=r k=23 mink=11 hdist=1 tpe tbo trimq=10 qtrim=rl minlength=35
 
 FastQC
 ~~~~~~~
@@ -143,7 +141,7 @@ quick impression of whether your data has any problems of which you should be aw
 .. code-block:: bash
 
     module load singularity/current
-    singularity run FastQC-0.11.8.sif <input-fastq-file>
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/FastQC-0.11.8.sif <input-fastq-file>
 
 **Module use**:
 
@@ -175,7 +173,7 @@ use tool, perfect for summarising the output from numerous bioinformatics tools
 .. code-block:: bash
 
     module load singularity/current
-    singularity run MultiQC-1.7.sif
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/MultiQC-1.7.sif
 
 Assembly
 --------
@@ -198,7 +196,7 @@ good reason otherwise (i.e. reproducing previous results). These are 2.3 and 2.5
 .. code-block:: bash
 
     module load singularity/current
-    singularity run Newbler-2.9.img -o output_dir /path/to/sff/file
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/Newbler-2.9.img -o output_dir /path/to/sff/file
 
 The singularity container *does contain* the mapper, but for all intents and purposes, the tool uses runAssembly.
 
@@ -223,7 +221,7 @@ There are multiple implementations on OSC using different runtimes and memory al
 .. code-block:: bash
 
     module load singularity/current
-    singularity run SPAdes-3.13.0.sif
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/SPAdes-3.13.0.sif
 
 **Module use**:
 
@@ -256,7 +254,7 @@ regions. (taken from website)
 
 .. code-block:: bash
 
-    singularity run IDBA-UD-1.1.3.sif --num_threads <threads> -r <reads-in-fasta-format> -o <output-dir>
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/IDBA-UD-1.1.3.sif --num_threads <threads> -r <reads-in-fasta-format> -o <output-dir>
 
 Trinity
 ~~~~~~~
@@ -273,7 +271,7 @@ May 15;29(7):644-52. doi: 10.1038/nbt.1883. PubMed PMID: 21572440.
 .. code-block:: bash
 
     module load singularity/current
-    singularity run Trinity-2.4.0.img
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/Trinity-2.4.0.img
 
 MEGAHIT
 ~~~~~~~
@@ -290,7 +288,7 @@ but also works well on generic single genome assembly (small or mammalian size) 
 .. code-block:: bash
 
     module load singularity/current
-    singularity run MEGAHIT-1.2.8.sif --k-list 21,41,61,81,99 -t <threads> -m 0.9 -1 <for-reads> -2 <rev-reads> -o <output-dir>
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/MEGAHIT-1.2.8.sif --k-list 21,41,61,81,99 -t <threads> -m 0.9 -1 <for-reads> -2 <rev-reads> -o <output-dir>
 
 Binning
 -------
@@ -310,14 +308,14 @@ reconstructing single genomes from complex microbial communities. PeerJ, 3(8), e
 .. code-block:: bash
 
     module load singularity/current
-    singularity run MetaBAT2-2.14.sif
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/MetaBAT2-2.14.sif
 
     # Download test data (instructions from https://bitbucket.org/berkeleylab/metabat/wiki/Best%20Binning%20Practices)
     wget https://portal.nersc.gov/dna/RD/Metagenome_RD/MetaBAT/Files/BestPractices/V2/CASE1/assembly.fa.gz
     wget https://portal.nersc.gov/dna/RD/Metagenome_RD/MetaBAT/Files/BestPractices/V2/CASE1/depth.txt
 
     # Run MetaBAT2
-    singularity run MetaBAT2-2.14.sif -i assembly.fa.gz -a depth.txt -o resA1/bin -v
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/MetaBAT2-2.14.sif -i assembly.fa.gz -a depth.txt -o resA1/bin -v
 
 MaxBin2
 ~~~~~~~
@@ -354,7 +352,7 @@ is finished.
     wget -O 20x.abund https://downloads.jbei.org/data/microbial_communities/MaxBin/getfile.php?20x.abund
 
     # Run MaxBin2
-    singularity run MaxBin2.sif -contig 20x.scaffold -abund 20x.abund -out 20x.out -thread 4
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/MaxBin2.sif -contig 20x.scaffold -abund 20x.abund -out 20x.out -thread 4
 
 **Module use**:
 
@@ -379,7 +377,7 @@ into clusters corresponding to operational taxonomic units of some level.
 .. code-block:: bash
 
     module load singularity/current
-    singularity run CONCOCT.sif
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/CONCOCT.sif
 
 
 MetaWRAP
@@ -423,11 +421,11 @@ algorithms to calculate an optimized, non-redundant set of bins from a single as
 .. code-block:: bash
 
     module load singularity/current
-    singularity run DAS_Tool.sif
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/DAS_Tool.sif
 
-    # You can test the installation
+    # You can test the installation (if you've git cloned the repository!)
     git clone https://github.com/cmks/DAS_Tool.git
-    singularity run DAS_Tool.sif -i DAS_Tool/sample_data/sample.human.gut_concoct_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_maxbin2_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_metabat_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_tetraESOM_scaffolds2bin.tsv -l concoct,maxbin,metabat,tetraESOM -c DAS_Tool/sample_data/sample.human.gut_contigs.fa --search_engine diamond -o DASToolTestRun
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/DAS_Tool.sif -i DAS_Tool/sample_data/sample.human.gut_concoct_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_maxbin2_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_metabat_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_tetraESOM_scaffolds2bin.tsv -l concoct,maxbin,metabat,tetraESOM -c DAS_Tool/sample_data/sample.human.gut_contigs.fa --search_engine diamond -o DASToolTestRun
 
 
 **Module use**:
@@ -453,7 +451,7 @@ FragGeneScan
 .. code-block:: bash
 
     module load singularity/current
-    singularity run FragGeneScan-1.30.0.img
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/FragGeneScan-1.30.0.img
 
 Prodigal
 ~~~~~~~~
@@ -467,7 +465,7 @@ Prodigal
 .. code-block:: bash
 
     module load singularity/current
-    singularity run Prodigal-2.6.3.img -i metagenome.fna -o coords.gbk -a proteins.faa -p anon
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/Prodigal-2.6.3.img -i metagenome.fna -o coords.gbk -a proteins.faa -p anon
 
 **Module use**:
 
@@ -492,7 +490,7 @@ Ribosomal Binding Site for Precise Gene Prediction in Anonymous Prokaryotic and 
 .. code-block:: bash
 
     module load singularity/current
-    singularity run MetaGeneAnnotator-1.1.0.img
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/MetaGeneAnnotator-1.1.0.img
 
 
 Annotation and Analyses
@@ -514,7 +512,7 @@ standards-compliant output files
 .. code-block:: bash
 
     module load singularity/current
-    singularity run Prokka-1.12.0.img
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/Prokka-1.12.0.img
 
 **Module use**:
 
@@ -537,7 +535,7 @@ performance analysis of big sequence data.
 .. code-block:: bash
 
     module load singularity/current
-    singularity run Diamond-0.9.10.img
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/Diamond-0.9.10.img
 
 **Module use**:
 
@@ -564,7 +562,7 @@ databases installed.
 .. code-block:: bash
 
     module load singularity/current
-    singularity run CAT-4.3.3.simg contigs -c {contigs fasta} -d 2019-03-31_CAT_database -t 2019-03-31_taxonomy
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/CAT-4.3.3.simg contigs -c {contigs fasta} -d 2019-03-31_CAT_database -t 2019-03-31_taxonomy
 
 **Module use**:
 
@@ -594,7 +592,7 @@ enable timely and accurate analysis of large metagenomics data sets on conventio
 .. code-block:: bash
 
     module load singularity/current
-    singularity run Centrifuge-X.sif
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/Centrifuge-X.sif
 
 (more forthcoming!)
 
@@ -621,7 +619,7 @@ limits the available system memory to 4 GB, hardly sufficient to do large-scale 
 .. code-block:: bash
 
     module load singularity/current
-    singularity run VSEARCH-2.14.1.sif
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/VSEARCH-2.14.1.sif
 
 **Note**: VSEARCH has **a lot** of options. So. Many.
 
@@ -642,7 +640,7 @@ sets of genes that are ubiquitous and single-copy within a phylogenetic lineage.
 .. code-block:: bash
 
     module load singularity/current
-    singularity run CheckM-1.0.18.sif
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/CheckM-1.0.18.sif
 
 
 BamM
@@ -657,7 +655,7 @@ BamM
 .. code-block:: bash
 
     module load singularity/current
-    singularity run BamM-1.7.0.sif
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/BamM-1.7.0.sif
 
 **Note**: This is no longer actively maintained. CoverM is a direct replacement.
 
@@ -672,6 +670,55 @@ individual contigs (coverm contig). Calculating coverage by read mapping, its in
 reference, or raw reads and reference FASTA sequences.
 
 Forthcoming!
+
+
+dRep
+^^^^
+
+**Website**: https://github.com/MrOlm/drep
+
+**Website**: https://drep.readthedocs.io/en/master/
+
+**Short description**: dRep is a python program for rapidly comparing large numbers of genomes. dRep can also
+"de-replicate" a genome set by identifying groups of highly similar genomes and choosing the best representative genome
+for each genome set.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/dRep.sif
+
+    # You can test the installation
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/dRep.sif bonus testDir --check_dependencies
+
+    # More rigorously check
+    git clone https://github.com/MrOlm/drep.git
+    cd drep/tests
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/dRep.sif dereplicate output_dir -g genomes/*
+
+    # For genome de-replication
+    dRep.simg dereplicate outout_directory -g path/to/genomes/*.fasta
+
+    # To compare genomes
+    dRep.simg compare output_directory -g path/to/genomes/*.fasta
+
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load dRep/1.0.0
+
+
+DRAM
+^^^^
+
+**Website**: https://github.com/shafferm/DRAM
+
+Forthcoming!!!
 
 
 Viral Analyses
@@ -694,7 +741,7 @@ data. PeerJ 3:e985 https://doi.org/10.7717/peerj.985
 .. code-block:: bash
 
     module load singularity/current
-    singularity run VirSorter-1.0.5.img
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/VirSorter-1.0.5.img
 
 vConTACT2
 ~~~~~~~~~
@@ -719,7 +766,7 @@ to classify double-stranded DNA viruses that infect Archaea and Bacteria. PeerJ 
 .. code-block:: bash
 
     module load singularity/current
-    singularity run vConTACT2-0.9.9.sif
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/vConTACT2-0.9.9.sif
 
 
 IVA
@@ -738,10 +785,10 @@ using Illumina read pairs sequenced from mixed populations at extremely high and
 .. code-block:: bash
 
     module load singularity/current
-    singularity run IVA-1.0.9.sif
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/IVA-1.0.9.sif
 
     # You can test the installation
-    singularity run IVA-1.0.9.sif --test outdir
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/IVA-1.0.9.sif --test outdir
 
 PhageTerm
 ~~~~~~~~~
@@ -763,7 +810,7 @@ Clostridium difficile phages and 5 phages whose sequences where retrieved from t
 .. code-block:: bash
 
     module load singularity/current
-    singularity run PhageTerm-1.0.12.sif
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/PhageTerm-1.0.12.sif
 
 **Module use**:
 

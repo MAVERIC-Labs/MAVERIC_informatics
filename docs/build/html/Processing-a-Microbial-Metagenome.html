@@ -15,6 +15,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Pathways and Metabolisms of MAGs" href="Metabolic-and-Pathway-Analyses.html" />
     <link rel="prev" title="R" href="R.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -23,6 +24,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Metabolic-and-Pathway-Analyses.html" title="Pathways and Metabolisms of MAGs"
+             accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="R.html" title="R"
              accesskey="P">previous</a> |</li>
@@ -463,7 +467,7 @@ MetaBAT <span class="m">2</span> <span class="o">(</span>v2.14<span class="o">)<
 <p>The next tool we’re going to use is MaxBin2. It’s <em>probably</em> the easiest of the 3 binners we’ll use as it can handle the
 read mapping component in the background. Of course, we <em>could</em> re-use the bam files, generated earlier for MetaBAT2, but
 for this example we’ll be letting MaxBin2 handle everything!</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ singularity <span class="nb">exec</span> /users/PAS1117/osu9664/eMicro-Apps/MaxBin2.sif -contig /fs/project/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta -reads /fs/project/PAS1573/week7_processing/trimmed_trimmomatic/SRR7151490_1_t_paired.fastq.gz -reads2 /fs/project/PAS1573/week7_processing/trimmed_trimmomatic/SRR7151490_2_t_paired.fastq.gz -out maxbin2
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ singularity run /users/PAS1117/osu9664/eMicro-Apps/MaxBin2.sif -contig /fs/project/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta -reads /fs/project/PAS1573/week7_processing/trimmed_trimmomatic/SRR7151490_1_t_paired.fastq.gz -reads2 /fs/project/PAS1573/week7_processing/trimmed_trimmomatic/SRR7151490_2_t_paired.fastq.gz -out maxbin2
 </pre></div>
 </div>
 <p>The last binning tool we’ll use is CONCOCT. Before getting started, we’re going to <em>index</em> our BAM-sorted file, so
@@ -694,6 +698,9 @@ with CheckM. Only a little further and the manuscript will be published!</strong
   <h4>Previous topic</h4>
   <p class="topless"><a href="R.html"
                         title="previous chapter">R</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Metabolic-and-Pathway-Analyses.html"
+                        title="next chapter">Pathways and Metabolisms of MAGs</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -723,6 +730,9 @@ with CheckM. Only a little further and the manuscript will be published!</strong
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="Metabolic-and-Pathway-Analyses.html" title="Pathways and Metabolisms of MAGs"
+             >next</a> |</li>
         <li class="right" >
           <a href="R.html" title="R"
              >previous</a> |</li>

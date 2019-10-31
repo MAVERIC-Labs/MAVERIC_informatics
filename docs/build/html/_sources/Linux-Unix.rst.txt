@@ -60,10 +60,32 @@ The Profile (aliases, environmental variables, $PATH)
 Check back for more content!
 
 
-Advanced (or maybe "convenient") commands
------------------------------------------
+Advanced (or maybe "convenient"?) commands
+------------------------------------------
 
 Below is a list of commands Ben uses way too much and wants to keep around for posterity.
 
-... and check back!
+Checking for non-ASCII characters
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If you ever run a command and somewhere along the line there's an error that includes "Non-ACSII character at X line"
+it's probably due to using (often) Windows or software that auto-formats characters into something else. One great example
+is the `em dash <https://www.thepunctuationguide.com/em-dash.html>`_. While great for punctuation (I use it often!), it
+makes a **terrible** character to put into a bash script. Frequently, text writing software will auto-format a double
+dash ("--") for an em-dash. (It's called "em" because it's like the length of an "M"... I think). Why is it a bad
+character? It's not part of the ASCII character set. It's part of Unicode's set (U+2014). We won't go into details here,
+but long story short, if you want to emulate it, use double dashes instead.
+
+So if you have this error, you need to 1) identify the non-ASCII characters and 2) eliminate them. Below are two ways to
+identify such characters using grep. For the 2nd option on a Mac, you must install pcre via Homebrew or MacPorts.
+
+.. code-block:: bash
+
+    # https://stackoverflow.com/a/13702856
+    $ grep --color='auto' -P -n '[^\x00-\x7F]' filename
+    # OR on Mac
+    $ pcregrep --color='auto' -n '[^\x00-\x7F]' filename
+
+
+... more to be added at a later time!
 

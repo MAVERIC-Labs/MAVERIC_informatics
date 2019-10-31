@@ -86,9 +86,27 @@ directory.</p>
 <p>Check back for more content!</p>
 </div>
 <div class="section" id="advanced-or-maybe-convenient-commands">
-<h2>Advanced (or maybe “convenient”) commands<a class="headerlink" href="#advanced-or-maybe-convenient-commands" title="Permalink to this headline">¶</a></h2>
+<h2>Advanced (or maybe “convenient”?) commands<a class="headerlink" href="#advanced-or-maybe-convenient-commands" title="Permalink to this headline">¶</a></h2>
 <p>Below is a list of commands Ben uses way too much and wants to keep around for posterity.</p>
-<p>… and check back!</p>
+<div class="section" id="checking-for-non-ascii-characters">
+<h3>Checking for non-ASCII characters<a class="headerlink" href="#checking-for-non-ascii-characters" title="Permalink to this headline">¶</a></h3>
+<p>If you ever run a command and somewhere along the line there’s an error that includes “Non-ACSII character at X line”
+it’s probably due to using (often) Windows or software that auto-formats characters into something else. One great example
+is the <a class="reference external" href="https://www.thepunctuationguide.com/em-dash.html">em dash</a>. While great for punctuation (I use it often!), it
+makes a <strong>terrible</strong> character to put into a bash script. Frequently, text writing software will auto-format a double
+dash (“–”) for an em-dash. (It’s called “em” because it’s like the length of an “M”… I think). Why is it a bad
+character? It’s not part of the ASCII character set. It’s part of Unicode’s set (U+2014). We won’t go into details here,
+but long story short, if you want to emulate it, use double dashes instead.</p>
+<p>So if you have this error, you need to 1) identify the non-ASCII characters and 2) eliminate them. Below are two ways to
+identify such characters using grep. For the 2nd option on a Mac, you must install pcre via Homebrew or MacPorts.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># https://stackoverflow.com/a/13702856</span>
+$ grep --color<span class="o">=</span><span class="s1">&#39;auto&#39;</span> -P -n <span class="s1">&#39;[^\x00-\x7F]&#39;</span> filename
+<span class="c1"># OR on Mac</span>
+$ pcregrep --color<span class="o">=</span><span class="s1">&#39;auto&#39;</span> -n <span class="s1">&#39;[^\x00-\x7F]&#39;</span> filename
+</pre></div>
+</div>
+<p>… more to be added at a later time!</p>
+</div>
 </div>
 </div>
 
@@ -103,7 +121,10 @@ directory.</p>
 <li><a class="reference internal" href="#">UNIX/LINUX Introduction and Guide</a><ul>
 <li><a class="reference internal" href="#basic-navigation-and-universally-common-commands">Basic Navigation and Universally Common Commands</a></li>
 <li><a class="reference internal" href="#the-profile-aliases-environmental-variables-path">The Profile (aliases, environmental variables, $PATH)</a></li>
-<li><a class="reference internal" href="#advanced-or-maybe-convenient-commands">Advanced (or maybe “convenient”) commands</a></li>
+<li><a class="reference internal" href="#advanced-or-maybe-convenient-commands">Advanced (or maybe “convenient”?) commands</a><ul>
+<li><a class="reference internal" href="#checking-for-non-ascii-characters">Checking for non-ASCII characters</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

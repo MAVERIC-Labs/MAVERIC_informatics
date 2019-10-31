@@ -145,7 +145,7 @@ I've already adjusted these files to work on OSC. We're only looking at bins 4, 
 
 .. code-block:: bash
 
-    $ singularity exec MetaPathways2-PAS1573.sif python /metapathways2-2.5.1/MetaPathways.py -i contigs.fasta.metabat-bins-20191007_162849/ -o metabat_bins_results/ -p template_param.txt -c template_config.txt -d 8 -s bin6 -s bin8 -s bin4
+    $ singularity exec /fs/project/PAS1573/week10_pathways/MetaPathways2-PAS1573.sif python /metapathways2-2.5.1/MetaPathways.py -i contigs.fasta.metabat-bins-20191007_162849/ -o metabat_bins_results/ -p template_param.txt -c template_config.txt -d 8 -s bin6 -s bin8 -s bin4
 
 And that's it! You're done. MetaPathways2 took care of everything for you. Seriously. You can either open the GUI (below)
 or navigate through the output folders for results.
@@ -253,4 +253,9 @@ From here you can navigate through all the menus. But at least you'll notice tha
 It's not a coincidence that we selected our 3 most complete bins...
 
 We'll let you explore it from here!
+
+DRAM
+^^^^
+
+Forthcoming!
 

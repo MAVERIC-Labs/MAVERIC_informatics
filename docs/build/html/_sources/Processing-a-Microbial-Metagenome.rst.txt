@@ -500,7 +500,7 @@ for this example we'll be letting MaxBin2 handle everything!
 
 .. code-block:: bash
 
-    $ singularity exec /users/PAS1117/osu9664/eMicro-Apps/MaxBin2.sif -contig /fs/project/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta -reads /fs/project/PAS1573/week7_processing/trimmed_trimmomatic/SRR7151490_1_t_paired.fastq.gz -reads2 /fs/project/PAS1573/week7_processing/trimmed_trimmomatic/SRR7151490_2_t_paired.fastq.gz -out maxbin2
+    $ singularity run /users/PAS1117/osu9664/eMicro-Apps/MaxBin2.sif -contig /fs/project/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta -reads /fs/project/PAS1573/week7_processing/trimmed_trimmomatic/SRR7151490_1_t_paired.fastq.gz -reads2 /fs/project/PAS1573/week7_processing/trimmed_trimmomatic/SRR7151490_2_t_paired.fastq.gz -out maxbin2
 
 The last binning tool we'll use is CONCOCT. Before getting started, we're going to *index* our BAM-sorted file, so
 CONCOCT can (later) generate a coverage table from it. For this, we'll continue to use the BamM singularity container

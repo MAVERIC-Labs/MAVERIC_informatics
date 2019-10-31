@@ -144,7 +144,7 @@ over the GUI in the next step.</p>
 <p>There are two required files (well, only 1), template_param and template_config, that are already in the Week 10 directory.
 I’ve already adjusted these files to work on OSC. We’re only looking at bins 4, 6 and 8, as they were the most complete
 (they’re specified using -s)</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ singularity <span class="nb">exec</span> MetaPathways2-PAS1573.sif python /metapathways2-2.5.1/MetaPathways.py -i contigs.fasta.metabat-bins-20191007_162849/ -o metabat_bins_results/ -p template_param.txt -c template_config.txt -d <span class="m">8</span> -s bin6 -s bin8 -s bin4
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ singularity <span class="nb">exec</span> /fs/project/PAS1573/week10_pathways/MetaPathways2-PAS1573.sif python /metapathways2-2.5.1/MetaPathways.py -i contigs.fasta.metabat-bins-20191007_162849/ -o metabat_bins_results/ -p template_param.txt -c template_config.txt -d <span class="m">8</span> -s bin6 -s bin8 -s bin4
 </pre></div>
 </div>
 <p>And that’s it! You’re done. MetaPathways2 took care of everything for you. Seriously. You can either open the GUI (below)
@@ -217,6 +217,10 @@ $ ~/pathway-tools/pathway-tools -patho ptools/ -no-taxonomic-pruning -no-web-cel
 It’s not a coincidence that we selected our 3 most complete bins…</p>
 <p>We’ll let you explore it from here!</p>
 </div>
+<div class="section" id="dram">
+<h3>DRAM<a class="headerlink" href="#dram" title="Permalink to this headline">¶</a></h3>
+<p>Forthcoming!</p>
+</div>
 </div>
 </div>
 
@@ -238,6 +242,7 @@ It’s not a coincidence that we selected our 3 most complete bins…</p>
 <li><a class="reference internal" href="#installing-pathway-tools">Installing Pathway Tools</a></li>
 <li><a class="reference internal" href="#processing-mags-with-metapathways2-and-pathway-tools">Processing MAGs with MetaPathways2 and Pathway Tools</a><ul>
 <li><a class="reference internal" href="#pathway-tools">Pathway Tools</a></li>
+<li><a class="reference internal" href="#dram">DRAM</a></li>
 </ul>
 </li>
 </ul>
