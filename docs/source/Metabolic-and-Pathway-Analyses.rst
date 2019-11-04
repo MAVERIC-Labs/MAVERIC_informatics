@@ -257,5 +257,25 @@ We'll let you explore it from here!
 DRAM
 ^^^^
 
-Forthcoming!
+Another way of looking at metabolic pathways is `DRAM <https://github.com/shafferm/DRAM>`_. Installation can take a
+while, but there's a version installed in the week10_pathways directory.
+
+For this we'll use the same dataset as above:
+
+.. code-block:: bash
+
+    $ cd /fs/project/PAS1573/week10_pathways/
+    $ cp -r ../week7_processing/bins/spades_trimmomatic_metabat2/contigs.fasta.metabat-bins-20191007_162849/ $PWD
+    $ rename bin. bin contigs.fasta.metabat-bins-20191007_162849/*
+    $ rename fa fasta contigs.fasta.metabat-bins-20191007_162849/*
+
+(If you've already completed the MetaPathways2 portion you do not need to re-do this step!)
+
+.. code-block:: bash
+
+    $ export PATH=/fs/project/PAS1573/week10_pathways/DRAM/bin/:$PATH
+    $ DRAM.py annotate -i 'contigs.fasta.metabat-bins-20191007_162849/*.fasta' -o $PWD/dram_annotations --skip_trnascan --skip_uniref --gtdb_taxonomy gtdbtk_output/gtdbtk.bac120.summary.tsv --threads 40 --verbose
+    $ DRAM.py summarize_genomes -i $PWD/dram_annotations/annotations.tsv -o $PWD/dram_results --rrna_path $PWD/dram_annotations/rrnas.tsv
+
+
 

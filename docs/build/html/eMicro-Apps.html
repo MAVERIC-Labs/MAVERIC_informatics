@@ -13,6 +13,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Modules and Tools on OSC" href="Modules-and-Tools.html" />
@@ -573,7 +574,26 @@ module load dRep/1.0.0
 <div class="section" id="dram">
 <h4>DRAM<a class="headerlink" href="#dram" title="Permalink to this headline">¶</a></h4>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/shafferm/DRAM">https://github.com/shafferm/DRAM</a></p>
-<p>Forthcoming!!!</p>
+<p><strong>Short description</strong>: DRAM (Distilled and Refined Annotation of MAGs [Metagenome Assembled Genomes]) is a tool for
+annotating metagenomic assembled genomes and VIRSorter identified viral contigs. DRAM annotates MAGs and viral contigs
+using KEGG (if provided by the user), UniRef90, [PFAM (<a class="reference external" href="https://pfam.xfam.org/">https://pfam.xfam.org/</a>), dbCAN, RefSeq viral, VOGDB and the
+MEROPS peptidase database as well as custom user databases. DRAM is ran in two stages. Additionally viral contigs are
+further analyzed to identify potential AMGs. This is done via assigning an auxilary score and flags representing the
+likelihood that a gene is metabolic and viral. The auxiliary score represents the confidence that a gene is viral in
+origin based on surrounding genes.</p>
+<p><strong>PAS1573 use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span>/fs/project/PAS1573/week10_pathways/DRAM/bin/:<span class="nv">$PATH</span>
+DRAM.py annotate -i <span class="s1">&#39;&lt;path-to-bins&gt;/*.fasta&#39;</span> -o dram_annotations
+DRAM.py summarize_genomes -i dram_annotations/annotations.tsv -o dram_results --rrna_path dram_annotations/rrnas.tsv
+</pre></div>
+</div>
+<p>You’ll notice that the command to run the tool is different, this is because of the challenge in using Singularity to
+encapsulate the package + databases.</p>
+<p><strong>Module use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use /fs/project/PAS1117/modulefiles
+module load DRAM
+</pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -762,7 +782,7 @@ module load PhageTerm/1.0.11
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2019, Benjamin Bolduc.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
     </div>
   </body>
 </html>

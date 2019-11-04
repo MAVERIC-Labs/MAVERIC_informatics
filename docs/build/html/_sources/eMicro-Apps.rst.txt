@@ -718,7 +718,31 @@ DRAM
 
 **Website**: https://github.com/shafferm/DRAM
 
-Forthcoming!!!
+**Short description**: DRAM (Distilled and Refined Annotation of MAGs [Metagenome Assembled Genomes]) is a tool for
+annotating metagenomic assembled genomes and VIRSorter identified viral contigs. DRAM annotates MAGs and viral contigs
+using KEGG (if provided by the user), UniRef90, [PFAM (https://pfam.xfam.org/), dbCAN, RefSeq viral, VOGDB and the
+MEROPS peptidase database as well as custom user databases. DRAM is ran in two stages. Additionally viral contigs are
+further analyzed to identify potential AMGs. This is done via assigning an auxilary score and flags representing the
+likelihood that a gene is metabolic and viral. The auxiliary score represents the confidence that a gene is viral in
+origin based on surrounding genes.
+
+**PAS1573 use**:
+
+.. code-block:: bash
+
+    export PATH=/fs/project/PAS1573/week10_pathways/DRAM/bin/:$PATH
+    DRAM.py annotate -i '<path-to-bins>/*.fasta' -o dram_annotations
+    DRAM.py summarize_genomes -i dram_annotations/annotations.tsv -o dram_results --rrna_path dram_annotations/rrnas.tsv
+
+You'll notice that the command to run the tool is different, this is because of the challenge in using Singularity to
+encapsulate the package + databases.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load DRAM
 
 
 Viral Analyses

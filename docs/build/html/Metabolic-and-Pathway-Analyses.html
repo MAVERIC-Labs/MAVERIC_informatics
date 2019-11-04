@@ -13,6 +13,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="End-to-End Processing of a Microbial Metagenome" href="Processing-a-Microbial-Metagenome.html" /> 
@@ -219,7 +220,21 @@ It’s not a coincidence that we selected our 3 most complete bins…</p>
 </div>
 <div class="section" id="dram">
 <h3>DRAM<a class="headerlink" href="#dram" title="Permalink to this headline">¶</a></h3>
-<p>Forthcoming!</p>
+<p>Another way of looking at metabolic pathways is <a class="reference external" href="https://github.com/shafferm/DRAM">DRAM</a>. Installation can take a
+while, but there’s a version installed in the week10_pathways directory.</p>
+<p>For this we’ll use the same dataset as above:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">cd</span> /fs/project/PAS1573/week10_pathways/
+$ cp -r ../week7_processing/bins/spades_trimmomatic_metabat2/contigs.fasta.metabat-bins-20191007_162849/ <span class="nv">$PWD</span>
+$ rename bin. bin contigs.fasta.metabat-bins-20191007_162849/*
+$ rename fa fasta contigs.fasta.metabat-bins-20191007_162849/*
+</pre></div>
+</div>
+<p>(If you’ve already completed the MetaPathways2 portion you do not need to re-do this step!)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span>/fs/project/PAS1573/week10_pathways/DRAM/bin/:<span class="nv">$PATH</span>
+$ DRAM.py annotate -i <span class="s1">&#39;contigs.fasta.metabat-bins-20191007_162849/*.fasta&#39;</span> -o <span class="nv">$PWD</span>/dram_annotations --skip_trnascan --skip_uniref --gtdb_taxonomy gtdbtk_output/gtdbtk.bac120.summary.tsv --threads <span class="m">40</span> --verbose
+$ DRAM.py summarize_genomes -i <span class="nv">$PWD</span>/dram_annotations/annotations.tsv -o <span class="nv">$PWD</span>/dram_results --rrna_path <span class="nv">$PWD</span>/dram_annotations/rrnas.tsv
+</pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -289,7 +304,7 @@ It’s not a coincidence that we selected our 3 most complete bins…</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2019, Benjamin Bolduc.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
     </div>
   </body>
 </html>
