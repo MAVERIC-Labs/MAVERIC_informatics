@@ -55,4 +55,4 @@ Week 14: New sequencing technologies
 
 Week 15: Project presentations!
 
-Finals week: Final paper
+Finals week: Finish project presentations!

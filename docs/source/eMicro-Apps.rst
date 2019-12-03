@@ -85,7 +85,7 @@ BBTools
 **Reference** (BBMerge): Bushnell, B., Rood, J., & Singer, E. (2017). BBMerge – Accurate paired shotgun read merging
 via overlap. PLOS ONE, 12(10), e0185056. https://doi.org/10.1371/journal.pone.0185056
 
-**Short description**: BBTools is a suite of fast, multithreaded bioinformatics tools designed for analysis of DNA and
+**Short description**: BBTools is a suite of fast, multi-threaded bioinformatics tools designed for analysis of DNA and
 RNA sequence data. BBTools can handle common sequencing file formats such as fastq, fasta, sam, scarf, fasta+qual,
 compressed or raw, with autodetection of quality encoding and interleaving.
 
@@ -174,6 +174,36 @@ use tool, perfect for summarising the output from numerous bioinformatics tools
 
     module load singularity/current
     singularity run /users/PAS1117/osu9664/eMicro-Apps/MultiQC-1.7.sif
+
+
+QUAST/MetaQUAST
+~~~~~~~~~~~~~~~
+
+**Website**: http://quast.sourceforge.net/
+
+**Short Description**: The project aim is to create easy-to-use tools for genome assemblies evaluation and comparison.
+
+**Reference**: Gurevich, A., Saveliev, V., Vyahhi, N., & Tesler, G. (2013). QUAST: Quality assessment tool for genome
+assemblies. Bioinformatics, 29(8), 1072–1075. https://doi.org/10.1093/bioinformatics/btt086
+
+**Reference (using v4.x)**: Mikheenko, A., Valin, G., Prjibelski, A., Saveliev, V., & Gurevich, A. (2016). Icarus:
+Visualizer for de novo assembly evaluation. Bioinformatics, 32(21), 3321–3323.
+https://doi.org/10.1093/bioinformatics/btw379
+
+**Reference (using v5.x)**: Mikheenko, A., Prjibelski, A., Saveliev, V., Antipov, D., & Gurevich, A. (2018). Versatile
+genome assembly evaluation with QUAST-LG. Bioinformatics, 34(13), i142–i150.
+https://doi.org/10.1093/bioinformatics/bty266
+
+**Singularity use**:
+
+Forthcoming!
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load quast/4.5
 
 Assembly
 --------
@@ -377,7 +407,9 @@ into clusters corresponding to operational taxonomic units of some level.
 .. code-block:: bash
 
     module load singularity/current
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/CONCOCT.sif
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/CONCOCT-1.1.0.sif
+
+See :ref:`processing_microbe` for a more detailed explanation on usage.
 
 
 MetaWRAP
@@ -535,7 +567,7 @@ performance analysis of big sequence data.
 .. code-block:: bash
 
     module load singularity/current
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/Diamond-0.9.10.img
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/Diamond-0.9.26.sif
 
 **Module use**:
 
@@ -621,6 +653,13 @@ limits the available system memory to 4 GB, hardly sufficient to do large-scale 
     module load singularity/current
     singularity run /users/PAS1117/osu9664/eMicro-Apps/VSEARCH-2.14.1.sif
 
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load vsearch/2.6.0
+
 **Note**: VSEARCH has **a lot** of options. So. Many.
 
 CheckM
@@ -641,6 +680,27 @@ sets of genes that are ubiquitous and single-copy within a phylogenetic lineage.
 
     module load singularity/current
     singularity run /users/PAS1117/osu9664/eMicro-Apps/CheckM-1.0.18.sif
+
+
+Clust
+~~~~~
+
+**Website**: https://github.com/baselabujamous/clust
+
+**Reference**: Abu-Jamous, B., & Kelly, S. (2018). Clust: automatic extraction of optimal co-expressed gene clusters
+from gene expression data. Genome Biology, 19(1), 172. https://doi.org/10.1186/s13059-018-1536-8
+
+**Short description**: Clust is a fully automated method for identification of clusters (groups) of genes that are
+consistently co-expressed (well-correlated) in one or more heterogeneous datasets from one or multiple species.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/clust-1.8.9.img data_path -o output_directory [...]
+
+Please do read the extensive documentation on the Clust github page.
 
 
 BamM
@@ -669,8 +729,94 @@ calculator focused on metagenomics applications. CoverM calculates coverage of g
 individual contigs (coverm contig). Calculating coverage by read mapping, its input can either be BAM files sorted by
 reference, or raw reads and reference FASTA sequences.
 
-Forthcoming!
+**Singularity use**:
 
+For a directory of genome bins (each fasta file is a bin, all files having the "fna" extension) and the original fastq
+files used in the assembly...
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/CoverM-0.2.0-alpha7.sif genome --genome-fasta-directory <path-to-bins> -x fna --coupled <reads1.fastq> <reads2.fastq> --output-format sparse --min-read-percent-identity .95 --min-read-aligned-percent .75 --min-covered-fraction .75 > coverage_table.csv
+
+Alternatively, if you want to ...
+
+
+SingleM
+~~~~~~~
+
+**Website**: https://github.com/wwood/singlem
+
+**Short description**: SingleM is a tool to find the abundances of discrete operational taxonomic units (OTUs) directly
+from shotgun metagenome data, without heavy reliance on reference sequence databases. It is able to differentiate
+closely related species even if those species are from lineages new to science.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/SingleM-0.8.1.img
+
+    # Generate OTU table from RAW metagenomic data
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/SingleM-0.8.1.img pipe --sequences my_sequences.fastq.gz --otu_table otu_table.csv --threads <threads>
+
+    # Summarize OTU table in Krona plot
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/SingleM-0.8.1.img summarise --input_otu_tables otu_table.csv --krona krona_plot.html
+
+There are a lot more options are customization than is presented here. Check the documentation for more information.
+Remember, anything after "singlem" in a command can be copy-and-pasted after the "SingleM.img" in the above examples.
+
+The latest version is 0.13.0. This will be updated alongside GraftM.
+
+GraftM
+~~~~~~~
+
+**Website**: https://github.com/geronimp/graftM
+
+**Reference**: Boyd, J. A., Woodcroft, B. J., & Tyson, G. W. (2018). GraftM: a tool for scalable, phylogenetically
+informed classification of genes within metagenomes. Nucleic Acids Research, 46(10), e59–e59.
+https://doi.org/10.1093/nar/gky174
+
+**Short description**: GraftM is a tool for finding genes of interest in metagenomes, metatranscriptomes, and whole
+ genomes. Using modular gene packages, GraftM will search the provided sequences using hmmsearch (HMMER) and place the
+ identified sequences into a pre-constructed phylogenetic tree. The provides fast, phylogenetically informed community
+ profiles and genome annotations.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/GraftM-0.10.1.img
+
+The latest version is 0.13.1. This will be updated.
+
+Read2RefMapper
+^^^^^^^^^^^^^^
+
+**Website**: https://bitbucket.org/bolduc/docker-read2refmapper
+
+**Protocols.io**: `Read2Ref on CyVerse <https://dx.doi.org/10.17504/protocols.io.gv2bw8e>`_
+
+**CyVerse App**: https://de.cyverse.org/de/?type=apps&app-id=Read2RefMapper-1.1.0u3&system-id=agave
+
+**Short description**: Read2RefMapper is a python-wrapper for a number of scripts and tools that allow for filtering
+coverage of BAM files against a reference dataset. It filters reads matching reference sequences for those references
+that are not covered over a specified threshold length, as well as alignment identity and alignment coverage. It is
+designed to be used in conjunction with Docker-BatchBowtie.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/Read2RefMapper-1.1.1.simg --dir ${readsDir} --metagenome-sizes reads2refmapper_mysample.csv --num-threads 40 --coverages coverage_table.csv --cov_filter 70 --percent-id 0.95 --percent-aln 0.75 --coverage-mode tpmean --output-fmt png --dpi 300 --log read2refmapper.log
+
+ClusterGenomes
+~~~~~~~~~~~~~~
+
+Forthcoming...
 
 dRep
 ^^^^
@@ -699,10 +845,10 @@ for each genome set.
     singularity run /users/PAS1117/osu9664/eMicro-Apps/dRep.sif dereplicate output_dir -g genomes/*
 
     # For genome de-replication
-    dRep.simg dereplicate outout_directory -g path/to/genomes/*.fasta
+    dRep.sif dereplicate outout_directory -g path/to/genomes/*.fasta
 
     # To compare genomes
-    dRep.simg compare output_directory -g path/to/genomes/*.fasta
+    dRep.sif compare output_directory -g path/to/genomes/*.fasta
 
 
 **Module use**:
@@ -791,6 +937,20 @@ to classify double-stranded DNA viruses that infect Archaea and Bacteria. PeerJ 
 
     module load singularity/current
     singularity run /users/PAS1117/osu9664/eMicro-Apps/vConTACT2-0.9.9.sif
+
+SRA Toolkit
+~~~~~~~~~~~
+
+**Website**: https://www.ncbi.nlm.nih.gov/sra/docs/toolkitsoft/
+
+**Website 2**: https://github.com/ncbi/sra-tools/wiki
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/SRA_Toolkit.sif
 
 
 IVA

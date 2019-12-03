@@ -98,7 +98,7 @@ but a tiny bash script has been written to automate this, which is why you can c
 <p><strong>Reference</strong>: <a class="reference external" href="http://sourceforge.net/projects/bbmap/">http://sourceforge.net/projects/bbmap/</a></p>
 <p><strong>Reference</strong> (BBMerge): Bushnell, B., Rood, J., &amp; Singer, E. (2017). BBMerge – Accurate paired shotgun read merging
 via overlap. PLOS ONE, 12(10), e0185056. <a class="reference external" href="https://doi.org/10.1371/journal.pone.0185056">https://doi.org/10.1371/journal.pone.0185056</a></p>
-<p><strong>Short description</strong>: BBTools is a suite of fast, multithreaded bioinformatics tools designed for analysis of DNA and
+<p><strong>Short description</strong>: BBTools is a suite of fast, multi-threaded bioinformatics tools designed for analysis of DNA and
 RNA sequence data. BBTools can handle common sequencing file formats such as fastq, fasta, sam, scarf, fasta+qual,
 compressed or raw, with autodetection of quality encoding and interleaving.</p>
 <p><strong>Note</strong>: This is SEVERAL tools, BBDuk (discussed below) is just one of them. We’ll be working on detailing this here,
@@ -162,6 +162,26 @@ use tool, perfect for summarising the output from numerous bioinformatics tools<
 <p><strong>Singularity use</strong>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
 singularity run /users/PAS1117/osu9664/eMicro-Apps/MultiQC-1.7.sif
+</pre></div>
+</div>
+</div>
+<div class="section" id="quast-metaquast">
+<h3>QUAST/MetaQUAST<a class="headerlink" href="#quast-metaquast" title="Permalink to this headline">¶</a></h3>
+<p><strong>Website</strong>: <a class="reference external" href="http://quast.sourceforge.net/">http://quast.sourceforge.net/</a></p>
+<p><strong>Short Description</strong>: The project aim is to create easy-to-use tools for genome assemblies evaluation and comparison.</p>
+<p><strong>Reference</strong>: Gurevich, A., Saveliev, V., Vyahhi, N., &amp; Tesler, G. (2013). QUAST: Quality assessment tool for genome
+assemblies. Bioinformatics, 29(8), 1072–1075. <a class="reference external" href="https://doi.org/10.1093/bioinformatics/btt086">https://doi.org/10.1093/bioinformatics/btt086</a></p>
+<p><strong>Reference (using v4.x)</strong>: Mikheenko, A., Valin, G., Prjibelski, A., Saveliev, V., &amp; Gurevich, A. (2016). Icarus:
+Visualizer for de novo assembly evaluation. Bioinformatics, 32(21), 3321–3323.
+<a class="reference external" href="https://doi.org/10.1093/bioinformatics/btw379">https://doi.org/10.1093/bioinformatics/btw379</a></p>
+<p><strong>Reference (using v5.x)</strong>: Mikheenko, A., Prjibelski, A., Saveliev, V., Antipov, D., &amp; Gurevich, A. (2018). Versatile
+genome assembly evaluation with QUAST-LG. Bioinformatics, 34(13), i142–i150.
+<a class="reference external" href="https://doi.org/10.1093/bioinformatics/bty266">https://doi.org/10.1093/bioinformatics/bty266</a></p>
+<p><strong>Singularity use</strong>:</p>
+<p>Forthcoming!</p>
+<p><strong>Module use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use /fs/project/PAS1117/modulefiles
+module load quast/4.5
 </pre></div>
 </div>
 </div>
@@ -319,9 +339,10 @@ module load MaxBin/2.2.6
 into clusters corresponding to operational taxonomic units of some level.</p>
 <p><strong>Singularity use</strong>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
-singularity run /users/PAS1117/osu9664/eMicro-Apps/CONCOCT.sif
+singularity run /users/PAS1117/osu9664/eMicro-Apps/CONCOCT-1.1.0.sif
 </pre></div>
 </div>
+<p>See <a class="reference internal" href="Processing-a-Microbial-Metagenome.html#processing-microbe"><span class="std std-ref">End-to-End Processing of a Microbial Metagenome</span></a> for a more detailed explanation on usage.</p>
 </div>
 <div class="section" id="metawrap">
 <h3>MetaWRAP<a class="headerlink" href="#metawrap" title="Permalink to this headline">¶</a></h3>
@@ -437,7 +458,7 @@ module load Prokka/1.13
 performance analysis of big sequence data.</p>
 <p><strong>Singularity use</strong>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
-singularity run /users/PAS1117/osu9664/eMicro-Apps/Diamond-0.9.10.img
+singularity run /users/PAS1117/osu9664/eMicro-Apps/Diamond-0.9.26.sif
 </pre></div>
 </div>
 <p><strong>Module use</strong>:</p>
@@ -504,6 +525,11 @@ limits the available system memory to 4 GB, hardly sufficient to do large-scale 
 singularity run /users/PAS1117/osu9664/eMicro-Apps/VSEARCH-2.14.1.sif
 </pre></div>
 </div>
+<p><strong>Module use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use /fs/project/PAS1117/modulefiles
+module load vsearch/2.6.0
+</pre></div>
+</div>
 <p><strong>Note</strong>: VSEARCH has <strong>a lot</strong> of options. So. Many.</p>
 </div>
 <div class="section" id="checkm">
@@ -519,6 +545,20 @@ sets of genes that are ubiquitous and single-copy within a phylogenetic lineage.
 singularity run /users/PAS1117/osu9664/eMicro-Apps/CheckM-1.0.18.sif
 </pre></div>
 </div>
+</div>
+<div class="section" id="clust">
+<h3>Clust<a class="headerlink" href="#clust" title="Permalink to this headline">¶</a></h3>
+<p><strong>Website</strong>: <a class="reference external" href="https://github.com/baselabujamous/clust">https://github.com/baselabujamous/clust</a></p>
+<p><strong>Reference</strong>: Abu-Jamous, B., &amp; Kelly, S. (2018). Clust: automatic extraction of optimal co-expressed gene clusters
+from gene expression data. Genome Biology, 19(1), 172. <a class="reference external" href="https://doi.org/10.1186/s13059-018-1536-8">https://doi.org/10.1186/s13059-018-1536-8</a></p>
+<p><strong>Short description</strong>: Clust is a fully automated method for identification of clusters (groups) of genes that are
+consistently co-expressed (well-correlated) in one or more heterogeneous datasets from one or multiple species.</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run /users/PAS1117/osu9664/eMicro-Apps/clust-1.8.9.img data_path -o output_directory <span class="o">[</span>...<span class="o">]</span>
+</pre></div>
+</div>
+<p>Please do read the extensive documentation on the Clust github page.</p>
 </div>
 <div class="section" id="bamm">
 <h3>BamM<a class="headerlink" href="#bamm" title="Permalink to this headline">¶</a></h3>
@@ -538,7 +578,73 @@ singularity run /users/PAS1117/osu9664/eMicro-Apps/BamM-1.7.0.sif
 calculator focused on metagenomics applications. CoverM calculates coverage of genomes/MAGs (coverm genome) or
 individual contigs (coverm contig). Calculating coverage by read mapping, its input can either be BAM files sorted by
 reference, or raw reads and reference FASTA sequences.</p>
-<p>Forthcoming!</p>
+<p><strong>Singularity use</strong>:</p>
+<p>For a directory of genome bins (each fasta file is a bin, all files having the “fna” extension) and the original fastq
+files used in the assembly…</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run /users/PAS1117/osu9664/eMicro-Apps/CoverM-0.2.0-alpha7.sif genome --genome-fasta-directory &lt;path-to-bins&gt; -x fna --coupled &lt;reads1.fastq&gt; &lt;reads2.fastq&gt; --output-format sparse --min-read-percent-identity .95 --min-read-aligned-percent .75 --min-covered-fraction .75 &gt; coverage_table.csv
+</pre></div>
+</div>
+<p>Alternatively, if you want to …</p>
+</div>
+<div class="section" id="singlem">
+<h3>SingleM<a class="headerlink" href="#singlem" title="Permalink to this headline">¶</a></h3>
+<p><strong>Website</strong>: <a class="reference external" href="https://github.com/wwood/singlem">https://github.com/wwood/singlem</a></p>
+<p><strong>Short description</strong>: SingleM is a tool to find the abundances of discrete operational taxonomic units (OTUs) directly
+from shotgun metagenome data, without heavy reliance on reference sequence databases. It is able to differentiate
+closely related species even if those species are from lineages new to science.</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run /users/PAS1117/osu9664/eMicro-Apps/SingleM-0.8.1.img
+
+<span class="c1"># Generate OTU table from RAW metagenomic data</span>
+singularity run /users/PAS1117/osu9664/eMicro-Apps/SingleM-0.8.1.img pipe --sequences my_sequences.fastq.gz --otu_table otu_table.csv --threads &lt;threads&gt;
+
+<span class="c1"># Summarize OTU table in Krona plot</span>
+singularity run /users/PAS1117/osu9664/eMicro-Apps/SingleM-0.8.1.img summarise --input_otu_tables otu_table.csv --krona krona_plot.html
+</pre></div>
+</div>
+<p>There are a lot more options are customization than is presented here. Check the documentation for more information.
+Remember, anything after “singlem” in a command can be copy-and-pasted after the “SingleM.img” in the above examples.</p>
+<p>The latest version is 0.13.0. This will be updated alongside GraftM.</p>
+</div>
+<div class="section" id="graftm">
+<h3>GraftM<a class="headerlink" href="#graftm" title="Permalink to this headline">¶</a></h3>
+<p><strong>Website</strong>: <a class="reference external" href="https://github.com/geronimp/graftM">https://github.com/geronimp/graftM</a></p>
+<p><strong>Reference</strong>: Boyd, J. A., Woodcroft, B. J., &amp; Tyson, G. W. (2018). GraftM: a tool for scalable, phylogenetically
+informed classification of genes within metagenomes. Nucleic Acids Research, 46(10), e59–e59.
+<a class="reference external" href="https://doi.org/10.1093/nar/gky174">https://doi.org/10.1093/nar/gky174</a></p>
+<dl class="docutils">
+<dt><strong>Short description</strong>: GraftM is a tool for finding genes of interest in metagenomes, metatranscriptomes, and whole</dt>
+<dd>genomes. Using modular gene packages, GraftM will search the provided sequences using hmmsearch (HMMER) and place the
+identified sequences into a pre-constructed phylogenetic tree. The provides fast, phylogenetically informed community
+profiles and genome annotations.</dd>
+</dl>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run /users/PAS1117/osu9664/eMicro-Apps/GraftM-0.10.1.img
+</pre></div>
+</div>
+<p>The latest version is 0.13.1. This will be updated.</p>
+<div class="section" id="read2refmapper">
+<h4>Read2RefMapper<a class="headerlink" href="#read2refmapper" title="Permalink to this headline">¶</a></h4>
+<p><strong>Website</strong>: <a class="reference external" href="https://bitbucket.org/bolduc/docker-read2refmapper">https://bitbucket.org/bolduc/docker-read2refmapper</a></p>
+<p><strong>Protocols.io</strong>: <a class="reference external" href="https://dx.doi.org/10.17504/protocols.io.gv2bw8e">Read2Ref on CyVerse</a></p>
+<p><strong>CyVerse App</strong>: <a class="reference external" href="https://de.cyverse.org/de/?type=apps&amp;app-id=Read2RefMapper-1.1.0u3&amp;system-id=agave">https://de.cyverse.org/de/?type=apps&amp;app-id=Read2RefMapper-1.1.0u3&amp;system-id=agave</a></p>
+<p><strong>Short description</strong>: Read2RefMapper is a python-wrapper for a number of scripts and tools that allow for filtering
+coverage of BAM files against a reference dataset. It filters reads matching reference sequences for those references
+that are not covered over a specified threshold length, as well as alignment identity and alignment coverage. It is
+designed to be used in conjunction with Docker-BatchBowtie.</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run /users/PAS1117/osu9664/eMicro-Apps/Read2RefMapper-1.1.1.simg --dir <span class="si">${</span><span class="nv">readsDir</span><span class="si">}</span> --metagenome-sizes reads2refmapper_mysample.csv --num-threads <span class="m">40</span> --coverages coverage_table.csv --cov_filter <span class="m">70</span> --percent-id <span class="m">0</span>.95 --percent-aln <span class="m">0</span>.75 --coverage-mode tpmean --output-fmt png --dpi <span class="m">300</span> --log read2refmapper.log
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="clustergenomes">
+<h3>ClusterGenomes<a class="headerlink" href="#clustergenomes" title="Permalink to this headline">¶</a></h3>
+<p>Forthcoming…</p>
 <div class="section" id="drep">
 <h4>dRep<a class="headerlink" href="#drep" title="Permalink to this headline">¶</a></h4>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/MrOlm/drep">https://github.com/MrOlm/drep</a></p>
@@ -559,10 +665,10 @@ git clone https://github.com/MrOlm/drep.git
 singularity run /users/PAS1117/osu9664/eMicro-Apps/dRep.sif dereplicate output_dir -g genomes/*
 
 <span class="c1"># For genome de-replication</span>
-dRep.simg dereplicate outout_directory -g path/to/genomes/*.fasta
+dRep.sif dereplicate outout_directory -g path/to/genomes/*.fasta
 
 <span class="c1"># To compare genomes</span>
-dRep.simg compare output_directory -g path/to/genomes/*.fasta
+dRep.sif compare output_directory -g path/to/genomes/*.fasta
 </pre></div>
 </div>
 <p><strong>Module use</strong>:</p>
@@ -630,6 +736,16 @@ singularity run /users/PAS1117/osu9664/eMicro-Apps/vConTACT2-0.9.9.sif
 </pre></div>
 </div>
 </div>
+<div class="section" id="sra-toolkit">
+<h3>SRA Toolkit<a class="headerlink" href="#sra-toolkit" title="Permalink to this headline">¶</a></h3>
+<p><strong>Website</strong>: <a class="reference external" href="https://www.ncbi.nlm.nih.gov/sra/docs/toolkitsoft/">https://www.ncbi.nlm.nih.gov/sra/docs/toolkitsoft/</a></p>
+<p><strong>Website 2</strong>: <a class="reference external" href="https://github.com/ncbi/sra-tools/wiki">https://github.com/ncbi/sra-tools/wiki</a></p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run /users/PAS1117/osu9664/eMicro-Apps/SRA_Toolkit.sif
+</pre></div>
+</div>
+</div>
 <div class="section" id="iva">
 <h3>IVA<a class="headerlink" href="#iva" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://sanger-pathogens.github.io/iva/">https://sanger-pathogens.github.io/iva/</a></p>
@@ -686,6 +802,7 @@ module load PhageTerm/1.0.11
 <li><a class="reference internal" href="#bbduk">BBDuk</a></li>
 <li><a class="reference internal" href="#fastqc">FastQC</a></li>
 <li><a class="reference internal" href="#multiqc">MultiQC</a></li>
+<li><a class="reference internal" href="#quast-metaquast">QUAST/MetaQUAST</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#assembly">Assembly</a><ul>
@@ -717,8 +834,15 @@ module load PhageTerm/1.0.11
 <li><a class="reference internal" href="#centrifuge">Centrifuge</a></li>
 <li><a class="reference internal" href="#vsearch">VSEARCH</a></li>
 <li><a class="reference internal" href="#checkm">CheckM</a></li>
+<li><a class="reference internal" href="#clust">Clust</a></li>
 <li><a class="reference internal" href="#bamm">BamM</a></li>
-<li><a class="reference internal" href="#coverm">CoverM</a><ul>
+<li><a class="reference internal" href="#coverm">CoverM</a></li>
+<li><a class="reference internal" href="#singlem">SingleM</a></li>
+<li><a class="reference internal" href="#graftm">GraftM</a><ul>
+<li><a class="reference internal" href="#read2refmapper">Read2RefMapper</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#clustergenomes">ClusterGenomes</a><ul>
 <li><a class="reference internal" href="#drep">dRep</a></li>
 <li><a class="reference internal" href="#dram">DRAM</a></li>
 </ul>
@@ -728,6 +852,7 @@ module load PhageTerm/1.0.11
 <li><a class="reference internal" href="#viral-analyses">Viral Analyses</a><ul>
 <li><a class="reference internal" href="#virsorter">VIRSorter</a></li>
 <li><a class="reference internal" href="#vcontact2">vConTACT2</a></li>
+<li><a class="reference internal" href="#sra-toolkit">SRA Toolkit</a></li>
 <li><a class="reference internal" href="#iva">IVA</a></li>
 <li><a class="reference internal" href="#phageterm">PhageTerm</a></li>
 </ul>

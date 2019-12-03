@@ -42,7 +42,150 @@
             
   <div class="section" id="building-modules-and-tools-on-osc">
 <span id="buildingtools"></span><h1>Building Modules and Tools on OSC<a class="headerlink" href="#building-modules-and-tools-on-osc" title="Permalink to this headline">¶</a></h1>
-<p>Placeholder! We’re working hard to get this page updated!</p>
+<p>There are several ways of using tools on OSC.</p>
+<ol class="arabic simple">
+<li>Directly</li>
+<li>As modules</li>
+<li>As singularity containers</li>
+</ol>
+<p>Each has advantages/disadvantages (depends on if it’s user <em>or</em> developer as well!), but, in general, these are ordered
+according to universality.</p>
+<p>We’ll go through each method in some detail (enough to get you started/going), but we’ll leave detailed descrption and
+advanced use to their respective documentations.</p>
+<p>For this section we’ll use SPAdes, a common metagenomic assembler, as our example.</p>
+<p>Let’s download it first, so we all start at the same place:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ wget http://cab.spbu.ru/files/release3.13.2/SPAdes-3.13.2-Linux.tar.gz
+</pre></div>
+</div>
+<p>And unpack it</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Untar</span>
+$ tar xf SPAdes-3.13.2-Linux.tar.gz
+<span class="c1"># Check to see it decompressed</span>
+$ ls
+SPAdes-3.13.2-Linux.tar.gz SPAdes-3.13.2-Linux
+</pre></div>
+</div>
+<p>And check the files in our new SPAdes directory…</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ ls SPAdes-3.13.2-Linux
+bin share
+$ ls -l SPAdes-3.13.2-Linux/bin
+metaspades.py -&gt; spades.py
+plasmidspades.py -&gt; spades.py
+rnaspades.py -&gt; spades.py
+spades-bwa
+spades-core
+spades-corrector-core
+spades-gbuilder
+spades-gmapper
+spades-hammer
+spades-ionhammer
+spades-kmercount
+spades-truseq-scfcorrection
+spades.py
+spades_init.py
+truspades.py
+</pre></div>
+</div>
+<p>Now, for the 3 methods.</p>
+<div class="section" id="directly">
+<h2>Directly<a class="headerlink" href="#directly" title="Permalink to this headline">¶</a></h2>
+<p>The simplest way to load and/or run a tool.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Full path</span>
+/fs/project/PAS1117/modules/spades/3.13.2/bin/spades.py --version
+SPAdes v3.13.2
+<span class="c1"># Within the directory</span>
+<span class="nb">cd</span> /fs/project/PAS1117/modules/spades/3.13.2/bin/
+./spades.py --version
+SPAdes v3.13.2
+</pre></div>
+</div>
+<p>SPAdes is a python program that can run on python 2+. Since python is already installed on OSC, there’s no need to load
+anything. You can simply put the <em>full path</em> to spades.py or use ./spades.py and you’re good to go. If you wanted to
+share this with a co-worker, you would need to send them the full path <em>and</em> ensure the folder SPAdes resides in
+(/fs/project/PAS1117/…) is also readable for them. They’d need to use the full path and/or use ./ as we did earlier.
+In this example, <strong>only</strong> people in PAS1117 can use this. Bummer.</p>
+</div>
+<div class="section" id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this headline">¶</a></h2>
+<p><em>However</em>, what if you didn’t want to write the full path or change to the directory in order to use the tool? Normally,
+you’d add this to your system’s $PATH variable so when you typed “spades.py” it’d know <em>exactly</em> where to find your
+tool.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="nv">$PWD</span>/SPAdes-3.13.2-Linux/bin:<span class="nv">$PATH</span>
+</pre></div>
+</div>
+<p>Now you can run SPAdes without worrying about where it’s located!</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spades.py --version
+SPAdes v3.13.2
+</pre></div>
+</div>
+<p>What OSC’s module system does is let’s you easily modify you paths and other variables, and provide a convenient way of
+allowing others to do the same. All that’s required is a single file with that information - a lua file.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>-- Local Variables
+<span class="nb">local</span> <span class="nv">name</span> <span class="o">=</span> <span class="s2">&quot;spades&quot;</span>
+<span class="nb">local</span> <span class="nv">version</span> <span class="o">=</span> <span class="s2">&quot;3.13.2&quot;</span>
+
+-- Locate Home Directory
+<span class="nb">local</span> <span class="nv">projectDir</span> <span class="o">=</span> <span class="s2">&quot;/fs/project/PAS1117/&quot;</span>
+<span class="nb">local</span> <span class="nv">root</span> <span class="o">=</span> pathJoin<span class="o">(</span>projectDir, <span class="s2">&quot;modules&quot;</span>, name, version<span class="o">)</span>
+
+-- Set Paths
+prepend_path<span class="o">(</span><span class="s2">&quot;PATH&quot;</span>, pathJoin<span class="o">(</span>root, <span class="s2">&quot;bin&quot;</span><span class="o">))</span>
+</pre></div>
+</div>
+<p>What’s happening? There’s only 1 thing that’s happening, “prepend_path” is adding a folder/directory path to your $PATH.
+It’s joining the “root” variable (we’ll get there in a second) and “bin” directory together to form 1, complete path,
+and then adding that path/folder to the system’s $PATH variable, so it knows to look in that folder for your tools.</p>
+<p>How is that “root” directory made? Look at “local root”. It’s joining the “projectDir” to “modules”, and then adding the
+“name” and “version” variables. Think of it like this:</p>
+<p>root = projectDir + “modules” + name + version</p>
+<p>root = “/fs/project/PAS1117/” + “modules” + “spades” + “3.13.2”</p>
+<p>So that’s root, now we need PATH.</p>
+<p>PATH = root + “bin”</p>
+<p>PATH = “/fs/project/PAS1117/” + “modules” + “spades” + “3.13.2” + “bin”</p>
+<p>PATH = “/fs/project/PAS1117/modules/spades/3.13.2/bin”</p>
+<p>and if you remember the SPAdes path earlier:</p>
+<p>/fs/project/PAS1117/modules/spades/3.13.2/bin/spades.py</p>
+<p>What a coincidence. PATH = the full path to the spades.py directory.</p>
+<div class="section" id="so-that-s-great-how-to-i-use-this-lua-file">
+<h3>So that’s great, how to I use this LUA file?<a class="headerlink" href="#so-that-s-great-how-to-i-use-this-lua-file" title="Permalink to this headline">¶</a></h3>
+<p>OSC has a great <a class="reference external" href="https://www.osc.edu/resources/getting_started/howto/howto_locally_installing_software">howto site</a>,
+and is more detailed than here. But let’s summarize what they say.</p>
+<p>Save your LUA files, also known as <em>modulefiles</em> in some directory, like “lmodfiles”. Save all your tools and stuff in
+“local”. This example also uses your home directory ($HOME), and everything is assumed to be installed there. They
+[OSC] recommends the following file structure:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">local</span>
+<span class="p">|</span>-- src
+<span class="p">|</span>-- share
+    <span class="sb">`</span>-- lmodfiles
+</pre></div>
+</div>
+<p>In our example, above, it’d look like this for us:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">local</span>
+<span class="p">|</span>-- src
+    <span class="p">|</span> -- SPAdes-3.13.2-Linux.tar.gz
+<span class="p">|</span>-- spades
+    <span class="p">|</span> -- SPAdes-3.13.2-Linux
+<span class="p">|</span>-- share
+    <span class="p">|</span> -- lmodfiles
+        <span class="p">|</span> -- spades
+            -- <span class="m">3</span>.13.2.lua
+</pre></div>
+</div>
+<p>Notice how both tarfile and extracted folders/files are in different directories. Now, to load the module:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use local/share/lmodfiles/
+module load spades/3.13.2
+</pre></div>
+</div>
+<p>You <em>must</em> <strong>module use</strong> and <strong>module load</strong> every time you log into OSC and in every job script (if you are loading
+a module).</p>
+<p>In the Sullivan lab, we use a nigh identical scheme, except that “lmodfiles” is “modulefiles” for greater clarity on
+what the folder is storing vs what system it’s actually running.</p>
+</div>
+</div>
+<div class="section" id="singularity">
+<h2>Singularity<a class="headerlink" href="#singularity" title="Permalink to this headline">¶</a></h2>
+<p>Forthcoming!</p>
+</div>
 </div>
 
 
@@ -51,6 +194,19 @@
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Building Modules and Tools on OSC</a><ul>
+<li><a class="reference internal" href="#directly">Directly</a></li>
+<li><a class="reference internal" href="#modules">Modules</a><ul>
+<li><a class="reference internal" href="#so-that-s-great-how-to-i-use-this-lua-file">So that’s great, how to I use this LUA file?</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#singularity">Singularity</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="QIIME2.html"
                         title="previous chapter">QIIME2</a></p>
