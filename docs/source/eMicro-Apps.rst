@@ -1003,3 +1003,58 @@ Clostridium difficile phages and 5 phages whose sequences where retrieved from t
     module use /fs/project/PAS1117/modulefiles
     module load PhageTerm/1.0.11
 
+MetaPhinder
+~~~~~~~~~~~
+
+**Website**: https://github.com/vanessajurtz/MetaPhinder
+
+**Reference**: Jurtz, V. I., Villarroel, J., Lund, O., Voldby Larsen, M., & Nielsen, M. (2016). MetaPhinder—Identifying
+Bacteriophage Sequences in Metagenomic Data Sets. PLOS ONE, 11(9), e0163111. https://doi.org/10.1371/journal.pone.0163111
+
+**Short description**: Here we present MetaPhinder, a method to identify assembled genomic fragments (i.e.contigs) of
+phage origin in metagenomic data sets. The method is based on a comparison to a database of whole genome bacteriophage
+sequences, integrating hits to multiple genomes to accomodate for the mosaic genome structure of many bacteriophages.
+The method is demonstrated to out-perform both BLAST methods based on single hits and methods based on k-mer comparisons.
+
+
+**Singularity use**:
+
+coming soon...
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load MetaPhinder
+
+    MetaPhinder.py -i <input-file> -o <directory> -d $BLAST_DB/ALL_140821_hr -b /fs/project/PAS1117/modules/MetaPhinder/bin/
+
+Note: MetaPhinder's help states that -o is a FILE, but specifying anything other than a directory (to be created)
+generates one of several errors (one is often: "Command line argument error"). Specifying a non-existent directory is
+the only way to avoid errors.
+
+VIBRANT
+~~~~~~~
+
+**Website**: https://github.com/AnantharamanLab/VIBRANT
+
+**Reference**: Kieft, K., Zhou, Z., and Anantharaman, K. (2019). VIBRANT: Automated recovery, annotation and curation
+of microbial viruses, and evaluation of virome function from genomic sequences. BioRxiv 855387.
+
+**Short description**: VIBRANT is a tool for automated recovery and annotation of bacterial and archaeal viruses,
+determination of genome completeness, and characterization of virome function from metagenomic assemblies. VIBRANT uses
+neural networks of protein annotation signatures and genomic features to maximize identification of highly diverse
+partial or complete viral genomes as well as excise integrated proviruses.
+
+**Singularity use**:
+
+coming soon...
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load VIBRANT
+

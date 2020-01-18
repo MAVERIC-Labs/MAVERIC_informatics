@@ -784,6 +784,45 @@ module load PhageTerm/1.0.11
 </pre></div>
 </div>
 </div>
+<div class="section" id="metaphinder">
+<h3>MetaPhinder<a class="headerlink" href="#metaphinder" title="Permalink to this headline">¶</a></h3>
+<p><strong>Website</strong>: <a class="reference external" href="https://github.com/vanessajurtz/MetaPhinder">https://github.com/vanessajurtz/MetaPhinder</a></p>
+<p><strong>Reference</strong>: Jurtz, V. I., Villarroel, J., Lund, O., Voldby Larsen, M., &amp; Nielsen, M. (2016). MetaPhinder—Identifying
+Bacteriophage Sequences in Metagenomic Data Sets. PLOS ONE, 11(9), e0163111. <a class="reference external" href="https://doi.org/10.1371/journal.pone.0163111">https://doi.org/10.1371/journal.pone.0163111</a></p>
+<p><strong>Short description</strong>: Here we present MetaPhinder, a method to identify assembled genomic fragments (i.e.contigs) of
+phage origin in metagenomic data sets. The method is based on a comparison to a database of whole genome bacteriophage
+sequences, integrating hits to multiple genomes to accomodate for the mosaic genome structure of many bacteriophages.
+The method is demonstrated to out-perform both BLAST methods based on single hits and methods based on k-mer comparisons.</p>
+<p><strong>Singularity use</strong>:</p>
+<p>coming soon…</p>
+<p><strong>Module use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use /fs/project/PAS1117/modulefiles
+module load MetaPhinder
+
+MetaPhinder.py -i &lt;input-file&gt; -o &lt;directory&gt; -d <span class="nv">$BLAST_DB</span>/ALL_140821_hr -b /fs/project/PAS1117/modules/MetaPhinder/bin/
+</pre></div>
+</div>
+<p>Note: MetaPhinder’s help states that -o is a FILE, but specifying anything other than a directory (to be created)
+generates one of several errors (one is often: “Command line argument error”). Specifying a non-existent directory is
+the only way to avoid errors.</p>
+</div>
+<div class="section" id="vibrant">
+<h3>VIBRANT<a class="headerlink" href="#vibrant" title="Permalink to this headline">¶</a></h3>
+<p><strong>Website</strong>: <a class="reference external" href="https://github.com/AnantharamanLab/VIBRANT">https://github.com/AnantharamanLab/VIBRANT</a></p>
+<p><strong>Reference</strong>: Kieft, K., Zhou, Z., and Anantharaman, K. (2019). VIBRANT: Automated recovery, annotation and curation
+of microbial viruses, and evaluation of virome function from genomic sequences. BioRxiv 855387.</p>
+<p><strong>Short description</strong>: VIBRANT is a tool for automated recovery and annotation of bacterial and archaeal viruses,
+determination of genome completeness, and characterization of virome function from metagenomic assemblies. VIBRANT uses
+neural networks of protein annotation signatures and genomic features to maximize identification of highly diverse
+partial or complete viral genomes as well as excise integrated proviruses.</p>
+<p><strong>Singularity use</strong>:</p>
+<p>coming soon…</p>
+<p><strong>Module use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use /fs/project/PAS1117/modulefiles
+module load VIBRANT
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 
@@ -855,6 +894,8 @@ module load PhageTerm/1.0.11
 <li><a class="reference internal" href="#sra-toolkit">SRA Toolkit</a></li>
 <li><a class="reference internal" href="#iva">IVA</a></li>
 <li><a class="reference internal" href="#phageterm">PhageTerm</a></li>
+<li><a class="reference internal" href="#metaphinder">MetaPhinder</a></li>
+<li><a class="reference internal" href="#vibrant">VIBRANT</a></li>
 </ul>
 </li>
 </ul>
