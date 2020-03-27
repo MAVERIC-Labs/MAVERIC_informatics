@@ -99,8 +99,8 @@ but in the meantime, any tool available on https://jgi.doe.gov/data-and-tools/bb
     module load singularity/current
     singularity run /users/PAS1117/osu9664/eMicro-Apps/BBTools-38.69.sif
 
-BBDuk
-~~~~~
+BBDuk (in the BBTools package)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Website**: https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/bbduk-guide/
 
@@ -174,6 +174,13 @@ use tool, perfect for summarising the output from numerous bioinformatics tools
 
     module load singularity/current
     singularity run /users/PAS1117/osu9664/eMicro-Apps/MultiQC-1.7.sif
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load MultiQC
 
 
 QUAST/MetaQUAST
@@ -816,7 +823,21 @@ designed to be used in conjunction with Docker-BatchBowtie.
 ClusterGenomes
 ~~~~~~~~~~~~~~
 
-Forthcoming...
+**Website**: https://bitbucket.org/MAVERICLab/stampede-clustergenomes/
+
+**Short description**: ClusterGenomes is a nucmer-based tool designed to cluster viral genomes. It can handle circular
+and short sequences with high accuracy.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+
+    # Dereplicate
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/ClusterGenomes-1.1.3.img -f <input-viral-genomes.fasta> -c <coverage> -i <identity> -o <output-directory>
+
+Note: Both coverage and identity are 0 - 100, *not* 0.0 - 1.0.
 
 dRep
 ^^^^
@@ -872,7 +893,7 @@ further analyzed to identify potential AMGs. This is done via assigning an auxil
 likelihood that a gene is metabolic and viral. The auxiliary score represents the confidence that a gene is viral in
 origin based on surrounding genes.
 
-**PAS1573 use**:
+**PAS1573 use**: (This is now an out-of-date version but these commands will still work!)
 
 .. code-block:: bash
 
@@ -883,12 +904,15 @@ origin based on surrounding genes.
 You'll notice that the command to run the tool is different, this is because of the challenge in using Singularity to
 encapsulate the package + databases.
 
-**Module use**:
+**Module use**: (This is always the most up-to-date version, barring the Wrighton lab's constant updates!)
 
 .. code-block:: bash
 
     module use /fs/project/PAS1117/modulefiles
     module load DRAM
+
+    DRAM.py annotate -i '<path-to-bins>/*.fa' -o annotation
+    DRAM.py distill -i annotation/annotations.tsv -o distill --trna_path annotation/trnas.tsv --rrna_path annotation/rrnas.tsv
 
 
 Viral Analyses
@@ -937,21 +961,6 @@ to classify double-stranded DNA viruses that infect Archaea and Bacteria. PeerJ 
 
     module load singularity/current
     singularity run /users/PAS1117/osu9664/eMicro-Apps/vConTACT2-0.9.9.sif
-
-SRA Toolkit
-~~~~~~~~~~~
-
-**Website**: https://www.ncbi.nlm.nih.gov/sra/docs/toolkitsoft/
-
-**Website 2**: https://github.com/ncbi/sra-tools/wiki
-
-**Singularity use**:
-
-.. code-block:: bash
-
-    module load singularity/current
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/SRA_Toolkit.sif
-
 
 IVA
 ~~~
@@ -1058,3 +1067,55 @@ coming soon...
     module use /fs/project/PAS1117/modulefiles
     module load VIBRANT
 
+DRAM-v
+~~~~~~
+
+**Website**: https://github.com/shafferm/DRAM
+
+**Short description**: DRAM (Distilled and Refined Annotation of MAGs [Metagenome Assembled Genomes]) is a tool for
+annotating metagenomic assembled genomes and VIRSorter identified viral contigs. DRAM annotates MAGs and viral contigs
+using KEGG (if provided by the user), UniRef90, [PFAM (https://pfam.xfam.org/), dbCAN, RefSeq viral, VOGDB and the
+MEROPS peptidase database as well as custom user databases. DRAM is ran in two stages. Additionally viral contigs are
+further analyzed to identify potential AMGs. This is done via assigning an auxilary score and flags representing the
+likelihood that a gene is metabolic and viral. The auxiliary score represents the confidence that a gene is viral in
+origin based on surrounding genes.
+
+**PAS1573 use**: (This version is now out-of-date but these commands will still work)
+
+.. code-block:: bash
+
+    export PATH=/fs/project/PAS1573/week10_pathways/DRAM/bin/:$PATH
+    # --skip_uniref if want faster, although, less sensitive results
+    DRAM-v.py annotate -i <path-to-VIRSorter_cat_contigs.fasta> --virsorter_affi_contigs <path-to-VIRSorter-VIRSorter_affi-contigs.tab> --output_dir DRAMv_annotate --threads 40
+    # optionally, --rrna_path dram_annotations/rrnas.tsv
+    DRAM-v.py distill -i DRAMv_annotate/annotations.tsv -o DRAMv_summarize
+
+You'll notice that the command to run the tool is different, this is because of the challenge in using Singularity to
+encapsulate the package + databases.
+
+**Module use**: (This is always the most up-to-date version, barring the Wrighton lab's constant updates!)
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load DRAM
+
+    DRAM-v.py annotate -i VIRSorter_cat1245.fasta -v VIRSorter_affi-contigs.tab -o viral_annotation
+    DRAM-v.py distill -i viral_annotation/annotations.tsv -o viral_annotation/distilled
+
+Miscellaneous
+-------------
+
+SRA Toolkit
+~~~~~~~~~~~
+
+**Website**: https://www.ncbi.nlm.nih.gov/sra/docs/toolkitsoft/
+
+**Website 2**: https://github.com/ncbi/sra-tools/wiki
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/SRA_Toolkit.sif
