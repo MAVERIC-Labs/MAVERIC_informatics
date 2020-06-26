@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to MAVERIC Informatics' documentation!
-===============================================
+Welcome to MAVERIC Informatics documentation!
+=============================================
 
 Welcome to the **M**\icrobial **a**\nd **V**\iral **E**\cological **R**\esearch **i**\n **C**\olumbus Informatics website!
 
