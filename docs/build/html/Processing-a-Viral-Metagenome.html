@@ -38,8 +38,9 @@
             
   <div class="section" id="end-to-end-processing-of-a-viral-metagenome">
 <span id="processing-viral"></span><h1>End-to-End Processing of a Viral Metagenome<a class="headerlink" href="#end-to-end-processing-of-a-viral-metagenome" title="Permalink to this headline">¶</a></h1>
-<p>For this dataset, we’ll be <strong>fully</strong> processing <a class="reference external" href="https://www.ncbi.nlm.nih.gov/sra/ERR594369">SRX4071230</a>, a peat
-metagenome with 14.1M reads. The SRA Run is ERR594369, which will be important when downloading the data from SRA.</p>
+<p>For this dataset, we’ll be <strong>fully</strong> processing <a class="reference external" href="https://www.ncbi.nlm.nih.gov/sra/ERX552322">ERR594369</a>, viral
+metagenome with 37 million paired reads and 7.2Gbp. The SRA Run is ERR594369, which will be important when downloading
+the data from SRA.</p>
 <p>This will include (nearly) all steps and <em>most</em> of the results returned from the command line. Clearly, some outputs
 can’t be nicely placed here, but are available (as links to files) or in the M8194 project directory.</p>
 <p>Everything here uses Singularity. All of the singularity images are located at:</p>
@@ -50,7 +51,7 @@ can’t be nicely placed here, but are available (as links to files) or in the M
 <p>The first thing we need to do is grab the data from the SRA. You can do this a few ways, either through navigating the
 NCBI+SRA websites, or directly using their SRA Toolkit.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Move to project directory</span>
-$ <span class="nb">cd</span> /fs/project/PAS1573/week7_processing
+$ /fs/project/PAS1117/viral_ecogenomics_pipeline/
 <span class="c1"># Load modules necessary</span>
 $ module load singularity
 $ singularity run SRA_Toolkit.sif fasterq-dump -e <span class="m">4</span> -p --split-files ERR594369

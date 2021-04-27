@@ -5,8 +5,9 @@ End-to-End Processing of a Viral Metagenome
 
 
 
-For this dataset, we'll be **fully** processing `SRX4071230 <https://www.ncbi.nlm.nih.gov/sra/ERR594369>`_, a peat
-metagenome with 14.1M reads. The SRA Run is ERR594369, which will be important when downloading the data from SRA.
+For this dataset, we'll be **fully** processing `ERR594369 <https://www.ncbi.nlm.nih.gov/sra/ERX552322>`_, viral
+metagenome with 37 million paired reads and 7.2Gbp. The SRA Run is ERR594369, which will be important when downloading
+the data from SRA.
 
 This will include (nearly) all steps and *most* of the results returned from the command line. Clearly, some outputs
 can't be nicely placed here, but are available (as links to files) or in the M8194 project directory.
@@ -26,7 +27,7 @@ NCBI+SRA websites, or directly using their SRA Toolkit.
 .. code-block:: bash
 
     # Move to project directory
-    $ cd /fs/project/PAS1573/week7_processing
+    $ /fs/project/PAS1117/viral_ecogenomics_pipeline/
     # Load modules necessary
     $ module load singularity
     $ singularity run SRA_Toolkit.sif fasterq-dump -e 4 -p --split-files ERR594369
