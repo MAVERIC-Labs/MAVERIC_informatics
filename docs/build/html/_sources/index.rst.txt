@@ -36,6 +36,7 @@ the lectures of M8194, with the goal of providing sufficient information to supp
    R
    Processing-a-Microbial-Metagenome
    Metabolic-and-Pathway-Analyses
+   Processing-a-Viral-Metagenome
 
 
 

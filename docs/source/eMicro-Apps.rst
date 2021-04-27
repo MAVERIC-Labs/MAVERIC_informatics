@@ -38,6 +38,8 @@ make sure it's the latest version.
 
     module use /fs/project/PAS1117/modulefiles  # Load Sullivan lab's modules
     module load Prokka/1.13
+    # OR
+    module load Prokka/1.14.6
     prokka -h
 
 
@@ -265,7 +267,7 @@ There are multiple implementations on OSC using different runtimes and memory al
 .. code-block:: bash
 
     module use /fs/project/PAS1117/modulefiles
-    module load spades/3.13.1
+    module load spades/3.15.2
 
 
 IDBA-UD
@@ -319,6 +321,13 @@ https://doi.org/10.1093/bioinformatics/btv033
 
 **Short description**: MEGAHIT is an ultra-fast and memory-efficient NGS assembler. It is optimized for metagenomes,
 but also works well on generic single genome assembly (small or mammalian size) and single-cell assembly.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load MEGAHIT/1.2.9
 
 **Singularity use**:
 
@@ -474,6 +483,23 @@ algorithms to calculate an optimized, non-redundant set of bins from a single as
     module use /fs/project/PAS1117/modulefiles
     module load DAS_Tool
 
+UniteM
+~~~~~~
+
+**Website**: https://github.com/dparks1134/UniteM
+
+**Reference**: https://github.com/dparks1134/UniteM (cite the repository)
+
+**Short description**: UniteM is a software toolkit implementing different ensemble binning strategies for producing a
+non-redundant set of bins from the output of multiple binning methods.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load uniteM
+
 
 Gene Callers
 ------------
@@ -531,6 +557,25 @@ Ribosomal Binding Site for Precise Gene Prediction in Anonymous Prokaryotic and 
     module load singularity/current
     singularity run /users/PAS1117/osu9664/eMicro-Apps/MetaGeneAnnotator-1.1.0.img
 
+MetaGeneMark
+~~~~~~~~~~~~
+
+**Website**:
+
+**Reference**: Zhu, W., Lomsadze, A. & Borodovsky, M. Ab initio gene identification in metagenomic sequences.
+Nucleic Acids Res. 38, 1–15 (2010).
+
+**Short description**: ORF prediction...
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load MetaGeneMark/3.38
+
+    gmhmmp <rest-of-command>
+
 
 Annotation and Analyses
 -----------------------
@@ -583,6 +628,9 @@ performance analysis of big sequence data.
     module use /fs/project/PAS1117/modulefiles
     module load diamond/0.9.24
 
+    # OR
+    module load diamond/ 2.0.5
+
 CAT
 ~~~
 
@@ -633,7 +681,12 @@ enable timely and accurate analysis of large metagenomics data sets on conventio
     module load singularity/current
     singularity run /users/PAS1117/osu9664/eMicro-Apps/Centrifuge-X.sif
 
-(more forthcoming!)
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load centrifuge/1.0.3
 
 VSEARCH
 ~~~~~~~
@@ -877,7 +930,7 @@ for each genome set.
 .. code-block:: bash
 
     module use /fs/project/PAS1117/modulefiles
-    module load dRep/1.0.0
+    module load dRep/2.4.2
 
 
 DRAM
@@ -1004,6 +1057,8 @@ Clostridium difficile phages and 5 phages whose sequences where retrieved from t
 
     module load singularity/current
     singularity run /users/PAS1117/osu9664/eMicro-Apps/PhageTerm-1.0.12.sif
+    # OR
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/PhageTerm-3.1.sif
 
 **Module use**:
 
@@ -1011,6 +1066,8 @@ Clostridium difficile phages and 5 phages whose sequences where retrieved from t
 
     module use /fs/project/PAS1117/modulefiles
     module load PhageTerm/1.0.11
+    # OR
+    module load PhageTerm/3.1.0
 
 MetaPhinder
 ~~~~~~~~~~~
@@ -1043,6 +1100,26 @@ Note: MetaPhinder's help states that -o is a FILE, but specifying anything other
 generates one of several errors (one is often: "Command line argument error"). Specifying a non-existent directory is
 the only way to avoid errors.
 
+PHANOTATE
+~~~~~~~~~
+
+**Website**: https://github.com/deprekate/PHANOTATE
+
+**Reference**:
+
+**Short description**: PHANOTATE is a tool to annotate phage genomes. It uses the assumption that non-coding bases in
+a phage genome is disadvantageous, and then populates a weighted graph to find the optimal path through the six frames
+of the DNA where open reading frames are beneficial paths, while gaps and overlaps are penalized paths.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load PHANOTATE/1.4.0
+
+    phanotate.py --help
+
 VIBRANT
 ~~~~~~~
 
@@ -1065,7 +1142,9 @@ coming soon...
 .. code-block:: bash
 
     module use /fs/project/PAS1117/modulefiles
-    module load VIBRANT
+    module load VIBRANT/1.1.0
+    # OR
+    module load VIBRANT/1.2.1
 
 DRAM-v
 ~~~~~~
@@ -1103,6 +1182,333 @@ encapsulate the package + databases.
     DRAM-v.py annotate -i VIRSorter_cat1245.fasta -v VIRSorter_affi-contigs.tab -o viral_annotation
     DRAM-v.py distill -i viral_annotation/annotations.tsv -o viral_annotation/distilled
 
+ViralRecall
+~~~~~~~~~~~
+
+**Website**: https://github.com/faylward/viralrecall
+
+**Reference**: Aylward, F. O. & Moniruzzaman, M. ViralRecall-A Flexible Command-Line Tool for the Detection of Giant
+Virus Signatures in ’Omic Data. Viruses 13, 15–17 (2021).
+
+**Short description**: ViralRecall is a flexible command-line tool for detecting signatures of giant viruses (NCLDV)
+in genomic data. Version 2 has been updated to focus more on NCLDV compared to version 1, but the original options are still available.
+
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load Treemmer/Treemmer
+
+    python viralrecall.py -i examples/arm29B.fna -p test_outdir -t 2 -f
+
+
+PropagAtE
+~~~~~~~~~
+
+**Website**: https://github.com/AnantharamanLab/PropagAtE
+
+**Reference**: Kieft, K. & Anantharaman, K. Deciphering active prophages from metagenomes. bioRxiv 2021.01.29.428894
+(2021). doi:10.1101/2021.01.29.428894
+
+**Short description**: PropagAtE (Prophage Activity Estimator) uses genomic coordinates of integrated prophage sequences
+ and short sequencing reads to estimate if a given prophage was in the lysogenic (dormant) or lytic (active) stage of
+ infection. Prophages are designated according to a genomic/scaffold coordinate file, either manually generated by the
+ user or taken directly from a VIBRANT (at least v1.2.1) output. The prophage:host read coverage ratio and corresponding
+ effect size are used to estimate if the prophage was actively replicating its genome (significantly more prophage
+ genome copies than host copies). PropagAtE is customizable to take in complete genomes or metagenomic scaffolds along
+ with raw Illumina (short) reads, or instead take pre-aligned data files (sam or bam format). Threshold values are
+ customizable but PropagAtE outputs clear “active” versus “dormant” estimations of given prophages with associated statistics.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load PropagAtE/1.0.0
+
+    PropagAtE_run.py --help
+
+
+VPF-Tools
+~~~~~~~~~
+
+**Website**: https://github.com/biocom-uib/vpf-tools
+
+**Reference**: Pons, J. C. et al. VPF-Class: taxonomic assignment and host prediction of uncultivated viruses based on
+viral protein families. Bioinformatics 1–9 (2021). doi:10.1093/bioinformatics/btab026
+
+**Short description**:
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+
+
+CheckV
+~~~~~~
+
+**Website**: https://bitbucket.org/berkeleylab/checkv
+
+**Reference**: Nayfach, S. et al. CheckV assesses the quality and completeness of metagenome-assembled viral genomes.
+Nat. Biotechnol. (2020). doi:10.1038/s41587-020-00774-7
+
+**Short description**: CheckV is a fully automated command-line pipeline for assessing the quality of single-contig
+viral genomes, including identification of host contamination for integrated proviruses, estimating completeness for
+genome fragments, and identification of closed genomes.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+
+    # For PAS1117 users
+    module use /fs/project/PAS1117/modulefiles
+    module load singularityImages
+    CheckV-2020.04.27.sif --help
+
+    # For eMicro
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/CheckV-2020.04.27.sif
+
+Phigaro
+~~~~~~~
+
+**Website**: https://github.com/bobeobibo/phigaro
+
+**Reference**: Starikova, E. V. et al. Phigaro: high-throughput prophage sequence annotation. Bioinformatics 36,
+3882–3884 (2020).
+
+**Short description**: Phigaro is a standalone command-line application that is able to detect prophage regions
+taking raw genome and metagenome assemblies as an input. It also produces dynamic annotated “prophage genome maps” and
+marks possible transposon insertion spots inside prophages. It is applicable for mining prophage regions from large
+metagenomic datasets.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load phigaro/2.2.3
+
+    phigaro -f <fasta-input> -o <output-file> -p --not-open -c $config
+
+Note: $config is an environmental variable set to a specific file which information about the database locations
+
+GRAViTy
+~~~~~~~
+
+**Website**: https://github.com/PAiewsakun/GRAViTy
+
+**Reference**: Aiewsakun, P. & Simmonds, P. The genomic underpinnings of eukaryotic virus taxonomy: Creating a
+sequence-based framework for family-level virus classification. Microbiome 6, 1–24 (2018).
+
+**Short description**:
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load GRAViTy
+
+
+Phylogenetics
+-------------
+
+Treemmer
+~~~~~~~~
+
+**Website**: https://github.com/fmenardo/Treemmer
+
+**Reference**: Menardo, F. et al. Treemmer: a tool to reduce large phylogenetic datasets with minimal loss of
+diversity. BMC Bioinformatics 19, 164 (2018).
+
+**Short description**: Treemmer, a simple tool to evaluate the redundancy of phylogenetic trees and reduce their
+complexity by eliminating leaves that contribute the least to the tree diversity.
+
+
+**Singularity use**:
+
+coming soon...
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load Treemmer/Treemmer
+
+    Treemmer_v0.3.py --help
+
+
+BALi-Phy
+~~~~~~~~
+
+**Website**: http://www.bali-phy.org/
+
+**Reference**: 1. Redelings, B. D. Bali-Phy version 3: Model-based co-estimation of alignment and phylogeny.
+Bioinformatics 2–4 (2021). doi:10.1093/bioinformatics/btab129
+
+**Short description**: BAli-Phy is software by Ben Redelings that estimates multiple sequence alignments and
+evolutionary trees from DNA, amino acid, or codon sequences. It uses likelihood-based evolutionary models of
+substitutions and insertions and deletions to place gaps. It has been used in published analyses on data sets up
+to 117 taxa.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run BALi-Phy-3.6.0.sif
+
+TIM
+~~~
+
+**Website**: https://github.com/RomainBlancMathieu/TIM
+
+**Reference**:
+
+**Short description**: TIM detects and maps interactions between organisms onto a phylogenetic tree of a target group
+of organisms. Interactions are predicted from a species co-occurence-based network (such as one generated by FlashWeave).
+
+TIM assumes that evolutionarily related organisms (refer to as query) interact with evolutionary related organisms
+(subject) (The reciprocal is not true).
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load TIM/TIM
+    cp -r /fs/project/PAS1117/modules/TIM/TIM . && cd TIM
+    main.py Picornavirales.nwk connections.txt POS
+    downstream.py
+
+Phylorank
+~~~~~~~~~
+
+**Website**: https://github.com/dparks1134/PhyloRank
+
+**Reference**: https://github.com/dparks1134/PhyloRank (cite the github page)
+
+**Short description**: PhyloRank provides functionality for calculating the relative evolutionary divergence (RED) of
+taxa in a tree and for finding the best placement of taxonomic labels in a tree.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load Phylorank
+
+
+GTDB-Tk
+~~~~~~~
+
+**Website**: https://github.com/Ecogenomics/GtdbTk
+
+**Reference**: Chaumeil, P.-A., Mussig, A. J., Hugenholtz, P. & Parks, D. H. GTDB-Tk: a toolkit to classify genomes
+with the Genome Taxonomy Database. Bioinformatics 36, 1925–1927 (2019).
+
+**Short description**: GTDB-Tk is a software toolkit for assigning objective taxonomic classifications to bacterial and
+archaeal genomes based on the Genome Database Taxonomy GTDB. It is designed to work with recent advances that allow
+hundreds or thousands of metagenome-assembled genomes (MAGs) to be obtained directly from environmental samples. It
+can also be applied to isolate and single-cell genomes.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load GTDB-Tk
+
+IQ-Tree
+~~~~~~~~~
+
+**Website**: https://github.com/Cibiv/IQ-TREE
+
+**Reference**: Nguyen, L.-T., Schmidt, H. A., von Haeseler, A. & Minh, B. Q. IQ-TREE: A Fast and Effective Stochastic
+Algorithm for Estimating Maximum-Likelihood Phylogenies. Mol. Biol. Evol. 32, 268–274 (2015).
+
+**Short description**: The IQ-TREE software was created as the successor of IQPNNI and TREE-PUZZLE (thus the name
+IQ-TREE). IQ-TREE was motivated by the rapid accumulation of phylogenomic data, leading to a need for efficient
+phylogenomic software that can handle a large amount of data and provide more complex models of sequence evolution.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load IQ-TREE/2.0-rc1
+
+
+Rascal
+~~~~~~
+
+**Website**: ftp://ftp-igbmc.u-strasbg.fr/pub/RASCAL (no longer available?)
+
+**Reference**: Thompson, J. D., Thierry, J. C. & Poch, O. RASCAL: Rapid scanning and correction of multiple sequence
+alignments. Bioinformatics 19, 1155–1161 (2003).
+
+**Short description**:
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load IQ-TREE/2.0-rc1
+
+PhyML
+~~~~~
+
+**Website**: http://www.atgc-montpellier.fr/phyml/, https://github.com/stephaneguindon/phyml
+
+**Reference**: Guindon, S. et al. New Algorithms and Methods to Estimate Maximum-Likelihood Phylogenies: Assessing the
+Performance of PhyML 3.0. Syst. Biol. 59, 307–321 (2010).
+
+**Short description**: PhyML is a software package that uses modern statistical approaches to analyse alignments of
+nucleotide or amino acid sequences in a phylogenetic framework. The main tool in this package builds phylogenies
+under the maximum likelihood criterion. It implements a large number of substitution models coupled to efficient
+options to search the space of phylogenetic tree topologies. PhyTime is another tool in the PhyML package that
+focuses on divergence date estimation in a Bayesian setting. The main strengths of PhyTime lies in its ability to
+accommodate for uncertrainty in the placement of fossil calibration and the use of realistic models of rate variation
+along the tree. Finally, PhyREX fits the spatial-Lambda-Fleming-Viot model to geo-referenced genetic data. This model
+is similar to the structured coalescent but assumes that individuals are distributed along a spatial continuum rather
+than discrete demes. PhyREX can be used to estimate population densities and rates of dispersal. Its output can be
+processed by treeannotator (from the BEAST package) as well as SPREAD.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load PhyML/3.1
+
+MAFFT
+~~~~~
+
+**Website**: https://github.com/GSLBiotech/mafft
+
+**Reference**: Katoh, K. & Standley, D. M. MAFFT Multiple Sequence Alignment Software Version 7: Improvements in
+Performance and Usability. Mol. Biol. Evol. 30, 772–780 (2013).
+
+**Reference** (original): Katoh, K. MAFFT: a novel method for rapid multiple sequence alignment based on fast Fourier
+transform. Nucleic Acids Res. 30, 3059–3066 (2002).
+
+**Short description**:
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load mafft/7.429
+
 Miscellaneous
 -------------
 
@@ -1119,3 +1525,997 @@ SRA Toolkit
 
     module load singularity/current
     singularity run /users/PAS1117/osu9664/eMicro-Apps/SRA_Toolkit.sif
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load sratoolkit/2.10.7
+
+
+Entrez Direct
+~~~~~~~~~~~~~~
+
+**Website**: https://www.ncbi.nlm.nih.gov/books/NBK179288/
+
+**Short Description**: Entrez Direct (EDirect) provides access to the NCBI's suite of interconnected databases
+(publication, sequence, structure, gene, variation, expression, etc.) from a Unix terminal window. Search terms
+are entered as command-line arguments. Individual operations are connected with Unix pipes to allow construction of
+multi-step queries. Selected records can then be retrieved in a variety of formats.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load Entrez-Direct
+
+
+ViennaRNA
+~~~~~~~~~
+
+**Website**: https://www.tbi.univie.ac.at/RNA/index.html
+
+**Reference**: Lorenz, R. et al. ViennaRNA Package 2.0. Algorithms Mol. Biol. 6, 26 (2011).
+
+**Short description**:
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load ViennaRNA/2.4.14
+
+
+
+
+
+
+
+
+ViPTreeGen
+~~~~~~~~~~
+
+**Website**: https://github.com/yosuken/ViPTreeGen
+
+**Reference**: Nishimura, Y. et al. ViPTree: the viral proteomic tree server. Bioinformatics 1–2 (2017).
+doi:10.1093/bioinformatics/btx157
+
+**Short description**: ViPTreeGen is a tool for automated generation of viral "proteomic tree" by computing genome-wide
+sequence similarities based on tBLASTx results. The original proteomic tree (i.e., "the Phage Proteomic Tree”) was
+developed by Rohwer and Edwards, 2002. A proteomic tree is a dendrogram that reveals global genomic similarity
+relationships between tens, hundreds, or thousands of viruses. It has been shown that viral groups identified in a
+proteomic tree well correspond to established viral taxonomies. The proteomic tree approach is effective to investigate
+genomes of newly sequenced viruses as well as those identified in metagenomes.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+
+    ViPTreeGen --help
+
+
+
+
+VIRIDIC
+~~~~~~~
+
+**Website**: https://github.com/yosuken/ViPTreeGen
+
+**Reference**:  Moraru, C., Varsani, A. & Kropinski, A. M. VIRIDIC — A Novel Tool to Calculate the Intergenomic
+Similarities of Viruses 12, 1268 (2020).
+
+**Short description**:
+
+**Module use**:
+
+.. code-block:: bash
+
+    cp /fs/project/PAS1117/modules/viridic_v1.0_r3.6/* <current-directory>
+    ./viridic.bash projdir=<output-dir> in=<fasta-file>
+
+
+Clinker
+~~~~~~~
+
+**Website**: https://github.com/gamcil/clinker
+
+**Reference**: Gilchrist, C. L. M. & Chooi, Y.-H. clinker &amp; clustermap.js: automatic generation of gene cluster
+comparison figures. Bioinformatics (2021). doi:10.1093/bioinformatics/btab007
+
+**Short description**: Gene cluster comparison figure generator - clinker is a pipeline for easily generating
+publication-quality gene cluster comparison figures.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load Clinker/Clinker
+    clinker --help
+
+
+SortMeRNA
+~~~~~~~~~
+
+**Website**: https://github.com/biocore/sortmerna
+
+**Reference**: Kopylova, E., Noé, L. & Touzet, H. SortMeRNA: fast and accurate filtering of ribosomal RNAs in
+metatranscriptomic data. Bioinformatics 28, 3211–3217 (2012).
+
+**Short description**: SortMeRNA is a local sequence alignment tool for filtering, mapping and clustering.
+
+The core algorithm is based on approximate seeds and allows for sensitive analysis of NGS reads. The main application
+of SortMeRNA is filtering rRNA from metatranscriptomic data. SortMeRNA takes as input files of reads (fasta, fastq,
+fasta.gz, fastq.gz) and one or multiple rRNA database file(s), and sorts apart aligned and rejected reads into two
+files. Additional applications include clustering and taxonomy assignation available through QIIME v1.9.1. SortMeRNA
+works with Illumina, Ion Torrent and PacBio data, and can produce SAM and BLAST-like alignments.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load SortMeRNA/4.2.0
+
+    sortmerna -h
+
+SAMBAMBA
+~~~~~~~~
+
+**Website**: https://github.com/lomereiter/sambamba
+
+**Reference**:
+
+**Short description**: Sambamba is a high performance highly parallel robust and fast tool (and library), written in
+the D programming language, for working with SAM and BAM files. Because of its efficiency Sambamba is an important
+work horse running in many sequencing centres around the world today.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load SAMBAMBA/0.7.1
+
+
+SpClust
+~~~~~~~
+
+**Website**: https://github.com/johnymatar/SpCLUST
+
+**Reference**:
+
+**Short description**: SpCLUST is a package for divergent nucleotide sequences clustering. Contrarely to traditional
+clustering methods that focuses on the speed of clustering highly similar sequences, SpCLUST uses a Machine Learning
+Gaussian Mixture Model and targets the clustering accuracy of divergent sequences with the best possible speed. The
+current version of SpCLUST uses Edgar, R.C.'s MUSCLE module (www.drive5.com) for sequences alignment.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+
+    singularity run SpCLUST.sif mpispclust -in test.fasta -out mpispclust_results.txt -alignMode fast -mdist BLOSUM62 -seqtype Amino
+    # OR
+    mpiexec -n 4 SpCLUST.sif spclust -in test.fasta -out spclust_results.txt -alignMode fast -mdist BLOSUM62 -seqtype Amino
+
+
+PROSITE
+~~~~~~~
+
+**Website**:
+
+**Reference**:
+
+**Short description**:
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load PROSITE/1.86
+    ps_scan.pl <rest-of-command>
+
+
+HH-Suite
+~~~~~~~~
+
+**Website**: https://github.com/soedinglab/hh-suite
+
+**Reference**: Steinegger, M. et al. HH-suite3 for fast remote homology detection and deep protein annotation.
+BMC Bioinformatics 20, 473 (2019).
+
+**Short description**: The HH-suite is an open-source software package for sensitive protein sequence searching based
+on the pairwise alignment of hidden Markov models (HMMs).
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load hhsuite/3.2.0
+
+
+MetaCHIP
+~~~~~~~~
+
+**Website**: https://github.com/songweizhi/MetaCHIP
+
+**Reference**: Song, W., Wemheuer, B., Zhang, S., Steensen, K. & Thomas, T. MetaCHIP: community-level horizontal gene
+transfer identification through the combination of best-match and phylogenetic approaches. Microbiome 7, 36 (2019).
+
+**Short description**: MetaCHIP is a pipeline for reference-independent HGT identification at the community level.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load MetaCHIP
+
+
+SuperCRUNCH
+~~~~~~~~~~~
+
+**Website**: https://github.com/dportik/SuperCRUNCH
+
+**Reference**: Portik, D. M. & Wiens, J. J. SuperCRUNCH: A bioinformatics toolkit for creating and manipulating
+supermatrices and other large phylogenetic datasets. Methods Ecol. Evol. 11, 763–772 (2020).
+
+**Short description**: SuperCRUNCH is a python toolkit for creating and working with phylogenetic datasets.
+SuperCRUNCH can be run using any set of sequence data, as long as sequences are in fasta format with standard naming
+conventions
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load SuperCRUNCH
+
+
+
+Nonpareil
+~~~~~~~~~
+
+**Website**: http://enve-omics.ce.gatech.edu/nonpareil/, https://github.com/lmrodriguezr/nonpareil
+
+**Reference**: Rodriguez-R, L. M., Gunturu, S., Tiedje, J. M., Cole, J. R. & Konstantinidis, K. T. Nonpareil 3:
+Fast Estimation of Metagenomic Coverage and Sequence Diversity. mSystems 3, 1–9 (2018).
+
+**Short description**:
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load Nonpareil
+
+
+VG-Flow
+~~~~~~~
+
+**Website**: https://bitbucket.org/jbaaijens/vg-flow
+
+**Reference**:
+
+**Short description**: VG-Flow uses a de novo approach that enables full-length haplotype reconstruction from
+pre-assembled contigs of complex mixed samples.
+
+**Importance notice**: This requires a FREE Gurobi academic license: https://user.gurobi.com/download/licenses/free-academic
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    module use /fs/project/PAS1117/modulefiles
+    module load singularityImages
+
+    # If you haven't YET installed a license key
+    vg-flow.sif grbgetkey <long-license-key-that-was-generated-at-sign-up>
+
+    # Create the variation graph
+    vg-flow.sif build_graph_msga.py -f example/forward.fastq -r example/reverse.fastq -c example/input.fasta -vg vg -t 4
+
+    # Build the haplotypes
+    vg-flow.sif vg-flow.py -m 10 -c 20 node_abundance.txt contig_graph.final.gfa
+
+**Note**: This was installed prior to tool updates
+
+
+PEAR
+~~~~~
+
+**Website**: https://cme.h-its.org/exelixis/web/software/pear/
+
+**Reference**:
+
+**Short description**: PEAR is an ultrafast, memory-efficient and highly accurate pair-end read merger. It is fully
+parallelized and can run with as low as just a few kilobytes of memory.
+
+PEAR evaluates all possible paired-end read overlaps and without requiring the target fragment size as input.
+In addition, it implements a statistical test for minimizing false-positive results. Together with a highly optimized
+implementation, it can merge millions of paired end reads within a couple of minutes on a standard desktop computer.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load PEAR/0.9.11
+
+
+SAVAGE
+~~~~~~
+
+**Website**: https://bitbucket.org/jbaaijens/savage
+
+**Reference**: Baaijens, J. A., El Aabidine, A. Z., Rivals, E. & Schönhuth, A. De novo assembly of viral quasispecies
+using overlap graphs. Genome Res. 27, 835–848 (2017).
+
+**Short description**: SAVAGE is a computational tool for reconstructing individual haplotypes of intra-host virus
+strains (a viral quasispecies) without the need for a high quality reference genome. SAVAGE makes use of either
+FM-index based data structures or ad-hoc consensus reference sequence for constructing overlap graphs from patient
+sample data. In this overlap graph, nodes represent reads and/or contigs, while edges reflect that two reads/contigs,
+based on sound statistical considerations, represent identical haplotypic sequence. Following an iterative scheme, a
+new overlap assembly algorithm that is based on the enumeration of statistically well-calibrated groups of
+reads/contigs then efficiently reconstructs the individual haplotypes from this overlap graph.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load SAVAGE
+
+
+
+
+
+
+
+
+Bioscripts-2.7 and Bioscripts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Website**: https://github.com/christophertbrown/bioscripts27, https://github.com/christophertbrown/bioscripts
+
+**Reference**:
+
+**Short description**: Useful scripts for working with genomics and sequencing data
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load bioscripts/bioscripts27
+    # OR
+    module load bioscripts/bioscripts3
+
+
+InterProScan
+~~~~~~~~~~~~
+
+**Website**: https://github.com/ebi-pf-team/interproscan
+
+**Reference**: Quevillon, E. et al. InterProScan: protein domains identifier. Nucleic Acids Res. 33, W116–W120 (2005).
+
+**Short description**: InterPro is a database which integrates together predictive information about proteins’
+function from a number of partner resources, giving an overview of the families that a protein belongs to and the
+domains and sites it contains.
+
+Users who have novel nucleotide or protein sequences that they wish to functionally characterise can use the software
+package InterProScan to run the scanning algorithms from the InterPro database in an integrated way. Sequences are
+submitted in FASTA format. Matches are then calculated against all of the required member database’s signatures and
+the results are then output in a variety of formats.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load InterProScan/5.36-75.0
+
+    interproscan.sh <rest-of-command>
+
+
+
+
+
+IVA
+~~~
+
+**Website**: https://sanger-pathogens.github.io/iva/
+
+**Reference**: 1. Hunt, M. et al. IVA: Accurate de novo assembly of RNA virus genomes. Bioinformatics 31, 2374–2376
+(2015).
+
+**Short description**: IVA is a de novo assembler designed to assemble virus genomes that have no repeat sequences,
+using Illumina read pairs sequenced from mixed populations at extremely high and variable depth.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load IVA
+
+    iva -f <forward-reads.fastq> -r <reverse-reads.fastq> <output-dir>
+
+
+ExaBayes
+~~~~~~~~
+
+**Website**: https://sanger-pathogens.github.io/iva/
+
+**Reference**: Aberer, A. J., Kobert, K. & Stamatakis, A. Exabayes: Massively parallel bayesian tree inference for the
+whole-genome era. Mol. Biol. Evol. 31, 2553–2556 (2014).
+
+**Short description**: ExaBayes is a software package for Bayesian phylogenetic tree inference. It is particularly
+suitable for large-scale analyses on computer clusters.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load exa-bayes/1.4.1
+
+
+PAML
+~~~~
+
+**Website**: http://abacus.gene.ucl.ac.uk/software/paml.html
+
+**Reference**: Yang, Z. PAML 4: Phylogenetic Analysis by Maximum Likelihood. Mol. Biol. Evol. 24, 1586–1591 (2007).
+
+**Short description**: PAMLis a package of programs for phylogenetic analyses of DNA and protein sequences using
+maximum likelihood (ML). The programs may be used to compare and test phylogenetic trees, but their main strengths
+lie in the rich repertoire of evolutionary models implemented, which can be used to estimate parameters in models of
+sequence evolution and to test interesting biological hypotheses. Uses of the programs include estimation of synonymous
+and nonsynonymous rates (dN and dS) between two protein-coding DNA sequences, inference of positive Darwinian
+selection through phylogenetic comparison of protein-coding genes, reconstruction of ancestral genes and proteins for
+molecular restoration studies of extinct life forms, combined analysis of heterogeneous data sets from multiple gene
+loci, and estimation of species divergence times incorporating uncertainties in fossil calibrations
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load PAML
+
+
+BEAST2
+~~~~~~
+
+**Website**: https://github.com/CompEvol/beast2, http://www.beast2.org/
+
+**Reference**: Bouckaert, R. et al. BEAST 2.5: An advanced software platform for Bayesian evolutionary analysis.
+PLOS Comput. Biol. 15, e1006650 (2019).
+
+**Short description**: BEAST is a cross-platform program for Bayesian inference using MCMC of molecular sequences. It
+is entirely orientated towards rooted, time-measured phylogenies inferred using strict or relaxed molecular clock
+models. It can be used as a method of reconstructing phylogenies but is also a framework for testing evolutionary
+hypotheses without conditioning on a single tree topology. BEAST uses MCMC to average over tree space, so that each
+tree is weighted proportional to its posterior probability. We include a simple to use user-interface program for
+setting up standard analyses and a suit of programs for analysing the results.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load BEAST2
+
+
+RevBayes
+~~~~~~~~
+
+**Website**: https://revbayes.github.io/
+
+**Reference**: Höhna, S. et al. RevBayes: Bayesian Phylogenetic Inference Using Graphical Models and an Interactive
+Model-Specification Language. Syst. Biol. 65, 726–736 (2016).
+
+**Short description**: RevBayes provides an interactive environment for statistical computation in phylogenetics. It
+is primarily intended for modeling, simulation, and Bayesian inference in evolutionary biology, particularly
+phylogenetics. However, the environment is quite general and can be useful for many complex modeling tasks.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load RevBayes
+
+
+MARVEL
+~~~~~~
+
+**Website**: https://github.com/LaboratorioBioinformatica/MARVEL
+
+**Reference**: Amgarten, D., Braga, L. P. P., da Silva, A. M. & Setubal, J. C. MARVEL, a Tool for Prediction of
+Bacteriophage Sequences in Metagenomic Bins. Front. Genet. 9, 1–8 (2018).
+
+**Short description**: MARVEL is a tool for recovery of draft phage genomes from whole community shotgun metagenomic
+sequencing data.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load MARVEL/0.2
+
+
+MMSeqs2
+~~~~~~~
+
+**Website**: https://github.com/soedinglab/MMseqs2
+
+**Reference**: Steinegger, M. & Söding, J. MMseqs2 enables sensitive protein sequence searching for the analysis of
+massive data sets. Nat. Biotechnol. 35, 2–4 (2017).
+
+**Short description**: MMseqs2 (Many-against-Many sequence searching) is a software suite to search and cluster huge
+protein and nucleotide sequence sets. MMseqs2 is open source GPL-licensed software implemented in C++ for Linux,
+MacOS, and (as beta version, via cygwin) Windows. The software is designed to run on multiple cores and servers and
+exhibits very good scalability. MMseqs2 can run 10000 times faster than BLAST. At 100 times its speed it achieves
+almost the same sensitivity. It can perform profile searches with the same sensitivity as PSI-BLAST at over 400 times
+its speed.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load MMseqs2
+
+
+DeepVirFinder
+~~~~~~~~~~~~~
+
+**Website**: https://github.com/jessieren/DeepVirFinder
+
+**Reference**: Ren, J. et al. Identifying viruses from metagenomic data by deep learning. (2018).
+
+**Short description**: DeepVirFinder predicts viral sequences using deep learning method. The method has good
+prediction accuracy for short viral sequences, so it can be used to predict sequences from the metagenomic data.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load DeepVirFinder
+
+
+CD-HIT
+~~~~~~
+
+**Website**: https://github.com/weizhongli/cdhit, http://cd-hit.org
+
+**Reference**: Fu, L., Niu, B., Zhu, Z., Wu, S. & Li, W. CD-HIT: accelerated for clustering the next-generation
+sequencing data. Bioinformatics 28, 3150–3152 (2012).
+
+**Short description**: CD-HIT is a very widely used program for clustering and comparing protein or nucleotide sequences
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load cdhit/4.6.1
+
+
+
+
+BLAST+
+~~~~~~
+
+**Website**:
+
+**Reference**:
+
+**Short description**:
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load blast/2.8.1+
+
+
+
+Clust
+~~~~~~
+
+**Website**: https://github.com/BaselAbujamous/clust
+
+**Reference**: Abu-Jamous, B. & Kelly, S. Clust: automatic extraction of optimal co-expressed gene clusters from gene
+expression data. Genome Biol. 19, 172 (2018).
+
+**Short description**: Optimised consensus clustering of one or more heterogeneous datasets.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load clust/1.8.9
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+
+    # For PAS1117 users
+    module use /fs/project/PAS1117/modulefiles
+    module load singularityImages
+    clust-1.8.9.img --help
+
+
+
+ViromeScan
+~~~~~~~~~~
+
+**Website**: http://sourceforge.net/projects/viromescan/
+
+**Reference**: Rampelli, S. et al. ViromeScan: a new tool for metagenomic viral community profiling. BMC Genomics 17,
+165 (2016).
+
+**Short description**: Tool for metagenomic viral community profiling
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load viromescan
+    module load bowtie2/2.3.4.1
+    module load blast/2.4.0+
+
+    viromescan
+
+
+Bowtie2
+~~~~~~~
+
+**Website**: http://bowtie-bio.sourceforge.net/bowtie2/index.shtml
+
+**Reference**: Langmead, B. & Salzberg, S. L. Fast gapped-read alignment with Bowtie 2. Nat. Methods 9, 357–9 (2012).
+
+**Short description**: Bowtie 2 is an ultrafast and memory-efficient tool for aligning sequencing reads to long
+reference sequences. It is particularly good at aligning reads of about 50 up to 100s or 1,000s of characters, and
+particularly good at aligning to relatively long (e.g. mammalian) genomes. Bowtie 2 indexes the genome with an FM
+Index to keep its memory footprint small: for the human genome, its memory footprint is typically around 3.2 GB.
+Bowtie 2 supports gapped, local, and paired-end alignment modes.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load bowtie2/2.4.1
+
+Note: We have A LOT of bowtie2 versions, be aware that they may be updated more frequently than this site!
+
+
+Jellyfish
+~~~~~~~~~
+
+**Website**: http://www.genome.umd.edu/jellyfish.html
+
+**Reference**: Marcais, G. & Kingsford, C. A fast, lock-free approach for efficient parallel counting of occurrences
+of k-mers. Bioinformatics 27, 764–770 (2011).
+
+**Short description**: Jellyfish is a tool for fast, memory-efficient counting of k-mers in DNA. A k-mer is a
+substring of length k, and counting the occurrences of all such substrings is a central step in many analyses of
+DNA sequence. JELLYFISH can count k-mers quickly by using an efficient encoding of a hash table and by exploiting
+the "compare-and-swap" CPU instruction to increase parallelism.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load jellyfish/2.2.10
+
+
+WIsH
+~~~~
+
+**Website**: https://github.com/soedinglab/WIsH
+
+**Reference**: Galiez, C., Siebert, M., Enault, F., Vincent, J. & Söding, J. WIsH: Who is the host? Predicting
+prokaryotic hosts from metagenomic phage contigs. Bioinformatics 1–2 (2017). doi:10.1093/bioinformatics/btx383
+
+**Short description**: WIsH can identify bacterial hosts from metagenomic data, keeping good accuracy even on smaller
+contigs.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load WiSH
+
+    # Taken from the website
+    WIsH -c build -g prokaryoteGenomesDir -m modelDir
+    WIsH -c predict -g phageContigsDir -m modelDir -r outputResultDir -b 1
+
+
+
+PICRUSt
+~~~~~~~
+
+**Website**: https://github.com/picrust/picrust, http://picrust.github.io/picrust/index.html
+
+**Reference**: Langille, M. G. I. et al. Predictive functional profiling of microbial communities using 16S
+rRNA marker gene sequences. Nat. Biotechnol. 31, 814–821 (2013).
+
+**Short description**: PICRUSt (pronounced “pie crust”) is a bioinformatics software package designed to predict metagenome functional content from marker gene (e.g., 16S rRNA) surveys and full genomes.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load PICRUSt/1.1.3
+
+
+
+RDP Classifier
+~~~~~~~~~~~~~~
+
+**Website**: https://github.com/rdpstaff/classifier, https://rdp.cme.msu.edu/classifier/classifier.jsp
+
+**Reference**: Wang, Q., Garrity, G. M., Tiedje, J. M. & Cole, J. R. Naïve Bayesian Classifier for Rapid Assignment of
+rRNA Sequences into the New Bacterial Taxonomy. Appl. Environ. Microbiol. 73, 5261–5267 (2007).
+
+**Short description**: The RDP Classifier is a naive Bayesian classifier which was developed to provide rapid taxonomic
+placement based on rRNA sequence data. The RDP Classifier can rapidly and accurately classify bacterial and archaeal
+16s rRNA sequences, and Fungal LSU sequences. It provides taxonomic assignments from domain to genus, with confidence
+estimates for each assignment. The RDP Classifier likely can be adapted to additional phylogenetically coherent
+bacterial taxonomies.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load rdp_classifier/2.3
+
+
+ProtTest
+~~~~~~~~
+
+**Website**: https://github.com/ddarriba/prottest3
+
+**Reference**: Darriba, D., Taboada, G. L., Doallo, R. & Posada, D. ProtTest 3: fast selection of best-fit models of
+protein evolution. Bioinformatics 27, 1164–1165 (2011).
+
+**Short description**: ProtTest is a bioinformatic tool for the selection of best-fit models of aminoacid replacement
+for the data at hand. ProtTest makes this selection by finding the model in the candidate list with the smallest
+Akaike Information Criterion (AIC), Bayesian Information Criterion (BIC) score or Decision Theory Criterion (DT).
+At the same time, ProtTest obtains model-averaged estimates of different parameters (including a model-averaged
+phylogenetic tree) and calculates their importance(Posada and Buckley 2004). ProtTest differs from its nucleotide
+analog jModeltest (Posada 2008) in that it does not include likelihood ratio tests, as not all models included in
+ProtTest are nested.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load prottest/3.4.2
+
+
+MINCED
+~~~~~~
+
+**Website**: https://github.com/ctSkennerton/minced
+
+**Reference**: 1. Bland, C. et al. CRISPR Recognition Tool (CRT): a tool for automatic detection of clustered
+regularly interspaced palindromic repeats. BMC Bioinformatics 8, 209 (2007).
+
+**Short description**: MinCED is a program to find Clustered Regularly Interspaced Short Palindromic Repeats (CRISPRs)
+in full genomes or environmental datasets such as assembled contigs from metagenomes. Iff you want to identify CRISPRs
+in raw short read data, in the size range of 100-200bp try using Crass (https://github.com/ctskennerton/Crass) MinCED
+runs from the command-line and was derived from CRT (http://www.room220.com/crt/)
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load minced/1.0.0
+
+MASH
+~~~~
+
+**Website**: https://github.com/marbl/Mash
+
+**Reference**: Ondov, B. D. et al. Mash: fast genome and metagenome distance estimation using MinHash. Genome
+Biol. 17, 132 (2016).
+
+**Short description**: Fast genome and metagenome distance estimation using MinHash
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load MASH/1.1.1
+
+
+MUMmer
+~~~~~~
+
+**Website**: http://mummer.sourceforge.net/
+
+**Reference**: Kurtz, S. et al. Versatile and open software for comparing large genomes. Genome Biol. 5, 12 (2004).
+
+**Short description**: MUMmer is a system for rapidly aligning entire genomes, whether in complete or draft form. For
+example, MUMmer 3.0 can find all 20-basepair or longer exact matches between a pair of 5-megabase genomes in 13.7
+seconds, using 78 MB of memory, on a 2.4 GHz Linux desktop computer. MUMmer can also align incomplete genomes; it can
+easily handle the 100s or 1000s of contigs from a shotgun sequencing project, and will align them to another set of
+contigs or a genome using the NUCmer program included with the system. If the species are too divergent for a DNA
+sequence alignment to detect similarity, then the PROmer program can generate alignments based upon the six-frame
+translations of both input sequences
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load MUMmer/3.23
+
+
+HMMER3
+~~~~~~
+
+**Website**: http://hmmer.org/
+
+**Reference**: Eddy, S. R. Accelerated Profile HMM Searches. PLoS Comput. Biol. 7, e1002195 (2011).
+
+**Short description**: HMMER is used for searching sequence databases for sequence homologs, and for making sequence
+alignments. It implements methods using probabilistic models called profile hidden Markov models (profile HMMs).
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load hmmer3/3.1b2
+
+
+MUSCLE
+~~~~~~
+
+**Website**: http://www.drive5.com/muscle/
+
+**Reference**: Edgar, R. C. MUSCLE: multiple sequence alignment with high accuracy and high throughput. Nucleic Acid Res. 32, 1792–1797 (2004).
+
+**Short description**: MUSCLE is one of the best-performing multiple alignment programs according to published
+benchmark tests, with accuracy and speed that are consistently better than CLUSTALW. MUSCLE can align hundreds of
+sequences in seconds.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load muscle/3.8.31
+
+
+tRNA-Scan SE
+~~~~~~~~~~~~
+
+**Website**: https://github.com/UCSC-LoweLab/tRNAscan-SE
+
+**Reference**: Lowe, T. M. & Eddy, S. R. tRNAscan-SE: A Program for Improved Detection of Transfer RNA Genes in
+Genomic Sequence. Nucleic Acids Res. 25, 0955–0964 (1997).
+
+**Short description**: We describe a program, tRNAscan-SE, which identifies 99–100% of transfer RNA genes in DNA
+sequence while giving less than one false positive per 15 gigabases.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load tRNAscan-SE/1.23
+
+
+Samtools
+~~~~~~~~
+
+**Website**: http://www.htslib.org/
+
+**Reference**: Danecek, P. et al. Twelve years of SAMtools and BCFtools. Gigascience 10, 1–4 (2021).
+
+**Short description**: Samtools is a suite of programs for interacting with high-throughput sequencing data
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load samtools/1.10
+
+
+BWA
+~~~
+
+**Website**: https://github.com/lh3/bwa
+
+**Reference**: Li, H. & Durbin, R. Fast and accurate short read alignment with Burrows-Wheeler transform.
+Bioinformatics 25, 1754–60 (2009).
+
+**Short description**: BWA is a software package for mapping DNA sequences against a large reference genome, such as
+the human genome. It consists of three algorithms: BWA-backtrack, BWA-SW and BWA-MEM. The first algorithm is designed
+for Illumina sequence reads up to 100bp, while the rest two for longer sequences ranged from 70bp to a few megabases.
+BWA-MEM and BWA-SW share similar features such as the support of long reads and chimeric alignment, but BWA-MEM,
+which is the latest, is generally recommended as it is faster and more accurate. BWA-MEM also has better performance
+than BWA-backtrack for 70-100bp Illumina reads.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load bwa/0.7.17-r1198
+
+
+MCL
+~~~
+
+**Website**: https://micans.org/mcl/
+
+**Reference**: Enright, a J., Van Dongen, S. & Ouzounis, C. a. An efficient algorithm for large-scale detection of
+protein families. Nucleic Acids Res. 30, 1575–84 (2002).
+
+**Short description**: The MCL algorithm is short for the Markov Cluster Algorithm, a fast and scalable unsupervised
+cluster algorithm for graphs (also known as networks) based on simulation of (stochastic) flow in graphs.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load mcl/14.137
+
+
+
+
+# ClustalOmega/1.2.4/ module
+# EMBOSS
+# mason
+$ RASCAL module
+# Crux-Toolkit
+# MrBayes
+# PriceTI
+# igraph
+# spades-cleaner
+# MIDAS module
+# Salmon, dependency? of Trinity
+
+# Velvet
+
+# JAGS... hmmm
+# PlasFlow... hmmm
+
+# ANIcalculator
+
+# PfamScan

@@ -1,0 +1,559 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>End-to-End Processing of a Viral Metagenome &#8212; MAVERIC Informatics  documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Pathways and Metabolisms of MAGs" href="Metabolic-and-Pathway-Analyses.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Metabolic-and-Pathway-Analyses.html" title="Pathways and Metabolisms of MAGs"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="end-to-end-processing-of-a-viral-metagenome">
+<span id="processing-viral"></span><h1>End-to-End Processing of a Viral Metagenome<a class="headerlink" href="#end-to-end-processing-of-a-viral-metagenome" title="Permalink to this headline">¶</a></h1>
+<p>For this dataset, we’ll be <strong>fully</strong> processing <a class="reference external" href="https://www.ncbi.nlm.nih.gov/sra/ERR594369">SRX4071230</a>, a peat
+metagenome with 14.1M reads. The SRA Run is ERR594369, which will be important when downloading the data from SRA.</p>
+<p>This will include (nearly) all steps and <em>most</em> of the results returned from the command line. Clearly, some outputs
+can’t be nicely placed here, but are available (as links to files) or in the M8194 project directory.</p>
+<p>Everything here uses Singularity. All of the singularity images are located at:</p>
+<p><strong>/users/PAS1117/osu9664/eMicro-Apps/</strong></p>
+<p>So you must prepend each *.img, *.simg or *.sif Singularity container w/ this path OR link them (see <a class="reference internal" href="Linux-Unix.html#unix-linux"><span class="std std-ref">UNIX/LINUX Introduction and Guide</span></a>).</p>
+<div class="section" id="downloading-the-data">
+<h2>Downloading the data<a class="headerlink" href="#downloading-the-data" title="Permalink to this headline">¶</a></h2>
+<p>The first thing we need to do is grab the data from the SRA. You can do this a few ways, either through navigating the
+NCBI+SRA websites, or directly using their SRA Toolkit.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Move to project directory</span>
+$ <span class="nb">cd</span> /fs/project/PAS1573/week7_processing
+<span class="c1"># Load modules necessary</span>
+$ module load singularity
+$ singularity run SRA_Toolkit.sif fasterq-dump -e <span class="m">4</span> -p --split-files ERR594369
+join   :<span class="p">|</span>-------------------------------------------------- <span class="m">100</span>.00%
+concat :<span class="p">|</span>-------------------------------------------------- <span class="m">100</span>.00%
+spots <span class="nb">read</span>      : <span class="m">37</span>,151,587
+reads <span class="nb">read</span>      : <span class="m">74</span>,303,174
+reads written   : <span class="m">74</span>,303,174
+</pre></div>
+</div>
+<p>In the example above, we used <em>fasterq-dump</em>, which is designated to download two paired end read files in fastq format.
+We also specified 4 threads (-e 4) so it would run a little faster. There should be <em>two</em> output files: ERR594369_1.fastq
+and ERR594369_2.fastq. fasterq-dump won’t compress the files for you, so you’ll have to do this after the download completes.</p>
+</div>
+<div class="section" id="read-quality-control">
+<h2>Read Quality Control<a class="headerlink" href="#read-quality-control" title="Permalink to this headline">¶</a></h2>
+<p>We will be using either <a class="reference external" href="https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/bbduk-guide/">BBDuk</a> or
+<a class="reference external" href="http://www.usadellab.org/cms/?page=trimmomatic">Trimmomatic</a> to process our input reads. <em>You only need to select one</em>.
+We’ll be using both for examples, but typically stick with one and use it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ singularity run Trimmomatic-0.36.0.img PE ERR594369_1.fastq ERR594369_2.fastq ERR594369_1_t_paired.fastq.gz ERR594369_1_t_unpaired.fastq.gz ERR594369_2_t_paired.fastq.gz ERR594369_2_t_unpaired.fastq.gz ILLUMINACLIP:/Trimmomatic-0.36/adapters/TruSeq3-PE.fa:2:30:10:2 LEADING:3 TRAILING:3 MINLEN:36
+TrimmomaticPE: Started with arguments:
+ ERR594369_1.fastq ERR594369_2.fastq ERR594369_1_t_paired.fastq.gz ERR594369_1_t_unpaired.fastq.gz ERR594369_2_t_paired.fastq.gz ERR594369_2_t_unpaired.fastq.gz ILLUMINACLIP:/Trimmomatic-0.36/adapters/TruSeq3-PE.fa:2:30:10:2 LEADING:3 TRAILING:3 MINLEN:36
+Using PrefixPair: <span class="s1">&#39;TACACTCTTTCCCTACACGACGCTCTTCCGATCT&#39;</span> and <span class="s1">&#39;GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT&#39;</span>
+ILLUMINACLIP: Using <span class="m">1</span> prefix pairs, <span class="m">0</span> forward/reverse sequences, <span class="m">0</span> forward only sequences, <span class="m">0</span> reverse only sequences
+Quality encoding detected as phred33
+Input Read Pairs: <span class="m">37151587</span> Both Surviving: <span class="m">36444033</span> <span class="o">(</span><span class="m">98</span>.10%<span class="o">)</span> Forward Only Surviving: <span class="m">632370</span> <span class="o">(</span><span class="m">1</span>.70%<span class="o">)</span> Reverse Only Surviving: <span class="m">67275</span> <span class="o">(</span><span class="m">0</span>.18%<span class="o">)</span> Dropped: <span class="m">7909</span> <span class="o">(</span><span class="m">0</span>.02%<span class="o">)</span>
+TrimmomaticPE: Completed successfully
+</pre></div>
+</div>
+<p>For Trimmomatic, the defaults work pretty well. Note the location of the IlluminaClip - it’s already “in” the Singularity
+file. If you have your own custom primers/adapters, you’ll need to add your sequences or create your own primer and adapter
+file.</p>
+<p>Next, BBDuk. BBDuk is usually done in 2-3 steps, with 1st being an adapter trimming step, and 2nd with the removal of
+low quality sequences. You can do both steps in a single command, but doing so in two steps allows us to see what was
+removed during each.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ BBTools-38.69.sif bbduk.sh <span class="nv">in1</span><span class="o">=</span>ERR594369_1.fastq.gz <span class="nv">in2</span><span class="o">=</span>ERR594369_2.fastq.gz <span class="nv">out1</span><span class="o">=</span>ERR594369_1_t.fastq.gz <span class="nv">out2</span><span class="o">=</span>ERR594369_2_t.fastq.gz <span class="nv">ref</span><span class="o">=</span>/bbmap/resources/adapters.fa <span class="nv">ktrim</span><span class="o">=</span>r <span class="nv">k</span><span class="o">=</span><span class="m">23</span> <span class="nv">mink</span><span class="o">=</span><span class="m">11</span> <span class="nv">hdist</span><span class="o">=</span><span class="m">1</span> tpe tbo
+java -ea -Xmx50052m -Xms50052m -cp /bbmap/current/ jgi.BBDuk <span class="nv">in1</span><span class="o">=</span>ERR594369_1.fastq.gz <span class="nv">in2</span><span class="o">=</span>ERR594369_2.fastq.gz <span class="nv">out1</span><span class="o">=</span>ERR594369_1_t.fastq.gz <span class="nv">out2</span><span class="o">=</span>ERR594369_2_t.fastq.gz <span class="nv">ref</span><span class="o">=</span>/bbmap/resources/adapters.fa <span class="nv">ktrim</span><span class="o">=</span>r <span class="nv">k</span><span class="o">=</span><span class="m">23</span> <span class="nv">mink</span><span class="o">=</span><span class="m">11</span> <span class="nv">hdist</span><span class="o">=</span><span class="m">1</span> tpe tbo
+Executing jgi.BBDuk <span class="o">[</span><span class="nv">in1</span><span class="o">=</span>ERR594369_1.fastq.gz, <span class="nv">in2</span><span class="o">=</span>ERR594369_2.fastq.gz, <span class="nv">out1</span><span class="o">=</span>ERR594369_1_t.fastq.gz, <span class="nv">out2</span><span class="o">=</span>ERR594369_2_t.fastq.gz, <span class="nv">ref</span><span class="o">=</span>/bbmap/resources/adapters.fa, <span class="nv">ktrim</span><span class="o">=</span>r, <span class="nv">k</span><span class="o">=</span><span class="m">23</span>, <span class="nv">mink</span><span class="o">=</span><span class="m">11</span>, <span class="nv">hdist</span><span class="o">=</span><span class="m">1</span>, tpe, tbo<span class="o">]</span>
+Version <span class="m">38</span>.69
+
+maskMiddle was disabled because <span class="nv">useShortKmers</span><span class="o">=</span><span class="nb">true</span>
+<span class="m">0</span>.021 seconds.
+Initial:
+Memory: <span class="nv">max</span><span class="o">=</span>50733m, <span class="nv">total</span><span class="o">=</span>50733m, <span class="nv">free</span><span class="o">=</span>49894m, <span class="nv">used</span><span class="o">=</span>839m
+
+Added <span class="m">217135</span> kmers<span class="p">;</span> time:   <span class="m">0</span>.328 seconds.
+Memory: <span class="nv">max</span><span class="o">=</span>50733m, <span class="nv">total</span><span class="o">=</span>50733m, <span class="nv">free</span><span class="o">=</span>48774m, <span class="nv">used</span><span class="o">=</span>1959m
+
+Input is being processed as paired
+Started output streams:     <span class="m">0</span>.094 seconds.
+Processing time:            <span class="m">1157</span>.764 seconds.
+
+Input:                      <span class="m">74303174</span> reads          <span class="m">7164049847</span> bases.
+KTrimmed:                   <span class="m">480321</span> reads <span class="o">(</span><span class="m">0</span>.65%<span class="o">)</span>    <span class="m">11406582</span> bases <span class="o">(</span><span class="m">0</span>.16%<span class="o">)</span>
+Trimmed by overlap:         <span class="m">262843</span> reads <span class="o">(</span><span class="m">0</span>.35%<span class="o">)</span>    <span class="m">1383411</span> bases <span class="o">(</span><span class="m">0</span>.02%<span class="o">)</span>
+Total Removed:              <span class="m">3298</span> reads <span class="o">(</span><span class="m">0</span>.00%<span class="o">)</span>      <span class="m">12789993</span> bases <span class="o">(</span><span class="m">0</span>.18%<span class="o">)</span>
+Result:                     <span class="m">74299876</span> reads <span class="o">(</span><span class="m">100</span>.00%<span class="o">)</span>        <span class="m">7151259854</span> bases <span class="o">(</span><span class="m">99</span>.82%<span class="o">)</span>
+
+Time:                               <span class="m">1158</span>.188 seconds.
+Reads Processed:      74303k        <span class="m">64</span>.15k reads/sec
+Bases Processed:       7164m        <span class="m">6</span>.19m bases/sec
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ BBTools-38.69.sif bbduk.sh <span class="nv">in1</span><span class="o">=</span>ERR594369_1_t.fastq.gz <span class="nv">in2</span><span class="o">=</span>ERR594369_2_t.fastq.gz <span class="nv">qtrim</span><span class="o">=</span>rl <span class="nv">trimq</span><span class="o">=</span><span class="m">10</span> <span class="nv">out1</span><span class="o">=</span>ERR594369_1_t_qc.fastq.gz <span class="nv">out2</span><span class="o">=</span>ERR594369_2_t_qc.fastq.gz
+java -ea -Xmx50160m -Xms50160m -cp /bbmap/current/ jgi.BBDuk <span class="nv">in1</span><span class="o">=</span>ERR594369_1_t.fastq.gz <span class="nv">in2</span><span class="o">=</span>ERR594369_2_t.fastq.gz <span class="nv">qtrim</span><span class="o">=</span>rl <span class="nv">trimq</span><span class="o">=</span><span class="m">10</span> <span class="nv">out1</span><span class="o">=</span>ERR594369_1_t_qc.fastq.gz <span class="nv">out2</span><span class="o">=</span>ERR594369_2_t_qc.fastq.gz
+Executing jgi.BBDuk <span class="o">[</span><span class="nv">in1</span><span class="o">=</span>ERR594369_1_t.fastq.gz, <span class="nv">in2</span><span class="o">=</span>ERR594369_2_t.fastq.gz, <span class="nv">qtrim</span><span class="o">=</span>rl, <span class="nv">trimq</span><span class="o">=</span><span class="m">10</span>, <span class="nv">out1</span><span class="o">=</span>ERR594369_1_t_qc.fastq.gz, <span class="nv">out2</span><span class="o">=</span>ERR594369_2_t_qc.fastq.gz<span class="o">]</span>
+Version <span class="m">38</span>.69
+
+<span class="m">0</span>.021 seconds.
+Initial:
+Memory: <span class="nv">max</span><span class="o">=</span>50843m, <span class="nv">total</span><span class="o">=</span>50843m, <span class="nv">free</span><span class="o">=</span>50001m, <span class="nv">used</span><span class="o">=</span>842m
+
+Input is being processed as paired
+Started output streams:     <span class="m">0</span>.109 seconds.
+Processing time:            <span class="m">346</span>.964 seconds.
+
+Input:                      <span class="m">74299876</span> reads          <span class="m">7151259854</span> bases.
+QTrimmed:                   <span class="m">238190</span> reads <span class="o">(</span><span class="m">0</span>.32%<span class="o">)</span>    <span class="m">2587818</span> bases <span class="o">(</span><span class="m">0</span>.04%<span class="o">)</span>
+Total Removed:              <span class="m">3352</span> reads <span class="o">(</span><span class="m">0</span>.00%<span class="o">)</span>      <span class="m">2587818</span> bases <span class="o">(</span><span class="m">0</span>.04%<span class="o">)</span>
+Result:                     <span class="m">74296524</span> reads <span class="o">(</span><span class="m">100</span>.00%<span class="o">)</span>        <span class="m">7148672036</span> bases <span class="o">(</span><span class="m">99</span>.96%<span class="o">)</span>
+
+Time:                               <span class="m">347</span>.075 seconds.
+Reads Processed:      74299k        <span class="m">214</span>.07k reads/sec
+Bases Processed:       7151m        <span class="m">20</span>.60m bases/sec
+</pre></div>
+</div>
+<p>How does the quality check out?</p>
+</div>
+<div class="section" id="read-quality-control-visualizing">
+<h2>Read Quality Control (Visualizing)<a class="headerlink" href="#read-quality-control-visualizing" title="Permalink to this headline">¶</a></h2>
+<p>Here, we’ve already loaded singularity (above) and moved to the project directory. In this example, I’m going to run
+FastQC on all of the input files (2), the results from Trimmomatic (4) and the adapter trimmed (2) and quality filtered
+(2) read <em>pairs</em> of BBDuk.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ FastQC-0.11.8.sif ERR594369_1_t_paired.fastq.gz ERR594369_1_t_unpaired.fastq.gz ERR594369_2_t_paired.fastq.gz ERR594369_2_t_unpaired.fastq.gz ERR594369_1_t.fastq ERR594369_2_t.fastq.gz ERR594369_1_t_qc.fastq.gz ERR594369_2_t_qc.fastq
+Started analysis of ERR594369_1_t_paired.fastq.gz
+Approx <span class="m">5</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1_t_paired.fastq.gz
+Approx <span class="m">10</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1_t_paired.fastq.gz
+Approx <span class="m">15</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1_t_paired.fastq.gz
+Approx <span class="m">20</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1_t_paired.fastq.gz
+Approx <span class="m">25</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1_t_paired.fastq.gz
+Approx <span class="m">30</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1_t_paired.fastq.gz
+Approx <span class="m">35</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1_t_paired.fastq.gz
+Approx <span class="m">40</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1_t_paired.fastq.gz
+Approx <span class="m">45</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1_t_paired.fastq.gz
+Approx <span class="m">50</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1_t_paired.fastq.gz
+Approx <span class="m">55</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1_t_paired.fastq.gz
+Approx <span class="m">60</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1_t_paired.fastq.gz
+Approx <span class="m">65</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1_t_paired.fastq.gz
+Approx <span class="m">70</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1_t_paired.fastq.gz
+Approx <span class="m">75</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1_t_paired.fastq.gz
+Approx <span class="m">80</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1_t_paired.fastq.gz
+Approx <span class="m">85</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1_t_paired.fastq.gz
+Approx <span class="m">90</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1_t_paired.fastq.gz
+Approx <span class="m">95</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1_t_paired.fastq.gz
+Analysis <span class="nb">complete</span> <span class="k">for</span> ERR594369_1_t_paired.fastq.gz
+</pre></div>
+</div>
+<p>I’ve omitted the lengthy 5% increments for all 10 files. Basically, FastQC will process each file individually and
+deposit the results in &lt;filename&gt;_fastqc.zip and &lt;filename&gt;_fastqc.html.</p>
+<p>Next, we’ll want to visually summarize these results using MultiQC. I’m running MultiQC in the directory with all the
+FastQC results, so I’m using “.” to specify “the current directory” on the command line.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ singularity run MultiQC-1.7.sif .
+<span class="o">[</span>INFO   <span class="o">]</span>         multiqc : This is MultiQC v1.7
+<span class="o">[</span>INFO   <span class="o">]</span>         multiqc : Template    : default
+<span class="o">[</span>INFO   <span class="o">]</span>         multiqc : Searching <span class="s1">&#39;.&#39;</span>
+<span class="o">[</span>INFO   <span class="o">]</span>          fastqc : Found <span class="m">10</span> reports
+<span class="o">[</span>INFO   <span class="o">]</span>         multiqc : Compressing plot data
+<span class="o">[</span>INFO   <span class="o">]</span>         multiqc : Report      : multiqc_report.html
+<span class="o">[</span>INFO   <span class="o">]</span>         multiqc : Data        : multiqc_data
+<span class="o">[</span>INFO   <span class="o">]</span>         multiqc : MultiQC <span class="nb">complete</span>
+</pre></div>
+</div>
+<p>Once that’s done, the resulting directory should look like:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ ls -lh
+<span class="c1"># Original input data</span>
+ERR594369_1_fastqc.zip
+ERR594369_2_fastqc.zip
+<span class="c1"># Trimmomatic results. Paired reads surviving (2) + unpaired reads (mate pair didn&#39;t make it) surviving (2)</span>
+ERR594369_1_t_paired_fastqc.zip
+ERR594369_1_t_unpaired_fastqc.zip
+ERR594369_2_t_paired_fastqc.zip
+ERR594369_2_t_unpaired_fastqc.zip
+<span class="c1"># BBDuk adapter trimming results. BBDuk will only return paired reads with the parameters we specified</span>
+ERR594369_1_t_fastqc.zip
+ERR594369_2_t_fastqc.zip
+<span class="c1"># BBDuk quality trimming results, using the trimming results (above) as input</span>
+ERR594369_1_t_qc_fastqc.zip
+ERR594369_2_t_qc_fastqc.zip
+<span class="c1"># MultiQC report and data</span>
+multiqc_report.html
+multiqc_data
+</pre></div>
+</div>
+<p>I’ve added comments to the command (above). <em>Normally</em>, this would NOT be in the output, but I’m commenting here to break
+down what files came from where.</p>
+</div>
+<div class="section" id="assembly">
+<h2>Assembly<a class="headerlink" href="#assembly" title="Permalink to this headline">¶</a></h2>
+<p>Assembly isn’t for the faint of heart. It can be frustrating and it can fail for a lot of reasons, often due to insufficient
+memory or due to the dataset complexity. There’s only so much you can do.</p>
+<p>However, our example dataset will finish on OSC within a few hours. Below is the bash script that can be submitted to OSC
+that should assemble your data.</p>
+<p><em>This will run SPAdes on the Trimmomatic-cleaned reads, alternatives are below</em>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1">#SBATCH -N 1</span>
+<span class="c1">#SBATCH -t 24:00:00</span>
+<span class="c1">#SBATCH -n 48</span>
+<span class="c1">#SBATCH -J SPAdes</span>
+<span class="c1">#SBATCH --partition=hugemem</span>
+
+<span class="c1"># Load the SPAdes module or the singularity version</span>
+<span class="c1"># module use /fs/project/PAS1117/modulefiles  # Uncomment if wanting to use modules</span>
+<span class="c1"># module load spades/3.15.2 # Uncomment if wanting to use modules</span>
+
+module load singularity
+
+<span class="c1"># Directories</span>
+<span class="nv">projectDir</span><span class="o">=</span><span class="s2">&quot;/fs/project/PAS1117/viral_ecogenomics_pipeline/&quot;</span>
+<span class="nv">readsDir</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">projectDir</span><span class="si">}</span><span class="s2">/read_trimming/trimmomatic/&quot;</span>
+<span class="nv">spadesLoc</span><span class="o">=</span><span class="s2">&quot;/users/PAS1117/osu9664/eMicro-Apps/SPAdes-3.13.0.sif&quot;</span>
+<span class="nv">outputDir</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">projectDir</span><span class="si">}</span><span class="s2">/assemblies/SPAdes_with_Trimmomatic&quot;</span>
+
+<span class="c1"># General Options, can&#39;t use --careful with --meta</span>
+<span class="nv">genOpts</span><span class="o">=</span><span class="s2">&quot;--meta -k 21,33,55,77,99,121&quot;</span>  <span class="c1"># Paired end, 1 pair only</span>
+<span class="nv">runOpts</span><span class="o">=</span><span class="s2">&quot;-t 48 -m 124&quot;</span>  <span class="c1"># Match to job request. This is 48 cores and 744 GB memory (a node on Owens = 128 GB)</span>
+
+<span class="c1"># Whare are the reads we&#39;ll need?</span>
+<span class="nv">forReads</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">readsDir</span><span class="si">}</span><span class="s2">/ERR594369_1_t_paired.fastq.gz&quot;</span>
+<span class="nv">revReads</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">readsDir</span><span class="si">}</span><span class="s2">/ERR594369_2_t_paired.fastq.gz&quot;</span>
+
+<span class="c1"># spadesRun=&quot;spades.py ${genOpts} ${runOpts}&quot;  # Because we loaded the module, the system knows where to look</span>
+
+<span class="c1"># Now that we have our parameters and input files, we can put everything together</span>
+<span class="nv">spadesCmd</span><span class="o">=</span><span class="s2">&quot;singularity run </span><span class="si">${</span><span class="nv">spadesLoc</span><span class="si">}</span><span class="s2"> </span><span class="si">${</span><span class="nv">genOpts</span><span class="si">}</span><span class="s2"> </span><span class="si">${</span><span class="nv">runOpts</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="nv">spadesCmd</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">spadesCmd</span><span class="si">}</span><span class="s2"> --pe1-1 </span><span class="si">${</span><span class="nv">forReads</span><span class="si">}</span><span class="s2"> --pe1-2 </span><span class="si">${</span><span class="nv">revReads</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="c1"># I always like to know what command was actually sent to SPAdes</span>
+<span class="c1"># -o will send the output of SPAdes to the assembly directory, defined above</span>
+<span class="nb">echo</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">spadesCmd</span><span class="si">}</span><span class="s2"> -o </span><span class="si">${</span><span class="nv">outputDir</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="si">${</span><span class="nv">spadesCmd</span><span class="si">}</span> -o <span class="si">${</span><span class="nv">outputDir</span><span class="si">}</span>
+
+<span class="c1"># Uncomment the lines below if using module</span>
+<span class="c1"># spadesRun=&quot;${spadesRun} --pe1-1 ${pe1f} --pe1-2 ${pe1r}&quot;</span>
+
+<span class="c1"># echo &quot;${spadesRun} -o ${outputDir}&quot;</span>
+<span class="c1"># ${spadesRun} -o &quot;${outputDir}&quot;</span>
+</pre></div>
+</div>
+<p>Submit using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ sbatch SPAdes_Trimmomatic.sh
+</pre></div>
+</div>
+<p>Please see the OSC guide for how this job script was created. Since I’m familiar with the sample background (sample
+complexity, microbes, relative sequencing depth) and the SPAdes assembler for this sample, I can guess at how long to
+request for the job. I requested 24 hours and a full large memory node (48 cores, and set SPAdes -t 48). It used to be
+that at the end of the run, OSC would let you know the resources you used, but sadly, they do not (or I haven’t figured
+out how to automatically get it). Instead, we can use “sacct” to figure out what resources were used.</p>
+<p>For this job:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ sacct -j <span class="m">3917921</span> --format <span class="s2">&quot;CPUTime,MaxRSS,Elapsed&quot;</span>
+   CPUTime     MaxRSS    Elapsed
+---------- ---------- ----------
+<span class="m">6</span>-14:06:24  54310312K   <span class="m">03</span>:17:38
+</pre></div>
+</div>
+<p>The job required ~54 GB and ~3.25 hours. We can’t do anything about the GB requested, as asking for 48 cores will give
+you <em>at least</em> a large memory node. We could request 60 GB of memory, but OSC will still charge you for the whole node.</p>
+<p>And now, what if we wanted to use a different assembler, let’s say MEGAHIT?</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1">#SBATCH -N 1</span>
+<span class="c1">#SBATCH -t 24:00:00</span>
+<span class="c1">#SBATCH -n 48</span>
+<span class="c1">#SBATCH -J MEGAHIT</span>
+<span class="c1">#SBATCH --partition=hugemem</span>
+
+<span class="c1"># Load the SPAdes module or the singularity version</span>
+<span class="c1"># module use /fs/project/PAS1117/modulefiles  # Uncomment if wanting to use modules</span>
+<span class="c1"># module load spades/3.15.2 # Uncomment if wanting to use modules</span>
+
+module load singularity
+
+<span class="c1"># Directories</span>
+<span class="nv">projectDir</span><span class="o">=</span><span class="s2">&quot;/fs/project/PAS1117/viral_ecogenomics_pipeline/&quot;</span>
+<span class="nv">readsDir</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">projectDir</span><span class="si">}</span><span class="s2">/read_trimming/trimmomatic/&quot;</span>
+<span class="nv">megahitLoc</span><span class="o">=</span><span class="s2">&quot;/users/PAS1117/osu9664/eMicro-Apps/MEGAHIT-1.2.8.sif&quot;</span>
+<span class="nv">outputDir</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">projectDir</span><span class="si">}</span><span class="s2">/assemblies/MEGAHIT_with_Trimmomatic&quot;</span>
+
+<span class="c1"># Assembling with MEGAHIT, so setting up parameters</span>
+<span class="nv">genOpts</span><span class="o">=</span><span class="s2">&quot;--k-list 21,41,61,81,99&quot;</span>  <span class="c1"># K-mer selection is a PhD itself...</span>
+<span class="nv">runOpts</span><span class="o">=</span><span class="s2">&quot;-t 48 -m 0.9&quot;</span>  <span class="c1"># Match to job request, 40 cores and 90% of memory</span>
+
+<span class="c1"># Whare are the reads we&#39;ll need?</span>
+<span class="nv">forReads</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">readsDir</span><span class="si">}</span><span class="s2">/ERR594369_1_t_paired.fastq.gz&quot;</span>
+<span class="nv">revReads</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">readsDir</span><span class="si">}</span><span class="s2">/ERR594369_2_t_paired.fastq.gz&quot;</span>
+
+<span class="c1"># Now that we have our parameters and input files, we can put everything together</span>
+<span class="nv">megahitCmd</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">megahitLoc</span><span class="si">}</span><span class="s2"> </span><span class="si">${</span><span class="nv">genOpts</span><span class="si">}</span><span class="s2"> </span><span class="si">${</span><span class="nv">runOpts</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="nv">megahitCmd</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">megahitCmd</span><span class="si">}</span><span class="s2"> -1 </span><span class="si">${</span><span class="nv">forReads</span><span class="si">}</span><span class="s2"> -2 </span><span class="si">${</span><span class="nv">revReads</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="nb">echo</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">megahitCmd</span><span class="si">}</span><span class="s2"> -o </span><span class="si">${</span><span class="nv">outputDir</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="si">${</span><span class="nv">megahitCmd</span><span class="si">}</span> -o <span class="si">${</span><span class="nv">outputDir</span><span class="si">}</span>
+</pre></div>
+</div>
+<p>Notice how I only changed a few lines, as when we switched from using Trimmomatic to BBDuk cleaned reads. The lines that
+were changed:</p>
+<blockquote>
+<div><ul class="simple">
+<li>megahitLoc=”/users/PAS1117/osu9664/eMicro-Apps/MEGAHIT-1.2.8.sif”</li>
+<li>outputDir=”${projectDir}/assemblies/MEGAHIT_with_Trimmomatic”</li>
+<li>genOpts=”–k-list 21,41,61,81,99”</li>
+<li>runOpts=”-t 48 -m 0.9”  # Match to job request, 48 cores and 90% of memory</li>
+<li>megahitCmd=”${megahitLoc} ${genOpts} ${runOpts}”</li>
+<li>megahitCmd=”${megahitCmd} -1 ${forReads} -2 ${revReads}”</li>
+</ul>
+</div></blockquote>
+<p>The location of the assembler changed, as did the output directory. Also, because we’re using a different assembler with
+different parameters/arguments, we need to change those as well.</p>
+<p>Submit!</p>
+<p>And resources used:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ sacct -j <span class="m">3929590</span> --format <span class="s2">&quot;CPUTime,MaxRSS,Elapsed,TotalCPU&quot;</span>
+   CPUTime     MaxRSS    Elapsed   TotalCPU
+---------- ---------- ---------- ----------
+<span class="m">1</span>-09:32:00   5723168K   <span class="m">00</span>:41:55 <span class="m">1</span>-01:08:22
+</pre></div>
+</div>
+<p>That took 41 minutes and used ~5.7 GB. That’s… quite a bit faster and significantly less memory.</p>
+</div>
+<div class="section" id="identifying-viruses">
+<h2>Identifying Viruses<a class="headerlink" href="#identifying-viruses" title="Permalink to this headline">¶</a></h2>
+<p>The next step is to identify which contigs are viral, and which are not.</p>
+<p>There are many, many tools (now in 2021) to identify. <em>For now</em>, we’ll focus on just using VirSorter 1.</p>
+<p>NOTE: As this guide continues to expand, we’ll add in more analyses to flesh out this content.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1">#SBATCH -N 1</span>
+<span class="c1">#SBATCH -t 24:00:00</span>
+<span class="c1">#SBATCH -n 40</span>
+<span class="c1">#SBATCH -J VirSorter</span>
+
+<span class="c1"># Load the VirSorter module or the singularity version</span>
+<span class="c1"># module use /fs/project/PAS1117/modulefiles</span>
+<span class="c1"># module load virsorter/1.1.0</span>
+
+module use singularity
+
+<span class="nv">projectDir</span><span class="o">=</span><span class="s2">&quot;/fs/project/PAS1117/viral_ecogenomics_pipeline/&quot;</span>
+<span class="nv">spadesOutput</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">projectDir</span><span class="si">}</span><span class="s2">/assemblies/SPAdes_with_Trimmomatic&quot;</span>
+
+<span class="nb">cd</span> projectDir
+
+Filter_by_SeqLength.py <span class="s2">&quot;{spadesOutput}/contigs.fasta 5000 contigs.5k.fasta</span>
+
+<span class="s2">projectDir=&quot;</span>/fs/project/PAS1117/viral_ecogenomics_pipeline/<span class="s2">&quot;</span>
+
+<span class="s2">VirSorter-1.0.5.img -f contigs.5k.fasta --db 2 --wdir VirSorter --ncpu 40 --data-dir /fs/project/PAS1117/modules/virsorter/1.1.0/databases/virsorter-data/</span>
+
+<span class="s2"># Or if using the module, uncomment the below</span>
+<span class="s2">wrapper_phage_contigs_sorter_iPlant.pl -f contigs.5k.fasta --db 2 --wdir VirSorter --ncpu 40 --data-dir /fs/project/PAS1117/modules/virsorter/1.1.0/databases/virsorter-data/</span>
+</pre></div>
+</div>
+<p>If you noticed, we first filtered the SPAdes contigs to 5k. Why? VirSorter doesn’t tend to perform as well on smaller contigs,
+as there’s not as much information to work with. Alternatively, you could also use DeepVirFinder and combine the two
+results.</p>
+<p>And how long did the job take?</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ sacct -j <span class="m">3919608</span> --format <span class="s2">&quot;CPUTime,MaxRSS,Elapsed,TotalCPU&quot;</span>
+   CPUTime     MaxRSS    Elapsed   TotalCPU
+---------- ---------- ---------- ----------
+<span class="m">6</span>-14:16:00   9013112K   <span class="m">03</span>:57:24   <span class="m">23</span>:24:18
+</pre></div>
+</div>
+<p>Four hours, using 9 GB. Looks like the next time I run VirSorter on 5193 contigs I can probably shorten it!</p>
+<p>Let’s combine the highest confidence virsorter categories (1-2, 4-5) and see how many viral genomes it predicted:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ <span class="nv">projectDir</span><span class="o">=</span>/fs/project/PAS1117/viral_ecogenomics_pipeline/
+$ <span class="nv">virsorterDir</span><span class="o">=</span><span class="nv">$projectDir</span>/VirSorter/Predicted_viral_sequences/
+
+$ cat <span class="nv">$virsorterDir</span>/VIRSorter_cat-1.fasta <span class="nv">$virsorterDir</span>/VIRSorter_cat-2.fasta <span class="nv">$virsorterDir</span>/VIRSorter_prophages_cat-4.fasta <span class="nv">$virsorterDir</span>/VIRSorter_prophages_cat-5.fasta &gt; VirSorter_cat1245.fasta
+
+$ grep -c <span class="s2">&quot;&gt;&quot;</span> VirSorter_cat1245.fasta
+<span class="m">5193</span>
+</pre></div>
+</div>
+<p>There’s 5193 predicted viruses!</p>
+</div>
+<div class="section" id="checking-the-quality-with-checkv">
+<h2>Checking the Quality with CheckV<a class="headerlink" href="#checking-the-quality-with-checkv" title="Permalink to this headline">¶</a></h2>
+<p>Now we’d like to check to see what the quality of the VirSorter-predicted putative viral genomes are. For this, we can
+use CheckV - an awesome tool developed only a couple of years ago. Before then, viral ecology researchers didn’t have
+much to go on regarding what the “quality” of their viruses were. Sure, they might be confident that it’s a viral genome,
+but there wasn’t an established method to define it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1">#SBATCH -N 1</span>
+<span class="c1">#SBATCH -t 1:00:00</span>
+<span class="c1">#SBATCH -n 40</span>
+<span class="c1">#SBATCH -J CheckV</span>
+
+module load singularity
+
+<span class="c1"># Directories</span>
+<span class="nv">projectDir</span><span class="o">=</span><span class="s2">&quot;/fs/project/PAS1117/viral_ecogenomics_pipeline/&quot;</span>
+<span class="nv">checkv</span><span class="o">=</span><span class="s2">&quot;/users/PAS1117/osu9664/eMicro-Apps/CheckV-2020.04.27.sif&quot;</span>
+
+<span class="nv">input_fp</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">projectDir</span><span class="si">}</span><span class="s2">/VirSorter_cat1245.fasta&quot;</span>
+<span class="nv">output_dir</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">projectDir</span><span class="si">}</span><span class="s2">/CheckV_output&quot;</span>
+
+<span class="c1"># Other checkV variables</span>
+<span class="nv">min_contig_len</span><span class="o">=</span><span class="m">2000</span>
+<span class="nv">min_tr_len</span><span class="o">=</span><span class="m">20</span>
+<span class="nv">max_tr_count</span><span class="o">=</span><span class="m">5</span>
+<span class="nv">max_tr_dust</span><span class="o">=</span><span class="m">20</span>.0
+
+<span class="nv">$checkv</span> contamination -t <span class="m">40</span> <span class="si">${</span><span class="nv">input_fp</span><span class="si">}</span> <span class="si">${</span><span class="nv">output_dir</span><span class="si">}</span>
+
+<span class="nv">$checkv</span> completeness -t <span class="m">40</span> <span class="si">${</span><span class="nv">input_fp</span><span class="si">}</span> <span class="si">${</span><span class="nv">output_dir</span><span class="si">}</span> -t <span class="m">40</span>
+
+<span class="nv">trim</span><span class="o">=</span><span class="s2">&quot;--min_contig_len </span><span class="si">${</span><span class="nv">min_contig_len</span><span class="si">}</span><span class="s2"> --min_tr_len </span><span class="si">${</span><span class="nv">min_tr_len</span><span class="si">}</span><span class="s2"> --max_tr_count </span><span class="si">${</span><span class="nv">min_tr_len</span><span class="si">}</span><span class="s2"> --max_tr_dust </span><span class="si">${</span><span class="nv">max_tr_dust</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="nv">$checkv</span> terminal_repeats <span class="nv">$trim</span> <span class="si">${</span><span class="nv">input_fp</span><span class="si">}</span> <span class="si">${</span><span class="nv">output_dir</span><span class="si">}</span>
+
+<span class="nv">$checkv</span> quality_summary <span class="si">${</span><span class="nv">input_fp</span><span class="si">}</span> <span class="si">${</span><span class="nv">output_dir</span><span class="si">}</span>
+</pre></div>
+</div>
+<p>Once that’s finished, let’s look at the output files generated in the ${output_dir}:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cleaned_contigs.fna
+contamination.tsv
+completeness.tsv
+tmp
+terminal_repeats.tsv
+quality_summary.tsv
+</pre></div>
+</div>
+<p>Each file corresponds to each of the CheckV steps, plus a tmp/ directory and cleaned_contigs.fna.</p>
+<p>And what does the top of the quality look like?</p>
+<p>contig_id       contig_length   checkv_quality  miuvig_quality  completeness    contamination   prophage        terminicomments
+VIRSorter_NODE_44_length_103345_cov_0_397294-cat_1      103345  Medium-quality  Genome-fragment 54.08   0.0     No      NA
+VIRSorter_NODE_79_length_76634_cov_0_488273-cat_1       76634   Low-quality     Genome-fragment 43.73   0.0     No      NA
+VIRSorter_NODE_98_length_66506_cov_0_281883-cat_1       66506   Low-quality     Genome-fragment 35.83   0.0     No      NA
+VIRSorter_NODE_106_length_63961_cov_0_327190-cat_1      63961   Low-quality     Genome-fragment 34.13   0.0     No      NA
+VIRSorter_NODE_136_length_55559_cov_0_526740-cat_1      55559   Low-quality     Genome-fragment 33.26   0.0     No      NA
+VIRSorter_NODE_145_length_52574_cov_0_529166-cat_1      52574   Low-quality     Genome-fragment 24.52   0.0     No      NA
+VIRSorter_NODE_146_length_52536_cov_1_173084-cat_1      52536   High-quality    High-quality    134.39  0.0     No      NA      Warning: completeness &gt;110%. Estimate may be unreliable.
+VIRSorter_NODE_169_length_48035_cov_0_841226-cat_1      48035   Low-quality     Genome-fragment 25.42   0.0     No      NA
+VIRSorter_NODE_173_length_47685_cov_0_177258-cat_1      47685   Low-quality     Genome-fragment 27.08   0.0     No      NA</p>
+<p>From the results of CheckV, it looks like we have:</p>
+<p>810 Low-quality
+24 Medium-quality
+17 High-quality
+68 Not-determined</p>
+<p>Not too bad. Since this is only one dataset, we’re probably not going to be able to generate very long, high-quality
+genomes.</p>
+</div>
+<div class="section" id="preparing-for-vcontact2-and-running-vcontact2">
+<h2>Preparing for vConTACT2 and Running vConTACT2<a class="headerlink" href="#preparing-for-vcontact2-and-running-vcontact2" title="Permalink to this headline">¶</a></h2>
+<p>vConTACT2 is a tool to classify viral genomes. But first, we need to get the input files setup. In the script below,
+we’ll run prodigal first - to generate proteins - and then use an accessory function to prepare vConTACT2 files.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1">#SBATCH -N 1</span>
+<span class="c1">#SBATCH -t 4:00:00</span>
+<span class="c1">#SBATCH -n 48</span>
+<span class="c1">#SBATCH -J vConTACT2</span>
+<span class="c1">#SBATCH --partition=hugemem</span>
+
+module load singularity
+module use /fs/project/PAS1117/modulefiles
+module load singularityImages
+
+<span class="c1"># Directories</span>
+<span class="nv">projectDir</span><span class="o">=</span><span class="s2">&quot;/fs/project/PAS1117/viral_ecogenomics_pipeline/&quot;</span>
+<span class="nv">vcontact2Loc</span><span class="o">=</span><span class="s2">&quot;/users/PAS1117/osu9664/eMicro-Apps/vConTACT2-0.9.20.sif&quot;</span>
+<span class="nv">outputDir</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">projectDir</span><span class="si">}</span><span class="s2">/vConTACT2_Output&quot;</span>
+
+prodigal -i VirSorter_cat1245.fasta -p meta -a VirSorter_cat1245.faa -o VirSorter_cat1245.prodigal
+
+vContact-Gene2Contig-1.0.0.img -p VirSorter_cat1245.faa -o VirSorter_cat1245_proteins.csv -s Prodigal-FAA
+
+vConTACT2-0.9.20.sif --pcs-mode MCL --vcs-mode ClusterONE --threads <span class="m">48</span> --raw-proteins VirSorter_cat1245.faa --rel-mode Diamond --proteins-fp VirSorter_cat1245_proteins.csv --db <span class="s1">&#39;ProkaryoticViralRefSeq201-Merged&#39;</span> --c1-bin /usr/local/bin/cluster_one-1.0.jar --output-dir <span class="nv">$outputDir</span>
+</pre></div>
+</div>
+<p>And with that, we’ve gone from raw, environmental viral metagenome data (downloaded from the SRA). We’ve QC’d, assembled,
+identified viral genomes, checked their quality, and then got a bit of classification. Just like with the Microbial
+Ecology pipeline, we’re only two steps away from a published manuscript!</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">End-to-End Processing of a Viral Metagenome</a><ul>
+<li><a class="reference internal" href="#downloading-the-data">Downloading the data</a></li>
+<li><a class="reference internal" href="#read-quality-control">Read Quality Control</a></li>
+<li><a class="reference internal" href="#read-quality-control-visualizing">Read Quality Control (Visualizing)</a></li>
+<li><a class="reference internal" href="#assembly">Assembly</a></li>
+<li><a class="reference internal" href="#identifying-viruses">Identifying Viruses</a></li>
+<li><a class="reference internal" href="#checking-the-quality-with-checkv">Checking the Quality with CheckV</a></li>
+<li><a class="reference internal" href="#preparing-for-vcontact2-and-running-vcontact2">Preparing for vConTACT2 and Running vConTACT2</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Metabolic-and-Pathway-Analyses.html"
+                        title="previous chapter">Pathways and Metabolisms of MAGs</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/Processing-a-Viral-Metagenome.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Metabolic-and-Pathway-Analyses.html" title="Pathways and Metabolisms of MAGs"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Benjamin Bolduc.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
+    </div>
+  </body>
+</html>
