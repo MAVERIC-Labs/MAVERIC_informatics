@@ -84,7 +84,73 @@ directory.</p>
 </div>
 <div class="section" id="the-profile-aliases-environmental-variables-path">
 <h2>The Profile (aliases, environmental variables, $PATH)<a class="headerlink" href="#the-profile-aliases-environmental-variables-path" title="Permalink to this headline">¶</a></h2>
-<p>Check back for more content!</p>
+<p>When you want to run a tool and you don’t want to write the full path to that tool every time, i.e.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ /fs/project/PAS1573/bin/bowtie2
+</pre></div>
+</div>
+<p>the system needs to know where that tool can be found. It doesn’t magically know where every tool is located.
+<strong>This is where the $PATH variable comes in</strong>. The PATH tells the system where to find its tools. In fact, whenever
+you type “ls” or “cat” or “grep” or any <em>standard</em> linux tool, the system knows where it is because there are
+default directories already present on the system.</p>
+<p>You can see where a tool is found by typing:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ which ls
+/usr/bin/ls
+</pre></div>
+</div>
+<p>The system’s PATH variable was set up with several directories, usually /usr/bin, /usr/local/bin, /opt/usr/bin, etc…</p>
+<p>What we want to do is ADD to that PATH, so in addition to all the useful, standard linux tools, we can also have our own.</p>
+<p>If you try to run the tool without having added it to your $PATH variable…</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ bowtie2 --version
+-bash: bowtie2: <span class="nb">command</span> not found
+</pre></div>
+</div>
+<p>But this will work</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ /fs/project/PAS1573/bin/bowtie2 --version
+</pre></div>
+</div>
+<p>What you <em>can do</em> is add that PATH to your system:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span>/fs/project/PAS1573/bin/:<span class="nv">$PATH</span>
+</pre></div>
+</div>
+<p>In this example, you’re <strong>extending</strong> your PATH variable, NOT replacing it (more below). You’re adding
+/fs/project/PAS1573/bin/ to all the other directories in $PATH.</p>
+<p>Now you can type:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ bowtie2 --version
+/fs/project/PAS1573/bin/bowtie2-align-s version <span class="m">2</span>.3.5.1
+...
+...
+</pre></div>
+</div>
+<p>Keeping the $PATH at the end is pretty important…</p>
+<p>HOWEVER, if you do this:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span>/fs/project/PAS1573/bin/
+</pre></div>
+</div>
+<p><strong>No programs will work.</strong> You will create a VERY annoying issue on your machine where the system can’t find ANYTHING.
+No “ls”, no “cat”, and you won’t even be able to edit the file. Every command will end up as “command not found.”
+<em>So what happened?</em> You <strong>replaced</strong> the PATH and basically said, “system, I only want you to look at this directory
+for <strong>every</strong> program.”</p>
+<p>To fix this, you’ll need to specify the full path to any tool… or restart your login session.</p>
+<p>There are a couple files on OSC (and generally, all linux systems) that control system variables like $PATH where users
+can add to or edit. On OSC, these are .bashrc and .bash_profile. They’re located in your HOME directory</p>
+<p>They might be empty, or might have a few lines of code in them. What we want to do is add to one of them.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ nano .bash_profile
+</pre></div>
+</div>
+<p>and then add the following:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span>/fs/project/PAS1573/bin/:<span class="nv">$PATH</span>
+</pre></div>
+</div>
+<p>Look familiar? Now, instead of having to write “export PATH=” every time you log into OSC, it’ll be there because the
+system will load up .bash_profile when you log in.</p>
+<p>Alternatively, instead of using nano:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">echo</span> <span class="s2">&quot;export PATH=/fs/project/PAS1573/bin/:</span><span class="nv">$PATH</span><span class="s2">&quot;</span> &gt;&gt; .bash_profile
+</pre></div>
+</div>
+</div>
+<div class="section" id="file-and-folder-permissions">
+<h2>File and Folder Permissions<a class="headerlink" href="#file-and-folder-permissions" title="Permalink to this headline">¶</a></h2>
+<p>The dreaded “Permission Denied” error.</p>
 </div>
 <div class="section" id="advanced-or-maybe-convenient-commands">
 <h2>Advanced (or maybe “convenient”?) commands<a class="headerlink" href="#advanced-or-maybe-convenient-commands" title="Permalink to this headline">¶</a></h2>
@@ -95,7 +161,7 @@ directory.</p>
 it’s probably due to using (often) Windows or software that auto-formats characters into something else. One great example
 is the <a class="reference external" href="https://www.thepunctuationguide.com/em-dash.html">em dash</a>. While great for punctuation (I use it often!), it
 makes a <strong>terrible</strong> character to put into a bash script. Frequently, text writing software will auto-format a double
-dash (“–”) for an em-dash. (It’s called “em” because it’s like the length of an “M”… I think). Why is it a bad
+dash (”–”) for an em-dash. (It’s called “em” because it’s like the length of an “M”… I think). Why is it a bad
 character? It’s not part of the ASCII character set. It’s part of Unicode’s set (U+2014). We won’t go into details here,
 but long story short, if you want to emulate it, use double dashes instead.</p>
 <p>So if you have this error, you need to 1) identify the non-ASCII characters and 2) eliminate them. Below are two ways to
@@ -122,6 +188,7 @@ $ pcregrep --color<span class="o">=</span><span class="s1">&#39;auto&#39;</span>
 <li><a class="reference internal" href="#">UNIX/LINUX Introduction and Guide</a><ul>
 <li><a class="reference internal" href="#basic-navigation-and-universally-common-commands">Basic Navigation and Universally Common Commands</a></li>
 <li><a class="reference internal" href="#the-profile-aliases-environmental-variables-path">The Profile (aliases, environmental variables, $PATH)</a></li>
+<li><a class="reference internal" href="#file-and-folder-permissions">File and Folder Permissions</a></li>
 <li><a class="reference internal" href="#advanced-or-maybe-convenient-commands">Advanced (or maybe “convenient”?) commands</a><ul>
 <li><a class="reference internal" href="#checking-for-non-ascii-characters">Checking for non-ASCII characters</a></li>
 </ul>

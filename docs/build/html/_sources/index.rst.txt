@@ -13,12 +13,12 @@ This site serves as a common portal to a variety of resources primarily handled 
 At this site you'll find information relating to:
 
 * The OSU Environmental Microbiology "eMicro" efforts on OSC
-* The OSU Microbiome Informatics course (M8194) (more below)
+* The OSU Microbiome Informatics course (M8161) (more below)
 * A public-facing portion of the Sullivan lab's informatics wiki, primarily focused on viral ecology research
 
 Please keep in mind that **this guide is very much a work in progress!**. It is being built, week-by-week, as the microbiome
-informatics course is taught during the Fall of 2019. Every week (and often, daily) this site will be updated, built upon
-the lectures of M8194, with the goal of providing sufficient information to support class projects and research overall.
+informatics course is taught during the Fall of 2021. Every week (and often, daily) this site will be updated, built upon
+the lectures of M8161, with the goal of providing sufficient information to support class projects and research overall.
 
 
 .. toctree::

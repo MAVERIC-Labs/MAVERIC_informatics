@@ -57,7 +57,104 @@ directory.
 The Profile (aliases, environmental variables, $PATH)
 -----------------------------------------------------
 
-Check back for more content!
+When you want to run a tool and you don't want to write the full path to that tool every time, i.e.
+
+.. code-block:: bash
+
+    $ /fs/project/PAS1573/bin/bowtie2
+
+the system needs to know where that tool can be found. It doesn't magically know where every tool is located.
+**This is where the $PATH variable comes in**. The PATH tells the system where to find its tools. In fact, whenever
+you type "ls" or "cat" or "grep" or any *standard* linux tool, the system knows where it is because there are
+default directories already present on the system.
+
+You can see where a tool is found by typing:
+
+.. code-block:: bash
+
+    $ which ls
+    /usr/bin/ls
+
+The system's PATH variable was set up with several directories, usually /usr/bin, /usr/local/bin, /opt/usr/bin, etc...
+
+What we want to do is ADD to that PATH, so in addition to all the useful, standard linux tools, we can also have our own.
+
+If you try to run the tool without having added it to your $PATH variable...
+
+.. code-block:: bash
+
+    $ bowtie2 --version
+    -bash: bowtie2: command not found
+
+But this will work
+
+.. code-block:: bash
+
+    $ /fs/project/PAS1573/bin/bowtie2 --version
+
+What you *can do* is add that PATH to your system:
+
+.. code-block:: bash
+
+    $ export PATH=/fs/project/PAS1573/bin/:$PATH
+
+In this example, you're **extending** your PATH variable, NOT replacing it (more below). You're adding
+/fs/project/PAS1573/bin/ to all the other directories in $PATH.
+
+Now you can type:
+
+.. code-block:: bash
+
+    $ bowtie2 --version
+    /fs/project/PAS1573/bin/bowtie2-align-s version 2.3.5.1
+    ...
+    ...
+
+Keeping the $PATH at the end is pretty important...
+
+HOWEVER, if you do this:
+
+.. code-block:: bash
+
+    $ export PATH=/fs/project/PAS1573/bin/
+
+**No programs will work.** You will create a VERY annoying issue on your machine where the system can't find ANYTHING.
+No "ls", no "cat", and you won't even be able to edit the file. Every command will end up as "command not found."
+*So what happened?* You **replaced** the PATH and basically said, "system, I only want you to look at this directory
+for **every** program."
+
+To fix this, you'll need to specify the full path to any tool... or restart your login session.
+
+There are a couple files on OSC (and generally, all linux systems) that control system variables like $PATH where users
+can add to or edit. On OSC, these are .bashrc and .bash_profile. They're located in your HOME directory
+
+They might be empty, or might have a few lines of code in them. What we want to do is add to one of them.
+
+.. code-block:: bash
+
+    $ nano .bash_profile
+
+and then add the following:
+
+.. code-block:: bash
+
+    $ export PATH=/fs/project/PAS1573/bin/:$PATH
+
+Look familiar? Now, instead of having to write "export PATH=" every time you log into OSC, it'll be there because the
+system will load up .bash_profile when you log in.
+
+Alternatively, instead of using nano:
+
+.. code-block:: bash
+
+    $ echo "export PATH=/fs/project/PAS1573/bin/:$PATH" >> .bash_profile
+
+
+
+File and Folder Permissions
+------------------------------------------
+
+The dreaded "Permission Denied" error.
 
 
 Advanced (or maybe "convenient"?) commands
