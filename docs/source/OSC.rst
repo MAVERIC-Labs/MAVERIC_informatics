@@ -16,21 +16,19 @@ list. If you need that, please consult the links at the bottom.
 Systems
 -------
 
-=======================     ======= =======
-System                      Pitzer  Owens
------------------------     ------- -------
-Year                        2018    2016
-Theoretical Performance     1200 TF 1600 TF
-Nodes                       260     824
-CPU cores                   10560   23392
-Total Memory                70.6 Tb 120 Tb
-Memory/Core                 > 5 Gb  > 5 Gb
-=======================     ======= =======
+=======================    ======= ======= =======
+System                     Pitzer  Pitzer  Owens
+-----------------------    ------- ------- -------
+Year                       2020    2018    2016
+Theoretical Performance    1300 TF 1200 TF 1600 TF
+Nodes                      398     260     824
+CPU cores                  19104   10560   23392
+Total Memory               97.3 Tb 70.6 Tb 120 Tb
+Memory/Core                > 5 Gb  > 5 Gb  > 5 Gb
+=======================    ======= ======= =======
 
-Notice that Pitzer, though newer, has far fewer nodes (31%) and less than half the cores (45%). However, it has 75% the
+Notice that Pitzer, though newer, has fewer nodes (80%) with more cores (120%). However, it has 150% the
 theoretical performance. Why would that be? Turns out the CPUs are faster and there are more CPUs/node.
-
-We won't be discussing Ruby, as it's not geared towards the analysis types we'll be working with.
 
 Login Nodes
 -----------
