@@ -334,7 +334,7 @@ but also works well on generic single genome assembly (small or mammalian size) 
 .. code-block:: bash
 
     module load singularity/current
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/MEGAHIT-1.2.8.sif --k-list 21,41,61,81,99 -t <threads> -m 0.9 -1 <for-reads> -2 <rev-reads> -o <output-dir>
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/MEGAHIT-1.2.8.sif --k-list 21,41,61,81,99 -t <threads> -m 0.9 -1 <for-reads> -2 <rev-reads> -o <output-dir> --presets meta-sensitive (or meta-large for complex metagenomes like soils or oceans)
 
 Binning
 -------
