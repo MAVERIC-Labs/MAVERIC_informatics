@@ -151,10 +151,47 @@ system will load up .bash_profile when you log in.</p>
 <div class="section" id="file-and-folder-permissions">
 <h2>File and Folder Permissions<a class="headerlink" href="#file-and-folder-permissions" title="Permalink to this headline">¶</a></h2>
 <p>The dreaded “Permission Denied” error.</p>
+<p>Since our class/project comprises multiple members who may/may not be a part of different OSC projects, that means each
+person is potentially a member of different system “groups.” If you’re only a member of one project - one group - then
+you might not notice a difference. However, if you are, it’s possible for you to create a file in a “shared” directory
+(i.e. our class project directory) that others cannot read or write to.</p>
+<p>By default, each user has a specific group that they will assign to a file or folder when they create it.</p>
+<p>Given our class project is PAS1573, we want all members in our class <em>group</em> to be able to write to all directories and
+read all files.</p>
+<p>For example, lets say you want to share data with your classmates…</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create the directory</span>
+$ mkdir data_to_share
+<span class="c1"># Change the group of the directory to the class/project group</span>
+$ chgrp PAS1573 data_to_share
+<span class="c1"># Make sure everything within that directory will have the same group as the class/group</span>
+$ chmod g+s data_to_share
+<span class="c1"># Set permissions for the owner (4+2+1) and group (4+2+1) to read, write, and execute</span>
+$ chmod <span class="m">770</span> data_to_share
+</pre></div>
+</div>
 </div>
 <div class="section" id="advanced-or-maybe-convenient-commands">
 <h2>Advanced (or maybe “convenient”?) commands<a class="headerlink" href="#advanced-or-maybe-convenient-commands" title="Permalink to this headline">¶</a></h2>
 <p>Below is a list of commands Ben uses way too much and wants to keep around for posterity.</p>
+<p><strong>Count the number of sequences in a fasta file</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ grep -c <span class="s2">&quot;&gt;&quot;</span> sequences.fasta
+</pre></div>
+</div>
+<p><strong>Submit an interactive job on OSC</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ srun --pty -N <span class="nv">$NODES</span> -n <span class="nv">$CPU_THREADS</span> -t <span class="nv">$TIME</span> -A <span class="nv">$PROJECT</span> /bin/bash -l
+</pre></div>
+</div>
+<p>Keep in mind that nodes, cpu_threads, time and project must be specified. And, while you <em>can</em> specify any length of time,
+you will need to wait for those resouces to become available. So if you request 120 hours, you might have to wait a while.</p>
+<p><strong>Get some stats on a job</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ sacct -j <span class="nv">$JOBID</span> --format <span class="s2">&quot;CPUTime,MaxRSS,Elapsed&quot;</span>
+</pre></div>
+</div>
+<p>Note: There are A LOT of options within the format field.</p>
+<p><strong>Get the size of the current directory and its subdirectories</strong>, aggregating results to one folder “depth” (i.e. –max-depth=1)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ du -h --max-depth<span class="o">=</span><span class="m">1</span> .
+</pre></div>
+</div>
 <div class="section" id="checking-for-non-ascii-characters">
 <h3>Checking for non-ASCII characters<a class="headerlink" href="#checking-for-non-ascii-characters" title="Permalink to this headline">¶</a></h3>
 <p>If you ever run a command and somewhere along the line there’s an error that includes “Non-ACSII character at X line”

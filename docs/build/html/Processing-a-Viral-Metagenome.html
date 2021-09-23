@@ -107,7 +107,7 @@ file.</p>
 <p>Next, BBDuk. BBDuk is usually done in 2-3 steps, with 1st being an adapter trimming step, and 2nd with the removal of
 low quality sequences. You can do both steps in a single command, but doing so in two steps allows us to see what was
 removed during each (more below)</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">time</span> which BBTools-38.69.sif bbduk.sh <span class="nv">in1</span><span class="o">=</span>ERR594369_1.fastq.gz <span class="nv">in2</span><span class="o">=</span>ERR594369_2.fastq.gz <span class="nv">out1</span><span class="o">=</span>ERR594369_1_t.fastq.gz <span class="nv">out2</span><span class="o">=</span>ERR594369_2_t.fastq.gz <span class="nv">ref</span><span class="o">=</span>/bbmap/resources/adapters.fa <span class="nv">ktrim</span><span class="o">=</span>r <span class="nv">k</span><span class="o">=</span><span class="m">23</span> <span class="nv">mink</span><span class="o">=</span><span class="m">11</span> <span class="nv">hdist</span><span class="o">=</span><span class="m">1</span> tpe tbo
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">time</span> BBTools-38.69.sif bbduk.sh <span class="nv">in1</span><span class="o">=</span>ERR594369_1.fastq.gz <span class="nv">in2</span><span class="o">=</span>ERR594369_2.fastq.gz <span class="nv">out1</span><span class="o">=</span>ERR594369_1_t.fastq.gz <span class="nv">out2</span><span class="o">=</span>ERR594369_2_t.fastq.gz <span class="nv">ref</span><span class="o">=</span>/bbmap/resources/adapters.fa <span class="nv">ktrim</span><span class="o">=</span>r <span class="nv">k</span><span class="o">=</span><span class="m">23</span> <span class="nv">mink</span><span class="o">=</span><span class="m">11</span> <span class="nv">hdist</span><span class="o">=</span><span class="m">1</span> tpe tbo
 java -ea -Xmx154371m -Xms154371m -cp /bbmap/current/ jgi.BBDuk <span class="nv">in1</span><span class="o">=</span>ERR594369_1.fastq.gz <span class="nv">in2</span><span class="o">=</span>ERR594369_2.fastq.gz <span class="nv">out1</span><span class="o">=</span>ERR594369_1_t.fastq.gz <span class="nv">out2</span><span class="o">=</span>ERR594369_2_t.fastq.gz <span class="nv">ref</span><span class="o">=</span>/bbmap/resources/adapters.fa <span class="nv">ktrim</span><span class="o">=</span>r <span class="nv">k</span><span class="o">=</span><span class="m">23</span> <span class="nv">mink</span><span class="o">=</span><span class="m">11</span> <span class="nv">hdist</span><span class="o">=</span><span class="m">1</span> tpe tbo
 Executing jgi.BBDuk <span class="o">[</span><span class="nv">in1</span><span class="o">=</span>ERR594369_1.fastq.gz, <span class="nv">in2</span><span class="o">=</span>ERR594369_2.fastq.gz, <span class="nv">out1</span><span class="o">=</span>ERR594369_1_t.fastq.gz, <span class="nv">out2</span><span class="o">=</span>ERR594369_2_t.fastq.gz, <span class="nv">ref</span><span class="o">=</span>/bbmap/resources/adapters.fa, <span class="nv">ktrim</span><span class="o">=</span>r, <span class="nv">k</span><span class="o">=</span><span class="m">23</span>, <span class="nv">mink</span><span class="o">=</span><span class="m">11</span>, <span class="nv">hdist</span><span class="o">=</span><span class="m">1</span>, tpe, tbo<span class="o">]</span>
 Version <span class="m">38</span>.69
@@ -346,8 +346,9 @@ out how to automatically get it). Instead, we can use “sacct” to figure out 
 <span class="m">9</span>-10:48:00  64883592K   <span class="m">04</span>:43:30
 </pre></div>
 </div>
-<p>The job required ~65 GB and took 4 hr 43 minutes. We can’t do anything about the GB requested, as asking for 48 cores will give
-you <em>at least</em> a large memory node. We could request 70 GB of memory, but OSC will still charge you for the whole node.</p>
+<p>Oops! The job required ~65 GB and took 4 hr 43 minutes. Considerably less than I had anticipated. We can’t do anything
+about the GB requested, as asking for 48 cores will give you <em>at least</em> a large memory node. We could request 70 GB of
+memory, but OSC will still charge you for the whole node.</p>
 <p>The SPAdes directory:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ ls MetaSPAdes_Trimmomatic
 assembly_graph.fastg               contigs.fasta  dataset.info            K21  K77   params.txt       spades.log
@@ -455,7 +456,7 @@ module load singularity
 </div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ sbatch VirSorter2-Pass1.sh
 
-$ $ sacct -j <span class="m">5276291</span> --format <span class="s2">&quot;CPUTime,MaxRSS,Elapsed&quot;</span>
+$ sacct -j <span class="m">5276291</span> --format <span class="s2">&quot;CPUTime,MaxRSS,Elapsed&quot;</span>
    CPUTime     MaxRSS    Elapsed
 ---------- ---------- ----------
 <span class="m">4</span>-16:18:00   1229896K   <span class="m">02</span>:48:27

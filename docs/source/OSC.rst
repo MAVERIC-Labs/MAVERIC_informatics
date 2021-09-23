@@ -140,8 +140,8 @@ There are a minimum number of resources that must be specified in order for OSC 
 the job file (we're going to call it "ourJob.sh"):
 
 .. code-block:: bash
+
     #!/bin/bash
-    
     #SBATCH --job-name=job_name
     #SBATCH --time=1:00:00
     #SBATCH --nodes=1

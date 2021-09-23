@@ -53,44 +53,51 @@ list. If you need that, please consult the links at the bottom.</p>
 <h2>Systems<a class="headerlink" href="#systems" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <colgroup>
-<col width="62%" />
-<col width="19%" />
-<col width="19%" />
+<col width="52%" />
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td>System</td>
 <td>Pitzer</td>
+<td>Pitzer</td>
 <td>Owens</td>
 </tr>
 <tr class="row-even"><td>Year</td>
+<td>2020</td>
 <td>2018</td>
 <td>2016</td>
 </tr>
 <tr class="row-odd"><td>Theoretical Performance</td>
+<td>1300 TF</td>
 <td>1200 TF</td>
 <td>1600 TF</td>
 </tr>
 <tr class="row-even"><td>Nodes</td>
+<td>398</td>
 <td>260</td>
 <td>824</td>
 </tr>
 <tr class="row-odd"><td>CPU cores</td>
+<td>19104</td>
 <td>10560</td>
 <td>23392</td>
 </tr>
 <tr class="row-even"><td>Total Memory</td>
+<td>97.3 Tb</td>
 <td>70.6 Tb</td>
 <td>120 Tb</td>
 </tr>
 <tr class="row-odd"><td>Memory/Core</td>
 <td>&gt; 5 Gb</td>
 <td>&gt; 5 Gb</td>
+<td>&gt; 5 Gb</td>
 </tr>
 </tbody>
 </table>
-<p>Notice that Pitzer, though newer, has far fewer nodes (31%) and less than half the cores (45%). However, it has 75% the
+<p>Notice that Pitzer, though newer, has fewer nodes (80%) with more cores (120%). However, it has 150% the
 theoretical performance. Why would that be? Turns out the CPUs are faster and there are more CPUs/node.</p>
-<p>We won’t be discussing Ruby, as it’s not geared towards the analysis types we’ll be working with.</p>
 </div>
 <div class="section" id="login-nodes">
 <h2>Login Nodes<a class="headerlink" href="#login-nodes" title="Permalink to this headline">¶</a></h2>
@@ -176,19 +183,23 @@ simple selection of which machine to log into.</p>
 <h3>Creating a batch script<a class="headerlink" href="#creating-a-batch-script" title="Permalink to this headline">¶</a></h3>
 <p>There are a minimum number of resources that must be specified in order for OSC to accept &amp; run a job. First of all,
 the job file (we’re going to call it “ourJob.sh”):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">#PBS -N job_name</span>
-<span class="c1">#PBS -l walltime=1:00:00</span>
-<span class="c1">#PBS -l nodes=1:ppn=40</span>
-<span class="c1">#PBS -A PAS0000</span>
-<span class="c1">#PBS -j oe</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1">#SBATCH --job-name=job_name</span>
+<span class="c1">#SBATCH --time=1:00:00</span>
+<span class="c1">#SBATCH --nodes=1</span>
+<span class="c1">#SBATCH --ntasks=40</span>
+<span class="c1">#SBATCH --account=PAS1573</span>
+<span class="c1">#SBATCH --output=job.log</span>
 
 <span class="c1"># Load modules</span>
 module load blast/2.8.0+
 
-<span class="c1"># Move to directory where job was submitted from</span>
-<span class="nb">cd</span> <span class="nv">$PBS_O_WORKDIR</span>
+<span class="c1"># Note that the job starts in the directory it was submitted from</span>
+<span class="c1"># but you can use this variable to get the path to that directory</span>
+<span class="nb">echo</span> <span class="s2">&quot;Starting dir: </span><span class="nv">$SLURM_SUBMIT_DIR</span><span class="s2">&quot;</span>
 
 <span class="c1"># Copy input data to the job node&#39;s local disk space</span>
+<span class="c1"># This allows for faster processing</span>
 cp query.fasta <span class="nv">$TMPDIR</span>
 
 <span class="c1"># Change directory to node&#39;s local disk</span>
@@ -198,26 +209,29 @@ cp query.fasta <span class="nv">$TMPDIR</span>
 blastn -query query.fasta -db nr -outfmt <span class="m">6</span> -out results.tsv
 
 <span class="c1"># Copy the results back to the directory where the job was submitted</span>
-cp results.tsv <span class="nv">$PBS_O_WORKDIR</span>
+cp results.tsv <span class="nv">$SLURM_SUBMIT_DIR</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="submitting-the-job">
 <h3>Submitting the job<a class="headerlink" href="#submitting-the-job" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qsub ourJob.sh
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbatch ourJob.sh
 </pre></div>
 </div>
 </div>
 <div class="section" id="job-gets-queued">
 <h3>Job gets queued<a class="headerlink" href="#job-gets-queued" title="Permalink to this headline">¶</a></h3>
 <p>How to show the status:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qstat -a jobid
-qstat -u username
-qstat -f jobid
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sstat -a jobid
+squeue -u username
+</pre></div>
+</div>
+<p>Show expected start time:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>squeue --start --jobs<span class="o">=</span>jobid
 </pre></div>
 </div>
 <p>How to delete a job:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qdel jobid
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scancel jobid
 </pre></div>
 </div>
 </div>
@@ -241,28 +255,35 @@ qstat -f jobid
 </ul>
 <p><strong>How long will you be waiting for a job to run?</strong> It depends on many factors, such as how many other users are using
 OSC, how many resources requested (nodes, cores, GPUs, software licenses), and if you (or your group!) are already using
-(or requesting) a lot of resources.</p>
+(or requesting) a lot of resources. But you can use the squeue command (see above) to get an estimate for when the job will start. Note that this is only an estimate at that particular point in time. Newer jobs could be submitted that have higher priority, pushing your job lower in the queue which would result in a later estimated start time.</p>
 </div>
 <div class="section" id="job-finishes-up-with-results">
 <h3>Job finishes up, with results!<a class="headerlink" href="#job-finishes-up-with-results" title="Permalink to this headline">¶</a></h3>
 <p>What does the output look like? <em>Besides</em> the output generated from the tool, the job will generate a couple more files.</p>
-<p>They’ll be at least a job_name.o1234567, which contains output printed to stdout, but <em>it may also</em> contain errors that
-were written to stderr. The reason <em>both</em> of them would be in the output file is because the job file specified that
-the output file should “join” the two: “#PBS -j oe” (i.e. join output + error)</p>
+<p>A job output file is immediately created as soon as the job starts. This file will be named according to what you specified in the <code class="code docutils literal notranslate"><span class="pre">#SBATCH</span> <span class="pre">--output=</span></code> parameter. It will contain output printed to stdout, but <em>it may also</em> contain errors that were written to stderr. By default that SLURM batch parameter joins both STDOUT and STDERR together. If you want separate output files for each, you can additionally specify <code class="code docutils literal notranslate"><span class="pre">#SBATCH</span> <span class="pre">--error=</span></code>.</p>
 </div>
 <div class="section" id="other-cases">
 <h3>Other cases<a class="headerlink" href="#other-cases" title="Permalink to this headline">¶</a></h3>
 <p><strong>Interactive batch jobs</strong>: good for jobs that can’t be run on the login nodes, or as debugging (when you need more
 than 1 hour).</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qsub -I -l <span class="nv">nodes</span><span class="o">=</span><span class="m">1</span>:ppn<span class="o">=</span><span class="m">40</span> -l <span class="nv">walltime</span><span class="o">=</span><span class="m">1</span>:00:00 -m abe
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sinteractive -A PAS1573 -t <span class="m">12</span>:00:00 -J jobname -M <span class="m">178000</span> -n <span class="m">48</span> -N <span class="m">1</span>
 </pre></div>
 </div>
 <p>Keep in mind that it might not be practical to wait for a job when the system load is high. If Pitzer or Owens is at
 &gt;95% capacity, expect to wait quite a few minutes.</p>
 <p>You can also grab a debug node:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qsub -I -l <span class="nv">nodes</span><span class="o">=</span><span class="m">1</span>:ppn<span class="o">=</span><span class="m">40</span> -q debug
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sinteractive -A PAS1573 -J jobname -M <span class="m">178000</span> -n <span class="m">48</span> -N <span class="m">1</span> -p debug
 </pre></div>
 </div>
+<p>Notice that the memory specification is a bit different from the SLURM batch parameters. You can alternatively use the <code class="code docutils literal notranslate"><span class="pre">salloc</span></code> command which uses more familiar parameters:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>salloc -t <span class="m">012</span>:00:00 --nodes<span class="o">=</span><span class="m">1</span> --ntasks<span class="o">=</span><span class="m">48</span> --mem<span class="o">=</span>177gb --account<span class="o">=</span>PAS1573 srun --pty bash
+</pre></div>
+</div>
+<p>Similarly, a debug node can be requested:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>salloc -t <span class="m">01</span>:00:00 --nodes<span class="o">=</span><span class="m">1</span> --ntasks<span class="o">=</span><span class="m">48</span> --mem<span class="o">=</span>177gb --account<span class="o">=</span>PAS1573 --partition<span class="o">=</span>debug srun --pty bash
+</pre></div>
+</div>
+<p>Interactive jobs can be exited with the <code class="code docutils literal notranslate"><span class="pre">exit</span></code> command or with the keystrokes ctrl-d (control key on Apple keyboards).</p>
 </div>
 </div>
 <div class="section" id="modules">

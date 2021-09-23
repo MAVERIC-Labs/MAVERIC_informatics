@@ -152,15 +152,68 @@ Alternatively, instead of using nano:
 
 
 File and Folder Permissions
-------------------------------------------
+---------------------------
 
 The dreaded "Permission Denied" error.
+
+Since our class/project comprises multiple members who may/may not be a part of different OSC projects, that means each
+person is potentially a member of different system "groups." If you're only a member of one project - one group - then
+you might not notice a difference. However, if you are, it's possible for you to create a file in a "shared" directory
+(i.e. our class project directory) that others cannot read or write to.
+
+By default, each user has a specific group that they will assign to a file or folder when they create it.
+
+Given our class project is PAS1573, we want all members in our class *group* to be able to write to all directories and
+read all files.
+
+For example, lets say you want to share data with your classmates...
+
+.. code-block:: bash
+
+    # Create the directory
+    $ mkdir data_to_share
+    # Change the group of the directory to the class/project group
+    $ chgrp PAS1573 data_to_share
+    # Make sure everything within that directory will have the same group as the class/group
+    $ chmod g+s data_to_share
+    # Set permissions for the owner (4+2+1) and group (4+2+1) to read, write, and execute
+    $ chmod 770 data_to_share
 
 
 Advanced (or maybe "convenient"?) commands
 ------------------------------------------
 
 Below is a list of commands Ben uses way too much and wants to keep around for posterity.
+
+**Count the number of sequences in a fasta file**
+
+.. code-block:: bash
+
+    $ grep -c ">" sequences.fasta
+
+**Submit an interactive job on OSC**
+
+.. code-block:: bash
+
+    $ srun --pty -N $NODES -n $CPU_THREADS -t $TIME -A $PROJECT /bin/bash -l
+
+Keep in mind that nodes, cpu_threads, time and project must be specified. And, while you *can* specify any length of time,
+you will need to wait for those resouces to become available. So if you request 120 hours, you might have to wait a while.
+
+**Get some stats on a job**
+
+.. code-block:: bash
+
+    $ sacct -j $JOBID --format "CPUTime,MaxRSS,Elapsed"
+
+Note: There are A LOT of options within the format field.
+
+**Get the size of the current directory and its subdirectories**, aggregating results to one folder "depth" (i.e. --max-depth=1)
+
+.. code-block:: bash
+
+    $ du -h --max-depth=1 .
+
 
 Checking for non-ASCII characters
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

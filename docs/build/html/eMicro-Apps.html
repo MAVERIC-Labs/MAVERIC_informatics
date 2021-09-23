@@ -279,7 +279,7 @@ module load MEGAHIT/1.2.9
 </div>
 <p><strong>Singularity use</strong>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
-singularity run /users/PAS1117/osu9664/eMicro-Apps/MEGAHIT-1.2.8.sif --k-list <span class="m">21</span>,41,61,81,99 -t &lt;threads&gt; -m <span class="m">0</span>.9 -1 &lt;<span class="k">for</span>-reads&gt; -2 &lt;rev-reads&gt; -o &lt;output-dir&gt;
+singularity run /users/PAS1117/osu9664/eMicro-Apps/MEGAHIT-1.2.8.sif --k-list <span class="m">21</span>,41,61,81,99 -t &lt;threads&gt; -m <span class="m">0</span>.9 -1 &lt;<span class="k">for</span>-reads&gt; -2 &lt;rev-reads&gt; -o &lt;output-dir&gt; --presets meta-sensitive <span class="o">(</span>or meta-large <span class="k">for</span> complex metagenomes like soils or oceans<span class="o">)</span>
 </pre></div>
 </div>
 </div>
@@ -391,7 +391,7 @@ singularity run /users/PAS1117/osu9664/eMicro-Apps/DAS_Tool.sif
 
 <span class="c1"># You can test the installation (if you&#39;ve git cloned the repository!)</span>
 git clone https://github.com/cmks/DAS_Tool.git
-singularity run /users/PAS1117/osu9664/eMicro-Apps/DAS_Tool.sif -i DAS_Tool/sample_data/sample.human.gut_concoct_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_maxbin2_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_metabat_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_tetraESOM_scaffolds2bin.tsv -l concoct,maxbin,metabat,tetraESOM -c DAS_Tool/sample_data/sample.human.gut_contigs.fa --search_engine diamond -o DASToolTestRun
+singularity run /users/PAS1117/osu9664/eMicro-Apps/DAS_Tool.sif -i DAS_Tool/sample_data/sample.human.gut_concoct_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_maxbin2_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_metabat_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_tetraESOM_scaffolds2bin.tsv -l concoct,maxbin,metabat,tetraESOM -c DAS_Tool/sample_data/sample.human.gut_contigs.fa -o DASToolTestRun --write_bins
 </pre></div>
 </div>
 <p><strong>Module use</strong>:</p>

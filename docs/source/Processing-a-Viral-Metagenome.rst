@@ -93,7 +93,7 @@ removed during each (more below)
 
 .. code-block:: bash
 
-    $ time which BBTools-38.69.sif bbduk.sh in1=ERR594369_1.fastq.gz in2=ERR594369_2.fastq.gz out1=ERR594369_1_t.fastq.gz out2=ERR594369_2_t.fastq.gz ref=/bbmap/resources/adapters.fa ktrim=r k=23 mink=11 hdist=1 tpe tbo
+    $ time BBTools-38.69.sif bbduk.sh in1=ERR594369_1.fastq.gz in2=ERR594369_2.fastq.gz out1=ERR594369_1_t.fastq.gz out2=ERR594369_2_t.fastq.gz ref=/bbmap/resources/adapters.fa ktrim=r k=23 mink=11 hdist=1 tpe tbo
     java -ea -Xmx154371m -Xms154371m -cp /bbmap/current/ jgi.BBDuk in1=ERR594369_1.fastq.gz in2=ERR594369_2.fastq.gz out1=ERR594369_1_t.fastq.gz out2=ERR594369_2_t.fastq.gz ref=/bbmap/resources/adapters.fa ktrim=r k=23 mink=11 hdist=1 tpe tbo
     Executing jgi.BBDuk [in1=ERR594369_1.fastq.gz, in2=ERR594369_2.fastq.gz, out1=ERR594369_1_t.fastq.gz, out2=ERR594369_2_t.fastq.gz, ref=/bbmap/resources/adapters.fa, ktrim=r, k=23, mink=11, hdist=1, tpe, tbo]
     Version 38.69
@@ -354,8 +354,9 @@ For this job:
     ---------- ---------- ----------
     9-10:48:00  64883592K   04:43:30
 
-The job required ~65 GB and took 4 hr 43 minutes. We can't do anything about the GB requested, as asking for 48 cores will give
-you *at least* a large memory node. We could request 70 GB of memory, but OSC will still charge you for the whole node.
+Oops! The job required ~65 GB and took 4 hr 43 minutes. Considerably less than I had anticipated. We can't do anything
+about the GB requested, as asking for 48 cores will give you *at least* a large memory node. We could request 70 GB of
+memory, but OSC will still charge you for the whole node.
 
 The SPAdes directory:
 
@@ -488,7 +489,7 @@ First, we'll run an initial pass using VirSorter2
 
     $ sbatch VirSorter2-Pass1.sh
 
-    $ $ sacct -j 5276291 --format "CPUTime,MaxRSS,Elapsed"
+    $ sacct -j 5276291 --format "CPUTime,MaxRSS,Elapsed"
        CPUTime     MaxRSS    Elapsed
     ---------- ---------- ----------
     4-16:18:00   1229896K   02:48:27

@@ -16,21 +16,19 @@ list. If you need that, please consult the links at the bottom.
 Systems
 -------
 
-=======================     ======= =======
-System                      Pitzer  Owens
------------------------     ------- -------
-Year                        2018    2016
-Theoretical Performance     1200 TF 1600 TF
-Nodes                       260     824
-CPU cores                   10560   23392
-Total Memory                70.6 Tb 120 Tb
-Memory/Core                 > 5 Gb  > 5 Gb
-=======================     ======= =======
+=======================    ======= ======= =======
+System                     Pitzer  Pitzer  Owens
+-----------------------    ------- ------- -------
+Year                       2020    2018    2016
+Theoretical Performance    1300 TF 1200 TF 1600 TF
+Nodes                      398     260     824
+CPU cores                  19104   10560   23392
+Total Memory               97.3 Tb 70.6 Tb 120 Tb
+Memory/Core                > 5 Gb  > 5 Gb  > 5 Gb
+=======================    ======= ======= =======
 
-Notice that Pitzer, though newer, has far fewer nodes (31%) and less than half the cores (45%). However, it has 75% the
+Notice that Pitzer, though newer, has fewer nodes (80%) with more cores (120%). However, it has 150% the
 theoretical performance. Why would that be? Turns out the CPUs are faster and there are more CPUs/node.
-
-We won't be discussing Ruby, as it's not geared towards the analysis types we'll be working with.
 
 Login Nodes
 -----------
@@ -143,19 +141,23 @@ the job file (we're going to call it "ourJob.sh"):
 
 .. code-block:: bash
 
-    #PBS -N job_name
-    #PBS -l walltime=1:00:00
-    #PBS -l nodes=1:ppn=40
-    #PBS -A PAS0000
-    #PBS -j oe
+    #!/bin/bash
+    #SBATCH --job-name=job_name
+    #SBATCH --time=1:00:00
+    #SBATCH --nodes=1
+    #SBATCH --ntasks=40
+    #SBATCH --account=PAS1573
+    #SBATCH --output=job.log
 
     # Load modules
     module load blast/2.8.0+
 
-    # Move to directory where job was submitted from
-    cd $PBS_O_WORKDIR
+    # Note that the job starts in the directory it was submitted from
+    # but you can use this variable to get the path to that directory
+    echo "Starting dir: $SLURM_SUBMIT_DIR"
 
     # Copy input data to the job node's local disk space
+    # This allows for faster processing
     cp query.fasta $TMPDIR
 
     # Change directory to node's local disk
@@ -165,14 +167,14 @@ the job file (we're going to call it "ourJob.sh"):
     blastn -query query.fasta -db nr -outfmt 6 -out results.tsv
 
     # Copy the results back to the directory where the job was submitted
-    cp results.tsv $PBS_O_WORKDIR
+    cp results.tsv $SLURM_SUBMIT_DIR
 
 Submitting the job
 ^^^^^^^^^^^^^^^^^^
 
 .. code-block:: bash
 
-    qsub ourJob.sh
+    sbatch ourJob.sh
 
 Job gets queued
 ^^^^^^^^^^^^^^^
@@ -181,15 +183,20 @@ How to show the status:
 
 .. code-block:: bash
 
-    qstat -a jobid
-    qstat -u username
-    qstat -f jobid
+    sstat -a jobid
+    squeue -u username
+
+Show expected start time:
+
+.. code-block:: bash
+
+    squeue --start --jobs=jobid
 
 How to delete a job:
 
 .. code-block:: bash
 
-    qdel jobid
+    scancel jobid
 
 When resources become available, job runs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -212,16 +219,14 @@ Per-group limits:
 
 **How long will you be waiting for a job to run?** It depends on many factors, such as how many other users are using
 OSC, how many resources requested (nodes, cores, GPUs, software licenses), and if you (or your group!) are already using
-(or requesting) a lot of resources.
+(or requesting) a lot of resources. But you can use the squeue command (see above) to get an estimate for when the job will start. Note that this is only an estimate at that particular point in time. Newer jobs could be submitted that have higher priority, pushing your job lower in the queue which would result in a later estimated start time.
 
 Job finishes up, with results!
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 What does the output look like? *Besides* the output generated from the tool, the job will generate a couple more files.
 
-They'll be at least a job_name.o1234567, which contains output printed to stdout, but *it may also* contain errors that
-were written to stderr. The reason *both* of them would be in the output file is because the job file specified that
-the output file should "join" the two: "#PBS -j oe" (i.e. join output + error)
+A job output file is immediately created as soon as the job starts. This file will be named according to what you specified in the :code:`#SBATCH --output=` parameter. It will contain output printed to stdout, but *it may also* contain errors that were written to stderr. By default that SLURM batch parameter joins both STDOUT and STDERR together. If you want separate output files for each, you can additionally specify :code:`#SBATCH --error=`.
 
 Other cases
 ^^^^^^^^^^^
@@ -231,7 +236,7 @@ than 1 hour).
 
 .. code-block:: bash
 
-    qsub -I -l nodes=1:ppn=40 -l walltime=1:00:00 -m abe
+    sinteractive -A PAS1573 -t 12:00:00 -J jobname -M 178000 -n 48 -N 1
 
 Keep in mind that it might not be practical to wait for a job when the system load is high. If Pitzer or Owens is at
 >95% capacity, expect to wait quite a few minutes.
@@ -240,7 +245,21 @@ You can also grab a debug node:
 
 .. code-block:: bash
 
-    qsub -I -l nodes=1:ppn=40 -q debug
+    sinteractive -A PAS1573 -J jobname -M 178000 -n 48 -N 1 -p debug
+
+Notice that the memory specification is a bit different from the SLURM batch parameters. You can alternatively use the :code:`salloc` command which uses more familiar parameters:
+
+.. code-block:: bash
+
+    salloc -t 012:00:00 --nodes=1 --ntasks=48 --mem=177gb --account=PAS1573 srun --pty bash
+
+Similarly, a debug node can be requested:
+
+.. code-block:: bash
+
+    salloc -t 01:00:00 --nodes=1 --ntasks=48 --mem=177gb --account=PAS1573 --partition=debug srun --pty bash
+
+Interactive jobs can be exited with the :code:`exit` command or with the keystrokes ctrl-d (control key on Apple keyboards).
 
 Modules
 -------
