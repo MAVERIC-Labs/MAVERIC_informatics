@@ -1,19 +1,18 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>QIIME2 &#8212; MAVERIC Informatics  documentation</title>
-    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Building Modules and Tools on OSC" href="Building-Modules-and-Tools.html" />
@@ -31,7 +30,8 @@
         <li class="right" >
           <a href="OSC.html" title="OSC Introduction and Guide"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">QIIME2</a></li> 
       </ul>
     </div>  
 
@@ -40,7 +40,7 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="qiime2">
+  <section id="qiime2">
 <span id="id1"></span><h1>QIIME2<a class="headerlink" href="#qiime2" title="Permalink to this headline">¶</a></h1>
 <p>Nearly all of this documentation is taken directly from lecture and text guides from class. QIIME2 instructions to
 process the “moving pictures” dataset are from Dr. Shareef Dabdoub’s guide found on <a class="reference external" href="https://carmen.osu.edu/#">Carmen</a>.
@@ -64,7 +64,7 @@ the eMicro crowd, you can access a QIIME2 (version 2019.7) Singularity container
 </div>
 <p><em>Every single example below</em> used this QIIME2 container to test. Simply substitute “qiime” for “QIIME2-2019.7.sif” (as
 above) and everything should work. If something does not work, please notify Ben so he can fix it promptly.</p>
-<div class="section" id="data-import">
+<section id="data-import">
 <h2>Data Import<a class="headerlink" href="#data-import" title="Permalink to this headline">¶</a></h2>
 <p>We start by importing our single end sequencing data into a QIIME2-compatible format, the *.qza.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime tools import --type EMPSingleEndSequences --input-path moving_pictures/single_end/ --output-path emp-single-end-sequences.qza
@@ -73,8 +73,8 @@ Imported moving_pictures/single_end/ as EMPSingleEndDirFmt to emp-single-end-seq
 </div>
 <p>Remember, QIIME2 thinks in terms of methods –&gt; artifacts, which in this case is EMPSingleEndSequences, and visualizers
 (not shown here, yet), in visualizations.</p>
-</div>
-<div class="section" id="demultiplexing">
+</section>
+<section id="demultiplexing">
 <h2>Demultiplexing<a class="headerlink" href="#demultiplexing" title="Permalink to this headline">¶</a></h2>
 <p>Next we’ll demultiplex the sequences, that is, separate out each sample within the sequencing data. We’ll be using the
 barcode information from the metadata table.</p>
@@ -85,8 +85,8 @@ Saved ErrorCorrectionDetails to: demux-details.qza
 </div>
 <p>You should generate two files. Notice the qza format. Artifacts.</p>
 <p>After demultiplexing, we need to summarize the data to <em>visualize</em> what we got!</p>
-</div>
-<div class="section" id="summarize">
+</section>
+<section id="summarize">
 <h2>Summarize<a class="headerlink" href="#summarize" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime demux summarize --i-data demux.qza --o-visualization demux.qzv
 Saved Visualization to: demux.qzv
@@ -94,11 +94,11 @@ Saved Visualization to: demux.qzv
 </div>
 <p>Notice how we now have a *.qzv file? This is QIIME2’s <strong>v</strong>isualization file that can be uploaded to the
 <a class="reference external" href="https://view.qiime2.org/">QIIME2 view page</a>. Go ahead and try it and see what happens.</p>
-<div class="figure">
+<figure class="align-default">
 <a class="reference internal image-reference" href="_images/screencapture-demux-visualization.png"><img alt="Demux QIIME2 View" src="_images/screencapture-demux-visualization.png" style="width: 720.0px; height: 369.5px;" /></a>
-</div>
-</div>
-<div class="section" id="quality-control-and-creating-the-feature-table">
+</figure>
+</section>
+<section id="quality-control-and-creating-the-feature-table">
 <h2>Quality Control and Creating the Feature Table<a class="headerlink" href="#quality-control-and-creating-the-feature-table" title="Permalink to this headline">¶</a></h2>
 <p>We need to do a little quality control here by filtering according to q-score.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime quality-filter q-score --i-demux demux.qza --o-filtered-sequences demux-filtered.qza --o-filter-stats demux-filter-stats.qza
@@ -126,25 +126,25 @@ Saved Visualization to: rep-seqs-deblur.qzv
 </pre></div>
 </div>
 <p>Let’s take a look at the visualizations.</p>
-<div class="figure">
+<figure class="align-default">
 <a class="reference internal image-reference" href="_images/screencapture-deblur-overview-table.png"><img alt="Deblur Overview table QIIME2 View" src="_images/screencapture-deblur-overview-table.png" style="width: 720.0px; height: 345.0px;" /></a>
-</div>
+</figure>
 <p>This gives a basic overview of the deblur results.</p>
-<div class="figure">
+<figure class="align-default">
 <a class="reference internal image-reference" href="_images/screencapture-deblur-sample-details-barcode.png"><img alt="Deblur Sample details with barcode QIIME2 View" src="_images/screencapture-deblur-sample-details-barcode.png" style="width: 720.0px; height: 369.5px;" /></a>
-</div>
+</figure>
 <p>The interactive sample detail gives us a little more to work with. Notice how I’ve adjusted the sampling depth slider
 (right side) to 750. Samples with a sequencing depth below this level would be excluded from the analysis. This might
 not make immediate sense since barcodes are a bit abstract. Instead, let’s adjust the metadata category to “body site”
 and keep the sequencing depth to 750.</p>
-<div class="figure">
+<figure class="align-default">
 <a class="reference internal image-reference" href="_images/screencapture-deblur-sample-details-bodysite.png"><img alt="Deblur Sample details with bodysite QIIME2 View" src="_images/screencapture-deblur-sample-details-bodysite.png" style="width: 720.0px; height: 369.5px;" /></a>
-</div>
+</figure>
 <p>Now one can see what effect a sampling depth of 750 would have: only 5 of the 9 right palm samples would be retained.</p>
 <p>Let’s finally take a look at the representative sequences</p>
-<div class="figure">
+<figure class="align-default">
 <a class="reference internal image-reference" href="_images/screencapture-deblur-representatives.png"><img alt="Deblur Sample details QIIME2 View" src="_images/screencapture-deblur-representatives.png" style="width: 720.0px; height: 345.0px;" /></a>
-</div>
+</figure>
 <p>Now, we need to generate a tree for phylogenetic diversity analyses. Why? Well, if we want to calculate any alpha or beta
 diversity metrics that are phylogenetics-based, we’ll need this tree. (Spoiler: Notice that we’ll be using
 “core-metrics-phylogenetic” for QIIME2 diversity…) We won’t be going into <em>why</em> we’re using MAFFT at this point. We’ll
@@ -157,22 +157,22 @@ Saved Phylogeny<span class="o">[</span>Rooted<span class="o">]</span> to: rooted
 Saved FeatureData<span class="o">[</span>AlignedSequence<span class="o">]</span> to: aligned-rep-seqs.qza
 </pre></div>
 </div>
-</div>
-<div class="section" id="alpha-and-beta-diversity-analyses">
+</section>
+<section id="alpha-and-beta-diversity-analyses">
 <h2>Alpha and Beta Diversity Analyses<a class="headerlink" href="#alpha-and-beta-diversity-analyses" title="Permalink to this headline">¶</a></h2>
 <p>Alpha diversity can be measured in a few ways. QIIME2 supports many of these. The ones we’ll be looking at are:</p>
 <ul class="simple">
-<li>Shannon’s diversity index</li>
-<li>Observed OTUs</li>
-<li>Faith’s phylogenetic diversity</li>
-<li>Evenness</li>
+<li><p>Shannon’s diversity index</p></li>
+<li><p>Observed OTUs</p></li>
+<li><p>Faith’s phylogenetic diversity</p></li>
+<li><p>Evenness</p></li>
 </ul>
 <p>For Beta diversity:</p>
 <ul class="simple">
-<li>Jaccard distance</li>
-<li>Bray-Curtise distance</li>
-<li>unweighted UniFrac distance</li>
-<li>weighted UniFrac distance</li>
+<li><p>Jaccard distance</p></li>
+<li><p>Bray-Curtise distance</p></li>
+<li><p>unweighted UniFrac distance</p></li>
+<li><p>weighted UniFrac distance</p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime diversity core-metrics-phylogenetic --i-phylogeny rooted-tree.qza --i-table table-deblur.qza --p-sampling-depth <span class="m">850</span> --m-metadata-file moving_pictures/mp_sample_metadata.tsv --output-dir core-metrics-results-850
 Saved FeatureTable<span class="o">[</span>Frequency<span class="o">]</span> to: core-metrics-results-850/rarefied_table.qza
@@ -201,25 +201,25 @@ was performed, but it’s up to you to figure out what it means!</p>
 Saved Visualization to: core-metrics-results-850/faith_pd_group-significance.qzv
 </pre></div>
 </div>
-<div class="figure">
+<figure class="align-default">
 <a class="reference internal image-reference" href="_images/screencapture-diversity-alpha-faiths.png"><img alt="Deblur Sample details QIIME2 View" src="_images/screencapture-diversity-alpha-faiths.png" style="width: 720.0px; height: 699.75px;" /></a>
-</div>
+</figure>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime diversity alpha-group-significance --i-alpha-diversity core-metrics-results-850/evenness_vector.qza --m-metadata-file moving_pictures/mp_sample_metadata.tsv --o-visualization core-metrics-results-850/evenness-group-significance.qzv
 Saved Visualization to: core-metrics-results-850/evenness-group-significance.qzv
 </pre></div>
 </div>
-<div class="figure">
+<figure class="align-default">
 <a class="reference internal image-reference" href="_images/screencapture-diversity-alpha-evenness.png"><img alt="Deblur Sample details QIIME2 View" src="_images/screencapture-diversity-alpha-evenness.png" style="width: 720.0px; height: 700.75px;" /></a>
-</div>
+</figure>
 <p>Next we’re going to look at beta diversity, looking to compare different metadata.</p>
 <p>Body site</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime diversity beta-group-significance --i-distance-matrix core-metrics-results-850/unweighted_unifrac_distance_matrix.qza --m-metadata-file moving_pictures/mp_sample_metadata.tsv --m-metadata-column body-site --o-visualization core-metrics-results-850/unweighted_unifrac-body-site-sig.qzv --p-pairwise
 Saved Visualization to: core-metrics-results-850/unweighted_unifrac-body-site-sig.qzv
 </pre></div>
 </div>
-<div class="figure">
+<figure class="align-default">
 <a class="reference internal image-reference" href="_images/screencapture-diversity-unweighted_unifrac_bodysite.png"><img alt="Beta Diversity Examining Body Site in QIIME2 View" src="_images/screencapture-diversity-unweighted_unifrac_bodysite.png" style="width: 720.0px; height: 980.25px;" /></a>
-</div>
+</figure>
 <p>Subject</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime diversity beta-group-significance --i-distance-matrix core-metrics-results-850/unweighted_unifrac_distance_matrix.qza --m-metadata-file moving_pictures/mp_sample_metadata.tsv --m-metadata-column subject --o-visualization core-metrics-results-850/unweighted_unifrac-subject-sig.qzv --p-pairwise
 Saved Visualization to: core-metrics-results-850/unweighted_unifrac-subject-sig.qzv
@@ -235,12 +235,12 @@ Saved Visualization to: core-metrics-results-850/unweighted_unifrac-emperor-dses
 Saved Visualization to: alpha-rarefaction.qzv
 </pre></div>
 </div>
-<div class="figure">
+<figure class="align-default">
 <a class="reference internal image-reference" href="_images/screencapture-diversity-alpha_rarefaction_barcode.png"><img alt="Alpha Diversity Rarefaction of Barcode in QIIME2 View" src="_images/screencapture-diversity-alpha_rarefaction_barcode.png" style="width: 720.0px; height: 369.5px;" /></a>
-</div>
-<div class="figure">
+</figure>
+<figure class="align-default">
 <a class="reference internal image-reference" href="_images/screencapture-diversity-alpha_rarefaction_bodysite.png"><img alt="Alpha Diversity Rarefaction of Bodysite in QIIME2 View" src="_images/screencapture-diversity-alpha_rarefaction_bodysite.png" style="width: 720.0px; height: 369.5px;" /></a>
-</div>
+</figure>
 <p>Next we’ll need to assign taxonomy. For this we’ll need a classifier. In this example, we’ll use one pre-trained on the
 GreenGenes ribosomal database at 99%. If you haven’t downloaded it, run the 1st line, which will download
 “gg-13-8-99-515-806-nb-classifier.qza” to the directory you’re in.</p>
@@ -254,32 +254,33 @@ Saved FeatureData<span class="o">[</span>Taxonomy<span class="o">]</span> to: ta
 Saved Visualization to: taxonomy.qzv
 </pre></div>
 </div>
-<div class="figure">
+<figure class="align-default">
 <a class="reference internal image-reference" href="_images/screencapture-diversity_taxonomy.png"><img alt="" src="_images/screencapture-diversity_taxonomy.png" style="width: 720.0px; height: 369.5px;" /></a>
-</div>
+</figure>
 <p>This visualization is a little lite on <em>visualization</em> - it just shows a list of each taxon identified in the samples.
 Let’s make a bar plot of this, it’s easier to see.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ qiime taxa barplot --i-table table-deblur.qza --i-taxonomy taxonomy-deblur.qza --m-metadata-file moving_pictures/mp_sample_metadata.tsv --o-visualization taxa-bar-plots.qzv
 Saved Visualization to: taxa-bar-plots.qzv
 </pre></div>
 </div>
-<div class="figure">
+<figure class="align-default">
 <a class="reference internal image-reference" href="_images/screencapture-diversity_taxonomy_barplot.png"><img alt="Taxonomy Barplot in QIIME2 View" src="_images/screencapture-diversity_taxonomy_barplot.png" style="width: 720.0px; height: 369.5px;" /></a>
-</div>
+</figure>
 <p>This view shows the taxonomy in a barplot. Don’t worry if it’s all green. Notice that there’s only 1 taxonomic level shown,
 identifying only the kingdom Bacteria (note the k__ preceeding the Bacteria in the legend). Let’s look at the next level down</p>
-<div class="figure">
+<figure class="align-default">
 <a class="reference internal image-reference" href="_images/screencapture-diversity_taxonomy_barplot_lvl2.png"><img alt="Taxonomy Barplot at level 2 in QIIME2 View" src="_images/screencapture-diversity_taxonomy_barplot_lvl2.png" style="width: 720.0px; height: 483.0px;" /></a>
-</div>
+</figure>
 <p>Now we’re looking at the phylum level (level 2). We can start seeing the diversity of microbes in the sample. Level 3!</p>
-<div class="figure">
+<figure class="align-default">
 <a class="reference internal image-reference" href="_images/screencapture-diversity_taxonomy_barplot_lvl3.png"><img alt="Taxonomy Barplot at level 3 in QIIME2 View" src="_images/screencapture-diversity_taxonomy_barplot_lvl3.png" style="width: 720.0px; height: 481.5px;" /></a>
-</div>
+</figure>
 <p>Class. Without going into too many details, you can see how certain groups are distributed differently between samples.</p>
-</div>
-</div>
+</section>
+</section>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -311,17 +312,15 @@ identifying only the kingdom Bacteria (note the k__ preceeding the Bacteria in t
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -338,12 +337,13 @@ identifying only the kingdom Bacteria (note the k__ preceeding the Bacteria in t
         <li class="right" >
           <a href="OSC.html" title="OSC Introduction and Guide"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">QIIME2</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2019, Benjamin Bolduc.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
     </div>
   </body>
 </html>

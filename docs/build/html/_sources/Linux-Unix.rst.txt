@@ -191,6 +191,14 @@ Below is a list of commands Ben uses way too much and wants to keep around for p
 
     $ grep -c ">" sequences.fasta
 
+**Count the number of sequences in a gzip-compressed fastq file (.fastq.gz)**
+
+.. code-block:: bash
+
+    $ zcat seqs.fastq.gz | echo $((`wc -l`/4))
+
+For non-compressed files, use :code:`cat` instead.
+
 **Submit an interactive job on OSC**
 
 .. code-block:: bash

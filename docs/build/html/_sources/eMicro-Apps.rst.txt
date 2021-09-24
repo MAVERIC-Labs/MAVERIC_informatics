@@ -473,7 +473,7 @@ algorithms to calculate an optimized, non-redundant set of bins from a single as
 
     # You can test the installation (if you've git cloned the repository!)
     git clone https://github.com/cmks/DAS_Tool.git
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/DAS_Tool.sif -i DAS_Tool/sample_data/sample.human.gut_concoct_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_maxbin2_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_metabat_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_tetraESOM_scaffolds2bin.tsv -l concoct,maxbin,metabat,tetraESOM -c DAS_Tool/sample_data/sample.human.gut_contigs.fa -o DASToolTestRun --write_bins
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/DAS_Tool.sif -i DAS_Tool/sample_data/sample.human.gut_concoct_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_maxbin2_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_metabat_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_tetraESOM_scaffolds2bin.tsv -l concoct,maxbin,metabat,tetraESOM -c DAS_Tool/sample_data/sample.human.gut_contigs.fa --search_engine diamond -o DASToolTestRun --write_bins
 
 
 **Module use**:
