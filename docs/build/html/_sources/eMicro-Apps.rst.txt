@@ -1604,7 +1604,7 @@ genomes of newly sequenced viruses as well as those identified in metagenomes.
 VIRIDIC
 ~~~~~~~
 
-**Website**: https://github.com/yosuken/ViPTreeGen
+**Website**: http://rhea.icbm.uni-oldenburg.de/VIRIDIC/
 
 **Reference**:  Moraru, C., Varsani, A. & Kropinski, A. M. VIRIDIC — A Novel Tool to Calculate the Intergenomic
 Similarities of Viruses 12, 1268 (2020).
