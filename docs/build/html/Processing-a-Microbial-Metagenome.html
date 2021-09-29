@@ -1,18 +1,19 @@
 
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>End-to-End Processing of a Microbial Metagenome &#8212; MAVERIC Informatics  documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Pathways and Metabolisms of MAGs" href="Metabolic-and-Pathway-Analyses.html" />
@@ -30,8 +31,7 @@
         <li class="right" >
           <a href="R.html" title="R"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">End-to-End Processing of a Microbial Metagenome</a></li> 
+        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -40,16 +40,16 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="end-to-end-processing-of-a-microbial-metagenome">
+  <div class="section" id="end-to-end-processing-of-a-microbial-metagenome">
 <span id="processing-microbe"></span><h1>End-to-End Processing of a Microbial Metagenome<a class="headerlink" href="#end-to-end-processing-of-a-microbial-metagenome" title="Permalink to this headline">¶</a></h1>
 <p>For this dataset, we’ll be <strong>fully</strong> processing <a class="reference external" href="https://www.ncbi.nlm.nih.gov/sra/SRX4071230">SRX4071230</a>, a peat
 metagenome with 14.1M reads. The SRA Run is SRR7151490, which will be important when downloading the data from SRA.</p>
 <p>This will include (nearly) all steps and <em>most</em> of the results returned from the command line. Clearly, some outputs
-can’t be nicely placed here, but are available (as links to files) or in the M8194 project directory.</p>
+can’t be nicely placed here, but are available (as links to files) or in the M8161 project directory.</p>
 <p>Everything here uses Singularity. All of the singularity images are located at:</p>
 <p><strong>/users/PAS1117/osu9664/eMicro-Apps/</strong></p>
 <p>So you must prepend each *.img, *.simg or *.sif Singularity container w/ this path OR link them (see <a class="reference internal" href="Linux-Unix.html#unix-linux"><span class="std std-ref">UNIX/LINUX Introduction and Guide</span></a>).</p>
-<section id="downloading-the-data">
+<div class="section" id="downloading-the-data">
 <h2>Downloading the data<a class="headerlink" href="#downloading-the-data" title="Permalink to this headline">¶</a></h2>
 <p>The first thing we need to do is grab the data from the SRA. You can do this a few ways, either through navigating the
 NCBI+SRA websites, or directly using their SRA Toolkit.</p>
@@ -69,25 +69,25 @@ and SRR7151490_2.fastq. fasterq-dump won’t compress the files for you, so you�
 <p>Alternatively, you can manually download the data from the NCBI website:</p>
 <p>Go to <a class="reference external" href="https://www.ncbi.nlm.nih.gov/">https://www.ncbi.nlm.nih.gov/</a>, and under the search bar, select BioProject and type “PRJNA386568”. It should
 immediately pull up a single page:</p>
-<figure class="align-default">
+<div class="figure">
 <a class="reference internal image-reference" href="_images/screencapture-ncbi-bioproject.png"><img alt="NCBI BioProject" src="_images/screencapture-ncbi-bioproject.png" style="width: 593.0px; height: 647.0px;" /></a>
-</figure>
+</div>
 <p>Nagivate to SRA Experiments (should be 304 of them), select. This should pull up a list of… SRA experiments.</p>
-<figure class="align-default">
+<div class="figure">
 <a class="reference internal image-reference" href="_images/screencapture-ncbi-sra.png"><img alt="NCBI SRA list of Experiments" src="_images/screencapture-ncbi-sra.png" style="width: 591.75px; height: 324.0px;" /></a>
-</figure>
+</div>
 <p>Select (or find) “metagenome of peat: 20120700_P3M”. Select.</p>
-<figure class="align-default">
+<div class="figure">
 <a class="reference internal image-reference" href="_images/screencapture-ncbi-sra-accn.png"><img alt="NCBI SRA Experiment" src="_images/screencapture-ncbi-sra-accn.png" style="width: 595.25px; height: 310.75px;" /></a>
-</figure>
+</div>
 <p>Now we have some info about the SRA experiment. Click on the Run (should start with SRR) towards the bottom of the
 metadata fields and select the run.</p>
-<figure class="align-default">
+<div class="figure">
 <a class="reference internal image-reference" href="_images/screencapture-ncbi-sra-run.png"><img alt="NCBI SRA Experiment" src="_images/screencapture-ncbi-sra-run.png" style="width: 484.5px; height: 466.5px;" /></a>
-</figure>
+</div>
 <p>Click on the “Data access” tab and <em>voila</em>, a download will start.</p>
-</section>
-<section id="read-quality-control">
+</div>
+<div class="section" id="read-quality-control">
 <h2>Read Quality Control<a class="headerlink" href="#read-quality-control" title="Permalink to this headline">¶</a></h2>
 <p>We will be using either <a class="reference external" href="https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/bbduk-guide/">BBDuk</a> or
 <a class="reference external" href="http://www.usadellab.org/cms/?page=trimmomatic">Trimmomatic</a> to process our input reads. <em>You only need to select one</em>.
@@ -173,8 +173,8 @@ sys 0m7.407s
 </div>
 <p>BBDuk completed in 25+8 seconds, Trimmomatic in 11 minutes. Certainly a performance difference. How does the quality
 check out?</p>
-</section>
-<section id="read-quality-control-visualizing">
+</div>
+<div class="section" id="read-quality-control-visualizing">
 <h2>Read Quality Control (Visualizing)<a class="headerlink" href="#read-quality-control-visualizing" title="Permalink to this headline">¶</a></h2>
 <p>Here, we’ve already loaded singularity (above) and moved to the project directory. In this example, I’m going to run
 FastQC on all of the input files (2), the results from Trimmomatic (4) and the adapter trimmed (2) and quality filtered
@@ -228,9 +228,9 @@ multiqc_data
 </div>
 <p>I’ve added comments to the command (above). <em>Normally</em>, this would NOT be in the output, but I’m commenting here to break
 down what files came from where.</p>
-<p>Let’s look at the results <a class="reference download internal" download="" href="_downloads/bcd6a1759fcdd65276f3cfcb7b499c10/SRR7151490_all_reads_multiqc_report.html"><code class="xref download docutils literal notranslate"><span class="pre">here</span></code></a>.</p>
-</section>
-<section id="assembly">
+<p>Let’s look at the results <a class="reference download internal" download="" href="_downloads/36c1d2c8bb5a1fe47f4d00d1a48cd028/SRR7151490_all_reads_multiqc_report.html"><code class="xref download docutils literal notranslate"><span class="pre">here</span></code></a>.</p>
+</div>
+<div class="section" id="assembly">
 <h2>Assembly<a class="headerlink" href="#assembly" title="Permalink to this headline">¶</a></h2>
 <p>Assembly isn’t for the faint of heart. It can be frustrating and it can fail for a lot of reasons, often due to insufficient
 memory or due to the dataset complexity. There’s only so much you can do.</p>
@@ -286,8 +286,8 @@ request for the job. I requested 12 hours and a full node (ppn=40 cores, and set
 OSC will let you know what kind of resources you actually used. For this job:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>resources_used.vmem=41783760kb</p></li>
-<li><p>resources_used.walltime=10:37:21</p></li>
+<li>resources_used.vmem=41783760kb</li>
+<li>resources_used.walltime=10:37:21</li>
 </ul>
 </div></blockquote>
 <p>The job required ~42 GB and ~10.5 hours. We can’t do anything about the GB requested, as asking for 40 cores will give
@@ -302,8 +302,8 @@ copying-and-pasting the whole bash script, i’ll only highlight the changes:</p
 <p>What resources were used?</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>resources_used.vmem=42275192kb</p></li>
-<li><p>resources_used.walltime=10:28:35</p></li>
+<li>resources_used.vmem=42275192kb</li>
+<li>resources_used.walltime=10:28:35</li>
 </ul>
 </div></blockquote>
 <p>About the same amount of resources. It makes sense since our reads were trimmed a tiny amount and there wasn’t much
@@ -349,20 +349,20 @@ module load singularity
 were changed:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>megahitLoc=”/users/PAS1117/osu9664/eMicro-Apps/MEGAHIT-1.2.8.sif”</p></li>
-<li><p>outputDir=”${projectDir}/assemblies/MEGAHIT_with_Trimmomatic”</p></li>
-<li><p>genOpts=”–k-list 21,41,61,81,99”</p></li>
-<li><p>runOpts=”-t 40 -m 0.9”  # Match to job request, 40 cores and 90% of memory</p></li>
-<li><p>megahitCmd=”singularity run ${megahitLoc} ${genOpts} ${runOpts}”</p></li>
-<li><p>megahitCmd=”${megahitCmd} -1 ${forReads} -2 ${revReads}”</p></li>
+<li>megahitLoc=”/users/PAS1117/osu9664/eMicro-Apps/MEGAHIT-1.2.8.sif”</li>
+<li>outputDir=”${projectDir}/assemblies/MEGAHIT_with_Trimmomatic”</li>
+<li>genOpts=”–k-list 21,41,61,81,99”</li>
+<li>runOpts=”-t 40 -m 0.9”  # Match to job request, 40 cores and 90% of memory</li>
+<li>megahitCmd=”singularity run ${megahitLoc} ${genOpts} ${runOpts}”</li>
+<li>megahitCmd=”${megahitCmd} -1 ${forReads} -2 ${revReads}”</li>
 </ul>
 </div></blockquote>
 <p>The location of the assembler changed, as did the output directory. Also, because we’re using a different assembler with
 different parameters/arguments, we need to change those as well.</p>
 <p>Submit!</p>
 <ul class="simple">
-<li><p>resources_used.vmem=7302672kb</p></li>
-<li><p>resources_used.walltime=00:20:29</p></li>
+<li>resources_used.vmem=7302672kb</li>
+<li>resources_used.walltime=00:20:29</li>
 </ul>
 <p>Wow. 20 minutes and 7 GB of memory. More on this later…</p>
 <p>And finally, IDBA-UD. Oh wait, IDBA-UD wants fasta-formatted sequences. We need to make a small change.</p>
@@ -407,11 +407,11 @@ module load singularity
 </div>
 <p>And resources used:</p>
 <ul class="simple">
-<li><p>resources_used.vmem=56120080kb</p></li>
-<li><p>resources_used.walltime=01:29:35</p></li>
+<li>resources_used.vmem=56120080kb</li>
+<li>resources_used.walltime=01:29:35</li>
 </ul>
-</section>
-<section id="binning">
+</div>
+<div class="section" id="binning">
 <h2>Binning<a class="headerlink" href="#binning" title="Permalink to this headline">¶</a></h2>
 <p>For all the binning tools, we’re going to use the SPAdes assembly results that used the Trimmomatic-cleaned reads. Why?
 Because it’s the one I selected - no rhyme or reason. Feel free to choose SPAdes w/ BBDuk, or Megahit with BBDuk, or
@@ -462,7 +462,7 @@ Finished jgi_summarize_bam_contig_depths at Mon Oct  <span class="m">7</span> <s
 Creating depth file <span class="k">for</span> metabat at Mon Oct  <span class="m">7</span> <span class="m">16</span>:28:49 UTC <span class="m">2019</span>
 Executing: <span class="s1">&#39;metabat2  --inFile /fs/project/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta --outFile contigs.fasta.metabat-bins-20191007_162849/bin --abdFile contigs.fasta.depth.txt&#39;</span> at Mon Oct  <span class="m">7</span> <span class="m">16</span>:28:49 UTC <span class="m">2019</span>
 MetaBAT <span class="m">2</span> <span class="o">(</span>v2.14<span class="o">)</span> using minContig <span class="m">2500</span>, minCV <span class="m">1</span>.0, minCVSum <span class="m">1</span>.0, maxP <span class="m">95</span>%, minS <span class="m">60</span>, and maxEdges <span class="m">200</span>.
-<span class="m">8</span> bins <span class="o">(</span><span class="m">22664127</span> bases <span class="k">in</span> total<span class="o">)</span> formed.
+<span class="m">8</span> bins <span class="o">(</span><span class="m">22664127</span> bases in total<span class="o">)</span> formed.
 </pre></div>
 </div>
 <p>The next tool we’re going to use is MaxBin2. It’s <em>probably</em> the easiest of the 3 binners we’ll use as it can handle the
@@ -536,8 +536,8 @@ MetaWRAP (that we’ll do below).</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ singularity run /users/PAS1117/osu9664/eMicro-Apps/CheckM-1.0.18.sif lineage_wf -t <span class="m">40</span> -x fa bins/spades_trimmomatic_metabat2/contigs.fasta.metabat-bins-20191007_162849 checkm_spades_trimmomatic_metabat2
 <span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:29:16<span class="o">]</span> INFO: CheckM v1.0.18
 <span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:29:16<span class="o">]</span> INFO: checkm lineage_wf -t <span class="m">40</span> -x fa bins/spades_trimmomatic_metabat2/contigs.fasta.metabat-bins-20191007_162849 checkm_spades_trimmomatic_metabat2
-<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:29:16<span class="o">]</span> INFO: <span class="o">[</span>CheckM - tree<span class="o">]</span> Placing bins <span class="k">in</span> reference genome tree.
-<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:29:17<span class="o">]</span> INFO: Identifying marker genes <span class="k">in</span> <span class="m">8</span> bins with <span class="m">40</span> threads:
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:29:16<span class="o">]</span> INFO: <span class="o">[</span>CheckM - tree<span class="o">]</span> Placing bins in reference genome tree.
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:29:17<span class="o">]</span> INFO: Identifying marker genes in <span class="m">8</span> bins with <span class="m">40</span> threads:
     Finished processing <span class="m">8</span> of <span class="m">8</span> <span class="o">(</span><span class="m">100</span>.00%<span class="o">)</span> bins.
 <span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:29:37<span class="o">]</span> INFO: Saving HMM info to file.
 <span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:29:37<span class="o">]</span> INFO: Calculating genome statistics <span class="k">for</span> <span class="m">8</span> bins with <span class="m">40</span> threads:
@@ -561,14 +561,14 @@ MetaWRAP (that we’ll do below).</p>
     Finished processing <span class="m">8</span> of <span class="m">8</span> <span class="o">(</span><span class="m">100</span>.00%<span class="o">)</span> bins <span class="o">(</span>current: bin.2<span class="o">)</span>.
 <span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:33:39<span class="o">]</span> INFO: Marker <span class="nb">set</span> written to: checkm_spades_trimmomatic_metabat2/lineage.ms
 <span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:33:39<span class="o">]</span> INFO: <span class="o">{</span> Current stage: <span class="m">0</span>:00:01.964 <span class="o">||</span> Total: <span class="m">0</span>:04:23.006 <span class="o">}</span>
-<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:33:39<span class="o">]</span> INFO: <span class="o">[</span>CheckM - analyze<span class="o">]</span> Identifying marker genes <span class="k">in</span> bins.
-<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:33:40<span class="o">]</span> INFO: Identifying marker genes <span class="k">in</span> <span class="m">8</span> bins with <span class="m">40</span> threads:
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:33:39<span class="o">]</span> INFO: <span class="o">[</span>CheckM - analyze<span class="o">]</span> Identifying marker genes in bins.
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:33:40<span class="o">]</span> INFO: Identifying marker genes in <span class="m">8</span> bins with <span class="m">40</span> threads:
     Finished processing <span class="m">8</span> of <span class="m">8</span> <span class="o">(</span><span class="m">100</span>.00%<span class="o">)</span> bins.
 <span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:34:46<span class="o">]</span> INFO: Saving HMM info to file.
 <span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:34:46<span class="o">]</span> INFO: <span class="o">{</span> Current stage: <span class="m">0</span>:01:06.748 <span class="o">||</span> Total: <span class="m">0</span>:05:29.754 <span class="o">}</span>
 <span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:34:46<span class="o">]</span> INFO: Parsing HMM hits to marker genes:
     Finished parsing hits <span class="k">for</span> <span class="m">8</span> of <span class="m">8</span> <span class="o">(</span><span class="m">100</span>.00%<span class="o">)</span> bins.
-<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:34:47<span class="o">]</span> INFO: Aligning marker genes with multiple hits <span class="k">in</span> a single bin:
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:34:47<span class="o">]</span> INFO: Aligning marker genes with multiple hits in a single bin:
     Finished processing <span class="m">8</span> of <span class="m">8</span> <span class="o">(</span><span class="m">100</span>.00%<span class="o">)</span> bins.
 <span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:34:52<span class="o">]</span> INFO: <span class="o">{</span> Current stage: <span class="m">0</span>:00:06.238 <span class="o">||</span> Total: <span class="m">0</span>:05:35.993 <span class="o">}</span>
 <span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:34:52<span class="o">]</span> INFO: Calculating genome statistics <span class="k">for</span> <span class="m">8</span> bins with <span class="m">40</span> threads:
@@ -607,8 +607,8 @@ different binning tools. This aggregation often results in superior bins - bette
 <p>For the purposes of this exercise, we’ll be using DAS_Tool instead of MetaWRAP. For members of the Sullivan lab,
 MetaWRAP <em>is installed</em> to the lab project directory via modules. For everyone else (on OSC, or eMicro), DAS_Tool is
 available and instructions follow!</p>
-</section>
-<section id="bin-refinement">
+</div>
+<div class="section" id="bin-refinement">
 <h2>Bin Refinement<a class="headerlink" href="#bin-refinement" title="Permalink to this headline">¶</a></h2>
 <p>We’ll use DAS Tool to refine our bins generated from CONCOCT, MetaBAT2 and MaxBin2. Half the work is formatting the
 input files, so we’ll start with that.</p>
@@ -674,11 +674,10 @@ DAS_Tool_results_DASTool_scores.pdf
 </div>
 <p><strong>Now we’ve gone from raw sequence data, downloaded from NCBI SRA to bin-refined MAGs that have been quality-checked
 with CheckM. Only a little further and the manuscript will be published!</strong></p>
-</section>
-</section>
+</div>
+</div>
 
 
-            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -711,15 +710,17 @@ with CheckM. Only a little further and the manuscript will be published!</strong
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
+  <h3>Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -736,13 +737,12 @@ with CheckM. Only a little further and the manuscript will be published!</strong
         <li class="right" >
           <a href="R.html" title="R"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">End-to-End Processing of a Microbial Metagenome</a></li> 
+        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2019, Benjamin Bolduc.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
     </div>
   </body>
 </html>

@@ -7,7 +7,7 @@ For this dataset, we'll be **fully** processing `SRX4071230 <https://www.ncbi.nl
 metagenome with 14.1M reads. The SRA Run is SRR7151490, which will be important when downloading the data from SRA.
 
 This will include (nearly) all steps and *most* of the results returned from the command line. Clearly, some outputs
-can't be nicely placed here, but are available (as links to files) or in the M8194 project directory.
+can't be nicely placed here, but are available (as links to files) or in the M8161 project directory.
 
 Everything here uses Singularity. All of the singularity images are located at:
 

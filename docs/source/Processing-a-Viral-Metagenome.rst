@@ -8,7 +8,7 @@ metagenome with 37 million paired reads and 7.2Gbp. The SRA Run is ERR594369, wh
 the data from SRA.
 
 This will include (nearly) all steps and *most* of the results returned from the command line. Clearly, some outputs
-can't be nicely placed here, but are available (as links to files) or in the M8194 project directory.
+can't be nicely placed here, but are available (as links to files) or in the M8161 project directory.
 
 Everything here uses Singularity. All of the singularity images are located at:
 
@@ -529,6 +529,35 @@ Next, run CheckV...
     ---------- ---------- ----------
       04:30:00   1403380K   00:06:45
 
+Let's check into the results of CheckV before we continue with the SOP. Open up "quality_summary.tsv" from the CheckV
+results directory:
+
+.. code-block:: bash
+
+    $ ls /fs/project/PAS1117/ben/VEP/CheckV
+    completeness.tsv   proviruses.fna       tmp          complete_genomes.tsv
+    contamination.tsv  quality_summary.tsv  viruses.fna
+
+You can download this file to your computer and open in Google Sheets, Microsoft Excel, Numbers, or any other
+spreadsheet. Alternatively, you could look through the file using "less" or similar unix-tool.
+*What we want to do is get an overview of CheckV's quality assessment of the 1st-pass VirSorter2 genomes.*
+
+Another way of examining them is with a quick "grep -c" (for count).
+
+.. code-block:: bash
+
+    $ grep -c "Low-quality" quality_summary.tsv
+    2825
+    $ grep -c "Medium-quality" quality_summary.tsv
+    25
+    $ grep -c "High-quality" quality_summary.tsv
+    1
+    $ grep -c "Not-determined" quality_summary.tsv
+    528
+
+CheckV is conservative with regards to quality, and uses completeness as a measure. It also incorporates a contamination
+check, so you can quickly screen contigs.
+
 Now re-run VirSorter.
 
 .. code-block:: bash
@@ -539,7 +568,7 @@ Now re-run VirSorter.
     #SBATCH -n 40
     #SBATCH -J VS2_p2
 
-    # Load the SPAdes module - or can be loaded directly
+    # Load VirSorter
     module load singularity
     vs2Loc=/users/PAS1117/osu9664/eMicro-Apps/VirSorter2-2.2.3.sif
     workDir="/fs/project/PAS1117/ben/VEP"
@@ -567,6 +596,208 @@ Now re-run VirSorter.
     ---------- ---------- ----------
     5-02:28:40   1249568K   03:03:43
 
-Now we want to annotate our putative viral genomes and then manually screen them to ensure they are of high quality.
+Now we want to annotate our putative viral genomes and then manually screen them to ensure they are of high confidence.
+VirSorter2 can contain false positives. No viral tool is completely perfect - every one of them has advantages or
+disadvantages, depending on the viral types present in the sample and biases to the identification tool.
+
+To do this, we'll use DRAM-v to identify AMGs (more below) *and* to identify "suspicious" genes that can be found in viral
+genomes and can lead to them being called viral.
+
+
+.. code-block:: bash
+
+    #!/bin/bash
+    #SBATCH -N 1
+    #SBATCH -t 120:00:00
+    #SBATCH -n 40
+    #SBATCH -J DRAMv
+
+    # Load the SPAdes module - or can be loaded directly
+    module load singularity
+    dramLoc=/users/PAS1117/osu9664/eMicro-Apps/DRAM-PAS1573-1.2.1.sif
+    workDir="/fs/project/PAS1117/ben/VEP"
+
+    cd $workDir
+
+    # Annotate
+    fasta_input="${workDir}/analyses/VirSorter2-Pass2/for-dramv/final-viral-combined-for-dramv.fa"
+    affi_input="${workDir}/analyses/VirSorter2-Pass2/for-dramv/viral-affi-contigs-for-dramv.tab"
+
+    # Variables to pass to DRAMv annotate
+    opts="--skip_trnascan --threads 40 --min_contig_size 1000"
+    outDir="${workDir}/analyses/DRAMv-annotate"
+
+    time dramLoc annotate -i $fasta_input -v $affi_input -o $outDir $opts
+
+    # Then summarize
+    time dramLoc distill -i $outDir/annotations.tsv -o "${workDir}/analyses/DRAMv-distill"
+
+Two things to notice. 1) We're still continuing with the  `VirSorter2 SOP <https://dx.doi.org/10.17504/protocols.io.bwm5pc86>`_
+and 2) we're using a special Singularity version of DRAMv. Feel free to use the module version or your own installation.
+
+Let's see how long this took.
+
+.. code-block:: bash
+
+    $ sacct -j 5371984 --format "CPUTime,MaxRSS,Elapsed"
+       CPUTime     MaxRSS    Elapsed
+    ---------- ---------- ----------
+    135-17:22:00   9029732K 3-09:26:03
+
+Three days and 9 hours using 40 cores to annotate 3313 contigs.
+
+
+Next, we need to screen based on the viral and host genes, hallmark genes, and contig lengths between CheckV and VirSorter2,
+and incorporate DRAM results in order to have confidence in our viral calls. The VirSorter2 SOP has a general set of
+guidelines we can use. Basically, they're screening categories: Keep1, Keep2, Manual check, and discard.
+
+We've written a short python script that can handle some of the basic filtering, but *cannot substitute for manually verifying the results.*
+Please look through the "Manual curation" (Step 5) of the VirSorter2 SOP documentation. If you want results you can be confident
+in, ensure you go through them.
+
+.. code-block:: bash
+
+    #!/bin/bash
+    #SBATCH -N 1
+    #SBATCH -t 00:05:00
+    #SBATCH -n 1
+    #SBATCH -J VS2-SOP
+
+    workDir="/fs/project/PAS1117/ben/VEP"
+
+    vs2_genomes="${workDir}/analyses/VirSorter2-Pass2/for-dramv/final-viral-combined-for-dramv.fa"
+    vs2_final_score="${workDir}/analyses/VirSorter2-Pass2/final-viral-score.tsv"
+    amg_summary="${workDir}/analyses/DRAMv-distill/amg_summary.tsv"
+    checkv_contamination="${workDir}/analyses/CheckV/contamination.tsv"
+
+    output_dir="${workDir}/analyses/VS2-SOP"
+
+    python /users/PAS1117/osu9664/eMicro-Apps/Process-VS2_and_DRAMv.py --vs2-scores $vs2_final_score \
+    --checkv-contam $checkv_contamination --dramv-amg $amg_summary --vs2-genomes $vs2_genomes \
+    --output-dir $output_dir --drop-manual
+
+.. code-block:: bash
+
+    $ sacct -j 5427090 --format "CPUTime,MaxRSS,Elapsed"
+       CPUTime     MaxRSS    Elapsed
+    ---------- ---------- ----------
+      00:00:20          0   00:00:20
+
+The log file for the script is as follows:
+
+.. code-block:: bash
+
+    Wrote 3243 records to /fs/project/PAS1117/ben/VEP/analyses/VS2-SOP/final-viral-scored.fa
+    Saved summary table to /fs/project/PAS1117/ben/VEP/analyses/VS2-SOP/final-viral-scored.tsv
+
+Two files are generated. A summary table with information incorporating CheckV and VirSorter2, and the final viral genomes.
+We'll use these results for vConTACT2 and taxonomic classification.
+
+Preparing for vConTACT2 and Running vConTACT2
+---------------------------------------------
+
+vConTACT2 is a tool to classify viral genomes. But first, we need to get the input files setup. In the script below,
+we'll run prodigal first - to generate proteins - and then use an accessory function to prepare vConTACT2 files.
+
+.. code-block:: bash
+
+    #!/bin/bash
+    #SBATCH -N 1
+    #SBATCH -t 4:00:00
+    #SBATCH -n 48
+    #SBATCH -J vConTACT2
+    #SBATCH --partition=hugemem
+
+    module load singularity
+    module use /fs/project/PAS1117/modulefiles
+    module load singularityImages
+
+    # Directories
+    workDir="/fs/project/PAS1117/ben/VEP"
+
+    # Generate files suitable for vConTACT2
+    prodigalLoc="/users/PAS1117/osu9664/eMicro-Apps/Prodigal-2.6.3.img"
+    input_fna="${workDir}/analyses/VS2-SOP/final-viral-scored.fa"
+    prodigal_outputDir="${workDir}/analyses/Prodigal_output"
+
+    mkdir $prodigal_outputDir
+
+    time $prodigalLoc -i $input_fna -p meta -a $prodigal_outputDir/VirSorter2_genomes.faa \
+    -o $prodigal_outputDir/VirSorter2_genomes.prodigal
+
+    # Run vConTACT2
+    vcontact2Loc="/users/PAS1117/osu9664/eMicro-Apps/vConTACT2-0.9.20.sif"
+    outputDir="${workDir}/analyses/vConTACT2_output"
+
+    time singularity exec $vcontact2Loc vcontact2_gene2genome -p $prodigal_outputDir/VirSorter2_genomes.faa \
+    -o $prodigal_outputDir/VirSorter2_proteins.csv -s Prodigal-FAA
+
+    time $vcontact2Loc --pcs-mode MCL --vcs-mode ClusterONE --threads 48 --raw-proteins $prodigal_outputDir/VirSorter2_genomes.faa \
+    --rel-mode Diamond --proteins-fp $prodigal_outputDir/VirSorter2_proteins.csv --db 'ProkaryoticViralRefSeq201-Merged' \
+    --output-dir $outputDir
+
+    wait
+
+.. code-block:: bash
+
+    $ sacct -j 5430686 --format "CPUTime,MaxRSS,Elapsed"
+       CPUTime     MaxRSS    Elapsed
+    ---------- ---------- ----------
+    3-05:38:24   9884748K   01:37:03
+
+The job only took 1 hr 37 min, provided 48 cores and 1.5 TB of memory. Based on the results,
+*we would not re-run this job with these parameters*! Next time, a "standard" 28, 40 or 48-core node on Owens or Pitzer
+would suffice.
+
+There are a lot of files generated from vConTACT2, here's a list of files that should be generated:
+
+.. code-block:: bash
+
+    $ ls /fs/project/PAS1117/ben/VEP/analyses/vConTACT2_output
+    c1.clusters                             modules_mcl_5.0_modules.pandas
+    c1.ntw                                  modules_mcl_5.0_pcs.pandas
+    genome_by_genome_overview.csv           modules.ntwk
+    merged_df.csv                           sig1.0_mcl2.0_clusters.csv
+    merged.dmnd                             sig1.0_mcl2.0_contigs.csv
+    merged.faa                              sig1.0_mcl2.0_modsig1.0_modmcl5.0_minshared3_link_mod_cluster.csv
+    merged.self-diamond.tab                 sig1.0_mcl5.0_minshared3_modules.csv
+    merged.self-diamond.tab.abc             vConTACT_contigs.csv
+    merged.self-diamond.tab.mci             vConTACT_pcs.csv
+    merged.self-diamond.tab_mcl20.clusters  vConTACT_profiles.csv
+    merged.self-diamond.tab_mcxload.tab     vConTACT_proteins.csv
+    modules_mcl_5.0.clusters                viral_cluster_overview.csv
+
+The two most important files are "genome_by_genome_overview.csv", which provides an overview of all the genomes that
+were processed by vConTACT2, and "c1.ntw", which contains the network.
+
+Next, you can examine the network OR the viral clusters.
+
+**On a computer with Cytoscape installed**, import the network using File -> Import -> Network from File. Upon import,
+select Advanced options, Delimiter is space, deselect "Use first line as column names." -> OK.
+
+Now, click on Column 1, set it as Source Node, click on Column 2, set it as Target Node -> OK.
+
+You should see this:
+
+.. figure:: screencapture-Cytoscape-after-import.png
+   :scale: 25 %
+   :width: 2372
+   :alt: Cytoscape import
+
+Next, we want to add annotations to our network. Go to File -> Import -> Table from File. Upon import, on "Where to Import Table Data",
+select "To A Network Collection", then import Data as "Node Table Columns".
+Finally, in the Preview, click on the "Genome" column and  and then click on the "key" symbol, then OK.
+
+.. figure:: screencapture-Cytoscape-after-table.png
+   :scale: 25 %
+   :width: 2372
+   :alt: Cytoscape table
+
+Now you have all the annotations added to the network. You can style and adjust the network to whatever is appropriate
+for your research goals.
+
+And with that, we've gone from raw, environmental viral metagenome data (downloaded from the SRA). We've QC'd, assembled,
+identified viral genomes, checked their quality, and then got a bit of classification. Just like with the Microbial
+Ecology pipeline, we're only a few steps away from a published manuscript!
 
 

@@ -7,7 +7,7 @@ Nearly all of this documentation is taken directly from lecture and text guides 
 process the "moving pictures" dataset are from Dr. Shareef Dabdoub's guide found on `Carmen <https://carmen.osu.edu/#>`_.
 If you'd like to read up more about this dataset, they can be found `here <https://genomebiology.biomedcentral.com/articles/10.1186/gb-2011-12-5-r50>`_.
 
-For M8194 students, you'll want to copy the two examples files from the project directory on scratch to your home directory!
+For M8161 students, you'll want to copy the two examples files from the project directory on scratch to your home directory!
 
 .. code-block:: bash
 
@@ -23,7 +23,7 @@ For the rest of this walkthrough, we'll be in our $HOME directory. You'll notice
 data often start with "moving_pictures/..." That's because we're using our *relative location* to point QIIME2 to where
 files are located.
 
-**One final note**: For M8194 students, we went over how to install QIIME2 during Shareef's lecture. Look at that. For
+**One final note**: For M8161 students, we went over how to install QIIME2 during Shareef's lecture. Look at that. For
 the eMicro crowd, you can access a QIIME2 (version 2019.7) Singularity container, like so:
 
 .. code-block:: bash

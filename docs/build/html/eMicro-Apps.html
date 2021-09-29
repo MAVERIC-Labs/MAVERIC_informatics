@@ -1,18 +1,19 @@
 
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Available Environmental Microbiology (“eMicro”) Apps and Tools &#8212; MAVERIC Informatics  documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Modules and Tools on OSC" href="Modules-and-Tools.html" />
@@ -30,8 +31,7 @@
         <li class="right" >
           <a href="Building-Modules-and-Tools.html" title="Building Modules and Tools on OSC"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Available Environmental Microbiology (“eMicro”) Apps and Tools</a></li> 
+        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -40,7 +40,7 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="available-environmental-microbiology-emicro-apps-and-tools">
+  <div class="section" id="available-environmental-microbiology-emicro-apps-and-tools">
 <span id="emicroapps"></span><h1>Available Environmental Microbiology (“eMicro”) Apps and Tools<a class="headerlink" href="#available-environmental-microbiology-emicro-apps-and-tools" title="Permalink to this headline">¶</a></h1>
 <p>Below is a list and description of the apps available to anyone on OSC. Please keep in mind that this list is not 100%
 comprehensive and <em>does not</em> detail the methods underlying the tool. Where possible, citations have been included so users
@@ -52,8 +52,13 @@ and literature.</p>
 <p>/users/PAS1117/osu9664/eMicro-Apps/</p>
 <p>So you must prepend each *.img, *.simg or *.sif Singularity container w/ this path OR link them (see <a class="reference internal" href="Linux-Unix.html#unix-linux"><span class="std std-ref">UNIX/LINUX Introduction and Guide</span></a>).</p>
 <p><strong>Example</strong>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
-singularity run /users/PAS1117/osu9664/eMicro-Apps/Prokka-1.12.0.img -h
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ module load singularity/current
+$ singularity run /users/PAS1117/osu9664/eMicro-Apps/Prokka-1.12.0.img -h
+</pre></div>
+</div>
+<p>If you want to add to your PATH…</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span>/users/PAS1117/osu9664/eMicro-Apps/:<span class="nv">$PATH</span>
+$ Prokka-1.12.0.img -h
 </pre></div>
 </div>
 <p><strong>Keep in mind that NONE of these apps/tools should be run on the login nodes. Please create a job script and submit it
@@ -70,13 +75,13 @@ module load Prokka/1.14.6
 prokka -h
 </pre></div>
 </div>
-<section id="quality-control-reads">
+<div class="section" id="quality-control-reads">
 <h2>Quality Control (Reads)<a class="headerlink" href="#quality-control-reads" title="Permalink to this headline">¶</a></h2>
 <p>Generally speaking, quality control (QC) is a technique applied to to [most commonly] raw read data. This ensures that
 the data going into the assembly (common next step) is of high quality. Poor read quality can result in mis- or
 incorrectly assembled sequences. Most frequently, read data QC involves trimming reads according to their quality
 scores. Although some assemblers do not require QC’d reads, we highly recommend it!</p>
-<section id="trimmomatic">
+<div class="section" id="trimmomatic">
 <h3>Trimmomatic<a class="headerlink" href="#trimmomatic" title="Permalink to this headline">¶</a></h3>
 <p><strong>Reference</strong>: Bolger, A. M., Lohse, M., &amp; Usadel, B. (2014). Trimmomatic: A flexible trimmer for Illumina Sequence Data. Bioinformatics, btu170.</p>
 <p><strong>Short description</strong>: Identifies adapter sequences in raw sequencing reads and quality filters</p>
@@ -94,8 +99,8 @@ trimmomatic PE -phred33 input_forward.fq.gz input_reverse.fq.gz output_forward_p
 </div>
 <p><strong>Notes</strong>: Trimmomatic is a java jar file, and <em>normally</em> needs to be executed with “java -jar trimmomatic.jar [commands]”,
 but a tiny bash script has been written to automate this, which is why you can call “trimmomatic” without the java component.</p>
-</section>
-<section id="bbtools">
+</div>
+<div class="section" id="bbtools">
 <h3>BBTools<a class="headerlink" href="#bbtools" title="Permalink to this headline">¶</a></h3>
 <p><strong>Reference</strong>: <a class="reference external" href="http://sourceforge.net/projects/bbmap/">http://sourceforge.net/projects/bbmap/</a></p>
 <p><strong>Reference</strong> (BBMerge): Bushnell, B., Rood, J., &amp; Singer, E. (2017). BBMerge – Accurate paired shotgun read merging
@@ -110,8 +115,8 @@ but in the meantime, any tool available on <a class="reference external" href="h
 singularity run /users/PAS1117/osu9664/eMicro-Apps/BBTools-38.69.sif
 </pre></div>
 </div>
-</section>
-<section id="bbduk-in-the-bbtools-package">
+</div>
+<div class="section" id="bbduk-in-the-bbtools-package">
 <h3>BBDuk (in the BBTools package)<a class="headerlink" href="#bbduk-in-the-bbtools-package" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/bbduk-guide/">https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/bbduk-guide/</a></p>
 <p><strong>Short description</strong>: “Duk” stands for Decontamination Using Kmers. BBDuk was developed to combine most common
@@ -132,8 +137,8 @@ singularity run /users/PAS1117/osu9664/eMicro-Apps/BBTools-38.69.sif bbduk.sh <s
 singularity run /users/PAS1117/osu9664/eMicro-Apps/BBTools-38.69.sif bbduk.sh <span class="nv">in1</span><span class="o">=</span>&lt;input-pair1&gt; <span class="nv">in2</span><span class="o">=</span>&lt;input-pair2&gt; <span class="nv">out1</span><span class="o">=</span>&lt;qc-trimmed-pair1&gt; <span class="nv">out2</span><span class="o">=</span>&lt;qc-trimmed-pair2&gt; <span class="nv">ref</span><span class="o">=</span>/bbmap/resources/adapters.fa <span class="nv">ktrim</span><span class="o">=</span>r <span class="nv">k</span><span class="o">=</span><span class="m">23</span> <span class="nv">mink</span><span class="o">=</span><span class="m">11</span> <span class="nv">hdist</span><span class="o">=</span><span class="m">1</span> tpe tbo <span class="nv">trimq</span><span class="o">=</span><span class="m">10</span> <span class="nv">qtrim</span><span class="o">=</span>rl <span class="nv">minlength</span><span class="o">=</span><span class="m">35</span>
 </pre></div>
 </div>
-</section>
-<section id="fastqc">
+</div>
+<div class="section" id="fastqc">
 <h3>FastQC<a class="headerlink" href="#fastqc" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/">https://www.bioinformatics.babraham.ac.uk/projects/fastqc/</a></p>
 <p><strong>Short description</strong>: FastQC aims to provide a simple way to do some quality control checks on raw sequence data
@@ -153,8 +158,8 @@ module load fastqc/0.11.5
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load fastqc/0.11.8
 </pre></div>
 </div>
-</section>
-<section id="multiqc">
+</div>
+<div class="section" id="multiqc">
 <h3>MultiQC<a class="headerlink" href="#multiqc" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://multiqc.info/">https://multiqc.info/</a></p>
 <p><strong>Reference</strong>: Ewels, P., Magnusson, M., Lundin, S., &amp; Käller, M. (2016). MultiQC: Summarize analysis results for
@@ -171,8 +176,8 @@ singularity run /users/PAS1117/osu9664/eMicro-Apps/MultiQC-1.7.sif
 module load MultiQC
 </pre></div>
 </div>
-</section>
-<section id="quast-metaquast">
+</div>
+<div class="section" id="quast-metaquast">
 <h3>QUAST/MetaQUAST<a class="headerlink" href="#quast-metaquast" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="http://quast.sourceforge.net/">http://quast.sourceforge.net/</a></p>
 <p><strong>Short Description</strong>: The project aim is to create easy-to-use tools for genome assemblies evaluation and comparison.</p>
@@ -191,11 +196,11 @@ genome assembly evaluation with QUAST-LG. Bioinformatics, 34(13), i142–i150.
 module load quast/4.5
 </pre></div>
 </div>
-</section>
-</section>
-<section id="assembly">
+</div>
+</div>
+<div class="section" id="assembly">
 <h2>Assembly<a class="headerlink" href="#assembly" title="Permalink to this headline">¶</a></h2>
-<section id="gsassembler-aka-newbler">
+<div class="section" id="gsassembler-aka-newbler">
 <h3>gsAssembler (aka Newbler)<a class="headerlink" href="#gsassembler-aka-newbler" title="Permalink to this headline">¶</a></h3>
 <p><strong>Reference</strong>: Genivaldo, GZ; Silva, Bas E; Dutilh, David; Matthews, Keri; Elkins, Robert; Schmieder, Elizabeth A;
 Dinsdale, Robert A Edwards. “Combining de novo and reference-guided assembly with scaffold_builder”. Source Code
@@ -210,8 +215,8 @@ singularity run /users/PAS1117/osu9664/eMicro-Apps/Newbler-2.9.img -o output_dir
 </pre></div>
 </div>
 <p>The singularity container <em>does contain</em> the mapper, but for all intents and purposes, the tool uses runAssembly.</p>
-</section>
-<section id="spades">
+</div>
+<div class="section" id="spades">
 <h3>SPAdes<a class="headerlink" href="#spades" title="Permalink to this headline">¶</a></h3>
 <p><strong>Reference</strong>: Bankevich A., Nurk S., Antipov D., Gurevich A., Dvorkin M., Kulikov A. S., Lesin V., Nikolenko S.,
 Pham S., Prjibelski A., Pyshkin A., Sirotkin A., Vyahhi N., Tesler G., Alekseyev M. A., Pevzner P. A. SPAdes: A New
@@ -232,8 +237,8 @@ singularity run /users/PAS1117/osu9664/eMicro-Apps/SPAdes-3.13.0.sif
 module load spades/3.15.2
 </pre></div>
 </div>
-</section>
-<section id="idba-ud">
+</div>
+<div class="section" id="idba-ud">
 <h3>IDBA-UD<a class="headerlink" href="#idba-ud" title="Permalink to this headline">¶</a></h3>
 <p><strong>Reference</strong>: Peng, Y., et al. (2010) IDBA- A Practical Iterative de Bruijn Graph De Novo Assembler. RECOMB. Lisbon.</p>
 <p>Peng, Y., et al. (2012) IDBA-UD: a de novo assembler for single-cell and metagenomic sequencing data with highly uneven
@@ -251,8 +256,8 @@ regions. (taken from website)</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>singularity run /users/PAS1117/osu9664/eMicro-Apps/IDBA-UD-1.1.3.sif --num_threads &lt;threads&gt; -r &lt;reads-in-fasta-format&gt; -o &lt;output-dir&gt;
 </pre></div>
 </div>
-</section>
-<section id="trinity">
+</div>
+<div class="section" id="trinity">
 <h3>Trinity<a class="headerlink" href="#trinity" title="Permalink to this headline">¶</a></h3>
 <p><strong>Reference</strong>: Grabherr MG, Haas BJ, Yassour M, Levin JZ, Thompson DA, Amit I, Adiconis X, Fan L, Raychowdhury R, Zeng
 Q, Chen Z, Mauceli E, Hacohen N, Gnirke A, Rhind N, di Palma F, Birren BW, Nusbaum C, Lindblad-Toh K, Friedman N, Regev
@@ -264,8 +269,8 @@ May 15;29(7):644-52. doi: 10.1038/nbt.1883. PubMed PMID: 21572440.</p>
 singularity run /users/PAS1117/osu9664/eMicro-Apps/Trinity-2.4.0.img
 </pre></div>
 </div>
-</section>
-<section id="megahit">
+</div>
+<div class="section" id="megahit">
 <h3>MEGAHIT<a class="headerlink" href="#megahit" title="Permalink to this headline">¶</a></h3>
 <p><strong>Reference</strong>: Li, D., Liu, C. M., Luo, R., Sadakane, K., &amp; Lam, T. W. (2014). MEGAHIT: An ultra-fast single-node
 solution for large and complex metagenomics assembly via succinct de Bruijn graph. Bioinformatics, 31(10), 1674–1676.
@@ -282,11 +287,11 @@ module load MEGAHIT/1.2.9
 singularity run /users/PAS1117/osu9664/eMicro-Apps/MEGAHIT-1.2.8.sif --k-list <span class="m">21</span>,41,61,81,99 -t &lt;threads&gt; -m <span class="m">0</span>.9 -1 &lt;<span class="k">for</span>-reads&gt; -2 &lt;rev-reads&gt; -o &lt;output-dir&gt; --presets meta-sensitive <span class="o">(</span>or meta-large <span class="k">for</span> complex metagenomes like soils or oceans<span class="o">)</span>
 </pre></div>
 </div>
-</section>
-</section>
-<section id="binning">
+</div>
+</div>
+<div class="section" id="binning">
 <h2>Binning<a class="headerlink" href="#binning" title="Permalink to this headline">¶</a></h2>
-<section id="metabat2">
+<div class="section" id="metabat2">
 <h3>MetaBAT2<a class="headerlink" href="#metabat2" title="Permalink to this headline">¶</a></h3>
 <p><strong>Reference</strong>: <a class="reference external" href="https://bitbucket.org/berkeleylab/metabat">https://bitbucket.org/berkeleylab/metabat</a></p>
 <p><strong>Reference</strong>: Kang, D. D., Froula, J., Egan, R., &amp; Wang, Z. (2015). MetaBAT, an efficient tool for accurately
@@ -304,8 +309,8 @@ wget https://portal.nersc.gov/dna/RD/Metagenome_RD/MetaBAT/Files/BestPractices/V
 singularity run /users/PAS1117/osu9664/eMicro-Apps/MetaBAT2-2.14.sif -i assembly.fa.gz -a depth.txt -o resA1/bin -v
 </pre></div>
 </div>
-</section>
-<section id="maxbin2">
+</div>
+<div class="section" id="maxbin2">
 <h3>MaxBin2<a class="headerlink" href="#maxbin2" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://downloads.jbei.org/data/microbial_communities/MaxBin/MaxBin.html">https://downloads.jbei.org/data/microbial_communities/MaxBin/MaxBin.html</a></p>
 <p><strong>Website (alt)</strong>: <a class="reference external" href="https://sourceforge.net/projects/maxbin/">https://sourceforge.net/projects/maxbin/</a></p>
@@ -339,13 +344,13 @@ singularity run /users/PAS1117/osu9664/eMicro-Apps/MaxBin2.sif -contig 20x.scaff
 module load MaxBin/2.2.6
 </pre></div>
 </div>
-</section>
-<section id="concoct">
+</div>
+<div class="section" id="concoct">
 <h3>CONCOCT<a class="headerlink" href="#concoct" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://concoct.readthedocs.io/en/latest/">https://concoct.readthedocs.io/en/latest/</a></p>
-<dl class="simple">
-<dt><strong>Reference</strong>: Alneberg, J., Bjarnason, B. S., de Bruijn, I., Schirmer, M., Quick, J., Ijaz, U. Z., … Quince, C. (2013).</dt><dd><p>CONCOCT: Clustering cONtigs on COverage and ComposiTion, 1–28. Retrieved from <a class="reference external" href="http://arxiv.org/abs/1312.4038">http://arxiv.org/abs/1312.4038</a></p>
-</dd>
+<dl class="docutils">
+<dt><strong>Reference</strong>: Alneberg, J., Bjarnason, B. S., de Bruijn, I., Schirmer, M., Quick, J., Ijaz, U. Z., … Quince, C. (2013).</dt>
+<dd>CONCOCT: Clustering cONtigs on COverage and ComposiTion, 1–28. Retrieved from <a class="reference external" href="http://arxiv.org/abs/1312.4038">http://arxiv.org/abs/1312.4038</a></dd>
 </dl>
 <p><strong>Short description</strong>: CONCOCT “bins” metagenomic contigs. Metagenomic binning is the process of clustering sequences
 into clusters corresponding to operational taxonomic units of some level.</p>
@@ -355,8 +360,8 @@ singularity run /users/PAS1117/osu9664/eMicro-Apps/CONCOCT-1.1.0.sif
 </pre></div>
 </div>
 <p>See <a class="reference internal" href="Processing-a-Microbial-Metagenome.html#processing-microbe"><span class="std std-ref">End-to-End Processing of a Microbial Metagenome</span></a> for a more detailed explanation on usage.</p>
-</section>
-<section id="metawrap">
+</div>
+<div class="section" id="metawrap">
 <h3>MetaWRAP<a class="headerlink" href="#metawrap" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/bxlab/metaWRAP">https://github.com/bxlab/metaWRAP</a></p>
 <p><strong>Reference</strong>: Uritskiy, G. V., DiRuggiero, J., &amp; Taylor, J. (2018). MetaWRAP—a flexible pipeline for genome-resolved
@@ -374,14 +379,14 @@ you are interested in for your data.</p>
 module load metaWRAP
 </pre></div>
 </div>
-</section>
-<section id="das-tool">
+</div>
+<div class="section" id="das-tool">
 <h3>DAS_Tool<a class="headerlink" href="#das-tool" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/cmks/DAS_Tool">https://github.com/cmks/DAS_Tool</a></p>
-<dl class="simple">
-<dt><strong>Reference</strong>: Sieber, C. M. K., Probst, A. J., Sharrar, A., Thomas, B. C., Hess, M., Tringe, S. G., &amp; Banfield,</dt><dd><p>J. F. (2018). Recovery of genomes from metagenomes via a dereplication, aggregation and scoring strategy. Nature
-Microbiology, 3(7), 836–843. <a class="reference external" href="https://doi.org/10.1038/s41564-018-0171-1">https://doi.org/10.1038/s41564-018-0171-1</a></p>
-</dd>
+<dl class="docutils">
+<dt><strong>Reference</strong>: Sieber, C. M. K., Probst, A. J., Sharrar, A., Thomas, B. C., Hess, M., Tringe, S. G., &amp; Banfield,</dt>
+<dd>J. F. (2018). Recovery of genomes from metagenomes via a dereplication, aggregation and scoring strategy. Nature
+Microbiology, 3(7), 836–843. <a class="reference external" href="https://doi.org/10.1038/s41564-018-0171-1">https://doi.org/10.1038/s41564-018-0171-1</a></dd>
 </dl>
 <p><strong>Short description</strong>: DAS Tool is an automated method that integrates the results of a flexible number of binning
 algorithms to calculate an optimized, non-redundant set of bins from a single assembly.</p>
@@ -399,8 +404,8 @@ singularity run /users/PAS1117/osu9664/eMicro-Apps/DAS_Tool.sif -i DAS_Tool/samp
 module load DAS_Tool
 </pre></div>
 </div>
-</section>
-<section id="unitem">
+</div>
+<div class="section" id="unitem">
 <h3>UniteM<a class="headerlink" href="#unitem" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/dparks1134/UniteM">https://github.com/dparks1134/UniteM</a></p>
 <p><strong>Reference</strong>: <a class="reference external" href="https://github.com/dparks1134/UniteM">https://github.com/dparks1134/UniteM</a> (cite the repository)</p>
@@ -411,11 +416,11 @@ non-redundant set of bins from the output of multiple binning methods.</p>
 module load uniteM
 </pre></div>
 </div>
-</section>
-</section>
-<section id="gene-callers">
+</div>
+</div>
+<div class="section" id="gene-callers">
 <h2>Gene Callers<a class="headerlink" href="#gene-callers" title="Permalink to this headline">¶</a></h2>
-<section id="fraggenescan">
+<div class="section" id="fraggenescan">
 <h3>FragGeneScan<a class="headerlink" href="#fraggenescan" title="Permalink to this headline">¶</a></h3>
 <p><strong>Reference</strong>: Mina Rho, Haixu Tang, and Yuzhen Ye. FragGeneScan: Predicting Genes in Short and Error-prone Reads. Nucl. Acids Res., 2010 doi: 10.1093/nar/gkq747</p>
 <p><strong>Short description</strong>: FragGeneScan is an application for finding (fragmented) genes in short reads</p>
@@ -424,8 +429,8 @@ module load uniteM
 singularity run /users/PAS1117/osu9664/eMicro-Apps/FragGeneScan-1.30.0.img
 </pre></div>
 </div>
-</section>
-<section id="prodigal">
+</div>
+<div class="section" id="prodigal">
 <h3>Prodigal<a class="headerlink" href="#prodigal" title="Permalink to this headline">¶</a></h3>
 <p><strong>Reference</strong>: Hyatt, D. Prodigal (2.6.3) [Software]. Available at <a class="reference external" href="https://github.com/hyattpd/Prodigal">https://github.com/hyattpd/Prodigal</a></p>
 <p><strong>Short description</strong>: Fast, reliable protein-coding gene prediction for prokaryotic genomes.</p>
@@ -440,8 +445,8 @@ module load prodigal/2.6.3
 prodigal -i metagenome.fna -o coords.gbk -a proteins.faa -p anon
 </pre></div>
 </div>
-</section>
-<section id="metageneannotator-mga">
+</div>
+<div class="section" id="metageneannotator-mga">
 <h3>MetaGeneAnnotator (“MGA”)<a class="headerlink" href="#metageneannotator-mga" title="Permalink to this headline">¶</a></h3>
 <p><strong>Reference</strong>: Noguchi, H., Taniguchi, T., &amp; Itoh, T. (2008). MetaGeneAnnotator: Detecting Species-Specific Patterns of
 Ribosomal Binding Site for Precise Gene Prediction in Anonymous Prokaryotic and Phage Genomes. DNA Research, 15(6),
@@ -452,8 +457,8 @@ Ribosomal Binding Site for Precise Gene Prediction in Anonymous Prokaryotic and 
 singularity run /users/PAS1117/osu9664/eMicro-Apps/MetaGeneAnnotator-1.1.0.img
 </pre></div>
 </div>
-</section>
-<section id="metagenemark">
+</div>
+<div class="section" id="metagenemark">
 <h3>MetaGeneMark<a class="headerlink" href="#metagenemark" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>:</p>
 <p><strong>Reference</strong>: Zhu, W., Lomsadze, A. &amp; Borodovsky, M. Ab initio gene identification in metagenomic sequences.
@@ -466,12 +471,12 @@ module load MetaGeneMark/3.38
 gmhmmp &lt;rest-of-command&gt;
 </pre></div>
 </div>
-</section>
-</section>
-<section id="annotation-and-analyses">
+</div>
+</div>
+<div class="section" id="annotation-and-analyses">
 <h2>Annotation and Analyses<a class="headerlink" href="#annotation-and-analyses" title="Permalink to this headline">¶</a></h2>
 <p>This is a catch-all category that doesn’t fit with the other sections.</p>
-<section id="prokka">
+<div class="section" id="prokka">
 <h3>Prokka<a class="headerlink" href="#prokka" title="Permalink to this headline">¶</a></h3>
 <p><strong>Reference</strong>: Seemann T. Prokka: rapid prokaryotic genome annotation Bioinformatics 2014 Jul 15;30(14):2068-9.
 PMID:24642063</p>
@@ -487,8 +492,8 @@ singularity run /users/PAS1117/osu9664/eMicro-Apps/Prokka-1.12.0.img
 module load Prokka/1.13
 </pre></div>
 </div>
-</section>
-<section id="diamond">
+</div>
+<div class="section" id="diamond">
 <h3>Diamond<a class="headerlink" href="#diamond" title="Permalink to this headline">¶</a></h3>
 <p><strong>Reference</strong>: B. Buchfink, Xie C., D. Huson, “Fast and sensitive protein alignment using DIAMOND”, Nature Methods 12,
 59-60 (2015)</p>
@@ -507,14 +512,14 @@ module load diamond/0.9.24
 module load diamond/ <span class="m">2</span>.0.5
 </pre></div>
 </div>
-</section>
-<section id="cat">
+</div>
+<div class="section" id="cat">
 <h3>CAT<a class="headerlink" href="#cat" title="Permalink to this headline">¶</a></h3>
 <p><strong>Reference</strong>: <a class="reference external" href="https://github.com/dutilh/CAT">https://github.com/dutilh/CAT</a></p>
-<dl class="simple">
-<dt><strong>Short description</strong>: Contig Annotation Tool (CAT) is a pipeline for the taxonomic classification of long DNA sequences</dt><dd><p>and metagenome assembled genomes (MAGs/bins) of both known and (highly) unknown microorganisms, as generated by
-contemporary metagenomics studies.</p>
-</dd>
+<dl class="docutils">
+<dt><strong>Short description</strong>: Contig Annotation Tool (CAT) is a pipeline for the taxonomic classification of long DNA sequences</dt>
+<dd>and metagenome assembled genomes (MAGs/bins) of both known and (highly) unknown microorganisms, as generated by
+contemporary metagenomics studies.</dd>
 </dl>
 <p><strong>Other notes</strong>: There are two versions of CAT. A pre-4.x version (“1.0.0”) and a post 4.x version (“4.3.3”). The new one
 is superior in all aspects, except database setup. The paths provided will not work unless you have the appropriate
@@ -529,8 +534,8 @@ singularity run /users/PAS1117/osu9664/eMicro-Apps/CAT-4.3.3.simg contigs -c <sp
 module load CAT/4.3.3
 </pre></div>
 </div>
-</section>
-<section id="centrifuge">
+</div>
+<div class="section" id="centrifuge">
 <h3>Centrifuge<a class="headerlink" href="#centrifuge" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="http://www.ccb.jhu.edu/software/centrifuge">http://www.ccb.jhu.edu/software/centrifuge</a></p>
 <p><strong>Reference</strong>: Kim, D., Song, L., Breitwieser, F. P., &amp; Salzberg, S. L. (2016). Centrifuge: rapid and sensitive
@@ -552,8 +557,8 @@ singularity run /users/PAS1117/osu9664/eMicro-Apps/Centrifuge-X.sif
 module load centrifuge/1.0.3
 </pre></div>
 </div>
-</section>
-<section id="vsearch">
+</div>
+<div class="section" id="vsearch">
 <h3>VSEARCH<a class="headerlink" href="#vsearch" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>:<a class="reference external" href="https://github.com/torognes/vsearch">https://github.com/torognes/vsearch</a></p>
 <p><strong>Reference</strong>: Rognes, T., Flouri, T., Nichols, B., Quince, C., &amp; Mahé, F. (2016). VSEARCH: a versatile open source
@@ -576,8 +581,8 @@ module load vsearch/2.6.0
 </pre></div>
 </div>
 <p><strong>Note</strong>: VSEARCH has <strong>a lot</strong> of options. So. Many.</p>
-</section>
-<section id="checkm">
+</div>
+<div class="section" id="checkm">
 <h3>CheckM<a class="headerlink" href="#checkm" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/Ecogenomics/CheckM">https://github.com/Ecogenomics/CheckM</a></p>
 <p><strong>Reference</strong>: Parks DH, Imelfort M, Skennerton CT, Hugenholtz P, Tyson GW. 2015. CheckM: assessing the quality of
@@ -590,8 +595,8 @@ sets of genes that are ubiquitous and single-copy within a phylogenetic lineage.
 singularity run /users/PAS1117/osu9664/eMicro-Apps/CheckM-1.0.18.sif
 </pre></div>
 </div>
-</section>
-<section id="clust">
+</div>
+<div class="section" id="clust">
 <h3>Clust<a class="headerlink" href="#clust" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/baselabujamous/clust">https://github.com/baselabujamous/clust</a></p>
 <p><strong>Reference</strong>: Abu-Jamous, B., &amp; Kelly, S. (2018). Clust: automatic extraction of optimal co-expressed gene clusters
@@ -604,8 +609,8 @@ singularity run /users/PAS1117/osu9664/eMicro-Apps/clust-1.8.9.img data_path -o 
 </pre></div>
 </div>
 <p>Please do read the extensive documentation on the Clust github page.</p>
-</section>
-<section id="bamm">
+</div>
+<div class="section" id="bamm">
 <h3>BamM<a class="headerlink" href="#bamm" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="http://ecogenomics.github.io/BamM/">http://ecogenomics.github.io/BamM/</a></p>
 <p><strong>Short description</strong>: Metagenomics-focused BAM file manipulation</p>
@@ -615,8 +620,8 @@ singularity run /users/PAS1117/osu9664/eMicro-Apps/BamM-1.7.0.sif
 </pre></div>
 </div>
 <p><strong>Note</strong>: This is no longer actively maintained. CoverM is a direct replacement.</p>
-</section>
-<section id="coverm">
+</div>
+<div class="section" id="coverm">
 <h3>CoverM<a class="headerlink" href="#coverm" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/wwood/CoverM">https://github.com/wwood/CoverM</a></p>
 <p><strong>Short description</strong>: CoverM aims to be a configurable, easy to use and fast DNA read coverage and relative abundance
@@ -631,8 +636,8 @@ singularity run /users/PAS1117/osu9664/eMicro-Apps/CoverM-0.2.0-alpha7.sif genom
 </pre></div>
 </div>
 <p>Alternatively, if you want to …</p>
-</section>
-<section id="singlem">
+</div>
+<div class="section" id="singlem">
 <h3>SingleM<a class="headerlink" href="#singlem" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/wwood/singlem">https://github.com/wwood/singlem</a></p>
 <p><strong>Short description</strong>: SingleM is a tool to find the abundances of discrete operational taxonomic units (OTUs) directly
@@ -652,18 +657,18 @@ singularity run /users/PAS1117/osu9664/eMicro-Apps/SingleM-0.8.1.img summarise -
 <p>There are a lot more options are customization than is presented here. Check the documentation for more information.
 Remember, anything after “singlem” in a command can be copy-and-pasted after the “SingleM.img” in the above examples.</p>
 <p>The latest version is 0.13.0. This will be updated alongside GraftM.</p>
-</section>
-<section id="graftm">
+</div>
+<div class="section" id="graftm">
 <h3>GraftM<a class="headerlink" href="#graftm" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/geronimp/graftM">https://github.com/geronimp/graftM</a></p>
 <p><strong>Reference</strong>: Boyd, J. A., Woodcroft, B. J., &amp; Tyson, G. W. (2018). GraftM: a tool for scalable, phylogenetically
 informed classification of genes within metagenomes. Nucleic Acids Research, 46(10), e59–e59.
 <a class="reference external" href="https://doi.org/10.1093/nar/gky174">https://doi.org/10.1093/nar/gky174</a></p>
-<dl class="simple">
-<dt><strong>Short description</strong>: GraftM is a tool for finding genes of interest in metagenomes, metatranscriptomes, and whole</dt><dd><p>genomes. Using modular gene packages, GraftM will search the provided sequences using hmmsearch (HMMER) and place the
+<dl class="docutils">
+<dt><strong>Short description</strong>: GraftM is a tool for finding genes of interest in metagenomes, metatranscriptomes, and whole</dt>
+<dd>genomes. Using modular gene packages, GraftM will search the provided sequences using hmmsearch (HMMER) and place the
 identified sequences into a pre-constructed phylogenetic tree. The provides fast, phylogenetically informed community
-profiles and genome annotations.</p>
-</dd>
+profiles and genome annotations.</dd>
 </dl>
 <p><strong>Singularity use</strong>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
@@ -671,7 +676,7 @@ singularity run /users/PAS1117/osu9664/eMicro-Apps/GraftM-0.10.1.img
 </pre></div>
 </div>
 <p>The latest version is 0.13.1. This will be updated.</p>
-<section id="read2refmapper">
+<div class="section" id="read2refmapper">
 <h4>Read2RefMapper<a class="headerlink" href="#read2refmapper" title="Permalink to this headline">¶</a></h4>
 <p><strong>Website</strong>: <a class="reference external" href="https://bitbucket.org/bolduc/docker-read2refmapper">https://bitbucket.org/bolduc/docker-read2refmapper</a></p>
 <p><strong>Protocols.io</strong>: <a class="reference external" href="https://dx.doi.org/10.17504/protocols.io.gv2bw8e">Read2Ref on CyVerse</a></p>
@@ -685,9 +690,9 @@ designed to be used in conjunction with Docker-BatchBowtie.</p>
 singularity run /users/PAS1117/osu9664/eMicro-Apps/Read2RefMapper-1.1.1.simg --dir <span class="si">${</span><span class="nv">readsDir</span><span class="si">}</span> --metagenome-sizes reads2refmapper_mysample.csv --num-threads <span class="m">40</span> --coverages coverage_table.csv --cov_filter <span class="m">70</span> --percent-id <span class="m">0</span>.95 --percent-aln <span class="m">0</span>.75 --coverage-mode tpmean --output-fmt png --dpi <span class="m">300</span> --log read2refmapper.log
 </pre></div>
 </div>
-</section>
-</section>
-<section id="clustergenomes">
+</div>
+</div>
+<div class="section" id="clustergenomes">
 <h3>ClusterGenomes<a class="headerlink" href="#clustergenomes" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://bitbucket.org/MAVERICLab/stampede-clustergenomes/">https://bitbucket.org/MAVERICLab/stampede-clustergenomes/</a></p>
 <p><strong>Short description</strong>: ClusterGenomes is a nucmer-based tool designed to cluster viral genomes. It can handle circular
@@ -700,7 +705,7 @@ singularity run /users/PAS1117/osu9664/eMicro-Apps/ClusterGenomes-1.1.3.img -f &
 </pre></div>
 </div>
 <p>Note: Both coverage and identity are 0 - 100, <em>not</em> 0.0 - 1.0.</p>
-<section id="drep">
+<div class="section" id="drep">
 <h4>dRep<a class="headerlink" href="#drep" title="Permalink to this headline">¶</a></h4>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/MrOlm/drep">https://github.com/MrOlm/drep</a></p>
 <p><strong>Website</strong>: <a class="reference external" href="https://drep.readthedocs.io/en/master/">https://drep.readthedocs.io/en/master/</a></p>
@@ -731,8 +736,8 @@ dRep.sif compare output_directory -g path/to/genomes/*.fasta
 module load dRep/2.4.2
 </pre></div>
 </div>
-</section>
-<section id="dram">
+</div>
+<div class="section" id="dram">
 <h4>DRAM<a class="headerlink" href="#dram" title="Permalink to this headline">¶</a></h4>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/shafferm/DRAM">https://github.com/shafferm/DRAM</a></p>
 <p><strong>Short description</strong>: DRAM (Distilled and Refined Annotation of MAGs [Metagenome Assembled Genomes]) is a tool for
@@ -758,13 +763,13 @@ DRAM.py annotate -i <span class="s1">&#39;&lt;path-to-bins&gt;/*.fa&#39;</span> 
 DRAM.py distill -i annotation/annotations.tsv -o distill --trna_path annotation/trnas.tsv --rrna_path annotation/rrnas.tsv
 </pre></div>
 </div>
-</section>
-</section>
-</section>
-<section id="viral-analyses">
+</div>
+</div>
+</div>
+<div class="section" id="viral-analyses">
 <h2>Viral Analyses<a class="headerlink" href="#viral-analyses" title="Permalink to this headline">¶</a></h2>
 <p>“Consider something viral in your research” - F. Rohwer</p>
-<section id="virsorter">
+<div class="section" id="virsorter">
 <h3>VIRSorter<a class="headerlink" href="#virsorter" title="Permalink to this headline">¶</a></h3>
 <p><strong>Reference</strong>: Roux S, Enault F, Hurwitz BL, Sullivan MB. (2015) VirSorter: mining viral signal from microbial genomic
 data. PeerJ 3:e985 <a class="reference external" href="https://doi.org/10.7717/peerj.985">https://doi.org/10.7717/peerj.985</a></p>
@@ -775,8 +780,8 @@ data. PeerJ 3:e985 <a class="reference external" href="https://doi.org/10.7717/p
 singularity run /users/PAS1117/osu9664/eMicro-Apps/VirSorter-1.0.5.img
 </pre></div>
 </div>
-</section>
-<section id="vcontact2">
+</div>
+<div class="section" id="vcontact2">
 <h3>vConTACT2<a class="headerlink" href="#vcontact2" title="Permalink to this headline">¶</a></h3>
 <p>vConTACT2 is a tool designed to classify viruses based on their shared gene content. It is <em>intended for</em> archaeal and
 bacterial viruses. It <em>can</em> work for <em>some</em> eukaryotic viruses, but may utterly fail <em>or</em> totally work - regardless -
@@ -793,8 +798,8 @@ to classify double-stranded DNA viruses that infect Archaea and Bacteria. PeerJ 
 singularity run /users/PAS1117/osu9664/eMicro-Apps/vConTACT2-0.9.9.sif
 </pre></div>
 </div>
-</section>
-<section id="iva">
+</div>
+<div class="section" id="iva">
 <h3>IVA<a class="headerlink" href="#iva" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://sanger-pathogens.github.io/iva/">https://sanger-pathogens.github.io/iva/</a></p>
 <p><strong>Reference</strong>: Hunt, M., Gall, A., Ong, S. H., Brener, J., Ferns, B., Goulder, P., … Otto, T. D. (2015). IVA: Accurate
@@ -809,8 +814,8 @@ singularity run /users/PAS1117/osu9664/eMicro-Apps/IVA-1.0.9.sif
 singularity run /users/PAS1117/osu9664/eMicro-Apps/IVA-1.0.9.sif --test outdir
 </pre></div>
 </div>
-</section>
-<section id="phageterm">
+</div>
+<div class="section" id="phageterm">
 <h3>PhageTerm<a class="headerlink" href="#phageterm" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://sourceforge.net/projects/phageterm/">https://sourceforge.net/projects/phageterm/</a></p>
 <p><strong>Reference</strong>: Garneau, J. R., Depardieu, F., Fortier, L.-C., Bikard, D., &amp; Monot, M. (2017). PhageTerm: a tool for
@@ -835,8 +840,8 @@ module load PhageTerm/1.0.11
 module load PhageTerm/3.1.0
 </pre></div>
 </div>
-</section>
-<section id="metaphinder">
+</div>
+<div class="section" id="metaphinder">
 <h3>MetaPhinder<a class="headerlink" href="#metaphinder" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/vanessajurtz/MetaPhinder">https://github.com/vanessajurtz/MetaPhinder</a></p>
 <p><strong>Reference</strong>: Jurtz, V. I., Villarroel, J., Lund, O., Voldby Larsen, M., &amp; Nielsen, M. (2016). MetaPhinder—Identifying
@@ -857,8 +862,8 @@ MetaPhinder.py -i &lt;input-file&gt; -o &lt;directory&gt; -d <span class="nv">$B
 <p>Note: MetaPhinder’s help states that -o is a FILE, but specifying anything other than a directory (to be created)
 generates one of several errors (one is often: “Command line argument error”). Specifying a non-existent directory is
 the only way to avoid errors.</p>
-</section>
-<section id="phanotate">
+</div>
+<div class="section" id="phanotate">
 <h3>PHANOTATE<a class="headerlink" href="#phanotate" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/deprekate/PHANOTATE">https://github.com/deprekate/PHANOTATE</a></p>
 <p><strong>Reference</strong>:</p>
@@ -872,8 +877,8 @@ module load PHANOTATE/1.4.0
 phanotate.py --help
 </pre></div>
 </div>
-</section>
-<section id="vibrant">
+</div>
+<div class="section" id="vibrant">
 <h3>VIBRANT<a class="headerlink" href="#vibrant" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/AnantharamanLab/VIBRANT">https://github.com/AnantharamanLab/VIBRANT</a></p>
 <p><strong>Reference</strong>: Kieft, K., Zhou, Z., and Anantharaman, K. (2019). VIBRANT: Automated recovery, annotation and curation
@@ -891,8 +896,8 @@ module load VIBRANT/1.1.0
 module load VIBRANT/1.2.1
 </pre></div>
 </div>
-</section>
-<section id="dram-v">
+</div>
+<div class="section" id="dram-v">
 <h3>DRAM-v<a class="headerlink" href="#dram-v" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/shafferm/DRAM">https://github.com/shafferm/DRAM</a></p>
 <p><strong>Short description</strong>: DRAM (Distilled and Refined Annotation of MAGs [Metagenome Assembled Genomes]) is a tool for
@@ -920,8 +925,8 @@ DRAM-v.py annotate -i VIRSorter_cat1245.fasta -v VIRSorter_affi-contigs.tab -o v
 DRAM-v.py distill -i viral_annotation/annotations.tsv -o viral_annotation/distilled
 </pre></div>
 </div>
-</section>
-<section id="viralrecall">
+</div>
+<div class="section" id="viralrecall">
 <h3>ViralRecall<a class="headerlink" href="#viralrecall" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/faylward/viralrecall">https://github.com/faylward/viralrecall</a></p>
 <p><strong>Reference</strong>: Aylward, F. O. &amp; Moniruzzaman, M. ViralRecall-A Flexible Command-Line Tool for the Detection of Giant
@@ -935,21 +940,21 @@ module load Treemmer/Treemmer
 python viralrecall.py -i examples/arm29B.fna -p test_outdir -t <span class="m">2</span> -f
 </pre></div>
 </div>
-</section>
-<section id="propagate">
+</div>
+<div class="section" id="propagate">
 <h3>PropagAtE<a class="headerlink" href="#propagate" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/AnantharamanLab/PropagAtE">https://github.com/AnantharamanLab/PropagAtE</a></p>
 <p><strong>Reference</strong>: Kieft, K. &amp; Anantharaman, K. Deciphering active prophages from metagenomes. bioRxiv 2021.01.29.428894
 (2021). doi:10.1101/2021.01.29.428894</p>
-<dl class="simple">
-<dt><strong>Short description</strong>: PropagAtE (Prophage Activity Estimator) uses genomic coordinates of integrated prophage sequences</dt><dd><p>and short sequencing reads to estimate if a given prophage was in the lysogenic (dormant) or lytic (active) stage of
+<dl class="docutils">
+<dt><strong>Short description</strong>: PropagAtE (Prophage Activity Estimator) uses genomic coordinates of integrated prophage sequences</dt>
+<dd>and short sequencing reads to estimate if a given prophage was in the lysogenic (dormant) or lytic (active) stage of
 infection. Prophages are designated according to a genomic/scaffold coordinate file, either manually generated by the
 user or taken directly from a VIBRANT (at least v1.2.1) output. The prophage:host read coverage ratio and corresponding
 effect size are used to estimate if the prophage was actively replicating its genome (significantly more prophage
 genome copies than host copies). PropagAtE is customizable to take in complete genomes or metagenomic scaffolds along
 with raw Illumina (short) reads, or instead take pre-aligned data files (sam or bam format). Threshold values are
-customizable but PropagAtE outputs clear “active” versus “dormant” estimations of given prophages with associated statistics.</p>
-</dd>
+customizable but PropagAtE outputs clear “active” versus “dormant” estimations of given prophages with associated statistics.</dd>
 </dl>
 <p><strong>Module use</strong>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use /fs/project/PAS1117/modulefiles
@@ -958,8 +963,8 @@ module load PropagAtE/1.0.0
 PropagAtE_run.py --help
 </pre></div>
 </div>
-</section>
-<section id="vpf-tools">
+</div>
+<div class="section" id="vpf-tools">
 <h3>VPF-Tools<a class="headerlink" href="#vpf-tools" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/biocom-uib/vpf-tools">https://github.com/biocom-uib/vpf-tools</a></p>
 <p><strong>Reference</strong>: Pons, J. C. et al. VPF-Class: taxonomic assignment and host prediction of uncultivated viruses based on
@@ -969,8 +974,8 @@ viral protein families. Bioinformatics 1–9 (2021). doi:10.1093/bioinformatics/
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use /fs/project/PAS1117/modulefiles
 </pre></div>
 </div>
-</section>
-<section id="checkv">
+</div>
+<div class="section" id="checkv">
 <h3>CheckV<a class="headerlink" href="#checkv" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://bitbucket.org/berkeleylab/checkv">https://bitbucket.org/berkeleylab/checkv</a></p>
 <p><strong>Reference</strong>: Nayfach, S. et al. CheckV assesses the quality and completeness of metagenome-assembled viral genomes.
@@ -990,8 +995,8 @@ CheckV-2020.04.27.sif --help
 singularity run /users/PAS1117/osu9664/eMicro-Apps/CheckV-2020.04.27.sif
 </pre></div>
 </div>
-</section>
-<section id="phigaro">
+</div>
+<div class="section" id="phigaro">
 <h3>Phigaro<a class="headerlink" href="#phigaro" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/bobeobibo/phigaro">https://github.com/bobeobibo/phigaro</a></p>
 <p><strong>Reference</strong>: Starikova, E. V. et al. Phigaro: high-throughput prophage sequence annotation. Bioinformatics 36,
@@ -1008,8 +1013,8 @@ phigaro -f &lt;fasta-input&gt; -o &lt;output-file&gt; -p --not-open -c <span cla
 </pre></div>
 </div>
 <p>Note: $config is an environmental variable set to a specific file which information about the database locations</p>
-</section>
-<section id="gravity">
+</div>
+<div class="section" id="gravity">
 <h3>GRAViTy<a class="headerlink" href="#gravity" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/PAiewsakun/GRAViTy">https://github.com/PAiewsakun/GRAViTy</a></p>
 <p><strong>Reference</strong>: Aiewsakun, P. &amp; Simmonds, P. The genomic underpinnings of eukaryotic virus taxonomy: Creating a
@@ -1020,11 +1025,11 @@ sequence-based framework for family-level virus classification. Microbiome 6, 1�
 module load GRAViTy
 </pre></div>
 </div>
-</section>
-</section>
-<section id="phylogenetics">
+</div>
+</div>
+<div class="section" id="phylogenetics">
 <h2>Phylogenetics<a class="headerlink" href="#phylogenetics" title="Permalink to this headline">¶</a></h2>
-<section id="treemmer">
+<div class="section" id="treemmer">
 <h3>Treemmer<a class="headerlink" href="#treemmer" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/fmenardo/Treemmer">https://github.com/fmenardo/Treemmer</a></p>
 <p><strong>Reference</strong>: Menardo, F. et al. Treemmer: a tool to reduce large phylogenetic datasets with minimal loss of
@@ -1040,8 +1045,8 @@ module load Treemmer/Treemmer
 Treemmer_v0.3.py --help
 </pre></div>
 </div>
-</section>
-<section id="bali-phy">
+</div>
+<div class="section" id="bali-phy">
 <h3>BALi-Phy<a class="headerlink" href="#bali-phy" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="http://www.bali-phy.org/">http://www.bali-phy.org/</a></p>
 <p><strong>Reference</strong>: 1. Redelings, B. D. Bali-Phy version 3: Model-based co-estimation of alignment and phylogeny.
@@ -1055,8 +1060,8 @@ to 117 taxa.</p>
 singularity run BALi-Phy-3.6.0.sif
 </pre></div>
 </div>
-</section>
-<section id="tim">
+</div>
+<div class="section" id="tim">
 <h3>TIM<a class="headerlink" href="#tim" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/RomainBlancMathieu/TIM">https://github.com/RomainBlancMathieu/TIM</a></p>
 <p><strong>Reference</strong>:</p>
@@ -1072,8 +1077,8 @@ main.py Picornavirales.nwk connections.txt POS
 downstream.py
 </pre></div>
 </div>
-</section>
-<section id="phylorank">
+</div>
+<div class="section" id="phylorank">
 <h3>Phylorank<a class="headerlink" href="#phylorank" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/dparks1134/PhyloRank">https://github.com/dparks1134/PhyloRank</a></p>
 <p><strong>Reference</strong>: <a class="reference external" href="https://github.com/dparks1134/PhyloRank">https://github.com/dparks1134/PhyloRank</a> (cite the github page)</p>
@@ -1084,8 +1089,8 @@ taxa in a tree and for finding the best placement of taxonomic labels in a tree.
 module load Phylorank
 </pre></div>
 </div>
-</section>
-<section id="gtdb-tk">
+</div>
+<div class="section" id="gtdb-tk">
 <h3>GTDB-Tk<a class="headerlink" href="#gtdb-tk" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/Ecogenomics/GtdbTk">https://github.com/Ecogenomics/GtdbTk</a></p>
 <p><strong>Reference</strong>: Chaumeil, P.-A., Mussig, A. J., Hugenholtz, P. &amp; Parks, D. H. GTDB-Tk: a toolkit to classify genomes
@@ -1099,8 +1104,8 @@ can also be applied to isolate and single-cell genomes.</p>
 module load GTDB-Tk
 </pre></div>
 </div>
-</section>
-<section id="iq-tree">
+</div>
+<div class="section" id="iq-tree">
 <h3>IQ-Tree<a class="headerlink" href="#iq-tree" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/Cibiv/IQ-TREE">https://github.com/Cibiv/IQ-TREE</a></p>
 <p><strong>Reference</strong>: Nguyen, L.-T., Schmidt, H. A., von Haeseler, A. &amp; Minh, B. Q. IQ-TREE: A Fast and Effective Stochastic
@@ -1113,8 +1118,8 @@ phylogenomic software that can handle a large amount of data and provide more co
 module load IQ-TREE/2.0-rc1
 </pre></div>
 </div>
-</section>
-<section id="rascal">
+</div>
+<div class="section" id="rascal">
 <h3>Rascal<a class="headerlink" href="#rascal" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="ftp://ftp-igbmc.u-strasbg.fr/pub/RASCAL">ftp://ftp-igbmc.u-strasbg.fr/pub/RASCAL</a> (no longer available?)</p>
 <p><strong>Reference</strong>: Thompson, J. D., Thierry, J. C. &amp; Poch, O. RASCAL: Rapid scanning and correction of multiple sequence
@@ -1125,8 +1130,8 @@ alignments. Bioinformatics 19, 1155–1161 (2003).</p>
 module load IQ-TREE/2.0-rc1
 </pre></div>
 </div>
-</section>
-<section id="phyml">
+</div>
+<div class="section" id="phyml">
 <h3>PhyML<a class="headerlink" href="#phyml" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="http://www.atgc-montpellier.fr/phyml/">http://www.atgc-montpellier.fr/phyml/</a>, <a class="reference external" href="https://github.com/stephaneguindon/phyml">https://github.com/stephaneguindon/phyml</a></p>
 <p><strong>Reference</strong>: Guindon, S. et al. New Algorithms and Methods to Estimate Maximum-Likelihood Phylogenies: Assessing the
@@ -1146,8 +1151,8 @@ processed by treeannotator (from the BEAST package) as well as SPREAD.</p>
 module load PhyML/3.1
 </pre></div>
 </div>
-</section>
-<section id="mafft">
+</div>
+<div class="section" id="mafft">
 <h3>MAFFT<a class="headerlink" href="#mafft" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/GSLBiotech/mafft">https://github.com/GSLBiotech/mafft</a></p>
 <p><strong>Reference</strong>: Katoh, K. &amp; Standley, D. M. MAFFT Multiple Sequence Alignment Software Version 7: Improvements in
@@ -1160,11 +1165,11 @@ transform. Nucleic Acids Res. 30, 3059–3066 (2002).</p>
 module load mafft/7.429
 </pre></div>
 </div>
-</section>
-</section>
-<section id="miscellaneous">
+</div>
+</div>
+<div class="section" id="miscellaneous">
 <h2>Miscellaneous<a class="headerlink" href="#miscellaneous" title="Permalink to this headline">¶</a></h2>
-<section id="sra-toolkit">
+<div class="section" id="sra-toolkit">
 <h3>SRA Toolkit<a class="headerlink" href="#sra-toolkit" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://www.ncbi.nlm.nih.gov/sra/docs/toolkitsoft/">https://www.ncbi.nlm.nih.gov/sra/docs/toolkitsoft/</a></p>
 <p><strong>Website 2</strong>: <a class="reference external" href="https://github.com/ncbi/sra-tools/wiki">https://github.com/ncbi/sra-tools/wiki</a></p>
@@ -1178,8 +1183,8 @@ singularity run /users/PAS1117/osu9664/eMicro-Apps/SRA_Toolkit.sif
 module load sratoolkit/2.10.7
 </pre></div>
 </div>
-</section>
-<section id="entrez-direct">
+</div>
+<div class="section" id="entrez-direct">
 <h3>Entrez Direct<a class="headerlink" href="#entrez-direct" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://www.ncbi.nlm.nih.gov/books/NBK179288/">https://www.ncbi.nlm.nih.gov/books/NBK179288/</a></p>
 <p><strong>Short Description</strong>: Entrez Direct (EDirect) provides access to the NCBI’s suite of interconnected databases
@@ -1191,8 +1196,8 @@ multi-step queries. Selected records can then be retrieved in a variety of forma
 module load Entrez-Direct
 </pre></div>
 </div>
-</section>
-<section id="viennarna">
+</div>
+<div class="section" id="viennarna">
 <h3>ViennaRNA<a class="headerlink" href="#viennarna" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://www.tbi.univie.ac.at/RNA/index.html">https://www.tbi.univie.ac.at/RNA/index.html</a></p>
 <p><strong>Reference</strong>: Lorenz, R. et al. ViennaRNA Package 2.0. Algorithms Mol. Biol. 6, 26 (2011).</p>
@@ -1202,8 +1207,8 @@ module load Entrez-Direct
 module load ViennaRNA/2.4.14
 </pre></div>
 </div>
-</section>
-<section id="viptreegen">
+</div>
+<div class="section" id="viptreegen">
 <h3>ViPTreeGen<a class="headerlink" href="#viptreegen" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/yosuken/ViPTreeGen">https://github.com/yosuken/ViPTreeGen</a></p>
 <p><strong>Reference</strong>: Nishimura, Y. et al. ViPTree: the viral proteomic tree server. Bioinformatics 1–2 (2017).
@@ -1220,8 +1225,8 @@ genomes of newly sequenced viruses as well as those identified in metagenomes.</
 ViPTreeGen --help
 </pre></div>
 </div>
-</section>
-<section id="viridic">
+</div>
+<div class="section" id="viridic">
 <h3>VIRIDIC<a class="headerlink" href="#viridic" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="http://rhea.icbm.uni-oldenburg.de/VIRIDIC/">http://rhea.icbm.uni-oldenburg.de/VIRIDIC/</a></p>
 <p><strong>Reference</strong>:  Moraru, C., Varsani, A. &amp; Kropinski, A. M. VIRIDIC — A Novel Tool to Calculate the Intergenomic
@@ -1229,11 +1234,11 @@ Similarities of Viruses 12, 1268 (2020).</p>
 <p><strong>Short description</strong>:</p>
 <p><strong>Module use</strong>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cp /fs/project/PAS1117/modules/viridic_v1.0_r3.6/* &lt;current-directory&gt;
-./viridic.bash <span class="nv">projdir</span><span class="o">=</span>&lt;output-dir&gt; <span class="k">in</span><span class="o">=</span>&lt;fasta-file&gt;
+./viridic.bash <span class="nv">projdir</span><span class="o">=</span>&lt;output-dir&gt; <span class="nv">in</span><span class="o">=</span>&lt;fasta-file&gt;
 </pre></div>
 </div>
-</section>
-<section id="clinker">
+</div>
+<div class="section" id="clinker">
 <h3>Clinker<a class="headerlink" href="#clinker" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/gamcil/clinker">https://github.com/gamcil/clinker</a></p>
 <p><strong>Reference</strong>: Gilchrist, C. L. M. &amp; Chooi, Y.-H. clinker &amp;amp; clustermap.js: automatic generation of gene cluster
@@ -1246,8 +1251,8 @@ module load Clinker/Clinker
 clinker --help
 </pre></div>
 </div>
-</section>
-<section id="sortmerna">
+</div>
+<div class="section" id="sortmerna">
 <h3>SortMeRNA<a class="headerlink" href="#sortmerna" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/biocore/sortmerna">https://github.com/biocore/sortmerna</a></p>
 <p><strong>Reference</strong>: Kopylova, E., Noé, L. &amp; Touzet, H. SortMeRNA: fast and accurate filtering of ribosomal RNAs in
@@ -1265,8 +1270,8 @@ module load SortMeRNA/4.2.0
 sortmerna -h
 </pre></div>
 </div>
-</section>
-<section id="sambamba">
+</div>
+<div class="section" id="sambamba">
 <h3>SAMBAMBA<a class="headerlink" href="#sambamba" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/lomereiter/sambamba">https://github.com/lomereiter/sambamba</a></p>
 <p><strong>Reference</strong>:</p>
@@ -1278,8 +1283,8 @@ work horse running in many sequencing centres around the world today.</p>
 module load SAMBAMBA/0.7.1
 </pre></div>
 </div>
-</section>
-<section id="spclust">
+</div>
+<div class="section" id="spclust">
 <h3>SpClust<a class="headerlink" href="#spclust" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/johnymatar/SpCLUST">https://github.com/johnymatar/SpCLUST</a></p>
 <p><strong>Reference</strong>:</p>
@@ -1295,8 +1300,8 @@ singularity run SpCLUST.sif mpispclust -in test.fasta -out mpispclust_results.tx
 mpiexec -n <span class="m">4</span> SpCLUST.sif spclust -in test.fasta -out spclust_results.txt -alignMode fast -mdist BLOSUM62 -seqtype Amino
 </pre></div>
 </div>
-</section>
-<section id="prosite">
+</div>
+<div class="section" id="prosite">
 <h3>PROSITE<a class="headerlink" href="#prosite" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>:</p>
 <p><strong>Reference</strong>:</p>
@@ -1306,8 +1311,8 @@ mpiexec -n <span class="m">4</span> SpCLUST.sif spclust -in test.fasta -out spcl
 ps_scan.pl &lt;rest-of-command&gt;
 </pre></div>
 </div>
-</section>
-<section id="hh-suite">
+</div>
+<div class="section" id="hh-suite">
 <h3>HH-Suite<a class="headerlink" href="#hh-suite" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/soedinglab/hh-suite">https://github.com/soedinglab/hh-suite</a></p>
 <p><strong>Reference</strong>: Steinegger, M. et al. HH-suite3 for fast remote homology detection and deep protein annotation.
@@ -1319,8 +1324,8 @@ on the pairwise alignment of hidden Markov models (HMMs).</p>
 module load hhsuite/3.2.0
 </pre></div>
 </div>
-</section>
-<section id="metachip">
+</div>
+<div class="section" id="metachip">
 <h3>MetaCHIP<a class="headerlink" href="#metachip" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/songweizhi/MetaCHIP">https://github.com/songweizhi/MetaCHIP</a></p>
 <p><strong>Reference</strong>: Song, W., Wemheuer, B., Zhang, S., Steensen, K. &amp; Thomas, T. MetaCHIP: community-level horizontal gene
@@ -1331,8 +1336,8 @@ transfer identification through the combination of best-match and phylogenetic a
 module load MetaCHIP
 </pre></div>
 </div>
-</section>
-<section id="supercrunch">
+</div>
+<div class="section" id="supercrunch">
 <h3>SuperCRUNCH<a class="headerlink" href="#supercrunch" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/dportik/SuperCRUNCH">https://github.com/dportik/SuperCRUNCH</a></p>
 <p><strong>Reference</strong>: Portik, D. M. &amp; Wiens, J. J. SuperCRUNCH: A bioinformatics toolkit for creating and manipulating
@@ -1345,8 +1350,8 @@ conventions</p>
 module load SuperCRUNCH
 </pre></div>
 </div>
-</section>
-<section id="nonpareil">
+</div>
+<div class="section" id="nonpareil">
 <h3>Nonpareil<a class="headerlink" href="#nonpareil" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="http://enve-omics.ce.gatech.edu/nonpareil/">http://enve-omics.ce.gatech.edu/nonpareil/</a>, <a class="reference external" href="https://github.com/lmrodriguezr/nonpareil">https://github.com/lmrodriguezr/nonpareil</a></p>
 <p><strong>Reference</strong>: Rodriguez-R, L. M., Gunturu, S., Tiedje, J. M., Cole, J. R. &amp; Konstantinidis, K. T. Nonpareil 3:
@@ -1357,8 +1362,8 @@ Fast Estimation of Metagenomic Coverage and Sequence Diversity. mSystems 3, 1–
 module load Nonpareil
 </pre></div>
 </div>
-</section>
-<section id="vg-flow">
+</div>
+<div class="section" id="vg-flow">
 <h3>VG-Flow<a class="headerlink" href="#vg-flow" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://bitbucket.org/jbaaijens/vg-flow">https://bitbucket.org/jbaaijens/vg-flow</a></p>
 <p><strong>Reference</strong>:</p>
@@ -1381,8 +1386,8 @@ vg-flow.sif vg-flow.py -m <span class="m">10</span> -c <span class="m">20</span>
 </pre></div>
 </div>
 <p><strong>Note</strong>: This was installed prior to tool updates</p>
-</section>
-<section id="pear">
+</div>
+<div class="section" id="pear">
 <h3>PEAR<a class="headerlink" href="#pear" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://cme.h-its.org/exelixis/web/software/pear/">https://cme.h-its.org/exelixis/web/software/pear/</a></p>
 <p><strong>Reference</strong>:</p>
@@ -1396,8 +1401,8 @@ implementation, it can merge millions of paired end reads within a couple of min
 module load PEAR/0.9.11
 </pre></div>
 </div>
-</section>
-<section id="savage">
+</div>
+<div class="section" id="savage">
 <h3>SAVAGE<a class="headerlink" href="#savage" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://bitbucket.org/jbaaijens/savage">https://bitbucket.org/jbaaijens/savage</a></p>
 <p><strong>Reference</strong>: Baaijens, J. A., El Aabidine, A. Z., Rivals, E. &amp; Schönhuth, A. De novo assembly of viral quasispecies
@@ -1414,8 +1419,8 @@ reads/contigs then efficiently reconstructs the individual haplotypes from this 
 module load SAVAGE
 </pre></div>
 </div>
-</section>
-<section id="bioscripts-2-7-and-bioscripts">
+</div>
+<div class="section" id="bioscripts-2-7-and-bioscripts">
 <h3>Bioscripts-2.7 and Bioscripts<a class="headerlink" href="#bioscripts-2-7-and-bioscripts" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/christophertbrown/bioscripts27">https://github.com/christophertbrown/bioscripts27</a>, <a class="reference external" href="https://github.com/christophertbrown/bioscripts">https://github.com/christophertbrown/bioscripts</a></p>
 <p><strong>Reference</strong>:</p>
@@ -1427,8 +1432,8 @@ module load bioscripts/bioscripts27
 module load bioscripts/bioscripts3
 </pre></div>
 </div>
-</section>
-<section id="interproscan">
+</div>
+<div class="section" id="interproscan">
 <h3>InterProScan<a class="headerlink" href="#interproscan" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/ebi-pf-team/interproscan">https://github.com/ebi-pf-team/interproscan</a></p>
 <p><strong>Reference</strong>: Quevillon, E. et al. InterProScan: protein domains identifier. Nucleic Acids Res. 33, W116–W120 (2005).</p>
@@ -1446,8 +1451,8 @@ module load InterProScan/5.36-75.0
 interproscan.sh &lt;rest-of-command&gt;
 </pre></div>
 </div>
-</section>
-<section id="id1">
+</div>
+<div class="section" id="id1">
 <h3>IVA<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://sanger-pathogens.github.io/iva/">https://sanger-pathogens.github.io/iva/</a></p>
 <p><strong>Reference</strong>: 1. Hunt, M. et al. IVA: Accurate de novo assembly of RNA virus genomes. Bioinformatics 31, 2374–2376
@@ -1461,8 +1466,8 @@ module load IVA
 iva -f &lt;forward-reads.fastq&gt; -r &lt;reverse-reads.fastq&gt; &lt;output-dir&gt;
 </pre></div>
 </div>
-</section>
-<section id="exabayes">
+</div>
+<div class="section" id="exabayes">
 <h3>ExaBayes<a class="headerlink" href="#exabayes" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://sanger-pathogens.github.io/iva/">https://sanger-pathogens.github.io/iva/</a></p>
 <p><strong>Reference</strong>: Aberer, A. J., Kobert, K. &amp; Stamatakis, A. Exabayes: Massively parallel bayesian tree inference for the
@@ -1474,8 +1479,8 @@ suitable for large-scale analyses on computer clusters.</p>
 module load exa-bayes/1.4.1
 </pre></div>
 </div>
-</section>
-<section id="paml">
+</div>
+<div class="section" id="paml">
 <h3>PAML<a class="headerlink" href="#paml" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="http://abacus.gene.ucl.ac.uk/software/paml.html">http://abacus.gene.ucl.ac.uk/software/paml.html</a></p>
 <p><strong>Reference</strong>: Yang, Z. PAML 4: Phylogenetic Analysis by Maximum Likelihood. Mol. Biol. Evol. 24, 1586–1591 (2007).</p>
@@ -1492,8 +1497,8 @@ loci, and estimation of species divergence times incorporating uncertainties in 
 module load PAML
 </pre></div>
 </div>
-</section>
-<section id="beast2">
+</div>
+<div class="section" id="beast2">
 <h3>BEAST2<a class="headerlink" href="#beast2" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/CompEvol/beast2">https://github.com/CompEvol/beast2</a>, <a class="reference external" href="http://www.beast2.org/">http://www.beast2.org/</a></p>
 <p><strong>Reference</strong>: Bouckaert, R. et al. BEAST 2.5: An advanced software platform for Bayesian evolutionary analysis.
@@ -1509,8 +1514,8 @@ setting up standard analyses and a suit of programs for analysing the results.</
 module load BEAST2
 </pre></div>
 </div>
-</section>
-<section id="revbayes">
+</div>
+<div class="section" id="revbayes">
 <h3>RevBayes<a class="headerlink" href="#revbayes" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://revbayes.github.io/">https://revbayes.github.io/</a></p>
 <p><strong>Reference</strong>: Höhna, S. et al. RevBayes: Bayesian Phylogenetic Inference Using Graphical Models and an Interactive
@@ -1523,8 +1528,8 @@ phylogenetics. However, the environment is quite general and can be useful for m
 module load RevBayes
 </pre></div>
 </div>
-</section>
-<section id="marvel">
+</div>
+<div class="section" id="marvel">
 <h3>MARVEL<a class="headerlink" href="#marvel" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/LaboratorioBioinformatica/MARVEL">https://github.com/LaboratorioBioinformatica/MARVEL</a></p>
 <p><strong>Reference</strong>: Amgarten, D., Braga, L. P. P., da Silva, A. M. &amp; Setubal, J. C. MARVEL, a Tool for Prediction of
@@ -1536,8 +1541,8 @@ sequencing data.</p>
 module load MARVEL/0.2
 </pre></div>
 </div>
-</section>
-<section id="mmseqs2">
+</div>
+<div class="section" id="mmseqs2">
 <h3>MMSeqs2<a class="headerlink" href="#mmseqs2" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/soedinglab/MMseqs2">https://github.com/soedinglab/MMseqs2</a></p>
 <p><strong>Reference</strong>: Steinegger, M. &amp; Söding, J. MMseqs2 enables sensitive protein sequence searching for the analysis of
@@ -1553,8 +1558,8 @@ its speed.</p>
 module load MMseqs2
 </pre></div>
 </div>
-</section>
-<section id="deepvirfinder">
+</div>
+<div class="section" id="deepvirfinder">
 <h3>DeepVirFinder<a class="headerlink" href="#deepvirfinder" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/jessieren/DeepVirFinder">https://github.com/jessieren/DeepVirFinder</a></p>
 <p><strong>Reference</strong>: Ren, J. et al. Identifying viruses from metagenomic data by deep learning. (2018).</p>
@@ -1565,8 +1570,8 @@ prediction accuracy for short viral sequences, so it can be used to predict sequ
 module load DeepVirFinder
 </pre></div>
 </div>
-</section>
-<section id="cd-hit">
+</div>
+<div class="section" id="cd-hit">
 <h3>CD-HIT<a class="headerlink" href="#cd-hit" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/weizhongli/cdhit">https://github.com/weizhongli/cdhit</a>, <a class="reference external" href="http://cd-hit.org">http://cd-hit.org</a></p>
 <p><strong>Reference</strong>: Fu, L., Niu, B., Zhu, Z., Wu, S. &amp; Li, W. CD-HIT: accelerated for clustering the next-generation
@@ -1577,8 +1582,8 @@ sequencing data. Bioinformatics 28, 3150–3152 (2012).</p>
 module load cdhit/4.6.1
 </pre></div>
 </div>
-</section>
-<section id="blast">
+</div>
+<div class="section" id="blast">
 <h3>BLAST+<a class="headerlink" href="#blast" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>:</p>
 <p><strong>Reference</strong>:</p>
@@ -1588,8 +1593,8 @@ module load cdhit/4.6.1
 module load blast/2.8.1+
 </pre></div>
 </div>
-</section>
-<section id="id2">
+</div>
+<div class="section" id="id2">
 <h3>Clust<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/BaselAbujamous/clust">https://github.com/BaselAbujamous/clust</a></p>
 <p><strong>Reference</strong>: Abu-Jamous, B. &amp; Kelly, S. Clust: automatic extraction of optimal co-expressed gene clusters from gene
@@ -1609,8 +1614,8 @@ module load singularityImages
 clust-1.8.9.img --help
 </pre></div>
 </div>
-</section>
-<section id="viromescan">
+</div>
+<div class="section" id="viromescan">
 <h3>ViromeScan<a class="headerlink" href="#viromescan" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="http://sourceforge.net/projects/viromescan/">http://sourceforge.net/projects/viromescan/</a></p>
 <p><strong>Reference</strong>: Rampelli, S. et al. ViromeScan: a new tool for metagenomic viral community profiling. BMC Genomics 17,
@@ -1625,8 +1630,8 @@ module load blast/2.4.0+
 viromescan
 </pre></div>
 </div>
-</section>
-<section id="bowtie2">
+</div>
+<div class="section" id="bowtie2">
 <h3>Bowtie2<a class="headerlink" href="#bowtie2" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="http://bowtie-bio.sourceforge.net/bowtie2/index.shtml">http://bowtie-bio.sourceforge.net/bowtie2/index.shtml</a></p>
 <p><strong>Reference</strong>: Langmead, B. &amp; Salzberg, S. L. Fast gapped-read alignment with Bowtie 2. Nat. Methods 9, 357–9 (2012).</p>
@@ -1641,8 +1646,8 @@ module load bowtie2/2.4.1
 </pre></div>
 </div>
 <p>Note: We have A LOT of bowtie2 versions, be aware that they may be updated more frequently than this site!</p>
-</section>
-<section id="jellyfish">
+</div>
+<div class="section" id="jellyfish">
 <h3>Jellyfish<a class="headerlink" href="#jellyfish" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="http://www.genome.umd.edu/jellyfish.html">http://www.genome.umd.edu/jellyfish.html</a></p>
 <p><strong>Reference</strong>: Marcais, G. &amp; Kingsford, C. A fast, lock-free approach for efficient parallel counting of occurrences
@@ -1656,8 +1661,8 @@ the “compare-and-swap” CPU instruction to increase parallelism.</p>
 module load jellyfish/2.2.10
 </pre></div>
 </div>
-</section>
-<section id="wish">
+</div>
+<div class="section" id="wish">
 <h3>WIsH<a class="headerlink" href="#wish" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/soedinglab/WIsH">https://github.com/soedinglab/WIsH</a></p>
 <p><strong>Reference</strong>: Galiez, C., Siebert, M., Enault, F., Vincent, J. &amp; Söding, J. WIsH: Who is the host? Predicting
@@ -1673,8 +1678,8 @@ WIsH -c build -g prokaryoteGenomesDir -m modelDir
 WIsH -c predict -g phageContigsDir -m modelDir -r outputResultDir -b <span class="m">1</span>
 </pre></div>
 </div>
-</section>
-<section id="picrust">
+</div>
+<div class="section" id="picrust">
 <h3>PICRUSt<a class="headerlink" href="#picrust" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/picrust/picrust">https://github.com/picrust/picrust</a>, <a class="reference external" href="http://picrust.github.io/picrust/index.html">http://picrust.github.io/picrust/index.html</a></p>
 <p><strong>Reference</strong>: Langille, M. G. I. et al. Predictive functional profiling of microbial communities using 16S
@@ -1685,8 +1690,8 @@ rRNA marker gene sequences. Nat. Biotechnol. 31, 814–821 (2013).</p>
 module load PICRUSt/1.1.3
 </pre></div>
 </div>
-</section>
-<section id="rdp-classifier">
+</div>
+<div class="section" id="rdp-classifier">
 <h3>RDP Classifier<a class="headerlink" href="#rdp-classifier" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/rdpstaff/classifier">https://github.com/rdpstaff/classifier</a>, <a class="reference external" href="https://rdp.cme.msu.edu/classifier/classifier.jsp">https://rdp.cme.msu.edu/classifier/classifier.jsp</a></p>
 <p><strong>Reference</strong>: Wang, Q., Garrity, G. M., Tiedje, J. M. &amp; Cole, J. R. Naïve Bayesian Classifier for Rapid Assignment of
@@ -1701,8 +1706,8 @@ bacterial taxonomies.</p>
 module load rdp_classifier/2.3
 </pre></div>
 </div>
-</section>
-<section id="prottest">
+</div>
+<div class="section" id="prottest">
 <h3>ProtTest<a class="headerlink" href="#prottest" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/ddarriba/prottest3">https://github.com/ddarriba/prottest3</a></p>
 <p><strong>Reference</strong>: Darriba, D., Taboada, G. L., Doallo, R. &amp; Posada, D. ProtTest 3: fast selection of best-fit models of
@@ -1719,8 +1724,8 @@ ProtTest are nested.</p>
 module load prottest/3.4.2
 </pre></div>
 </div>
-</section>
-<section id="minced">
+</div>
+<div class="section" id="minced">
 <h3>MINCED<a class="headerlink" href="#minced" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/ctSkennerton/minced">https://github.com/ctSkennerton/minced</a></p>
 <p><strong>Reference</strong>: 1. Bland, C. et al. CRISPR Recognition Tool (CRT): a tool for automatic detection of clustered
@@ -1734,8 +1739,8 @@ runs from the command-line and was derived from CRT (<a class="reference externa
 module load minced/1.0.0
 </pre></div>
 </div>
-</section>
-<section id="mash">
+</div>
+<div class="section" id="mash">
 <h3>MASH<a class="headerlink" href="#mash" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/marbl/Mash">https://github.com/marbl/Mash</a></p>
 <p><strong>Reference</strong>: Ondov, B. D. et al. Mash: fast genome and metagenome distance estimation using MinHash. Genome
@@ -1746,8 +1751,8 @@ Biol. 17, 132 (2016).</p>
 module load MASH/1.1.1
 </pre></div>
 </div>
-</section>
-<section id="mummer">
+</div>
+<div class="section" id="mummer">
 <h3>MUMmer<a class="headerlink" href="#mummer" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="http://mummer.sourceforge.net/">http://mummer.sourceforge.net/</a></p>
 <p><strong>Reference</strong>: Kurtz, S. et al. Versatile and open software for comparing large genomes. Genome Biol. 5, 12 (2004).</p>
@@ -1763,8 +1768,8 @@ translations of both input sequences</p>
 module load MUMmer/3.23
 </pre></div>
 </div>
-</section>
-<section id="hmmer3">
+</div>
+<div class="section" id="hmmer3">
 <h3>HMMER3<a class="headerlink" href="#hmmer3" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="http://hmmer.org/">http://hmmer.org/</a></p>
 <p><strong>Reference</strong>: Eddy, S. R. Accelerated Profile HMM Searches. PLoS Comput. Biol. 7, e1002195 (2011).</p>
@@ -1775,8 +1780,8 @@ alignments. It implements methods using probabilistic models called profile hidd
 module load hmmer3/3.1b2
 </pre></div>
 </div>
-</section>
-<section id="muscle">
+</div>
+<div class="section" id="muscle">
 <h3>MUSCLE<a class="headerlink" href="#muscle" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="http://www.drive5.com/muscle/">http://www.drive5.com/muscle/</a></p>
 <p><strong>Reference</strong>: Edgar, R. C. MUSCLE: multiple sequence alignment with high accuracy and high throughput. Nucleic Acid Res. 32, 1792–1797 (2004).</p>
@@ -1788,8 +1793,8 @@ sequences in seconds.</p>
 module load muscle/3.8.31
 </pre></div>
 </div>
-</section>
-<section id="trna-scan-se">
+</div>
+<div class="section" id="trna-scan-se">
 <h3>tRNA-Scan SE<a class="headerlink" href="#trna-scan-se" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/UCSC-LoweLab/tRNAscan-SE">https://github.com/UCSC-LoweLab/tRNAscan-SE</a></p>
 <p><strong>Reference</strong>: Lowe, T. M. &amp; Eddy, S. R. tRNAscan-SE: A Program for Improved Detection of Transfer RNA Genes in
@@ -1801,8 +1806,8 @@ sequence while giving less than one false positive per 15 gigabases.</p>
 module load tRNAscan-SE/1.23
 </pre></div>
 </div>
-</section>
-<section id="samtools">
+</div>
+<div class="section" id="samtools">
 <h3>Samtools<a class="headerlink" href="#samtools" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="http://www.htslib.org/">http://www.htslib.org/</a></p>
 <p><strong>Reference</strong>: Danecek, P. et al. Twelve years of SAMtools and BCFtools. Gigascience 10, 1–4 (2021).</p>
@@ -1812,8 +1817,8 @@ module load tRNAscan-SE/1.23
 module load samtools/1.10
 </pre></div>
 </div>
-</section>
-<section id="bwa">
+</div>
+<div class="section" id="bwa">
 <h3>BWA<a class="headerlink" href="#bwa" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://github.com/lh3/bwa">https://github.com/lh3/bwa</a></p>
 <p><strong>Reference</strong>: Li, H. &amp; Durbin, R. Fast and accurate short read alignment with Burrows-Wheeler transform.
@@ -1829,8 +1834,8 @@ than BWA-backtrack for 70-100bp Illumina reads.</p>
 module load bwa/0.7.17-r1198
 </pre></div>
 </div>
-</section>
-<section id="mcl">
+</div>
+<div class="section" id="mcl">
 <h3>MCL<a class="headerlink" href="#mcl" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://micans.org/mcl/">https://micans.org/mcl/</a></p>
 <p><strong>Reference</strong>: Enright, a J., Van Dongen, S. &amp; Ouzounis, C. a. An efficient algorithm for large-scale detection of
@@ -1858,12 +1863,11 @@ $ RASCAL module
 # PlasFlow… hmmm</p>
 <p># ANIcalculator</p>
 <p># PfamScan</p>
-</section>
-</section>
-</section>
+</div>
+</div>
+</div>
 
 
-            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -2023,15 +2027,17 @@ $ RASCAL module
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
+  <h3>Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -2048,13 +2054,12 @@ $ RASCAL module
         <li class="right" >
           <a href="Building-Modules-and-Tools.html" title="Building Modules and Tools on OSC"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Available Environmental Microbiology (“eMicro”) Apps and Tools</a></li> 
+        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2019, Benjamin Bolduc.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
     </div>
   </body>
 </html>

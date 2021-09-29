@@ -1,18 +1,19 @@
 
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>OSC Introduction and Guide &#8212; MAVERIC Informatics  documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="QIIME2" href="QIIME2.html" />
@@ -30,8 +31,7 @@
         <li class="right" >
           <a href="Linux-Unix.html" title="UNIX/LINUX Introduction and Guide"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">OSC Introduction and Guide</a></li> 
+        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -40,7 +40,7 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="osc-introduction-and-guide">
+  <div class="section" id="osc-introduction-and-guide">
 <span id="osc"></span><h1>OSC Introduction and Guide<a class="headerlink" href="#osc-introduction-and-guide" title="Permalink to this headline">¶</a></h1>
 <p>This documentation is taken from a variety of resources, with a number of links and external resources available at the
 end of this guide.</p>
@@ -49,92 +49,92 @@ end of this guide.</p>
 <a class="reference external" href="https://carmen.osu.edu/#">Carmen</a> as a refresher.</p>
 <p>Below is an <em>intro</em> into using OSC (using Dr. Cahill’s slides as a guide) and should not serve as an all-encompassing
 list. If you need that, please consult the links at the bottom.</p>
-<section id="systems">
+<div class="section" id="systems">
 <h2>Systems<a class="headerlink" href="#systems" title="Permalink to this headline">¶</a></h2>
-<table class="docutils align-default">
+<table border="1" class="docutils">
 <colgroup>
-<col style="width: 52%" />
-<col style="width: 16%" />
-<col style="width: 16%" />
-<col style="width: 16%" />
+<col width="52%" />
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
 </colgroup>
-<tbody>
-<tr class="row-odd"><td><p>System</p></td>
-<td><p>Pitzer</p></td>
-<td><p>Pitzer</p></td>
-<td><p>Owens</p></td>
+<tbody valign="top">
+<tr class="row-odd"><td>System</td>
+<td>Pitzer</td>
+<td>Pitzer</td>
+<td>Owens</td>
 </tr>
-<tr class="row-even"><td><p>Year</p></td>
-<td><p>2020</p></td>
-<td><p>2018</p></td>
-<td><p>2016</p></td>
+<tr class="row-even"><td>Year</td>
+<td>2020</td>
+<td>2018</td>
+<td>2016</td>
 </tr>
-<tr class="row-odd"><td><p>Theoretical Performance</p></td>
-<td><p>1300 TF</p></td>
-<td><p>1200 TF</p></td>
-<td><p>1600 TF</p></td>
+<tr class="row-odd"><td>Theoretical Performance</td>
+<td>1300 TF</td>
+<td>1200 TF</td>
+<td>1600 TF</td>
 </tr>
-<tr class="row-even"><td><p>Nodes</p></td>
-<td><p>398</p></td>
-<td><p>260</p></td>
-<td><p>824</p></td>
+<tr class="row-even"><td>Nodes</td>
+<td>398</td>
+<td>260</td>
+<td>824</td>
 </tr>
-<tr class="row-odd"><td><p>CPU cores</p></td>
-<td><p>19104</p></td>
-<td><p>10560</p></td>
-<td><p>23392</p></td>
+<tr class="row-odd"><td>CPU cores</td>
+<td>19104</td>
+<td>10560</td>
+<td>23392</td>
 </tr>
-<tr class="row-even"><td><p>Total Memory</p></td>
-<td><p>97.3 Tb</p></td>
-<td><p>70.6 Tb</p></td>
-<td><p>120 Tb</p></td>
+<tr class="row-even"><td>Total Memory</td>
+<td>97.3 Tb</td>
+<td>70.6 Tb</td>
+<td>120 Tb</td>
 </tr>
-<tr class="row-odd"><td><p>Memory/Core</p></td>
-<td><p>&gt; 5 Gb</p></td>
-<td><p>&gt; 5 Gb</p></td>
-<td><p>&gt; 5 Gb</p></td>
+<tr class="row-odd"><td>Memory/Core</td>
+<td>&gt; 5 Gb</td>
+<td>&gt; 5 Gb</td>
+<td>&gt; 5 Gb</td>
 </tr>
 </tbody>
 </table>
 <p>Notice that Pitzer, though newer, has fewer nodes (80%) with more cores (120%). However, it has 150% the
 theoretical performance. Why would that be? Turns out the CPUs are faster and there are more CPUs/node.</p>
-</section>
-<section id="login-nodes">
+</div>
+<div class="section" id="login-nodes">
 <h2>Login Nodes<a class="headerlink" href="#login-nodes" title="Permalink to this headline">¶</a></h2>
 <p>The login nodes are where you:</p>
 <ol class="arabic simple">
-<li><p>Submit jobs</p></li>
-<li><p>Mange and edit files</p></li>
-<li><p>Very small scale, interactive work</p></li>
+<li>Submit jobs</li>
+<li>Mange and edit files</li>
+<li>Very small scale, interactive work</li>
 </ol>
 <p>There is a 1 GB memory and 20 min CPU limit on login nodes. Why? That’s all you should need! Login nodes <strong>are not for
 doing large scale jobs</strong>!</p>
-</section>
-<section id="filesystems">
+</div>
+<div class="section" id="filesystems">
 <h2>Filesystems<a class="headerlink" href="#filesystems" title="Permalink to this headline">¶</a></h2>
 <p>There are a number of different filesystems available on OSC, each with a different purpose.</p>
-<section id="home">
+<div class="section" id="home">
 <h3>Home<a class="headerlink" href="#home" title="Permalink to this headline">¶</a></h3>
 <p>Where to store your files. This is backed up daily. Use $HOME to reference it.</p>
-</section>
-<section id="project">
+</div>
+<div class="section" id="project">
 <h3>Project<a class="headerlink" href="#project" title="Permalink to this headline">¶</a></h3>
 <p>Available to project PIs by request. Shared by all users on a project. Backed up daily.</p>
 <p>Our project is PAS1573. It should be available at /fs/scratch/PAS1573.</p>
-</section>
-<section id="scratch">
+</div>
+<div class="section" id="scratch">
 <h3>Scratch<a class="headerlink" href="#scratch" title="Permalink to this headline">¶</a></h3>
 <p>Where to store large input or output files. This has faster I/O than the home or project directories. What does that
 mean? It means reading and writing to the disk is faster. It’s like downloading a large file from the internet verses
 copying a file from one folder to another on your local machine. This is also <em>temporary</em> storage and is not backed up.
 If you really need to keep a copy of data, copy/keep it in $HOME.</p>
-</section>
-<section id="tmpdir">
+</div>
+<div class="section" id="tmpdir">
 <h3>$TMPDIR<a class="headerlink" href="#tmpdir" title="Permalink to this headline">¶</a></h3>
 <p>This is <em>local</em> (relative to the compute node) storage during job execution. There’s about 1 TB available on Owens</p>
-</section>
-</section>
-<section id="connecting-to-osc">
+</div>
+</div>
+<div class="section" id="connecting-to-osc">
 <h2>Connecting to OSC<a class="headerlink" href="#connecting-to-osc" title="Permalink to this headline">¶</a></h2>
 <p>From a Mac, Linux or UNIX-based machine:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh userid@pitzer.osc.edu
@@ -148,38 +148,38 @@ which is slightly more “difficult” than opening a terminal window and typing
 simple selection of which machine to log into.</p>
 <p><strong>OR</strong> you can login using <a class="reference external" href="https://ondemand.osc.edu">OSC’s OnDemand</a>.</p>
 <p>If you need to connect to OSC and be able to use a X-based GUI, simply append “-X” flag after ssh (node: X is capitalized).</p>
-</section>
-<section id="transferring-data-to-from-osc">
+</div>
+<div class="section" id="transferring-data-to-from-osc">
 <h2>Transferring Data to/from OSC<a class="headerlink" href="#transferring-data-to-from-osc" title="Permalink to this headline">¶</a></h2>
 <p>There are 3 main ways of transferring data to/from OSC, each with advantages or disadvantages.</p>
-<section id="ondemand">
+<div class="section" id="ondemand">
 <h3>OnDemand<a class="headerlink" href="#ondemand" title="Permalink to this headline">¶</a></h3>
 <p>Login to OSC’s OnDemand, navigate to “Files” and then drag-and-drop files (up to 5 GB) from your local computer to OSC.</p>
-</section>
-<section id="sftp-scp">
+</div>
+<div class="section" id="sftp-scp">
 <h3>SFTP/SCP<a class="headerlink" href="#sftp-scp" title="Permalink to this headline">¶</a></h3>
 <p>To connect to OSC:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sftp userid@sftp.osc.edu
 </pre></div>
 </div>
-</section>
-<section id="cyberduck">
+</div>
+<div class="section" id="cyberduck">
 <h3>Cyberduck<a class="headerlink" href="#cyberduck" title="Permalink to this headline">¶</a></h3>
 <p>You can also download and setup <a class="reference external" href="https://cyberduck.io/?l=en">Cyberduck</a>.</p>
-</section>
-</section>
-<section id="batch-processing-i-e-submitting-jobs">
+</div>
+</div>
+<div class="section" id="batch-processing-i-e-submitting-jobs">
 <h2>Batch Processing (i.e. submitting jobs)<a class="headerlink" href="#batch-processing-i-e-submitting-jobs" title="Permalink to this headline">¶</a></h2>
 <p>“Where the real data processing gets done.”</p>
 <p>To create a job and submit it to OSC, the following steps are usually done (we’ll break down the steps afterward):</p>
 <ol class="arabic simple">
-<li><p>Create a batch script</p></li>
-<li><p>Submit the batch script as a job</p></li>
-<li><p>Job gets queued</p></li>
-<li><p>When resources become available (length of time you wait depends on how many resources you request), job starts/runs</p></li>
-<li><p>Job finishes up, output is written</p></li>
+<li>Create a batch script</li>
+<li>Submit the batch script as a job</li>
+<li>Job gets queued</li>
+<li>When resources become available (length of time you wait depends on how many resources you request), job starts/runs</li>
+<li>Job finishes up, output is written</li>
 </ol>
-<section id="creating-a-batch-script">
+<div class="section" id="creating-a-batch-script">
 <h3>Creating a batch script<a class="headerlink" href="#creating-a-batch-script" title="Permalink to this headline">¶</a></h3>
 <p>There are a minimum number of resources that must be specified in order for OSC to accept &amp; run a job. First of all,
 the job file (we’re going to call it “ourJob.sh”):</p>
@@ -212,14 +212,14 @@ blastn -query query.fasta -db nr -outfmt <span class="m">6</span> -out results.t
 cp results.tsv <span class="nv">$SLURM_SUBMIT_DIR</span>
 </pre></div>
 </div>
-</section>
-<section id="submitting-the-job">
+</div>
+<div class="section" id="submitting-the-job">
 <h3>Submitting the job<a class="headerlink" href="#submitting-the-job" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbatch ourJob.sh
 </pre></div>
 </div>
-</section>
-<section id="job-gets-queued">
+</div>
+<div class="section" id="job-gets-queued">
 <h3>Job gets queued<a class="headerlink" href="#job-gets-queued" title="Permalink to this headline">¶</a></h3>
 <p>How to show the status:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sstat -a jobid
@@ -234,35 +234,35 @@ squeue -u username
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scancel jobid
 </pre></div>
 </div>
-</section>
-<section id="when-resources-become-available-job-runs">
+</div>
+<div class="section" id="when-resources-become-available-job-runs">
 <h3>When resources become available, job runs<a class="headerlink" href="#when-resources-become-available-job-runs" title="Permalink to this headline">¶</a></h3>
 <p>Walltime limits:</p>
 <ul class="simple">
-<li><p>168 hours for serial (single node) jobs</p></li>
-<li><p>96 hours for parallel (multiple node) jobs</p></li>
+<li>168 hours for serial (single node) jobs</li>
+<li>96 hours for parallel (multiple node) jobs</li>
 </ul>
 <p>Per-user limits:</p>
 <ul class="simple">
-<li><p>128 currently running jobs</p></li>
-<li><p>2040 processor cores in use</p></li>
-<li><p>1000 jobs in batch system (running + queued)</p></li>
+<li>128 currently running jobs</li>
+<li>2040 processor cores in use</li>
+<li>1000 jobs in batch system (running + queued)</li>
 </ul>
 <p>Per-group limits:</p>
 <ul class="simple">
-<li><p>192 concurrently running jobs</p></li>
-<li><p>2040 processor corers in use</p></li>
+<li>192 concurrently running jobs</li>
+<li>2040 processor corers in use</li>
 </ul>
 <p><strong>How long will you be waiting for a job to run?</strong> It depends on many factors, such as how many other users are using
 OSC, how many resources requested (nodes, cores, GPUs, software licenses), and if you (or your group!) are already using
 (or requesting) a lot of resources. But you can use the squeue command (see above) to get an estimate for when the job will start. Note that this is only an estimate at that particular point in time. Newer jobs could be submitted that have higher priority, pushing your job lower in the queue which would result in a later estimated start time.</p>
-</section>
-<section id="job-finishes-up-with-results">
+</div>
+<div class="section" id="job-finishes-up-with-results">
 <h3>Job finishes up, with results!<a class="headerlink" href="#job-finishes-up-with-results" title="Permalink to this headline">¶</a></h3>
 <p>What does the output look like? <em>Besides</em> the output generated from the tool, the job will generate a couple more files.</p>
 <p>A job output file is immediately created as soon as the job starts. This file will be named according to what you specified in the <code class="code docutils literal notranslate"><span class="pre">#SBATCH</span> <span class="pre">--output=</span></code> parameter. It will contain output printed to stdout, but <em>it may also</em> contain errors that were written to stderr. By default that SLURM batch parameter joins both STDOUT and STDERR together. If you want separate output files for each, you can additionally specify <code class="code docutils literal notranslate"><span class="pre">#SBATCH</span> <span class="pre">--error=</span></code>.</p>
-</section>
-<section id="other-cases">
+</div>
+<div class="section" id="other-cases">
 <h3>Other cases<a class="headerlink" href="#other-cases" title="Permalink to this headline">¶</a></h3>
 <p><strong>Interactive batch jobs</strong>: good for jobs that can’t be run on the login nodes, or as debugging (when you need more
 than 1 hour).</p>
@@ -284,9 +284,9 @@ than 1 hour).</p>
 </pre></div>
 </div>
 <p>Interactive jobs can be exited with the <code class="code docutils literal notranslate"><span class="pre">exit</span></code> command or with the keystrokes ctrl-d (control key on Apple keyboards).</p>
-</section>
-</section>
-<section id="modules">
+</div>
+</div>
+<div class="section" id="modules">
 <h2>Modules<a class="headerlink" href="#modules" title="Permalink to this headline">¶</a></h2>
 <p>Modules modify environmental variables like $PATH and $MANPATH. By loading a module, you modify your $PATH and lets the
 system find the tool you need.</p>
@@ -296,8 +296,8 @@ system find the tool you need.</p>
 <p>With blast loaded, you can now access blastn, blastp, blastx and all the other blast-family executables!</p>
 <p>A few things to keep in mind with modules:</p>
 <ul class="simple">
-<li><p>Don’t fully replace $PATH with a single folder, like “/fs/project/PAS0000/bin/” - it will cause essential system files
-to not be found. Instead, if you need to update your $PATH:</p></li>
+<li>Don’t fully replace $PATH with a single folder, like “/fs/project/PAS0000/bin/” - it will cause essential system files
+to not be found. Instead, if you need to update your $PATH:</li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="nv">$HOME</span>/bin:<span class="nv">$PATH</span>
 </pre></div>
@@ -328,8 +328,8 @@ to the command:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module swap intel intel/13.1.3.192
 </pre></div>
 </div>
-</section>
-<section id="links">
+</div>
+<div class="section" id="links">
 <h2>Links<a class="headerlink" href="#links" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://www.osc.edu/resources/getting_started">OSC Getting started guide</a>: a first stop for figuring out how to navigate
 OSC and its resources.</p>
@@ -338,11 +338,10 @@ high-performance computing (HPC) on the <a class="reference external" href="http
 step-by-step guide to pretty much everything you need to know to get started. You’ll learn, through the course, what is
 the HPC, how to connect, how to use the scheduler (i.e. how to submit jobs), how to use the cluster efficiently, as well
 as a basic guide to UNIX commands.</p>
-</section>
-</section>
+</div>
+</div>
 
 
-            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -396,15 +395,17 @@ as a basic guide to UNIX commands.</p>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
+  <h3>Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -421,13 +422,12 @@ as a basic guide to UNIX commands.</p>
         <li class="right" >
           <a href="Linux-Unix.html" title="UNIX/LINUX Introduction and Guide"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">OSC Introduction and Guide</a></li> 
+        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2019, Benjamin Bolduc.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
     </div>
   </body>
 </html>

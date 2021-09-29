@@ -21,8 +21,15 @@ So you must prepend each \*.img, \*.simg or \*.sif Singularity container w/ this
 
 .. code-block:: bash
 
-    module load singularity/current
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/Prokka-1.12.0.img -h
+    $ module load singularity/current
+    $ singularity run /users/PAS1117/osu9664/eMicro-Apps/Prokka-1.12.0.img -h
+
+If you want to add to your PATH...
+
+.. code-block:: bash
+
+    $ export PATH=/users/PAS1117/osu9664/eMicro-Apps/:$PATH
+    $ Prokka-1.12.0.img -h
 
 **Keep in mind that NONE of these apps/tools should be run on the login nodes. Please create a job script and submit it
 or incur OSC's wrath!**

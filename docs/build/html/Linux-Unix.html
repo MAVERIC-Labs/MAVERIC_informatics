@@ -1,22 +1,23 @@
 
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>UNIX/LINUX Introduction and Guide &#8212; MAVERIC Informatics  documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="OSC Introduction and Guide" href="OSC.html" />
-    <link rel="prev" title="Microbial Informatics (M8194)" href="Microbial-Informatics.html" /> 
+    <link rel="prev" title="Microbiome Informatics (M8161)" href="Microbial-Informatics.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -28,10 +29,9 @@
           <a href="OSC.html" title="OSC Introduction and Guide"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="Microbial-Informatics.html" title="Microbial Informatics (M8194)"
+          <a href="Microbial-Informatics.html" title="Microbiome Informatics (M8161)"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">UNIX/LINUX Introduction and Guide</a></li> 
+        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -40,7 +40,7 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="unix-linux-introduction-and-guide">
+  <div class="section" id="unix-linux-introduction-and-guide">
 <span id="unix-linux"></span><h1>UNIX/LINUX Introduction and Guide<a class="headerlink" href="#unix-linux-introduction-and-guide" title="Permalink to this headline">¶</a></h1>
 <p>There are anthologies to using Unix operating systems. Unix is a family of many different OS’s, including Apple’s macOS
 and Linux distributions (derivatives of unix). We won’t cover <strong>any</strong> of the histories or flavors of them here. There’s
@@ -52,7 +52,7 @@ Linux.</p>
 new user oriented to OSC and right into doing basic bioinformatics. Sure, there might be some really useful administrator
 commands for managing systems, but those aren’t really <em>useful</em> for beginners who aren’t sysadmins. If you’re looking for
 that here, you’ve come to the wrong place.</p>
-<section id="basic-navigation-and-universally-common-commands">
+<div class="section" id="basic-navigation-and-universally-common-commands">
 <h2>Basic Navigation and Universally Common Commands<a class="headerlink" href="#basic-navigation-and-universally-common-commands" title="Permalink to this headline">¶</a></h2>
 <p>When you first login to OSC (via any means), you’ll be greeted by a bunch of OSC-related messages, ending with:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>userid@pitzer-login01 ~<span class="o">]</span>$
@@ -61,9 +61,9 @@ that here, you’ve come to the wrong place.</p>
 <p>First of all, you’ve entered into your “home” directory. The <strong>~</strong> is a shortcut for your home (and notice how on the command
 line it ends in ~), as is the <strong>$HOME</strong> variable (more on variables later). The rest of the line is basically:</p>
 <ol class="arabic simple">
-<li><p>who you are (userid)</p></li>
-<li><p>what system you’ve connected to (pitzer-login01)</p></li>
-<li><p>where you are (~ <em>or</em> $HOME)</p></li>
+<li>who you are (userid)</li>
+<li>what system you’ve connected to (pitzer-login01)</li>
+<li>where you are (~ <em>or</em> $HOME)</li>
 </ol>
 <p>Now that you know where you are, check out what other files might be in your home directory:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ ls
@@ -81,8 +81,8 @@ test_file.txt
 </div>
 <p>There isn’t much to look at. Earlier I created a single file, called “test_file.txt”. And that’s all that’s in my home
 directory.</p>
-</section>
-<section id="the-profile-aliases-environmental-variables-path">
+</div>
+<div class="section" id="the-profile-aliases-environmental-variables-path">
 <h2>The Profile (aliases, environmental variables, $PATH)<a class="headerlink" href="#the-profile-aliases-environmental-variables-path" title="Permalink to this headline">¶</a></h2>
 <p>When you want to run a tool and you don’t want to write the full path to that tool every time, i.e.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ /fs/project/PAS1573/bin/bowtie2
@@ -147,8 +147,8 @@ system will load up .bash_profile when you log in.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">echo</span> <span class="s2">&quot;export PATH=/fs/project/PAS1573/bin/:</span><span class="nv">$PATH</span><span class="s2">&quot;</span> &gt;&gt; .bash_profile
 </pre></div>
 </div>
-</section>
-<section id="file-and-folder-permissions">
+</div>
+<div class="section" id="file-and-folder-permissions">
 <h2>File and Folder Permissions<a class="headerlink" href="#file-and-folder-permissions" title="Permalink to this headline">¶</a></h2>
 <p>The dreaded “Permission Denied” error.</p>
 <p>Since our class/project comprises multiple members who may/may not be a part of different OSC projects, that means each
@@ -169,8 +169,8 @@ $ chmod g+s data_to_share
 $ chmod <span class="m">770</span> data_to_share
 </pre></div>
 </div>
-</section>
-<section id="advanced-or-maybe-convenient-commands">
+</div>
+<div class="section" id="advanced-or-maybe-convenient-commands">
 <h2>Advanced (or maybe “convenient”?) commands<a class="headerlink" href="#advanced-or-maybe-convenient-commands" title="Permalink to this headline">¶</a></h2>
 <p>Below is a list of commands Ben uses way too much and wants to keep around for posterity.</p>
 <p><strong>Count the number of sequences in a fasta file</strong></p>
@@ -197,7 +197,7 @@ you will need to wait for those resouces to become available. So if you request 
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ du -h --max-depth<span class="o">=</span><span class="m">1</span> .
 </pre></div>
 </div>
-<section id="checking-for-non-ascii-characters">
+<div class="section" id="checking-for-non-ascii-characters">
 <h3>Checking for non-ASCII characters<a class="headerlink" href="#checking-for-non-ascii-characters" title="Permalink to this headline">¶</a></h3>
 <p>If you ever run a command and somewhere along the line there’s an error that includes “Non-ACSII character at X line”
 it’s probably due to using (often) Windows or software that auto-formats characters into something else. One great example
@@ -215,12 +215,11 @@ $ pcregrep --color<span class="o">=</span><span class="s1">&#39;auto&#39;</span>
 </pre></div>
 </div>
 <p>… more to be added at a later time!</p>
-</section>
-</section>
-</section>
+</div>
+</div>
+</div>
 
 
-            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -242,7 +241,7 @@ $ pcregrep --color<span class="o">=</span><span class="s1">&#39;auto&#39;</span>
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="Microbial-Informatics.html"
-                        title="previous chapter">Microbial Informatics (M8194)</a></p>
+                        title="previous chapter">Microbiome Informatics (M8161)</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="OSC.html"
                         title="next chapter">OSC Introduction and Guide</a></p>
@@ -254,15 +253,17 @@ $ pcregrep --color<span class="o">=</span><span class="s1">&#39;auto&#39;</span>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
+  <h3>Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -277,15 +278,14 @@ $ pcregrep --color<span class="o">=</span><span class="s1">&#39;auto&#39;</span>
           <a href="OSC.html" title="OSC Introduction and Guide"
              >next</a> |</li>
         <li class="right" >
-          <a href="Microbial-Informatics.html" title="Microbial Informatics (M8194)"
+          <a href="Microbial-Informatics.html" title="Microbiome Informatics (M8161)"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">UNIX/LINUX Introduction and Guide</a></li> 
+        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2019, Benjamin Bolduc.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
     </div>
   </body>
 </html>
