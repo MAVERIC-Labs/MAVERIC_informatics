@@ -7,6 +7,8 @@ Below is a list and description of the apps available to anyone on OSC. Please k
 comprehensive and *does not* detail the methods underlying the tool. Where possible, citations have been included so users
 can read the original source's documentation and theory.
 
+**Always check for the latest versions of Singularity containers and modules!**
+
 Some of this documentation is lifted from the `iVirus project <https://ivirus.readthedocs.io/en/latest/>`_ to avoid
 reinventing the wheel. Every effort is being made to ensure that **both** locations are up-to-date with the latest tools
 and literature.
@@ -975,6 +977,53 @@ encapsulate the package + databases.
     DRAM.py distill -i annotation/annotations.tsv -o distill --trna_path annotation/trnas.tsv --rrna_path annotation/rrnas.tsv
 
 
+MetaPop
+~~~~~~~
+
+**Website**: https://github.com/metaGmetapop/metapop/
+
+**Reference**: Coming soon!
+
+**Short description**: MetaPop is a pipeline designed to facilitate the processing of sets of short read data mapped
+to reference genomes with the twin aims of calculating sample-level diversity metrics such as abundance, population
+diversity, and similarity across multiple samples, and assessing within-species diversity through the assessment of
+nucleotide polymorphisms and amino acid substitutions. To further facilitate understanding, the pipeline also produces
+graphical summaries of its results.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    # Load singularity
+    module load singularity
+
+    # Set variables
+    threads=40
+
+    # Inputs
+    input_contigs=data_dir/individual_fasta_dir/
+    input_coverage=data_dir/counts.txt
+    bam_dir=data_dir/BAMs
+
+    MetaPop.sif -i $bam_dir -r $input_contigs --threads $threads -o $out_dir -n $input_coverage
+
+MetaPop requires:
+
+ * input_contigs: a directory of fasta files representing the contigs/genomes - EACH genome must be its own FASTA file
+ * bam_dir: a directory containing BAM alignment files of reads against the contigs/genomes
+ * input_coverage: a tab-delimited file with the BAM filename (*without* the .bam extension) and the bp of that dataset
+ * out_dir: where to place the output files
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load MetaPop/latest
+
+    python $(which metapop_main.py) -i $bam_dir -r $input_contigs --threads $threads -o $out_dir -n $input_coverage
+
+
 Viral Analyses
 --------------
 
@@ -1020,7 +1069,7 @@ to classify double-stranded DNA viruses that infect Archaea and Bacteria. PeerJ 
 .. code-block:: bash
 
     module load singularity/current
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/vConTACT2-0.9.9.sif
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/vConTACT2-0.9.20.sif
 
 IVA
 ~~~
