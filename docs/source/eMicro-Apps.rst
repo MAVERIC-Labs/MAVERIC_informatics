@@ -199,6 +199,8 @@ QUAST/MetaQUAST
 
 **Website**: http://quast.sourceforge.net/
 
+**Manual**: http://cab.cc.spbu.ru/quast/manual.html
+
 **Short Description**: The project aim is to create easy-to-use tools for genome assemblies evaluation and comparison.
 
 **Reference**: Gurevich, A., Saveliev, V., Vyahhi, N., & Tesler, G. (2013). QUAST: Quality assessment tool for genome
@@ -214,7 +216,18 @@ https://doi.org/10.1093/bioinformatics/bty266
 
 **Singularity use**:
 
-Forthcoming!
+.. code-block:: bash
+
+    export SIF=/fs/project/PAS1573/sif
+    
+    # QUAST
+    $SIF/quast.py contigs_1.fasta contigs_2.fasta --threads 48
+    
+    # MetaQUAST
+    $SIF/metaquast.py contigs_1.fasta contigs_2.fasta ... --threads 48
+
+    # MetaQUAST can optionally be run with a list of reference genomes
+    $SIF/metaquast.py contigs_1.fasta contigs_2.fasta ... -r reference_1,reference_2,reference_3,... --threads 48
 
 **Module use**:
 
