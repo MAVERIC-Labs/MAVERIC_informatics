@@ -17,7 +17,7 @@ and literature.
 
 /users/PAS1117/osu9664/eMicro-Apps/
 
-** Additionally Microbial Informatics students can also find additional images at:**
+**Additionally Microbial Informatics students can also find additional images at:**
 
 /fs/project/PAS1573/sif/
 
@@ -70,34 +70,6 @@ the data going into the assembly (common next step) is of high quality. Poor rea
 incorrectly assembled sequences. Most frequently, read data QC involves trimming reads according to their quality
 scores. Although some assemblers do not require QC’d reads, we highly recommend it!
 
-Trimmomatic
-~~~~~~~~~~~
-
-**Reference**: Bolger, A. M., Lohse, M., & Usadel, B. (2014). Trimmomatic: A flexible trimmer for Illumina Sequence Data. Bioinformatics, btu170.
-
-**Short description**: Identifies adapter sequences in raw sequencing reads and quality filters
-
-**Protocols.io**: `Trimmomatic on CyVerse <https://dx.doi.org/10.17504/protocols.io.gvybw7w>`_
-
-**Singularity use**:
-
-.. code-block:: bash
-
-    module load singularity/current
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/Trimmomatic-0.36.0.img PE -phred33 input_forward.fq.gz input_reverse.fq.gz output_forward_paired.fq.gz output_forward_unpaired.fq.gz output_reverse_paired.fq.gz output_reverse_unpaired.fq.gz ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36
-
-**Module use**:
-
-.. code-block:: bash
-
-    module use /fs/project/PAS1117/modulefiles
-    module load trimmomatic/0.36-sulli
-    trimmomatic PE -phred33 input_forward.fq.gz input_reverse.fq.gz output_forward_paired.fq.gz output_forward_unpaired.fq.gz output_reverse_paired.fq.gz output_reverse_unpaired.fq.gz ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36
-
-**Notes**: Trimmomatic is a java jar file, and *normally* needs to be executed with "java -jar trimmomatic.jar [commands]",
-but a tiny bash script has been written to automate this, which is why you can call "trimmomatic" without the java component.
-
-
 BBTools
 ~~~~~~~
 
@@ -148,6 +120,29 @@ Alternatively, run them both at the same time!
     # Adapter and quality filtering *at the same time*
     singularity run /users/PAS1117/osu9664/eMicro-Apps/BBTools-38.69.sif bbduk.sh in1=<input-pair1> in2=<input-pair2> out1=<qc-trimmed-pair1> out2=<qc-trimmed-pair2> ref=/bbmap/resources/adapters.fa ktrim=r k=23 mink=11 hdist=1 tpe tbo trimq=10 qtrim=rl minlength=35
 
+BWA
+~~~
+
+**Website**: https://github.com/lh3/bwa
+
+**Reference**: Li, H. & Durbin, R. Fast and accurate short read alignment with Burrows-Wheeler transform.
+Bioinformatics 25, 1754–60 (2009).
+
+**Short description**: BWA is a software package for mapping DNA sequences against a large reference genome, such as
+the human genome. It consists of three algorithms: BWA-backtrack, BWA-SW and BWA-MEM. The first algorithm is designed
+for Illumina sequence reads up to 100bp, while the rest two for longer sequences ranged from 70bp to a few megabases.
+BWA-MEM and BWA-SW share similar features such as the support of long reads and chimeric alignment, but BWA-MEM,
+which is the latest, is generally recommended as it is faster and more accurate. BWA-MEM also has better performance
+than BWA-backtrack for 70-100bp Illumina reads.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load bwa/0.7.17-r1198
+
+
 FastQC
 ~~~~~~~
 
@@ -177,6 +172,30 @@ quick impression of whether your data has any problems of which you should be aw
 
     module load fastqc/0.11.8
 
+
+Kraken2
+~~~~~~~
+
+**Website**: https://github.com/DerrickWood/kraken2
+
+**Website**: https://ccb.jhu.edu/software/kraken2/
+
+**Manual**: https://github.com/DerrickWood/kraken2/blob/master/docs/MANUAL.markdown
+
+**Reference**: Wood, D. E., Lu, J. & Langmead, B. Improved metagenomic analysis with Kraken 2. Genome Biol. 20, 257
+(2019). https://doi.org/10.1186/s13059-019-1891-0
+
+**Short description**: Kraken 2 is the newest version of Kraken, a taxonomic classification system using exact
+k-mer matches to achieve high accuracy and fast classification speeds. This classifier matches each k-mer within a
+query sequence to the lowest common ancestor (LCA) of all genomes containing the given k-mer. The k-mer assignments
+inform the classification algorithm
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/Kraken-2.1.2.sif
 
 MultiQC
 ~~~~~~~
@@ -229,10 +248,10 @@ https://doi.org/10.1093/bioinformatics/bty266
 .. code-block:: bash
 
     export SIF=/fs/project/PAS1573/sif
-    
+
     # QUAST
     $SIF/quast.py contigs_1.fasta contigs_2.fasta --threads 48
-    
+
     # MetaQUAST
     $SIF/metaquast.py contigs_1.fasta contigs_2.fasta ... --threads 48
 
@@ -262,29 +281,6 @@ Samtools
     module use /fs/project/PAS1117/modulefiles
     module load samtools/1.10
 
-
-BWA
-~~~
-
-**Website**: https://github.com/lh3/bwa
-
-**Reference**: Li, H. & Durbin, R. Fast and accurate short read alignment with Burrows-Wheeler transform.
-Bioinformatics 25, 1754–60 (2009).
-
-**Short description**: BWA is a software package for mapping DNA sequences against a large reference genome, such as
-the human genome. It consists of three algorithms: BWA-backtrack, BWA-SW and BWA-MEM. The first algorithm is designed
-for Illumina sequence reads up to 100bp, while the rest two for longer sequences ranged from 70bp to a few megabases.
-BWA-MEM and BWA-SW share similar features such as the support of long reads and chimeric alignment, but BWA-MEM,
-which is the latest, is generally recommended as it is faster and more accurate. BWA-MEM also has better performance
-than BWA-backtrack for 70-100bp Illumina reads.
-
-**Module use**:
-
-.. code-block:: bash
-
-    module use /fs/project/PAS1117/modulefiles
-    module load bwa/0.7.17-r1198
-
 SAMBAMBA
 ~~~~~~~~
 
@@ -302,6 +298,35 @@ work horse running in many sequencing centres around the world today.
 
     module use /fs/project/PAS1117/modulefiles
     module load SAMBAMBA/0.7.1
+
+Trimmomatic
+~~~~~~~~~~~
+
+**Reference**: Bolger, A. M., Lohse, M., & Usadel, B. (2014). Trimmomatic: A flexible trimmer for Illumina Sequence Data. Bioinformatics, btu170.
+
+**Short description**: Identifies adapter sequences in raw sequencing reads and quality filters
+
+**Protocols.io**: `Trimmomatic on CyVerse <https://dx.doi.org/10.17504/protocols.io.gvybw7w>`_
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/Trimmomatic-0.36.0.img PE -phred33 input_forward.fq.gz input_reverse.fq.gz output_forward_paired.fq.gz output_forward_unpaired.fq.gz output_reverse_paired.fq.gz output_reverse_unpaired.fq.gz ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load trimmomatic/0.36-sulli
+    trimmomatic PE -phred33 input_forward.fq.gz input_reverse.fq.gz output_forward_paired.fq.gz output_forward_unpaired.fq.gz output_reverse_paired.fq.gz output_reverse_unpaired.fq.gz ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36
+
+**Notes**: Trimmomatic is a java jar file, and *normally* needs to be executed with "java -jar trimmomatic.jar [commands]",
+but a tiny bash script has been written to automate this, which is why you can call "trimmomatic" without the java component.
+
+
 
 Assembly
 --------
@@ -864,7 +889,25 @@ on the pairwise alignment of hidden Markov models (HMMs).
     module load hhsuite/3.2.0
 
 
+MINCED
+~~~~~~
 
+**Website**: https://github.com/ctSkennerton/minced
+
+**Reference**: 1. Bland, C. et al. CRISPR Recognition Tool (CRT): a tool for automatic detection of clustered
+regularly interspaced palindromic repeats. BMC Bioinformatics 8, 209 (2007).
+
+**Short description**: MinCED is a program to find Clustered Regularly Interspaced Short Palindromic Repeats (CRISPRs)
+in full genomes or environmental datasets such as assembled contigs from metagenomes. Iff you want to identify CRISPRs
+in raw short read data, in the size range of 100-200bp try using Crass (https://github.com/ctskennerton/Crass) MinCED
+runs from the command-line and was derived from CRT (http://www.room220.com/crt/)
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load minced/1.0.0
 
 Clust
 ~~~~~
@@ -977,7 +1020,7 @@ https://doi.org/10.1093/nar/gky174
 The latest version is 0.13.1. This will be updated.
 
 Read2RefMapper
-^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~
 
 **Website**: https://bitbucket.org/bolduc/docker-read2refmapper
 
@@ -1017,7 +1060,7 @@ and short sequences with high accuracy.
 Note: Both coverage and identity are 0 - 100, *not* 0.0 - 1.0.
 
 dRep
-^^^^
+~~~~
 
 **Website**: https://github.com/MrOlm/drep
 
@@ -1056,9 +1099,24 @@ for each genome set.
     module use /fs/project/PAS1117/modulefiles
     module load dRep/2.4.2
 
+ViennaRNA
+~~~~~~~~~
+
+**Website**: https://www.tbi.univie.ac.at/RNA/index.html
+
+**Reference**: Lorenz, R. et al. ViennaRNA Package 2.0. Algorithms Mol. Biol. 6, 26 (2011).
+
+**Short description**:
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load ViennaRNA/2.4.14
 
 DRAM
-^^^^
+~~~~
 
 **Website**: https://github.com/shafferm/DRAM
 
@@ -1591,7 +1649,6 @@ Similarities of Viruses 12, 1268 (2020).
     ./viridic.bash projdir=<output-dir> in=<fasta-file>
 
 
-
 ViPTreeGen
 ~~~~~~~~~~
 
@@ -1616,6 +1673,26 @@ genomes of newly sequenced viruses as well as those identified in metagenomes.
     ViPTreeGen --help
 
 
+ViromeScan
+~~~~~~~~~~
+
+**Website**: http://sourceforge.net/projects/viromescan/
+
+**Reference**: Rampelli, S. et al. ViromeScan: a new tool for metagenomic viral community profiling. BMC Genomics 17,
+165 (2016).
+
+**Short description**: Tool for metagenomic viral community profiling
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load viromescan
+    module load bowtie2/2.3.4.1
+    module load blast/2.4.0+
+
+    viromescan
 
 
 VPF-Tools
@@ -1680,32 +1757,6 @@ sequence-based framework for family-level virus classification. Microbiome 6, 1�
 Phylogenetics
 -------------
 
-Treemmer
-~~~~~~~~
-
-**Website**: https://github.com/fmenardo/Treemmer
-
-**Reference**: Menardo, F. et al. Treemmer: a tool to reduce large phylogenetic datasets with minimal loss of
-diversity. BMC Bioinformatics 19, 164 (2018).
-
-**Short description**: Treemmer, a simple tool to evaluate the redundancy of phylogenetic trees and reduce their
-complexity by eliminating leaves that contribute the least to the tree diversity.
-
-
-**Singularity use**:
-
-coming soon...
-
-**Module use**:
-
-.. code-block:: bash
-
-    module use /fs/project/PAS1117/modulefiles
-    module load Treemmer/Treemmer
-
-    Treemmer_v0.3.py --help
-
-
 BALi-Phy
 ~~~~~~~~
 
@@ -1726,46 +1777,46 @@ to 117 taxa.
     module load singularity/current
     singularity run BALi-Phy-3.6.0.sif
 
-TIM
-~~~
 
-**Website**: https://github.com/RomainBlancMathieu/TIM
+BEAST2
+~~~~~~
 
-**Reference**:
+**Website**: https://github.com/CompEvol/beast2, http://www.beast2.org/
 
-**Short description**: TIM detects and maps interactions between organisms onto a phylogenetic tree of a target group
-of organisms. Interactions are predicted from a species co-occurence-based network (such as one generated by FlashWeave).
+**Reference**: Bouckaert, R. et al. BEAST 2.5: An advanced software platform for Bayesian evolutionary analysis.
+PLOS Comput. Biol. 15, e1006650 (2019).
 
-TIM assumes that evolutionarily related organisms (refer to as query) interact with evolutionary related organisms
-(subject) (The reciprocal is not true).
-
-**Module use**:
-
-.. code-block:: bash
-
-    module use /fs/project/PAS1117/modulefiles
-    module load TIM/TIM
-    cp -r /fs/project/PAS1117/modules/TIM/TIM . && cd TIM
-    main.py Picornavirales.nwk connections.txt POS
-    downstream.py
-
-Phylorank
-~~~~~~~~~
-
-**Website**: https://github.com/dparks1134/PhyloRank
-
-**Reference**: https://github.com/dparks1134/PhyloRank (cite the github page)
-
-**Short description**: PhyloRank provides functionality for calculating the relative evolutionary divergence (RED) of
-taxa in a tree and for finding the best placement of taxonomic labels in a tree.
+**Short description**: BEAST is a cross-platform program for Bayesian inference using MCMC of molecular sequences. It
+is entirely orientated towards rooted, time-measured phylogenies inferred using strict or relaxed molecular clock
+models. It can be used as a method of reconstructing phylogenies but is also a framework for testing evolutionary
+hypotheses without conditioning on a single tree topology. BEAST uses MCMC to average over tree space, so that each
+tree is weighted proportional to its posterior probability. We include a simple to use user-interface program for
+setting up standard analyses and a suit of programs for analysing the results.
 
 **Module use**:
 
 .. code-block:: bash
 
     module use /fs/project/PAS1117/modulefiles
-    module load Phylorank
+    module load BEAST2
 
+ExaBayes
+~~~~~~~~
+
+**Website**: https://sanger-pathogens.github.io/iva/
+
+**Reference**: Aberer, A. J., Kobert, K. & Stamatakis, A. Exabayes: Massively parallel bayesian tree inference for the
+whole-genome era. Mol. Biol. Evol. 31, 2553–2556 (2014).
+
+**Short description**: ExaBayes is a software package for Bayesian phylogenetic tree inference. It is particularly
+suitable for large-scale analyses on computer clusters.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load exa-bayes/1.4.1
 
 GTDB-Tk
 ~~~~~~~
@@ -1787,6 +1838,7 @@ can also be applied to isolate and single-cell genomes.
     module use /fs/project/PAS1117/modulefiles
     module load GTDB-Tk
 
+
 IQ-Tree
 ~~~~~~~~~
 
@@ -1806,14 +1858,16 @@ phylogenomic software that can handle a large amount of data and provide more co
     module use /fs/project/PAS1117/modulefiles
     module load IQ-TREE/2.0-rc1
 
+MAFFT
+~~~~~
 
-Rascal
-~~~~~~
+**Website**: https://github.com/GSLBiotech/mafft
 
-**Website**: ftp://ftp-igbmc.u-strasbg.fr/pub/RASCAL (no longer available?)
+**Reference**: Katoh, K. & Standley, D. M. MAFFT Multiple Sequence Alignment Software Version 7: Improvements in
+Performance and Usability. Mol. Biol. Evol. 30, 772–780 (2013).
 
-**Reference**: Thompson, J. D., Thierry, J. C. & Poch, O. RASCAL: Rapid scanning and correction of multiple sequence
-alignments. Bioinformatics 19, 1155–1161 (2003).
+**Reference** (original): Katoh, K. MAFFT: a novel method for rapid multiple sequence alignment based on fast Fourier
+transform. Nucleic Acids Res. 30, 3059–3066 (2002).
 
 **Short description**:
 
@@ -1822,7 +1876,25 @@ alignments. Bioinformatics 19, 1155–1161 (2003).
 .. code-block:: bash
 
     module use /fs/project/PAS1117/modulefiles
-    module load IQ-TREE/2.0-rc1
+    module load mafft/7.429
+
+
+Phylorank
+~~~~~~~~~
+
+**Website**: https://github.com/dparks1134/PhyloRank
+
+**Reference**: https://github.com/dparks1134/PhyloRank (cite the github page)
+
+**Short description**: PhyloRank provides functionality for calculating the relative evolutionary divergence (RED) of
+taxa in a tree and for finding the best placement of taxonomic labels in a tree.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load Phylorank
 
 PhyML
 ~~~~~
@@ -1850,44 +1922,28 @@ processed by treeannotator (from the BEAST package) as well as SPREAD.
     module use /fs/project/PAS1117/modulefiles
     module load PhyML/3.1
 
-MAFFT
-~~~~~
-
-**Website**: https://github.com/GSLBiotech/mafft
-
-**Reference**: Katoh, K. & Standley, D. M. MAFFT Multiple Sequence Alignment Software Version 7: Improvements in
-Performance and Usability. Mol. Biol. Evol. 30, 772–780 (2013).
-
-**Reference** (original): Katoh, K. MAFFT: a novel method for rapid multiple sequence alignment based on fast Fourier
-transform. Nucleic Acids Res. 30, 3059–3066 (2002).
-
-**Short description**:
-
-**Module use**:
-
-.. code-block:: bash
-
-    module use /fs/project/PAS1117/modulefiles
-    module load mafft/7.429
-
-ExaBayes
+ProtTest
 ~~~~~~~~
 
-**Website**: https://sanger-pathogens.github.io/iva/
+**Website**: https://github.com/ddarriba/prottest3
 
-**Reference**: Aberer, A. J., Kobert, K. & Stamatakis, A. Exabayes: Massively parallel bayesian tree inference for the
-whole-genome era. Mol. Biol. Evol. 31, 2553–2556 (2014).
+**Reference**: Darriba, D., Taboada, G. L., Doallo, R. & Posada, D. ProtTest 3: fast selection of best-fit models of
+protein evolution. Bioinformatics 27, 1164–1165 (2011).
 
-**Short description**: ExaBayes is a software package for Bayesian phylogenetic tree inference. It is particularly
-suitable for large-scale analyses on computer clusters.
+**Short description**: ProtTest is a bioinformatic tool for the selection of best-fit models of aminoacid replacement
+for the data at hand. ProtTest makes this selection by finding the model in the candidate list with the smallest
+Akaike Information Criterion (AIC), Bayesian Information Criterion (BIC) score or Decision Theory Criterion (DT).
+At the same time, ProtTest obtains model-averaged estimates of different parameters (including a model-averaged
+phylogenetic tree) and calculates their importance(Posada and Buckley 2004). ProtTest differs from its nucleotide
+analog jModeltest (Posada 2008) in that it does not include likelihood ratio tests, as not all models included in
+ProtTest are nested.
 
 **Module use**:
 
 .. code-block:: bash
 
     module use /fs/project/PAS1117/modulefiles
-    module load exa-bayes/1.4.1
-
+    module load prottest/3.4.2
 
 PAML
 ~~~~
@@ -1912,29 +1968,22 @@ loci, and estimation of species divergence times incorporating uncertainties in 
     module use /fs/project/PAS1117/modulefiles
     module load PAML
 
-
-BEAST2
+Rascal
 ~~~~~~
 
-**Website**: https://github.com/CompEvol/beast2, http://www.beast2.org/
+**Website**: ftp://ftp-igbmc.u-strasbg.fr/pub/RASCAL (no longer available?)
 
-**Reference**: Bouckaert, R. et al. BEAST 2.5: An advanced software platform for Bayesian evolutionary analysis.
-PLOS Comput. Biol. 15, e1006650 (2019).
+**Reference**: Thompson, J. D., Thierry, J. C. & Poch, O. RASCAL: Rapid scanning and correction of multiple sequence
+alignments. Bioinformatics 19, 1155–1161 (2003).
 
-**Short description**: BEAST is a cross-platform program for Bayesian inference using MCMC of molecular sequences. It
-is entirely orientated towards rooted, time-measured phylogenies inferred using strict or relaxed molecular clock
-models. It can be used as a method of reconstructing phylogenies but is also a framework for testing evolutionary
-hypotheses without conditioning on a single tree topology. BEAST uses MCMC to average over tree space, so that each
-tree is weighted proportional to its posterior probability. We include a simple to use user-interface program for
-setting up standard analyses and a suit of programs for analysing the results.
+**Short description**:
 
 **Module use**:
 
 .. code-block:: bash
 
     module use /fs/project/PAS1117/modulefiles
-    module load BEAST2
-
+    module load IQ-TREE/2.0-rc1
 
 RevBayes
 ~~~~~~~~
@@ -1954,6 +2003,55 @@ phylogenetics. However, the environment is quite general and can be useful for m
 
     module use /fs/project/PAS1117/modulefiles
     module load RevBayes
+
+TIM
+~~~
+
+**Website**: https://github.com/RomainBlancMathieu/TIM
+
+**Reference**:
+
+**Short description**: TIM detects and maps interactions between organisms onto a phylogenetic tree of a target group
+of organisms. Interactions are predicted from a species co-occurence-based network (such as one generated by FlashWeave).
+
+TIM assumes that evolutionarily related organisms (refer to as query) interact with evolutionary related organisms
+(subject) (The reciprocal is not true).
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load TIM/TIM
+    cp -r /fs/project/PAS1117/modules/TIM/TIM . && cd TIM
+    main.py Picornavirales.nwk connections.txt POS
+    downstream.py
+
+Treemmer
+~~~~~~~~
+
+**Website**: https://github.com/fmenardo/Treemmer
+
+**Reference**: Menardo, F. et al. Treemmer: a tool to reduce large phylogenetic datasets with minimal loss of
+diversity. BMC Bioinformatics 19, 164 (2018).
+
+**Short description**: Treemmer, a simple tool to evaluate the redundancy of phylogenetic trees and reduce their
+complexity by eliminating leaves that contribute the least to the tree diversity.
+
+
+**Singularity use**:
+
+coming soon...
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load Treemmer/Treemmer
+
+    Treemmer_v0.3.py --help
+
 
 Miscellaneous
 -------------
@@ -1996,23 +2094,6 @@ multi-step queries. Selected records can then be retrieved in a variety of forma
 
     module use /fs/project/PAS1117/modulefiles
     module load Entrez-Direct
-
-
-ViennaRNA
-~~~~~~~~~
-
-**Website**: https://www.tbi.univie.ac.at/RNA/index.html
-
-**Reference**: Lorenz, R. et al. ViennaRNA Package 2.0. Algorithms Mol. Biol. 6, 26 (2011).
-
-**Short description**:
-
-**Module use**:
-
-.. code-block:: bash
-
-    module use /fs/project/PAS1117/modulefiles
-    module load ViennaRNA/2.4.14
 
 
 Clinker
@@ -2266,29 +2347,6 @@ expression data. Genome Biol. 19, 172 (2018).
     clust-1.8.9.img --help
 
 
-
-ViromeScan
-~~~~~~~~~~
-
-**Website**: http://sourceforge.net/projects/viromescan/
-
-**Reference**: Rampelli, S. et al. ViromeScan: a new tool for metagenomic viral community profiling. BMC Genomics 17,
-165 (2016).
-
-**Short description**: Tool for metagenomic viral community profiling
-
-**Module use**:
-
-.. code-block:: bash
-
-    module use /fs/project/PAS1117/modulefiles
-    module load viromescan
-    module load bowtie2/2.3.4.1
-    module load blast/2.4.0+
-
-    viromescan
-
-
 Bowtie2
 ~~~~~~~
 
@@ -2397,50 +2455,6 @@ bacterial taxonomies.
     module use /fs/project/PAS1117/modulefiles
     module load rdp_classifier/2.3
 
-
-ProtTest
-~~~~~~~~
-
-**Website**: https://github.com/ddarriba/prottest3
-
-**Reference**: Darriba, D., Taboada, G. L., Doallo, R. & Posada, D. ProtTest 3: fast selection of best-fit models of
-protein evolution. Bioinformatics 27, 1164–1165 (2011).
-
-**Short description**: ProtTest is a bioinformatic tool for the selection of best-fit models of aminoacid replacement
-for the data at hand. ProtTest makes this selection by finding the model in the candidate list with the smallest
-Akaike Information Criterion (AIC), Bayesian Information Criterion (BIC) score or Decision Theory Criterion (DT).
-At the same time, ProtTest obtains model-averaged estimates of different parameters (including a model-averaged
-phylogenetic tree) and calculates their importance(Posada and Buckley 2004). ProtTest differs from its nucleotide
-analog jModeltest (Posada 2008) in that it does not include likelihood ratio tests, as not all models included in
-ProtTest are nested.
-
-**Module use**:
-
-.. code-block:: bash
-
-    module use /fs/project/PAS1117/modulefiles
-    module load prottest/3.4.2
-
-
-MINCED
-~~~~~~
-
-**Website**: https://github.com/ctSkennerton/minced
-
-**Reference**: 1. Bland, C. et al. CRISPR Recognition Tool (CRT): a tool for automatic detection of clustered
-regularly interspaced palindromic repeats. BMC Bioinformatics 8, 209 (2007).
-
-**Short description**: MinCED is a program to find Clustered Regularly Interspaced Short Palindromic Repeats (CRISPRs)
-in full genomes or environmental datasets such as assembled contigs from metagenomes. Iff you want to identify CRISPRs
-in raw short read data, in the size range of 100-200bp try using Crass (https://github.com/ctskennerton/Crass) MinCED
-runs from the command-line and was derived from CRT (http://www.room220.com/crt/)
-
-**Module use**:
-
-.. code-block:: bash
-
-    module use /fs/project/PAS1117/modulefiles
-    module load minced/1.0.0
 
 MASH
 ~~~~
@@ -2557,27 +2571,3 @@ cluster algorithm for graphs (also known as networks) based on simulation of (st
     module use /fs/project/PAS1117/modulefiles
     module load mcl/14.137
 
-
-Kraken2
-~~~~~~~
-
-**Website**: https://github.com/DerrickWood/kraken2
-
-**Website**: https://ccb.jhu.edu/software/kraken2/
-
-**Manual**: https://github.com/DerrickWood/kraken2/blob/master/docs/MANUAL.markdown
-
-**Reference**: Wood, D. E., Lu, J. & Langmead, B. Improved metagenomic analysis with Kraken 2. Genome Biol. 20, 257
-(2019). https://doi.org/10.1186/s13059-019-1891-0
-
-**Short description**: Kraken 2 is the newest version of Kraken, a taxonomic classification system using exact
-k-mer matches to achieve high accuracy and fast classification speeds. This classifier matches each k-mer within a
-query sequence to the lowest common ancestor (LCA) of all genomes containing the given k-mer. The k-mer assignments
-inform the classification algorithm
-
-**Singularity use**:
-
-.. code-block:: bash
-
-    module load singularity/current
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/Kraken-2.1.2.sif
