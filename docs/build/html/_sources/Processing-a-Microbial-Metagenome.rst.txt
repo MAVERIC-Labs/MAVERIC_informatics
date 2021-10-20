@@ -13,7 +13,11 @@ Everything here uses Singularity. All of the singularity images are located at:
 
 **/users/PAS1117/osu9664/eMicro-Apps/**
 
-So you must prepend each \*.img, \*.simg or \*.sif Singularity container w/ this path OR link them (see :ref:`UNIX_LINUX`).
+OR
+
+**/fs/project/PAS1573/sif/**
+
+You need to either provide full paths to the images/containers, or extend your system's PATH variable (see :ref:`eMicroApps`)
 
 Downloading the data
 --------------------

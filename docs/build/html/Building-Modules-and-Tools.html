@@ -1,18 +1,19 @@
 
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Building Modules and Tools on OSC &#8212; MAVERIC Informatics  documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Available Environmental Microbiology (“eMicro”) Apps and Tools" href="eMicro-Apps.html" />
@@ -30,8 +31,7 @@
         <li class="right" >
           <a href="QIIME2.html" title="QIIME2"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Building Modules and Tools on OSC</a></li> 
+        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -40,13 +40,13 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="building-modules-and-tools-on-osc">
+  <div class="section" id="building-modules-and-tools-on-osc">
 <span id="buildingtools"></span><h1>Building Modules and Tools on OSC<a class="headerlink" href="#building-modules-and-tools-on-osc" title="Permalink to this headline">¶</a></h1>
 <p>There are several ways of using tools on OSC.</p>
 <ol class="arabic simple">
-<li><p>Directly</p></li>
-<li><p>As modules</p></li>
-<li><p>As singularity containers</p></li>
+<li>Directly</li>
+<li>As modules</li>
+<li>As singularity containers</li>
 </ol>
 <p>Each has advantages/disadvantages (depends on if it’s user <em>or</em> developer as well!), but, in general, these are ordered
 according to universality.</p>
@@ -87,7 +87,7 @@ truspades.py
 </pre></div>
 </div>
 <p>Now, for the 3 methods.</p>
-<section id="directly">
+<div class="section" id="directly">
 <h2>Directly<a class="headerlink" href="#directly" title="Permalink to this headline">¶</a></h2>
 <p>The simplest way to load and/or run a tool.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Full path</span>
@@ -104,8 +104,8 @@ anything. You can simply put the <em>full path</em> to spades.py or use ./spades
 share this with a co-worker, you would need to send them the full path <em>and</em> ensure the folder SPAdes resides in
 (/fs/project/PAS1117/…) is also readable for them. They’d need to use the full path and/or use ./ as we did earlier.
 In this example, <strong>only</strong> people in PAS1117 can use this. Bummer.</p>
-</section>
-<section id="modules">
+</div>
+<div class="section" id="modules">
 <h2>Modules<a class="headerlink" href="#modules" title="Permalink to this headline">¶</a></h2>
 <p><em>However</em>, what if you didn’t want to write the full path or change to the directory in order to use the tool? Normally,
 you’d add this to your system’s $PATH variable so when you typed “spades.py” it’d know <em>exactly</em> where to find your
@@ -146,7 +146,7 @@ and then adding that path/folder to the system’s $PATH variable, so it knows t
 <p>and if you remember the SPAdes path earlier:</p>
 <p>/fs/project/PAS1117/modules/spades/3.13.2/bin/spades.py</p>
 <p>What a coincidence. PATH = the full path to the spades.py directory.</p>
-<section id="so-that-s-great-how-to-i-use-this-lua-file">
+<div class="section" id="so-that-s-great-how-to-i-use-this-lua-file">
 <h3>So that’s great, how to I use this LUA file?<a class="headerlink" href="#so-that-s-great-how-to-i-use-this-lua-file" title="Permalink to this headline">¶</a></h3>
 <p>OSC has a great <a class="reference external" href="https://www.osc.edu/resources/getting_started/howto/howto_locally_installing_software">howto site</a>,
 and is more detailed than here. But let’s summarize what they say.</p>
@@ -180,16 +180,15 @@ module load spades/3.13.2
 a module).</p>
 <p>In the Sullivan lab, we use a nigh identical scheme, except that “lmodfiles” is “modulefiles” for greater clarity on
 what the folder is storing vs what system it’s actually running.</p>
-</section>
-</section>
-<section id="singularity">
+</div>
+</div>
+<div class="section" id="singularity">
 <h2>Singularity<a class="headerlink" href="#singularity" title="Permalink to this headline">¶</a></h2>
 <p>Forthcoming!</p>
-</section>
-</section>
+</div>
+</div>
 
 
-            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -222,15 +221,17 @@ what the folder is storing vs what system it’s actually running.</p>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
+  <h3>Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -247,13 +248,12 @@ what the folder is storing vs what system it’s actually running.</p>
         <li class="right" >
           <a href="QIIME2.html" title="QIIME2"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Building Modules and Tools on OSC</a></li> 
+        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2019, Benjamin Bolduc.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
     </div>
   </body>
 </html>

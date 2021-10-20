@@ -42,7 +42,8 @@ Installing MeaPathways2
 MetaPathways2 handles most of the processing from bins (MAGs) to the pathways part of the pipeline. To identify pathways,
 it runs Pathway Tools and collects the results from that tool to integrate it into its [MetaPathways2] final results.
 
-Complete instructions (far more detailed and... from the actual authors) are available `here <https://github.com/hallamlab/metapathways2>`_
+Complete instructions (far more detailed and... from the actual authors) are available
+at the `metapathways2 <https://github.com/hallamlab/metapathways2>`_ documentation.
 
 On Mac/Ubuntu/OSC
 ^^^^^^^^^^^^^^^^^
