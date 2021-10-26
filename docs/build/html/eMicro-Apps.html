@@ -182,8 +182,15 @@ inform the classification algorithm</p>
 <p><strong>Singularity use</strong>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
 singularity run /users/PAS1117/osu9664/eMicro-Apps/Kraken-2.1.2.sif
+
+<span class="c1"># To run against the standard database  # For PAS1573</span>
+singularity run /users/PAS1117/osu9664/eMicro-Apps/Kraken-2.1.2.sif --db /fs/project/PAS1573/modules/sequence_dbs/kraken2_dbs/standard --gzip-compressed --paired --classified-out Reads_R#.fastq.gz Reads_1.fastq.gz Reads_2.fastq.gz &gt; kraken2_results
+
+<span class="c1"># To run against the standard database  # For PAS1117</span>
+singularity run /users/PAS1117/osu9664/eMicro-Apps/Kraken-2.1.2.sif --db /fs/project/PAS1117/modules/sequence_dbs/kraken2_dbs/standard --gzip-compressed --paired --classified-out Reads_R#.fastq.gz Reads_1.fastq.gz Reads_2.fastq.gz &gt; kraken2_results
 </pre></div>
 </div>
+<p>Note: Please check the kraken2_dbs folder for additional databases!</p>
 </div>
 <div class="section" id="multiqc">
 <h3>MultiQC<a class="headerlink" href="#multiqc" title="Permalink to this headline">¶</a></h3>
@@ -1005,12 +1012,47 @@ genome fragments, and identification of closed genomes.</p>
 <span class="c1"># For PAS1117 users</span>
 module use /fs/project/PAS1117/modulefiles
 module load singularityImages
-CheckV-2020.04.27.sif --help
+CheckV-0.8.1.sif --help
 
 <span class="c1"># For eMicro</span>
-singularity run /users/PAS1117/osu9664/eMicro-Apps/CheckV-2020.04.27.sif
+singularity run /users/PAS1117/osu9664/eMicro-Apps/CheckV-0.8.1.sif
 </pre></div>
 </div>
+</div>
+<div class="section" id="checkv-clustering">
+<h3>CheckV Clustering<a class="headerlink" href="#checkv-clustering" title="Permalink to this headline">¶</a></h3>
+<p>This uses two scripts <em>already available</em> in CheckV to deduplicate/dereplicate sequence data.</p>
+<p><strong>Website</strong>: <a class="reference external" href="https://bitbucket.org/berkeleylab/checkv">https://bitbucket.org/berkeleylab/checkv</a></p>
+<p><strong>Reference</strong>: Nayfach, S. et al. CheckV assesses the quality and completeness of metagenome-assembled viral genomes.
+Nat. Biotechnol. (2020). doi:10.1038/s41587-020-00774-7</p>
+<p><strong>Short description</strong>: CheckV is a fully automated command-line pipeline for assessing the quality of single-contig
+viral genomes, including identification of host contamination for integrated proviruses, estimating completeness for
+genome fragments, and identification of closed genomes.</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+
+<span class="c1"># For PAS1117 users</span>
+module use /fs/project/PAS1117/modulefiles
+module load singularityImages
+CheckV-0.8.1-ClusterONLY.sif -i &lt;input-fasta&gt; -t &lt;threads&gt; -o &lt;output-dir&gt; --min-ani &lt;min_ani&gt; --min-qcov &lt;min_query_coverage&gt; --min-tcov &lt;min_target_coverage&gt;
+
+<span class="c1"># For eMicro and PAS1573</span>
+singularity run CheckV-0.8.1-ClusterONLY.sif -i &lt;input-fasta&gt; -t &lt;threads&gt; -o &lt;output-dir&gt;
+
+<span class="c1"># For additional help</span>
+CheckV-0.8.1-ClusterONLY.sif --help
+</pre></div>
+</div>
+<p><strong>Module use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use /fs/project/PAS1117/modulefiles
+module load blast/2.11.0+
+module load CheckV/2021.02.03
+module load python/biopython3
+
+CheckV-Deduplication.py -i &lt;input-fasta&gt; -t &lt;threads&gt; -o &lt;output-dir&gt; --min-ani &lt;min_ani&gt; --min-qcov &lt;min_query_coverage&gt; --min-tcov &lt;min_target_coverage&gt;
+</pre></div>
+</div>
+<p><strong>Notes</strong>: 206K viral contigs can be dereplicated to 52K in 1 hr 30 min</p>
 </div>
 <div class="section" id="deepvirfinder">
 <h3>DeepVirFinder<a class="headerlink" href="#deepvirfinder" title="Permalink to this headline">¶</a></h3>
@@ -1233,7 +1275,17 @@ determination of genome completeness, and characterization of virome function fr
 neural networks of protein annotation signatures and genomic features to maximize identification of highly diverse
 partial or complete viral genomes as well as excise integrated proviruses.</p>
 <p><strong>Singularity use</strong>:</p>
-<p>coming soon…</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+
+<span class="c1"># For eMicro and PAS1573</span>
+singularity run /users/PAS1117/osu9664/eMicro-Apps/VIBRANT-1.2.1.sif -i &lt;input-fasta&gt; -m /users/PAS1117/osu9664/eMicro-Apps/vibrant_dbs/20211025
+
+module use /fs/project/PAS1117/modulefiles
+module load singularityImages
+VIBRANT-1.2.1.sif -i &lt;input-fasta&gt; -m /fs/project/PAS1117/modules/sequence_dbs/VIBRANT/20211025
+</pre></div>
+</div>
+<p>Note: There may be numerous DeprecationWarning. They can be safely ignored.</p>
 <p><strong>Module use</strong>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use /fs/project/PAS1117/modulefiles
 module load VIBRANT/1.1.0
@@ -1606,6 +1658,22 @@ publication-quality gene cluster comparison figures.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use /fs/project/PAS1117/modulefiles
 module load Clinker/Clinker
 clinker --help
+</pre></div>
+</div>
+</div>
+<div class="section" id="kronatools">
+<h3>KronaTools<a class="headerlink" href="#kronatools" title="Permalink to this headline">¶</a></h3>
+<p><strong>Website</strong>: <a class="reference external" href="https://github.com/marbl/Krona/tree/master/KronaTools">https://github.com/marbl/Krona/tree/master/KronaTools</a></p>
+<p><strong>Manual</strong>: <a class="reference external" href="https://github.com/marbl/Krona/wiki/KronaTools">https://github.com/marbl/Krona/wiki/KronaTools</a></p>
+<p><strong>Reference</strong>: Ondov BD, Bergman NH, and Phillippy AM. Interactive metagenomic visualization in a Web browser.
+BMC Bioinformatics. 2011 Sep 30; 12(1):385.</p>
+<p><strong>Short description</strong>: Krona Tools is a set of scripts to create Krona charts from several Bioinformatics tools as
+well as from text and XML files.</p>
+<p><strong>Module use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use /fs/project/PAS1117/modulefiles
+module load KronaTools/2.8
+<span class="c1"># There are a large number of kt* tools available, see the documentation for a full list</span>
+ktImportTaxonomy --help
 </pre></div>
 </div>
 </div>
@@ -1998,6 +2066,7 @@ module load mcl/14.137
 </li>
 <li><a class="reference internal" href="#viral-analyses">Viral Analyses</a><ul>
 <li><a class="reference internal" href="#checkv">CheckV</a></li>
+<li><a class="reference internal" href="#checkv-clustering">CheckV Clustering</a></li>
 <li><a class="reference internal" href="#deepvirfinder">DeepVirFinder</a></li>
 <li><a class="reference internal" href="#dram-v">DRAM-v</a></li>
 <li><a class="reference internal" href="#iva">IVA</a></li>
@@ -2040,6 +2109,7 @@ module load mcl/14.137
 <li><a class="reference internal" href="#sra-toolkit">SRA Toolkit</a></li>
 <li><a class="reference internal" href="#entrez-direct">Entrez Direct</a></li>
 <li><a class="reference internal" href="#clinker">Clinker</a></li>
+<li><a class="reference internal" href="#kronatools">KronaTools</a></li>
 <li><a class="reference internal" href="#spclust">SpClust</a></li>
 <li><a class="reference internal" href="#supercrunch">SuperCRUNCH</a></li>
 <li><a class="reference internal" href="#nonpareil">Nonpareil</a></li>

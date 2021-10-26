@@ -197,6 +197,15 @@ inform the classification algorithm
     module load singularity/current
     singularity run /users/PAS1117/osu9664/eMicro-Apps/Kraken-2.1.2.sif
 
+    # To run against the standard database  # For PAS1573
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/Kraken-2.1.2.sif --db /fs/project/PAS1573/modules/sequence_dbs/kraken2_dbs/standard --gzip-compressed --paired --classified-out Reads_R#.fastq.gz Reads_1.fastq.gz Reads_2.fastq.gz > kraken2_results
+
+    # To run against the standard database  # For PAS1117
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/Kraken-2.1.2.sif --db /fs/project/PAS1117/modules/sequence_dbs/kraken2_dbs/standard --gzip-compressed --paired --classified-out Reads_R#.fastq.gz Reads_1.fastq.gz Reads_2.fastq.gz > kraken2_results
+
+Note: Please check the kraken2_dbs folder for additional databases!
+
+
 MultiQC
 ~~~~~~~
 
@@ -1294,10 +1303,56 @@ genome fragments, and identification of closed genomes.
     # For PAS1117 users
     module use /fs/project/PAS1117/modulefiles
     module load singularityImages
-    CheckV-2020.04.27.sif --help
+    CheckV-0.8.1.sif --help
 
     # For eMicro
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/CheckV-2020.04.27.sif
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/CheckV-0.8.1.sif
+
+CheckV Clustering
+~~~~~~~~~~~~~~~~~~
+
+This uses two scripts *already available* in CheckV to deduplicate/dereplicate sequence data.
+
+**Website**: https://bitbucket.org/berkeleylab/checkv
+
+**Reference**: Nayfach, S. et al. CheckV assesses the quality and completeness of metagenome-assembled viral genomes.
+Nat. Biotechnol. (2020). doi:10.1038/s41587-020-00774-7
+
+**Short description**: CheckV is a fully automated command-line pipeline for assessing the quality of single-contig
+viral genomes, including identification of host contamination for integrated proviruses, estimating completeness for
+genome fragments, and identification of closed genomes.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+
+    # For PAS1117 users
+    module use /fs/project/PAS1117/modulefiles
+    module load singularityImages
+    CheckV-0.8.1-ClusterONLY.sif -i <input-fasta> -t <threads> -o <output-dir> --min-ani <min_ani> --min-qcov <min_query_coverage> --min-tcov <min_target_coverage>
+
+    # For eMicro and PAS1573
+    singularity run CheckV-0.8.1-ClusterONLY.sif -i <input-fasta> -t <threads> -o <output-dir>
+
+    # For additional help
+    CheckV-0.8.1-ClusterONLY.sif --help
+
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load blast/2.11.0+
+    module load CheckV/2021.02.03
+    module load python/biopython3
+
+    CheckV-Deduplication.py -i <input-fasta> -t <threads> -o <output-dir> --min-ani <min_ani> --min-qcov <min_query_coverage> --min-tcov <min_target_coverage>
+
+
+**Notes**: 206K viral contigs can be dereplicated to 52K in 1 hr 30 min
 
 DeepVirFinder
 ~~~~~~~~~~~~~
@@ -1597,7 +1652,20 @@ partial or complete viral genomes as well as excise integrated proviruses.
 
 **Singularity use**:
 
-coming soon...
+.. code-block:: bash
+
+    module load singularity/current
+
+    # For eMicro and PAS1573
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/VIBRANT-1.2.1.sif -i <input-fasta> -m /users/PAS1117/osu9664/eMicro-Apps/vibrant_dbs/20211025
+
+    module use /fs/project/PAS1117/modulefiles
+    module load singularityImages
+    VIBRANT-1.2.1.sif -i <input-fasta> -m /fs/project/PAS1117/modules/sequence_dbs/VIBRANT/20211025
+
+
+Note: There may be numerous DeprecationWarning. They can be safely ignored.
+
 
 **Module use**:
 
@@ -2115,6 +2183,27 @@ publication-quality gene cluster comparison figures.
     module load Clinker/Clinker
     clinker --help
 
+KronaTools
+~~~~~~~~~~~
+
+**Website**: https://github.com/marbl/Krona/tree/master/KronaTools
+
+**Manual**: https://github.com/marbl/Krona/wiki/KronaTools
+
+**Reference**: Ondov BD, Bergman NH, and Phillippy AM. Interactive metagenomic visualization in a Web browser.
+BMC Bioinformatics. 2011 Sep 30; 12(1):385.
+
+**Short description**: Krona Tools is a set of scripts to create Krona charts from several Bioinformatics tools as
+well as from text and XML files.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load KronaTools/2.8
+    # There are a large number of kt* tools available, see the documentation for a full list
+    ktImportTaxonomy --help
 
 
 SpClust
