@@ -1223,6 +1223,7 @@ transfer identification through the combination of best-match and phylogenetic a
     module use /fs/project/PAS1117/modulefiles
     module load MetaCHIP
 
+
 VSEARCH
 ~~~~~~~
 
@@ -1308,6 +1309,7 @@ genome fragments, and identification of closed genomes.
     # For eMicro
     singularity run /users/PAS1117/osu9664/eMicro-Apps/CheckV-0.8.1.sif
 
+
 CheckV Clustering
 ~~~~~~~~~~~~~~~~~~
 
@@ -1353,6 +1355,7 @@ genome fragments, and identification of closed genomes.
 
 
 **Notes**: 206K viral contigs can be dereplicated to 52K in 1 hr 30 min
+
 
 DeepVirFinder
 ~~~~~~~~~~~~~
