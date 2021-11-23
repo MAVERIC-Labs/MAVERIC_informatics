@@ -1,19 +1,18 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Modules and Tools on OSC &#8212; MAVERIC Informatics  documentation</title>
-    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="R" href="R.html" />
@@ -31,7 +30,8 @@
         <li class="right" >
           <a href="eMicro-Apps.html" title="Available Environmental Microbiology (“eMicro”) Apps and Tools"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Modules and Tools on OSC</a></li> 
       </ul>
     </div>  
 
@@ -40,28 +40,28 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="modules-and-tools-on-osc">
+  <section id="modules-and-tools-on-osc">
 <span id="tools"></span><h1>Modules and Tools on OSC<a class="headerlink" href="#modules-and-tools-on-osc" title="Permalink to this headline">¶</a></h1>
 <p>On OSC there are a number of different ways to run a tool/app/executable/binary/etc.</p>
 <ol class="arabic simple">
-<li>Directly</li>
-<li>Loading a module</li>
-<li>Executing/running a Singularity container</li>
+<li><p>Directly</p></li>
+<li><p>Loading a module</p></li>
+<li><p>Executing/running a Singularity container</p></li>
 </ol>
 <p>The easiest way of illustrating this point is to use NCBI’s BLAST+ set of tools. For example, if we want to compare our
 set of proteins (myProteins.faa) against NCBI’s non-redundant (nr) database, we need to load and run blastp
 (protein-protein comparison).</p>
-<div class="section" id="running-tools">
+<section id="running-tools">
 <h2>Running Tools<a class="headerlink" href="#running-tools" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="directly">
+<section id="directly">
 <h3>Directly<a class="headerlink" href="#directly" title="Permalink to this headline">¶</a></h3>
 <p>If you know the exact location of the blastp executable on the system, then you can call the program directly using the
 “full path” to the executable:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/fs/project/PAS1573/tools/ncbi-blast+/2.8.0+/bin/blastp -query myProteins.faa -db nr --outfmt <span class="m">6</span> -out myProteins-vs-NR.tsv
 </pre></div>
 </div>
-</div>
-<div class="section" id="using-modules">
+</section>
+<section id="using-modules">
 <h3>Using Modules<a class="headerlink" href="#using-modules" title="Permalink to this headline">¶</a></h3>
 <p>Sometimes a tool requires other tools as dependencies or you might want to run a pipeline of tools, and you don’t want
 to remember the full path to every tool. Instead, you can build and/or load a module, which extends your $PATH (i.e.
@@ -85,8 +85,8 @@ rpsblast -query myProteins.fna -db CDD --outfmt <span class="m">6</span> -out my
 load one module for the entire collection of BLAST+ tools. In reality, the BLAST+ module we loaded <em>does load</em> the
 BLAST+ family, but it serves to illustrate this example. One module = many tools.</p>
 <p>For a complete description of how to build your own modules, go to <a class="reference internal" href="Building-Modules-and-Tools.html#buildingtools"><span class="std std-ref">Building Modules and Tools on OSC</span></a>.</p>
-</div>
-<div class="section" id="singularity-containers">
+</section>
+<section id="singularity-containers">
 <h3>Singularity containers<a class="headerlink" href="#singularity-containers" title="Permalink to this headline">¶</a></h3>
 <p>For some tools, they might require dependencies that OSC won’t install, or can’t. These are often tools or libraries that
 need to be installed system-wide. The problem is that oftentimes dependencies among tools can conflict, so OSC doesn’t
@@ -119,11 +119,12 @@ blastp.simg -query myProteins.faa -db nr --outfmt <span class="m">6</span> -out 
 <p>Notice in the last line you don’t even need to call singularity? That’s because the Singularity container is smart enough
 to tell the system that it needs Singularity to execute it.</p>
 <p>For a complete description of how to build your own modules, go to <a class="reference internal" href="Building-Modules-and-Tools.html#buildingtools"><span class="std std-ref">Building Modules and Tools on OSC</span></a>.</p>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -156,17 +157,15 @@ to tell the system that it needs Singularity to execute it.</p>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -183,12 +182,13 @@ to tell the system that it needs Singularity to execute it.</p>
         <li class="right" >
           <a href="eMicro-Apps.html" title="Available Environmental Microbiology (“eMicro”) Apps and Tools"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">MAVERIC Informatics  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Modules and Tools on OSC</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2019, Benjamin Bolduc.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
     </div>
   </body>
 </html>
