@@ -232,6 +232,28 @@ use tool, perfect for summarising the output from numerous bioinformatics tools
     module load MultiQC
 
 
+NanoFilt
+~~~~~~~~
+
+**Website**: https://github.com/wdecoster/nanofilt
+
+**Short Description**: Filtering and trimming of long read sequencing data.
+
+**Reference**: De Coster, W., D’Hert, S., Schultz, D. T., Cruts, M. & Van Broeckhoven, C. NanoPack: visualizing and
+processing long-read sequencing data. Bioinformatics 34, 2666–2669 (2018). https://doi.org/10.1093/bioinformatics/bty149
+
+**Singularity Use**:
+
+Forthcoming...
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load Nanofilt/2.8.0
+
+
 QUAST/MetaQUAST
 ~~~~~~~~~~~~~~~
 
@@ -705,54 +727,6 @@ Annotation and Analyses
 
 This is a catch-all category that doesn't fit with the other sections.
 
-Prokka
-~~~~~~
-
-**Reference**: Seemann T. Prokka: rapid prokaryotic genome annotation Bioinformatics 2014 Jul 15;30(14):2068-9.
-PMID:24642063
-
-**Short description**: Prokka is a software tool to annotate bacterial, archaeal and viral genomes quickly and produce
-standards-compliant output files
-
-**Singularity use**:
-
-.. code-block:: bash
-
-    module load singularity/current
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/Prokka-1.12.0.img
-
-**Module use**:
-
-.. code-block:: bash
-
-    module use /fs/project/PAS1117/modulefiles
-    module load Prokka/1.13
-
-Diamond
-~~~~~~~
-
-**Reference**: B. Buchfink, Xie C., D. Huson, "Fast and sensitive protein alignment using DIAMOND", Nature Methods 12,
-59-60 (2015)
-
-**Short description**: DIAMOND is a sequence aligner for protein and translated DNA searches, designed for high
-performance analysis of big sequence data.
-
-**Singularity use**:
-
-.. code-block:: bash
-
-    module load singularity/current
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/Diamond-0.9.26.sif
-
-**Module use**:
-
-.. code-block:: bash
-
-    module use /fs/project/PAS1117/modulefiles
-    module load diamond/0.9.24
-
-    # OR
-    module load diamond/ 2.0.5
 
 CAT
 ~~~
@@ -781,30 +755,6 @@ databases installed.
     module use /fs/project/PAS1117/modulefiles
     module load CAT/4.3.3
 
-InterProScan
-~~~~~~~~~~~~
-
-**Website**: https://github.com/ebi-pf-team/interproscan
-
-**Reference**: Quevillon, E. et al. InterProScan: protein domains identifier. Nucleic Acids Res. 33, W116–W120 (2005).
-
-**Short description**: InterPro is a database which integrates together predictive information about proteins’
-function from a number of partner resources, giving an overview of the families that a protein belongs to and the
-domains and sites it contains.
-
-Users who have novel nucleotide or protein sequences that they wish to functionally characterise can use the software
-package InterProScan to run the scanning algorithms from the InterPro database in an integrated way. Sequences are
-submitted in FASTA format. Matches are then calculated against all of the required member database’s signatures and
-the results are then output in a variety of formats.
-
-**Module use**:
-
-.. code-block:: bash
-
-    module use /fs/project/PAS1117/modulefiles
-    module load InterProScan/5.36-75.0
-
-    interproscan.sh <rest-of-command>
 
 Centrifuge
 ~~~~~~~~~~
@@ -835,6 +785,103 @@ enable timely and accurate analysis of large metagenomics data sets on conventio
 
     module use /fs/project/PAS1117/modulefiles
     module load centrifuge/1.0.3
+
+
+CheckM
+~~~~~~
+
+**Website**: https://github.com/Ecogenomics/CheckM
+
+**Reference**: Parks DH, Imelfort M, Skennerton CT, Hugenholtz P, Tyson GW. 2015. CheckM: assessing the quality of
+microbial genomes recovered from isolates, single cells, and metagenomes. Genome Research, 25: 1043–1055.
+
+**Short description**: CheckM provides a set of tools for assessing the quality of genomes recovered from isolates,
+single cells, or metagenomes. It provides robust estimates of genome completeness and contamination by using collocated
+sets of genes that are ubiquitous and single-copy within a phylogenetic lineage.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/CheckM-1.0.18.sif
+
+
+Diamond
+~~~~~~~
+
+**Reference**: B. Buchfink, Xie C., D. Huson, "Fast and sensitive protein alignment using DIAMOND", Nature Methods 12,
+59-60 (2015)
+
+**Short description**: DIAMOND is a sequence aligner for protein and translated DNA searches, designed for high
+performance analysis of big sequence data.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/Diamond-0.9.26.sif
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load diamond/0.9.24
+
+    # OR
+    module load diamond/ 2.0.5
+
+Prokka
+~~~~~~
+
+**Reference**: Seemann T. Prokka: rapid prokaryotic genome annotation Bioinformatics 2014 Jul 15;30(14):2068-9.
+PMID:24642063
+
+**Short description**: Prokka is a software tool to annotate bacterial, archaeal and viral genomes quickly and produce
+standards-compliant output files
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/Prokka-1.12.0.img
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load Prokka/1.13
+
+
+InterProScan
+~~~~~~~~~~~~
+
+**Website**: https://github.com/ebi-pf-team/interproscan
+
+**Reference**: Quevillon, E. et al. InterProScan: protein domains identifier. Nucleic Acids Res. 33, W116–W120 (2005).
+
+**Short description**: InterPro is a database which integrates together predictive information about proteins’
+function from a number of partner resources, giving an overview of the families that a protein belongs to and the
+domains and sites it contains.
+
+Users who have novel nucleotide or protein sequences that they wish to functionally characterise can use the software
+package InterProScan to run the scanning algorithms from the InterPro database in an integrated way. Sequences are
+submitted in FASTA format. Matches are then calculated against all of the required member database’s signatures and
+the results are then output in a variety of formats.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load InterProScan/5.36-75.0
+
+    interproscan.sh <rest-of-command>
+
 
 SortMeRNA
 ~~~~~~~~~
@@ -975,35 +1022,6 @@ files used in the assembly...
     module load singularity/current
     singularity run /users/PAS1117/osu9664/eMicro-Apps/CoverM-0.2.0-alpha7.sif genome --genome-fasta-directory <path-to-bins> -x fna --coupled <reads1.fastq> <reads2.fastq> --output-format sparse --min-read-percent-identity .95 --min-read-aligned-percent .75 --min-covered-fraction .75 > coverage_table.csv
 
-Alternatively, if you want to ...
-
-
-SingleM
-~~~~~~~
-
-**Website**: https://github.com/wwood/singlem
-
-**Short description**: SingleM is a tool to find the abundances of discrete operational taxonomic units (OTUs) directly
-from shotgun metagenome data, without heavy reliance on reference sequence databases. It is able to differentiate
-closely related species even if those species are from lineages new to science.
-
-**Singularity use**:
-
-.. code-block:: bash
-
-    module load singularity/current
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/SingleM-0.8.1.img
-
-    # Generate OTU table from RAW metagenomic data
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/SingleM-0.8.1.img pipe --sequences my_sequences.fastq.gz --otu_table otu_table.csv --threads <threads>
-
-    # Summarize OTU table in Krona plot
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/SingleM-0.8.1.img summarise --input_otu_tables otu_table.csv --krona krona_plot.html
-
-There are a lot more options are customization than is presented here. Check the documentation for more information.
-Remember, anything after "singlem" in a command can be copy-and-pasted after the "SingleM.img" in the above examples.
-
-The latest version is 0.13.0. This will be updated alongside GraftM.
 
 GraftM
 ~~~~~~~
@@ -1049,6 +1067,7 @@ designed to be used in conjunction with Docker-BatchBowtie.
     module load singularity/current
     singularity run /users/PAS1117/osu9664/eMicro-Apps/Read2RefMapper-1.1.1.simg --dir ${readsDir} --metagenome-sizes reads2refmapper_mysample.csv --num-threads 40 --coverages coverage_table.csv --cov_filter 70 --percent-id 0.95 --percent-aln 0.75 --coverage-mode tpmean --output-fmt png --dpi 300 --log read2refmapper.log
 
+
 ClusterGenomes
 ~~~~~~~~~~~~~~
 
@@ -1067,6 +1086,42 @@ and short sequences with high accuracy.
     singularity run /users/PAS1117/osu9664/eMicro-Apps/ClusterGenomes-1.1.3.img -f <input-viral-genomes.fasta> -c <coverage> -i <identity> -o <output-directory>
 
 Note: Both coverage and identity are 0 - 100, *not* 0.0 - 1.0.
+
+
+DRAM
+~~~~
+
+**Website**: https://github.com/shafferm/DRAM
+
+**Short description**: DRAM (Distilled and Refined Annotation of MAGs [Metagenome Assembled Genomes]) is a tool for
+annotating metagenomic assembled genomes and VIRSorter identified viral contigs. DRAM annotates MAGs and viral contigs
+using KEGG (if provided by the user), UniRef90, [PFAM (https://pfam.xfam.org/), dbCAN, RefSeq viral, VOGDB and the
+MEROPS peptidase database as well as custom user databases. DRAM is ran in two stages. Additionally viral contigs are
+further analyzed to identify potential AMGs. This is done via assigning an auxilary score and flags representing the
+likelihood that a gene is metabolic and viral. The auxiliary score represents the confidence that a gene is viral in
+origin based on surrounding genes.
+
+**PAS1573 use**: (This is now an out-of-date version but these commands will still work!)
+
+.. code-block:: bash
+
+    export PATH=/fs/project/PAS1573/week10_pathways/DRAM/bin/:$PATH
+    DRAM.py annotate -i '<path-to-bins>/*.fasta' -o dram_annotations
+    DRAM.py summarize_genomes -i dram_annotations/annotations.tsv -o dram_results --rrna_path dram_annotations/rrnas.tsv
+
+You'll notice that the command to run the tool is different, this is because of the challenge in using Singularity to
+encapsulate the package + databases.
+
+**Module use**: (This is always the most up-to-date version, barring the Wrighton lab's constant updates!)
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load DRAM
+
+    DRAM.py annotate -i '<path-to-bins>/*.fa' -o annotation
+    DRAM.py distill -i annotation/annotations.tsv -o distill --trna_path annotation/trnas.tsv --rrna_path annotation/rrnas.tsv
+
 
 dRep
 ~~~~
@@ -1108,6 +1163,29 @@ for each genome set.
     module use /fs/project/PAS1117/modulefiles
     module load dRep/2.4.2
 
+
+NanoStat
+~~~~~~~~
+
+**Website**: https://github.com/wdecoster/nanostat
+
+**Short Description**: Calculate various statistics from a long read sequencing dataset in fastq, bam or albacore sequencing summary format.
+
+**Reference**: De Coster, W., D’Hert, S., Schultz, D. T., Cruts, M. & Van Broeckhoven, C. NanoPack: visualizing and
+processing long-read sequencing data. Bioinformatics 34, 2666–2669 (2018). https://doi.org/10.1093/bioinformatics/bty149
+
+**Singularity Use**:
+
+Forthcoming...
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load Nanostat/1.6.0
+
+
 ViennaRNA
 ~~~~~~~~~
 
@@ -1123,40 +1201,6 @@ ViennaRNA
 
     module use /fs/project/PAS1117/modulefiles
     module load ViennaRNA/2.4.14
-
-DRAM
-~~~~
-
-**Website**: https://github.com/shafferm/DRAM
-
-**Short description**: DRAM (Distilled and Refined Annotation of MAGs [Metagenome Assembled Genomes]) is a tool for
-annotating metagenomic assembled genomes and VIRSorter identified viral contigs. DRAM annotates MAGs and viral contigs
-using KEGG (if provided by the user), UniRef90, [PFAM (https://pfam.xfam.org/), dbCAN, RefSeq viral, VOGDB and the
-MEROPS peptidase database as well as custom user databases. DRAM is ran in two stages. Additionally viral contigs are
-further analyzed to identify potential AMGs. This is done via assigning an auxilary score and flags representing the
-likelihood that a gene is metabolic and viral. The auxiliary score represents the confidence that a gene is viral in
-origin based on surrounding genes.
-
-**PAS1573 use**: (This is now an out-of-date version but these commands will still work!)
-
-.. code-block:: bash
-
-    export PATH=/fs/project/PAS1573/week10_pathways/DRAM/bin/:$PATH
-    DRAM.py annotate -i '<path-to-bins>/*.fasta' -o dram_annotations
-    DRAM.py summarize_genomes -i dram_annotations/annotations.tsv -o dram_results --rrna_path dram_annotations/rrnas.tsv
-
-You'll notice that the command to run the tool is different, this is because of the challenge in using Singularity to
-encapsulate the package + databases.
-
-**Module use**: (This is always the most up-to-date version, barring the Wrighton lab's constant updates!)
-
-.. code-block:: bash
-
-    module use /fs/project/PAS1117/modulefiles
-    module load DRAM
-
-    DRAM.py annotate -i '<path-to-bins>/*.fa' -o annotation
-    DRAM.py distill -i annotation/annotations.tsv -o distill --trna_path annotation/trnas.tsv --rrna_path annotation/rrnas.tsv
 
 
 MetaPop
@@ -1187,7 +1231,7 @@ graphical summaries of its results.
     input_coverage=data_dir/counts.txt
     bam_dir=data_dir/BAMs
 
-    MetaPop.sif -i $bam_dir -r $input_contigs --threads $threads -o $out_dir -n $input_coverage
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/MetaPop-0.35.sif -i $bam_dir -r $input_contigs --threads $threads -o $out_dir -n $input_coverage
 
 MetaPop requires:
 
@@ -1224,6 +1268,34 @@ transfer identification through the combination of best-match and phylogenetic a
     module load MetaCHIP
 
 
+SingleM
+~~~~~~~
+
+**Website**: https://github.com/wwood/singlem
+
+**Short description**: SingleM is a tool to find the abundances of discrete operational taxonomic units (OTUs) directly
+from shotgun metagenome data, without heavy reliance on reference sequence databases. It is able to differentiate
+closely related species even if those species are from lineages new to science.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/SingleM-0.8.1.img
+
+    # Generate OTU table from RAW metagenomic data
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/SingleM-0.8.1.img pipe --sequences my_sequences.fastq.gz --otu_table otu_table.csv --threads <threads>
+
+    # Summarize OTU table in Krona plot
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/SingleM-0.8.1.img summarise --input_otu_tables otu_table.csv --krona krona_plot.html
+
+There are a lot more options are customization than is presented here. Check the documentation for more information.
+Remember, anything after "singlem" in a command can be copy-and-pasted after the "SingleM.img" in the above examples.
+
+The latest version is 0.13.0. This will be updated alongside GraftM.
+
+
 VSEARCH
 ~~~~~~~
 
@@ -1258,30 +1330,47 @@ limits the available system memory to 4 GB, hardly sufficient to do large-scale 
 
 **Note**: VSEARCH has **a lot** of options. So. Many.
 
-CheckM
-~~~~~~
 
-**Website**: https://github.com/Ecogenomics/CheckM
+Virus Analyses
+--------------
 
-**Reference**: Parks DH, Imelfort M, Skennerton CT, Hugenholtz P, Tyson GW. 2015. CheckM: assessing the quality of
-microbial genomes recovered from isolates, single cells, and metagenomes. Genome Research, 25: 1043–1055.
+"Consider something viral in your research" - Forest Rohwer
 
-**Short description**: CheckM provides a set of tools for assessing the quality of genomes recovered from isolates,
-single cells, or metagenomes. It provides robust estimates of genome completeness and contamination by using collocated
-sets of genes that are ubiquitous and single-copy within a phylogenetic lineage.
+Cenote-Taker2
+~~~~~~~~~~~~~
+
+**Website**: https://github.com/mtisza1/Cenote-Taker2
+
+**Reference**: Tisza, M. J., Belford, A. K., Domínguez-Huerta, G., Bolduc, B. & Buck, C. B. Cenote-Taker 2 democratizes virus discovery and sequence annotation. Virus Evol. 7, 1–12 (2021). doi:10.1093/ve/veaa100
+
+**Short description**: Cenote-Taker 2 is a dual function bioinformatics tool. On the one hand, Cenote-Taker 2
+discovers/predicts virus sequences from any kind of genome or metagenomic assembly. Second, virus sequences/genomes
+are annotated with a variety of sequences features, genes, and taxonomy. Either the discovery or the the annotation
+module can be used independently.
 
 **Singularity use**:
 
 .. code-block:: bash
 
     module load singularity/current
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/CheckM-1.0.18.sif
 
+    # For PAS1117 users
+    module use /fs/project/PAS1117/modulefiles
+    module load singularityImages
+    Cenote-Taker2-2.1.3_osc.sif --contigs <contigs> --run_title <run title> --template_file <template file>
 
-Viral Analyses
---------------
+**Notes**: There is an *extensive* list of parameters for Cenote-Taker2 and their values. Call them with "--help".
 
-"Consider something viral in your research" - Forest Rohwer
+**Notes**: There is currently no eMicro equivalent, mainly due to the size of the required databases. We're working
+to fix this issue.
+
+For those who want to repeat the "defaults" of the CyVerse app:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run /fs/project/PAS1117/modules/singularity/Cenote-Taker2-2.1.3_osc.sif --contigs testcontigs_DNA_ct2.fasta --run_title run_title --template_file 010226_6435_template.sbt --prune_prophage True --cpu 68 --mem 92 -am False --minimum_length_circular 1000 --minimum_length_linear 1000 --virus_domain_db standard --lin_minimum_hallmark_genes 1 --circ_minimum_hallmark_genes 1 --enforce_start_codon False --hhsuite_tool hhblits --isolation_source unknown --Environmental_sample False --molecule_type DNA --data_source original --filter_out_plasmids False --orf-within-orf False
+
 
 CheckV
 ~~~~~~
@@ -1522,8 +1611,9 @@ Clostridium difficile phages and 5 phages whose sequences where retrieved from t
     module use /fs/project/PAS1117/modulefiles
     module load PhageTerm/1.0.11
     # OR
-    module load PhageTerm/3.1.0
+    module load PhageTerm/4.0.0
 
+Note: PhageTerm is installed under numerous versions. Ensure you're using the version you think you're using.
 
 
 PHANOTATE
