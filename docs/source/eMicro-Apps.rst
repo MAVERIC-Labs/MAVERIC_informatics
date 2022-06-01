@@ -2602,7 +2602,7 @@ iPHoP
 
 **Reference**: https://bitbucket.org/srouxjgi/iphop
 
-**Short description**: iPHoP stands for **i**\ntegrated **P**\hage **H**\ost **P**\rediction. It is an automated
+**Short description**: iPHoP stands for **i**\ntegrated **P**\hage **H**o\st **P**\rediction. It is an automated
 command-line pipeline for predicting host genus of novel bacteriophages and archaeoviruses based on their genome sequences.
 
 **Module use**:
@@ -2620,7 +2620,7 @@ command-line pipeline for predicting host genus of novel bacteriophages and arch
     iphop predict --fa_file test_input_phages.fna --db_dir $DB_TEST --out_dir iphop_test_results
 
     # Alternatively, run with FULL database
-    iphop predict --fa_file test_input_phages.fna --db_dir $DB_TEST --out_dir iphop_test_results
+    iphop predict --fa_file test_input_phages.fna --db_dir $DB --out_dir iphop_test_results
     ### Welcome to iPHoP ###
     Looks like everything is now set up, we will first clean up the input file, and then we will start the host prediction steps themselves
     [1/1/Run] Running blastn against genomes...

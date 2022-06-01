@@ -1939,7 +1939,7 @@ WIsH -c predict -g phageContigsDir -m modelDir -r outputResultDir -b <span class
 <h3>iPHoP<a class="headerlink" href="#iphop" title="Permalink to this headline">¶</a></h3>
 <p><strong>Website</strong>: <a class="reference external" href="https://bitbucket.org/srouxjgi/iphop">https://bitbucket.org/srouxjgi/iphop</a></p>
 <p><strong>Reference</strong>: <a class="reference external" href="https://bitbucket.org/srouxjgi/iphop">https://bitbucket.org/srouxjgi/iphop</a></p>
-<p><strong>Short description</strong>: iPHoP stands for <strong>i</strong>ntegrated <strong>P</strong>hage <strong>H</strong>ost <strong>P</strong>rediction. It is an automated
+<p><strong>Short description</strong>: iPHoP stands for <strong>i</strong>ntegrated <strong>P</strong>hage <strong>H**ost **P</strong>rediction. It is an automated
 command-line pipeline for predicting host genus of novel bacteriophages and archaeoviruses based on their genome sequences.</p>
 <p><strong>Module use</strong>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use /fs/project/PAS1117/modulefiles
@@ -1953,7 +1953,7 @@ wget https://bitbucket.org/srouxjgi/iphop/raw/7319bbb6d3c4a8dac5e4bd613847c40ad9
 iphop predict --fa_file test_input_phages.fna --db_dir <span class="nv">$DB_TEST</span> --out_dir iphop_test_results
 
 <span class="c1"># Alternatively, run with FULL database</span>
-iphop predict --fa_file test_input_phages.fna --db_dir <span class="nv">$DB_TEST</span> --out_dir iphop_test_results
+iphop predict --fa_file test_input_phages.fna --db_dir <span class="nv">$DB</span> --out_dir iphop_test_results
 <span class="c1">### Welcome to iPHoP ###</span>
 Looks like everything is now <span class="nb">set</span> up, we will first clean up the input file, and <span class="k">then</span> we will start the host prediction steps themselves
 <span class="o">[</span><span class="m">1</span>/1/Run<span class="o">]</span> Running blastn against genomes...
