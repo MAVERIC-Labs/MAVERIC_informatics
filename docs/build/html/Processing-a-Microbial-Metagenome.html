@@ -239,13 +239,13 @@ memory or due to the dataset complexity. There’s only so much you can do.</p>
 <p>However, our example dataset will finish on OSC within a few hours. Below is the bash script that can be submitted to OSC
 that should assemble your data.</p>
 <p><em>This will run SPAdes on the Trimmomatic-cleaned reads, alternatives are below</em>.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">#PBS -l walltime=12:00:00</span>
-<span class="c1">#PBS -l nodes=1:ppn=40</span>
-<span class="c1">#PBS -N SPAdes_SRR7151490_Trimmomatic</span>
-<span class="c1">#PBS -A PAS1573</span>
-<span class="c1">#PBS -S /bin/bash</span>
-<span class="c1">#PBS -j oe</span>
-<span class="c1">#PBS -m ae</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">#SBATCH --time=12:00:00</span>
+<span class="c1">#SBATCH --nodes=1</span>
+<span class="c1">#SBATCH --ntasks=40</span>
+<span class="c1">#SBATCH --job-name=SPAdes_SRR7151490_Trimmomatic</span>
+<span class="c1">#SBATCH --account=PAS1573</span>
+<span class="c1">#SBATCH --mail-type=START</span>
+<span class="c1">#SBATCH --mail-type=END</span>
 
 <span class="c1"># Load modules that we&#39;ll need</span>
 module load singularity
@@ -279,7 +279,7 @@ module load singularity
 </pre></div>
 </div>
 <p>Submit using:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qsub spades_assembly_trimmomatic_reads.sh
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbatch spades_assembly_trimmomatic_reads.sh
 </pre></div>
 </div>
 <p>Please see the OSC guide for how this job script was created. Since I’m familiar with the sample background (sample
@@ -311,13 +311,13 @@ copying-and-pasting the whole bash script, i’ll only highlight the changes:</p
 <p>About the same amount of resources. It makes sense since our reads were trimmed a tiny amount and there wasn’t much
 difference between them anyway.</p>
 <p>And now, what if we wanted to use a different assembler, let’s say MEGAHIT?</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">#PBS -l walltime=2:00:00</span>
-<span class="c1">#PBS -l nodes=1:ppn=40</span>
-<span class="c1">#PBS -N METAHIT_SRR7151490_Trimmomatic</span>
-<span class="c1">#PBS -A PAS1573</span>
-<span class="c1">#PBS -S /bin/bash</span>
-<span class="c1">#PBS -j oe</span>
-<span class="c1">#PBS -m ae</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">#SBATCH --time=2:00:00</span>
+<span class="c1">#SBATCH --nodes=1</span>
+<span class="c1">#SBATCH --ntasks=40</span>
+<span class="c1">#SBATCH --job-name=METAHIT_SRR7151490_Trimmomatic</span>
+<span class="c1">#SBATCH --account=PAS1573</span>
+<span class="c1">#SBATCH --mail-type=START</span>
+<span class="c1">#SBATCH --mail-type=END</span>
 
 <span class="c1"># Load modules that we&#39;ll need</span>
 module load singularity
@@ -376,13 +376,13 @@ sys 0m4.836s
 </pre></div>
 </div>
 <p>We just converted our gzip-decompressed fastq files into fasta. Now we can submit. Let’s use BBDuk reads this time.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">#PBS -l walltime=2:00:00</span>
-<span class="c1">#PBS -l nodes=1:ppn=40</span>
-<span class="c1">#PBS -N IDBA_UD_SRR7151490_BBDuk</span>
-<span class="c1">#PBS -A PAS1573</span>
-<span class="c1">#PBS -S /bin/bash</span>
-<span class="c1">#PBS -j oe</span>
-<span class="c1">#PBS -m ae</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">#SBATCH --time=2:00:00</span>
+<span class="c1">#SBATCH --nodes=1</span>
+<span class="c1">#SBATCH --ntasks=40</span>
+<span class="c1">#SBATCH --job-name=IDBA_UD_SRR7151490_BBDuk</span>
+<span class="c1">#SBATCH --account=PAS1573</span>
+<span class="c1">#SBATCH --mail-type=START</span>
+<span class="c1">#SBATCH --mail-type=END</span>
 
 <span class="c1"># Load modules that we&#39;ll need</span>
 module load singularity
@@ -464,13 +464,13 @@ Finished jgi_summarize_bam_contig_depths at Mon Oct  <span class="m">7</span> <s
 Creating depth file <span class="k">for</span> metabat at Mon Oct  <span class="m">7</span> <span class="m">16</span>:28:49 UTC <span class="m">2019</span>
 Executing: <span class="s1">&#39;metabat2  --inFile /fs/project/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta --outFile contigs.fasta.metabat-bins-20191007_162849/bin --abdFile contigs.fasta.depth.txt&#39;</span> at Mon Oct  <span class="m">7</span> <span class="m">16</span>:28:49 UTC <span class="m">2019</span>
 MetaBAT <span class="m">2</span> <span class="o">(</span>v2.14<span class="o">)</span> using minContig <span class="m">2500</span>, minCV <span class="m">1</span>.0, minCVSum <span class="m">1</span>.0, maxP <span class="m">95</span>%, minS <span class="m">60</span>, and maxEdges <span class="m">200</span>.
-<span class="m">8</span> bins <span class="o">(</span><span class="m">22664127</span> bases in total<span class="o">)</span> formed.
+<span class="m">8</span> bins <span class="o">(</span><span class="m">22664127</span> bases <span class="k">in</span> total<span class="o">)</span> formed.
 </pre></div>
 </div>
 <p>The next tool we’re going to use is MaxBin2. It’s <em>probably</em> the easiest of the 3 binners we’ll use as it can handle the
 read mapping component in the background. Of course, we <em>could</em> re-use the bam files, generated earlier for MetaBAT2, but
 for this example we’ll be letting MaxBin2 handle everything!</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ singularity run /users/PAS1117/osu9664/eMicro-Apps/MaxBin2.sif -contig /fs/project/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta -reads /fs/project/PAS1573/week7_processing/trimmed_trimmomatic/SRR7151490_1_t_paired.fastq.gz -reads2 /fs/project/PAS1573/week7_processing/trimmed_trimmomatic/SRR7151490_2_t_paired.fastq.gz -out maxbin2
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ singularity run /users/PAS1117/osu9664/eMicro-Apps/MaxBin2-2.2.6.sif -contig /fs/project/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta -reads /fs/project/PAS1573/week7_processing/trimmed_trimmomatic/SRR7151490_1_t_paired.fastq.gz -reads2 /fs/project/PAS1573/week7_processing/trimmed_trimmomatic/SRR7151490_2_t_paired.fastq.gz -out maxbin2
 </pre></div>
 </div>
 <p>The last binning tool we’ll use is CONCOCT. Before getting started, we’re going to <em>index</em> our BAM-sorted file, so
@@ -538,8 +538,8 @@ MetaWRAP (that we’ll do below).</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ singularity run /users/PAS1117/osu9664/eMicro-Apps/CheckM-1.0.18.sif lineage_wf -t <span class="m">40</span> -x fa bins/spades_trimmomatic_metabat2/contigs.fasta.metabat-bins-20191007_162849 checkm_spades_trimmomatic_metabat2
 <span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:29:16<span class="o">]</span> INFO: CheckM v1.0.18
 <span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:29:16<span class="o">]</span> INFO: checkm lineage_wf -t <span class="m">40</span> -x fa bins/spades_trimmomatic_metabat2/contigs.fasta.metabat-bins-20191007_162849 checkm_spades_trimmomatic_metabat2
-<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:29:16<span class="o">]</span> INFO: <span class="o">[</span>CheckM - tree<span class="o">]</span> Placing bins in reference genome tree.
-<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:29:17<span class="o">]</span> INFO: Identifying marker genes in <span class="m">8</span> bins with <span class="m">40</span> threads:
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:29:16<span class="o">]</span> INFO: <span class="o">[</span>CheckM - tree<span class="o">]</span> Placing bins <span class="k">in</span> reference genome tree.
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:29:17<span class="o">]</span> INFO: Identifying marker genes <span class="k">in</span> <span class="m">8</span> bins with <span class="m">40</span> threads:
     Finished processing <span class="m">8</span> of <span class="m">8</span> <span class="o">(</span><span class="m">100</span>.00%<span class="o">)</span> bins.
 <span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:29:37<span class="o">]</span> INFO: Saving HMM info to file.
 <span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:29:37<span class="o">]</span> INFO: Calculating genome statistics <span class="k">for</span> <span class="m">8</span> bins with <span class="m">40</span> threads:
@@ -563,14 +563,14 @@ MetaWRAP (that we’ll do below).</p>
     Finished processing <span class="m">8</span> of <span class="m">8</span> <span class="o">(</span><span class="m">100</span>.00%<span class="o">)</span> bins <span class="o">(</span>current: bin.2<span class="o">)</span>.
 <span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:33:39<span class="o">]</span> INFO: Marker <span class="nb">set</span> written to: checkm_spades_trimmomatic_metabat2/lineage.ms
 <span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:33:39<span class="o">]</span> INFO: <span class="o">{</span> Current stage: <span class="m">0</span>:00:01.964 <span class="o">||</span> Total: <span class="m">0</span>:04:23.006 <span class="o">}</span>
-<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:33:39<span class="o">]</span> INFO: <span class="o">[</span>CheckM - analyze<span class="o">]</span> Identifying marker genes in bins.
-<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:33:40<span class="o">]</span> INFO: Identifying marker genes in <span class="m">8</span> bins with <span class="m">40</span> threads:
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:33:39<span class="o">]</span> INFO: <span class="o">[</span>CheckM - analyze<span class="o">]</span> Identifying marker genes <span class="k">in</span> bins.
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:33:40<span class="o">]</span> INFO: Identifying marker genes <span class="k">in</span> <span class="m">8</span> bins with <span class="m">40</span> threads:
     Finished processing <span class="m">8</span> of <span class="m">8</span> <span class="o">(</span><span class="m">100</span>.00%<span class="o">)</span> bins.
 <span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:34:46<span class="o">]</span> INFO: Saving HMM info to file.
 <span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:34:46<span class="o">]</span> INFO: <span class="o">{</span> Current stage: <span class="m">0</span>:01:06.748 <span class="o">||</span> Total: <span class="m">0</span>:05:29.754 <span class="o">}</span>
 <span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:34:46<span class="o">]</span> INFO: Parsing HMM hits to marker genes:
     Finished parsing hits <span class="k">for</span> <span class="m">8</span> of <span class="m">8</span> <span class="o">(</span><span class="m">100</span>.00%<span class="o">)</span> bins.
-<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:34:47<span class="o">]</span> INFO: Aligning marker genes with multiple hits in a single bin:
+<span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:34:47<span class="o">]</span> INFO: Aligning marker genes with multiple hits <span class="k">in</span> a single bin:
     Finished processing <span class="m">8</span> of <span class="m">8</span> <span class="o">(</span><span class="m">100</span>.00%<span class="o">)</span> bins.
 <span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:34:52<span class="o">]</span> INFO: <span class="o">{</span> Current stage: <span class="m">0</span>:00:06.238 <span class="o">||</span> Total: <span class="m">0</span>:05:35.993 <span class="o">}</span>
 <span class="o">[</span><span class="m">2019</span>-10-08 <span class="m">04</span>:34:52<span class="o">]</span> INFO: Calculating genome statistics <span class="k">for</span> <span class="m">8</span> bins with <span class="m">40</span> threads:
@@ -628,7 +628,7 @@ input files, so we’ll start with that.</p>
 </pre></div>
 </div>
 <p>Finally, let’s run DAS Tool!</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ singularity run /users/PAS1117/osu9664/eMicro-Apps/DAS_Tool.sif -i spades_trimmomatic_das_tool/concoct.scaffolds2bin.tsv,spades_trimmomatic_das_tool/maxbin.scaffolds2bin.tsv,spades_trimmomatic_das_tool/metabat2.scaffolds2bin.tsv -l concoct,maxbin,metabat -c /fs/project/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta -o spades_trimmomatic_das_tool/DAS_Tool_results --search_engine diamond --threads <span class="m">40</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ singularity run /users/PAS1117/osu9664/eMicro-Apps/DAS_Tool-.sif -i spades_trimmomatic_das_tool/concoct.scaffolds2bin.tsv,spades_trimmomatic_das_tool/maxbin.scaffolds2bin.tsv,spades_trimmomatic_das_tool/metabat2.scaffolds2bin.tsv -l concoct,maxbin,metabat -c /fs/project/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta -o spades_trimmomatic_das_tool/DAS_Tool_results --search_engine diamond --threads <span class="m">40</span>
 /miniconda3/bin//DAS_Tool: line <span class="m">241</span>: usearch: <span class="nb">command</span> not found
 Running DAS Tool using <span class="m">40</span> threads.
 predicting genes using Prodigal V2.6.3: February, <span class="m">2016</span>

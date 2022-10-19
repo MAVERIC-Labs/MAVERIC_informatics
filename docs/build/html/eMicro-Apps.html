@@ -104,7 +104,12 @@ compressed or raw, with autodetection of quality encoding and interleaving.</p>
 but in the meantime, any tool available on <a class="reference external" href="https://jgi.doe.gov/data-and-tools/bbtools/">https://jgi.doe.gov/data-and-tools/bbtools/</a> is available through this image.</p>
 <p><strong>Singularity use</strong>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
-singularity run /users/PAS1117/osu9664/eMicro-Apps/BBTools-38.69.sif
+singularity run /users/PAS1117/osu9664/eMicro-Apps/BBTools-38.97.sif
+
+<span class="c1"># For PAS1117</span>
+module use /fs/project/PAS1117/modulefiles
+module load singularityImages
+BBTools-38.97.sif
 </pre></div>
 </div>
 </section>
@@ -331,7 +336,7 @@ of viral metagenomics, it’s been known to use 2-3, and upwards of 6 TB of memo
 There are multiple implementations on OSC using different runtimes and memory allocations.</p>
 <p><strong>Singularity use</strong>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
-singularity run /users/PAS1117/osu9664/eMicro-Apps/SPAdes-3.13.0.sif
+singularity run /users/PAS1117/osu9664/eMicro-Apps/SPAdes-3.15.5.sif
 </pre></div>
 </div>
 <p><strong>Module use</strong>:</p>
@@ -368,7 +373,7 @@ May 15;29(7):644-52. doi: 10.1038/nbt.1883. PubMed PMID: 21572440.</p>
 <p><strong>Short description</strong>: Trinity assembles transcript sequences from Illumina RNA-Seq data.</p>
 <p><strong>Singularity use</strong>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
-singularity run /users/PAS1117/osu9664/eMicro-Apps/Trinity-2.4.0.img
+singularity run /users/PAS1117/osu9664/eMicro-Apps/Trinity-2.9.0.sif
 </pre></div>
 </div>
 </section>
@@ -431,14 +436,14 @@ Users could use MEGAN or similar software on MaxBin bins to find out the taxonom
 is finished.</p>
 <p><strong>Singularity use</strong>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
-singularity run MaxBin2.sif
+singularity run MaxBin2-2.2.6.sif
 
 <span class="c1"># Download test data</span>
 wget -O 20x.scaffold https://downloads.jbei.org/data/microbial_communities/MaxBin/getfile.php?20x.scaffold
 wget -O 20x.abund https://downloads.jbei.org/data/microbial_communities/MaxBin/getfile.php?20x.abund
 
 <span class="c1"># Run MaxBin2</span>
-singularity run /users/PAS1117/osu9664/eMicro-Apps/MaxBin2.sif -contig 20x.scaffold -abund 20x.abund -out 20x.out -thread <span class="m">4</span>
+singularity run /users/PAS1117/osu9664/eMicro-Apps/MaxBin2-2.2.6.sif -contig 20x.scaffold -abund 20x.abund -out 20x.out -thread <span class="m">4</span>
 </pre></div>
 </div>
 <p><strong>Module use</strong>:</p>
@@ -494,11 +499,11 @@ Microbiology, 3(7), 836–843. <a class="reference external" href="https://doi.o
 algorithms to calculate an optimized, non-redundant set of bins from a single assembly.</p>
 <p><strong>Singularity use</strong>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
-singularity run /users/PAS1117/osu9664/eMicro-Apps/DAS_Tool.sif
+singularity run /users/PAS1117/osu9664/eMicro-Apps/DAS_Tool-1.1.1.sif
 
 <span class="c1"># You can test the installation (if you&#39;ve git cloned the repository!)</span>
 git clone https://github.com/cmks/DAS_Tool.git
-singularity run /users/PAS1117/osu9664/eMicro-Apps/DAS_Tool.sif -i DAS_Tool/sample_data/sample.human.gut_concoct_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_maxbin2_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_metabat_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_tetraESOM_scaffolds2bin.tsv -l concoct,maxbin,metabat,tetraESOM -c DAS_Tool/sample_data/sample.human.gut_contigs.fa --search_engine diamond -o DASToolTestRun --write_bins
+singularity run /users/PAS1117/osu9664/eMicro-Apps/DAS_Tool-1.1.1.sif -i DAS_Tool/sample_data/sample.human.gut_concoct_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_maxbin2_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_metabat_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_tetraESOM_scaffolds2bin.tsv -l concoct,maxbin,metabat,tetraESOM -c DAS_Tool/sample_data/sample.human.gut_contigs.fa --search_engine diamond -o DASToolTestRun --write_bins
 </pre></div>
 </div>
 <p><strong>Module use</strong>:</p>
@@ -787,7 +792,7 @@ reference, or raw reads and reference FASTA sequences.</p>
 <p>For a directory of genome bins (each fasta file is a bin, all files having the “fna” extension) and the original fastq
 files used in the assembly…</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
-singularity run /users/PAS1117/osu9664/eMicro-Apps/CoverM-0.2.0-alpha7.sif genome --genome-fasta-directory &lt;path-to-bins&gt; -x fna --coupled &lt;reads1.fastq&gt; &lt;reads2.fastq&gt; --output-format sparse --min-read-percent-identity .95 --min-read-aligned-percent .75 --min-covered-fraction .75 &gt; coverage_table.csv
+singularity run /users/PAS1117/osu9664/eMicro-Apps/CoverM-0.6.1.sif genome --genome-fasta-directory &lt;path-to-bins&gt; -x fna --coupled &lt;reads1.fastq&gt; &lt;reads2.fastq&gt; --output-format sparse --min-read-percent-identity .95 --min-read-aligned-percent .75 --min-covered-fraction .75 &gt; coverage_table.csv
 </pre></div>
 </div>
 </section>
@@ -865,6 +870,13 @@ DRAM.py annotate -i <span class="s1">&#39;&lt;path-to-bins&gt;/*.fa&#39;</span> 
 DRAM.py distill -i annotation/annotations.tsv -o distill --trna_path annotation/trnas.tsv --rrna_path annotation/rrnas.tsv
 </pre></div>
 </div>
+<p>There are multiple singularity versions - <strong>each</strong> of these are tied to a specific database location.</p>
+<p><strong>Singularity use</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># For PAS1573</span>
+module load singularity/current
+singularity run /users/PAS1117/osu9664/eMicro-Apps/DRAM-PAS1573-1.2.1.sif
+</pre></div>
+</div>
 </section>
 <section id="drep">
 <h3>dRep<a class="headerlink" href="#drep" title="Permalink to this headline">¶</a></h3>
@@ -875,15 +887,15 @@ DRAM.py distill -i annotation/annotations.tsv -o distill --trna_path annotation/
 for each genome set.</p>
 <p><strong>Singularity use</strong>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
-singularity run /users/PAS1117/osu9664/eMicro-Apps/dRep.sif
+singularity run /users/PAS1117/osu9664/eMicro-Apps/dRep-2.3.2.sif
 
 <span class="c1"># You can test the installation</span>
-singularity run /users/PAS1117/osu9664/eMicro-Apps/dRep.sif bonus testDir --check_dependencies
+singularity run /users/PAS1117/osu9664/eMicro-Apps/dRep-2.3.2.sif bonus testDir --check_dependencies
 
 <span class="c1"># More rigorously check</span>
 git clone https://github.com/MrOlm/drep.git
 <span class="nb">cd</span> drep/tests
-singularity run /users/PAS1117/osu9664/eMicro-Apps/dRep.sif dereplicate output_dir -g genomes/*
+singularity run /users/PAS1117/osu9664/eMicro-Apps/dRep-2.3.2.sif dereplicate output_dir -g genomes/*
 
 <span class="c1"># For genome de-replication</span>
 dRep.sif dereplicate outout_directory -g path/to/genomes/*.fasta
@@ -984,18 +996,17 @@ from shotgun metagenome data, without heavy reliance on reference sequence datab
 closely related species even if those species are from lineages new to science.</p>
 <p><strong>Singularity use</strong>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
-singularity run /users/PAS1117/osu9664/eMicro-Apps/SingleM-0.8.1.img
+singularity run /users/PAS1117/osu9664/eMicro-Apps/SingleM-0.13.2.sif
 
 <span class="c1"># Generate OTU table from RAW metagenomic data</span>
-singularity run /users/PAS1117/osu9664/eMicro-Apps/SingleM-0.8.1.img pipe --sequences my_sequences.fastq.gz --otu_table otu_table.csv --threads &lt;threads&gt;
+singularity run /users/PAS1117/osu9664/eMicro-Apps/SingleM-0.13.2.sif pipe --sequences my_sequences.fastq.gz --otu_table otu_table.csv --threads &lt;threads&gt;
 
 <span class="c1"># Summarize OTU table in Krona plot</span>
-singularity run /users/PAS1117/osu9664/eMicro-Apps/SingleM-0.8.1.img summarise --input_otu_tables otu_table.csv --krona krona_plot.html
+singularity run /users/PAS1117/osu9664/eMicro-Apps/SingleM-0.13.2.sif summarise --input_otu_tables otu_table.csv --krona krona_plot.html
 </pre></div>
 </div>
 <p>There are a lot more options are customization than is presented here. Check the documentation for more information.
-Remember, anything after “singlem” in a command can be copy-and-pasted after the “SingleM.img” in the above examples.</p>
-<p>The latest version is 0.13.0. This will be updated alongside GraftM.</p>
+Remember, anything after “singlem” in a command can be copy-and-pasted after the “SingleM-0.13.2.sif” in the above examples.</p>
 </section>
 <section id="vsearch">
 <h3>VSEARCH<a class="headerlink" href="#vsearch" title="Permalink to this headline">¶</a></h3>
@@ -1118,6 +1129,12 @@ prediction accuracy for short viral sequences, so it can be used to predict sequ
 module load DeepVirFinder
 </pre></div>
 </div>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+
+/users/PAS1117/osu9664/eMicro-Apps/DeepVirFinder.simg --help
+</pre></div>
+</div>
 </section>
 <section id="dram-v">
 <h3>DRAM-v<a class="headerlink" href="#dram-v" title="Permalink to this headline">¶</a></h3>
@@ -1181,6 +1198,11 @@ sequencing data.</p>
 <p><strong>Module use</strong>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use /fs/project/PAS1117/modulefiles
 module load MARVEL/0.2
+</pre></div>
+</div>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run /users/PAS1117/osu9664/eMicro-Apps/MARVEL-0.1.simg
 </pre></div>
 </div>
 </section>
@@ -1303,7 +1325,14 @@ to classify double-stranded DNA viruses that infect Archaea and Bacteria. PeerJ 
 <p><strong>Short description</strong>: Guilt-by-contig-association automatic classification of viral contigs</p>
 <p><strong>Singularity use</strong>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
-singularity run /users/PAS1117/osu9664/eMicro-Apps/vConTACT2-0.9.20.sif
+singularity run /users/PAS1117/osu9664/eMicro-Apps/vConTACT2-0.11.1.sif
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># For PAS1117 users</span>
+module load singularity/current
+module use /fs/project/PAS1117/modulefiles
+module load singularityImages
+singularity run vConTACT2-0.11.1.sif
 </pre></div>
 </div>
 </section>
@@ -1934,6 +1963,11 @@ WIsH -c build -g prokaryoteGenomesDir -m modelDir
 WIsH -c predict -g phageContigsDir -m modelDir -r outputResultDir -b <span class="m">1</span>
 </pre></div>
 </div>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity run /users/PAS1117/osu9664/eMicro-Apps/WIsH-1.0.0.sif
+</pre></div>
+</div>
 </section>
 <section id="iphop">
 <h3>iPHoP<a class="headerlink" href="#iphop" title="Permalink to this headline">¶</a></h3>
@@ -1991,6 +2025,11 @@ write
 </div>
 <p><strong>Notes</strong>: Both a $DB and $TB_TEST system variable exist, depending on if you’re testing your dataset, or you wish to run
 the full database.</p>
+<p><strong>Singularity use</strong>: (Experimental!)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use singularity/current
+singularity run /users/PAS1117/osu9664/eMicro-Apps/iPHoP-1.1.0.sif
+</pre></div>
+</div>
 </section>
 <section id="picrust">
 <h3>PICRUSt<a class="headerlink" href="#picrust" title="Permalink to this headline">¶</a></h3>
@@ -2097,6 +2136,299 @@ cluster algorithm for graphs (also known as networks) based on simulation of (st
 <p><strong>Module use</strong>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use /fs/project/PAS1117/modulefiles
 module load mcl/14.137
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h3>BAMM<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p><strong>Website</strong>: <a class="reference external" href="http://bamm-project.org/index.html">http://bamm-project.org/index.html</a></p>
+<p><strong>Website</strong>: <a class="reference external" href="https://github.com/macroevolution/bamm">https://github.com/macroevolution/bamm</a></p>
+<p><strong>Reference</strong>: Rabosky, D. L. Automatic Detection of Key Innovations, Rate Shifts, and Diversity-Dependence on
+Phylogenetic Trees. PLoS One 9, e89543 (2014).</p>
+<p><strong>Short description</strong>: BAMM (Bayesian analysis of macroevolutionary mixtures) is a program for modeling complex dynamics of speciation, extinction, and trait evolution on phylogenetic trees. The program is oriented entirely towards detecting and quantifying heterogeneity in evolutionary rates.</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+
+<span class="c1"># For PAS1117 users</span>
+module use /fs/project/PAS1117/modulefiles
+module load singularityImages
+BAMM-2.5.0.sif --help
+
+<span class="c1"># For eMicro</span>
+singularity run /users/PAS1117/osu9664/eMicro-Apps/BAMM-2.5.0.sif
+</pre></div>
+</div>
+</section>
+<section id="astral">
+<h3>Astral<a class="headerlink" href="#astral" title="Permalink to this headline">¶</a></h3>
+<p><strong>Website</strong>: <a class="reference external" href="https://github.com/smirarab/ASTRAL">https://github.com/smirarab/ASTRAL</a></p>
+<p><strong>Reference</strong>: Zhang, C., Rabiee, M., Sayyari, E. &amp; Mirarab, S. ASTRAL-III: polynomial time species tree reconstruction
+from partially resolved gene trees. BMC Bioinformatics 19, 153 (2018).</p>
+<p><strong>Short description</strong>: ASTRAL is a tool for estimating an unrooted species tree given a set of unrooted gene trees.</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+
+<span class="c1"># For PAS1117 users</span>
+module use /fs/project/PAS1117/modulefiles
+module load singularityImages
+Astral-5.7.8.sif
+
+<span class="c1"># For eMicro</span>
+singularity run /users/PAS1117/osu9664/eMicro-Apps/Astral-5.7.8.sif
+</pre></div>
+</div>
+</section>
+<section id="seq-gen">
+<h3>Seq-Gen<a class="headerlink" href="#seq-gen" title="Permalink to this headline">¶</a></h3>
+<p><strong>Website</strong>: <a class="reference external" href="http://tree.bio.ed.ac.uk/software/seqgen/">http://tree.bio.ed.ac.uk/software/seqgen/</a></p>
+<p><strong>Website</strong>: <a class="reference external" href="https://github.com/rambaut/Seq-Gen">https://github.com/rambaut/Seq-Gen</a></p>
+<p><strong>Reference</strong>:</p>
+<p><strong>Short description</strong>: Seq-Gen is a program that will simulate the evolution of nucleotide or amino acid sequences along a phylogeny, using common models of the substitution process.</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+
+<span class="c1"># For PAS1117 users</span>
+module use /fs/project/PAS1117/modulefiles
+module load singularityImages
+Seq-Gen-1.3.4.sif
+
+<span class="c1"># For eMicro</span>
+singularity run /users/PAS1117/osu9664/eMicro-Apps/Seq-Gen-1.3.4.sif
+</pre></div>
+</div>
+</section>
+<section id="biokit">
+<h3>BioKIT<a class="headerlink" href="#biokit" title="Permalink to this headline">¶</a></h3>
+<p><strong>Website</strong>: <a class="reference external" href="https://github.com/JLSteenwyk/BioKIT">https://github.com/JLSteenwyk/BioKIT</a></p>
+<p><strong>Reference</strong>: Steenwyk, J. L. et al. BioKIT: a versatile toolkit for processing and analyzing diverse types of
+sequence data. Genetics iyac079 (2022) doi:10.1093/genetics/iyac079.</p>
+<p><strong>Short description</strong>: BioKIT is a UNIX shell toolkit for processing molecular sequence data.</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+
+<span class="c1"># For PAS1117 users</span>
+module use /fs/project/PAS1117/modulefiles
+module load singularityImages
+BioKIT-0.0.9.sif -h
+
+<span class="c1"># For eMicro</span>
+singularity run /users/PAS1117/osu9664/eMicro-Apps/BioKIT-0.0.9.sif -h
+</pre></div>
+</div>
+</section>
+<section id="migrate">
+<h3>MIGRATE<a class="headerlink" href="#migrate" title="Permalink to this headline">¶</a></h3>
+<p><strong>Website</strong>:</p>
+<p><strong>Reference</strong>: Beerli, P., Ashki, H., Mashayekhi, S. &amp; Palczewski, M. Population divergence time estimation using
+individual lineage label switching. G3 Genes|Genomes|Genetics 12, (2022).</p>
+<p><strong>Short description</strong>: Migrate estimates effective population sizes,past migration rates between n population assuming
+a migration matrix model with asymmetric migration rates and different subpopulation sizes, and population divergences or admixture. Migrate uses Bayesian inference to jointly estimate all parameters.</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+
+<span class="c1"># For PAS1117 users</span>
+module use /fs/project/PAS1117/modulefiles
+module load singularityImages
+MIGRATE-5.0.4.sif -help
+
+<span class="c1"># For eMicro</span>
+singularity run /users/PAS1117/osu9664/eMicro-Apps/MIGRATE-5.0.4.sif -help
+</pre></div>
+</div>
+<p><strong>Note</strong>: Though built with threads, this is a non-MPI version.</p>
+</section>
+<section id="delineate">
+<h3>DELINEATE<a class="headerlink" href="#delineate" title="Permalink to this headline">¶</a></h3>
+<p><strong>Website</strong>: <a class="reference external" href="https://github.com/jeetsukumaran/delineate">https://github.com/jeetsukumaran/delineate</a></p>
+<p><strong>Reference</strong>: Sukumaran, J., Holder, M. T. &amp; Knowles, L. L. Incorporating the speciation process into species
+delimitation. PLOS Comput. Biol. 17, e1008924 (2021).</p>
+<p><strong>Short description</strong>: DELINEATE is an approach to species delimitation that incorporates an extended model of
+speciation to discriminate between population isolation and speciation boundaries in genomic structure. Given a tree of
+population lineages inferred under the classical “censored coalescent” (Rannala and Yang, 2003; Yang and Rannala 2010),
+now more commonly known as the “multipecies coalescent” or MSC (Degnan and Rosenberg, 2009), this package will
+calculate the probabilities of different organizations of the population lineages into species under the Protracted
+Birth Death model of (Etienne et al, 2012)</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+
+<span class="c1"># For PAS1117 users</span>
+module use /fs/project/PAS1117/modulefiles
+module load singularityImages
+DELINEATE-1.2.2.sif delineate-estimate --help
+
+<span class="c1"># For eMicro</span>
+singularity run /users/PAS1117/osu9664/eMicro-Apps/DELINEATE-1.2.2.sif delineate-estimate --help
+
+<span class="c1"># To run summarize</span>
+singularity run /users/PAS1117/osu9664/eMicro-Apps/DELINEATE-1.2.2.sif delineate-summarize --help
+</pre></div>
+</div>
+<p><strong>Note</strong>: To successfully run the singularity container, you must specify <em>delineate-estimate</em> or <em>delineate-summarize</em></p>
+</section>
+<section id="ranger-dtl">
+<h3>RANGER-DTL<a class="headerlink" href="#ranger-dtl" title="Permalink to this headline">¶</a></h3>
+<p><strong>Website</strong>: <a class="reference external" href="https://compbio.engr.uconn.edu/software/RANGER-DTL/">https://compbio.engr.uconn.edu/software/RANGER-DTL/</a></p>
+<p><strong>Reference</strong>: Bansal, M. S., Kellis, M., Kordi, M. &amp; Kundu, S. RANGER-DTL 2.0: rigorous reconstruction of gene-family
+evolution by duplication, transfer and loss. Bioinformatics 34, 3214–3216 (2018).</p>
+<p><strong>Short description</strong>: RANGER-DTL 2.0 (short for Rapid ANalysis of Gene family Evolution using Reconciliation-DTL)
+is a software package for inferring gene family evolution by speciation, gene duplication, horizontal gene transfer,
+and gene loss. The software takes as input a gene tree (rooted or unrooted) and a rooted species tree and reconciles
+the two by postulating speciation, duplication, transfer, and loss events.</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+
+<span class="c1"># For PAS1117 users</span>
+module use /fs/project/PAS1117/modulefiles
+module load singularityImages
+RANGER-DTL-2.0.sif &lt;name-of-program&gt;
+
+<span class="c1"># For eMicro</span>
+singularity run /users/PAS1117/osu9664/eMicro-Apps/RANGER-DTL-2.0.sif &lt;name-of-program&gt;
+</pre></div>
+</div>
+<p><strong>Note</strong>: RANGER-DTL consists of a suite of programs, such as OptRoot, Ranger-DTL, OptResolutions-DTL, and others. Please
+check out the manual for additional information.</p>
+</section>
+<section id="mammal">
+<h3>MAMMaL<a class="headerlink" href="#mammal" title="Permalink to this headline">¶</a></h3>
+<p><strong>Website</strong>:</p>
+<p><strong>Reference</strong>:</p>
+<p><strong>Short description</strong>: (M)ultinomial (A)pproximate (M)ixture (Ma)ximum (L)ikelihood. The main program mammal takes as
+input a number of classes, a sequence file and a tree and outputs estimated frequencies for classes using the methods
+described in Susko, Lincker and Roger (2018).</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+
+<span class="c1"># For PAS1117 users</span>
+module use /fs/project/PAS1117/modulefiles
+module load singularityImages
+MAMMaL-1.1.3.sif
+
+<span class="c1"># For eMicro</span>
+singularity run /users/PAS1117/osu9664/eMicro-Apps/MAMMaL-1.1.3.sif
+</pre></div>
+</div>
+<p><strong>Note</strong>:</p>
+</section>
+<section id="paup">
+<h3>PAUP*<a class="headerlink" href="#paup" title="Permalink to this headline">¶</a></h3>
+<p><strong>Website</strong>: <a class="reference external" href="http://paup.phylosolutions.com/">http://paup.phylosolutions.com/</a></p>
+<p><strong>Reference</strong>: Swofford, D. L. 2003. PAUP*. Phylogenetic Analysis Using Parsimony (*and Other Methods). Version 4. Sinauer Associates, Sunderland, Massachusetts.</p>
+<p><strong>Short description</strong>: Phylogenetic Analysis Using Parsimony *and other methods</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+
+<span class="c1"># For PAS1117 users</span>
+module use /fs/project/PAS1117/modulefiles
+module load singularityImages
+PAUP-4a168.sif --help
+
+<span class="c1"># For eMicro</span>
+singularity run /users/PAS1117/osu9664/eMicro-Apps/PAUP-4a168.sif --help
+</pre></div>
+</div>
+</section>
+<section id="ticr">
+<h3>TICR<a class="headerlink" href="#ticr" title="Permalink to this headline">¶</a></h3>
+<p><strong>Website</strong>: <a class="reference external" href="https://github.com/nstenz/TICR">https://github.com/nstenz/TICR</a></p>
+<p><strong>Reference</strong>: Stenz, N. W. M., Larget, B., Baum, D. A. &amp; Ané, C. Exploring Tree-Like and Non-Tree-Like Patterns
+Using Genome Sequences: An Example Using the Inbreeding Plant Species Arabidopsis thaliana (L.) Heynh. Syst. Biol. 64, 809–823 (2015).</p>
+<p><strong>Short description</strong>: These scripts can be utilized to perform highly parallelized concordance analyses on any given
+alignment, with a particular focus on very large datasets which may include dozens of taxa and may span entire
+chromosomes or genomes.</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+
+<span class="c1"># For PAS1117 users</span>
+module use /fs/project/PAS1117/modulefiles
+module load singularityImages
+TICR.sif &lt;name-of-program&gt;
+
+<span class="c1"># For eMicro</span>
+singularity run /users/PAS1117/osu9664/eMicro-Apps/TICR.sif &lt;name-of-program&gt;
+</pre></div>
+</div>
+</section>
+<section id="vamb">
+<h3>VAMB<a class="headerlink" href="#vamb" title="Permalink to this headline">¶</a></h3>
+<p><strong>Website</strong>: <a class="reference external" href="https://github.com/RasmussenLab/vamb">https://github.com/RasmussenLab/vamb</a></p>
+<p><strong>Reference</strong>: Nissen, J. N. et al. Improved metagenome binning and assembly using deep variational autoencoders. Nat. Biotechnol. 39, 555–560 (2021).</p>
+<p><strong>Short description</strong>: Vamb is a metagenomic binner which feeds sequence composition information from a contig catalogue and
+co-abundance information from BAM files into a variational autoencoder and clusters the latent representation.</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+
+<span class="c1"># For PAS1117 users</span>
+module use /fs/project/PAS1117/modulefiles
+module load singularityImages
+VAMB-3.0.2.sif
+
+<span class="c1"># For eMicro</span>
+singularity run /users/PAS1117/osu9664/eMicro-Apps/VAMB-3.0.2.sif
+</pre></div>
+</div>
+</section>
+<section id="rnammer">
+<h3>RNAmmer<a class="headerlink" href="#rnammer" title="Permalink to this headline">¶</a></h3>
+<p><strong>Website</strong>: <a class="reference external" href="https://services.healthtech.dtu.dk/service.php?RNAmmer-1.2">https://services.healthtech.dtu.dk/service.php?RNAmmer-1.2</a></p>
+<p><strong>Reference</strong>: Lagesen, K. et al. RNAmmer: consistent and rapid annotation of ribosomal RNA genes. Nucleic Acids Res. 35, 3100–3108 (2007).</p>
+<p><strong>Short description</strong>: The RNAmmer 1.2 server predicts 5s/8s, 16s/18s, and 23s/28s ribosomal RNA in full genome sequences.</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+
+<span class="c1"># For PAS1117 users</span>
+module use /fs/project/PAS1117/modulefiles
+module load singularityImages
+RNAmmer-1.2.sif
+
+<span class="c1"># For eMicro</span>
+singularity run /users/PAS1117/osu9664/eMicro-Apps/RNAmmer-1.2.sif
+</pre></div>
+</div>
+</section>
+<section id="expressbetadiversity">
+<h3>ExpressBetaDiversity<a class="headerlink" href="#expressbetadiversity" title="Permalink to this headline">¶</a></h3>
+<p><strong>Website</strong>: <a class="reference external" href="https://github.com/dparks1134/ExpressBetaDiversity">https://github.com/dparks1134/ExpressBetaDiversity</a></p>
+<p><strong>Reference</strong>: Parks, D. H. &amp; Beiko, R. G. Measures of phylogenetic differentiation provide
+robust and complementary insights into microbial communities. ISME J. 7, 173–183 (2013).</p>
+<p><strong>Short description</strong>: Open-source software implementing the phylogenetic β-diversity measures.</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+
+<span class="c1"># For PAS1117 users</span>
+module use /fs/project/PAS1117/modulefiles
+module load singularityImages
+EBD-1.0.10.sif
+
+<span class="c1"># For eMicro</span>
+singularity run /users/PAS1117/osu9664/eMicro-Apps/EBD-1.0.10.sif
+</pre></div>
+</div>
+<p>Note: Many users may find one of the EBD scripts useful: convertToEBD.py, which is used to convert from Unifrac/QIIME
+file formats to an EBD format.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+singularity <span class="nb">exec</span> /users/PAS1117/osu9664/eMicro-Apps/EBD-1.0.10.sif convertToEBD.py --help
+</pre></div>
+</div>
+</section>
+<section id="deephage">
+<h3>DeePhage<a class="headerlink" href="#deephage" title="Permalink to this headline">¶</a></h3>
+<p><strong>Website</strong>: <a class="reference external" href="https://github.com/shufangwu/DeePhage">https://github.com/shufangwu/DeePhage</a></p>
+<p><strong>Reference</strong>: Shufang Wu, Zhencheng Fang, Jie Tan, Mo Li, Congmin Xu, and Huaiqiu Zhu. DeePhage:
+distinguish temperate phage-derived and virulent phage-derived sequence in metavirome data using deep learning.</p>
+<p><strong>Short description</strong>: DeePhage is designed to identify metavirome sequences as temperate
+phage-derived and virulent phage-derived sequences. The program calculate a score reflecting the
+likelihood of each input fragment as temperate phage-derived and virulent phage-derived sequences.</p>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+
+<span class="c1"># For PAS1117 users</span>
+module use /fs/project/PAS1117/modulefiles
+module load singularityImages
+DeePhage.sif
+
+<span class="c1"># For eMicro</span>
+singularity run /users/PAS1117/osu9664/eMicro-Apps/DeePhage.sif
 </pre></div>
 </div>
 </section>
@@ -2247,6 +2579,20 @@ module load mcl/14.137
 <li><a class="reference internal" href="#muscle">MUSCLE</a></li>
 <li><a class="reference internal" href="#trna-scan-se">tRNA-Scan SE</a></li>
 <li><a class="reference internal" href="#mcl">MCL</a></li>
+<li><a class="reference internal" href="#id2">BAMM</a></li>
+<li><a class="reference internal" href="#astral">Astral</a></li>
+<li><a class="reference internal" href="#seq-gen">Seq-Gen</a></li>
+<li><a class="reference internal" href="#biokit">BioKIT</a></li>
+<li><a class="reference internal" href="#migrate">MIGRATE</a></li>
+<li><a class="reference internal" href="#delineate">DELINEATE</a></li>
+<li><a class="reference internal" href="#ranger-dtl">RANGER-DTL</a></li>
+<li><a class="reference internal" href="#mammal">MAMMaL</a></li>
+<li><a class="reference internal" href="#paup">PAUP*</a></li>
+<li><a class="reference internal" href="#ticr">TICR</a></li>
+<li><a class="reference internal" href="#vamb">VAMB</a></li>
+<li><a class="reference internal" href="#rnammer">RNAmmer</a></li>
+<li><a class="reference internal" href="#expressbetadiversity">ExpressBetaDiversity</a></li>
+<li><a class="reference internal" href="#deephage">DeePhage</a></li>
 </ul>
 </li>
 </ul>

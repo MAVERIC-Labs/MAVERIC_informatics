@@ -90,7 +90,13 @@ but in the meantime, any tool available on https://jgi.doe.gov/data-and-tools/bb
 .. code-block:: bash
 
     module load singularity/current
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/BBTools-38.69.sif
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/BBTools-38.97.sif
+
+    # For PAS1117
+    module use /fs/project/PAS1117/modulefiles
+    module load singularityImages
+    BBTools-38.97.sif
+
 
 BBDuk (in the BBTools package)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -405,7 +411,7 @@ There are multiple implementations on OSC using different runtimes and memory al
 .. code-block:: bash
 
     module load singularity/current
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/SPAdes-3.13.0.sif
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/SPAdes-3.15.5.sif
 
 **Module use**:
 
@@ -455,7 +461,7 @@ May 15;29(7):644-52. doi: 10.1038/nbt.1883. PubMed PMID: 21572440.
 .. code-block:: bash
 
     module load singularity/current
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/Trinity-2.4.0.img
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/Trinity-2.9.0.sif
 
 MEGAHIT
 ~~~~~~~
@@ -536,14 +542,14 @@ is finished.
 .. code-block:: bash
 
     module load singularity/current
-    singularity run MaxBin2.sif
+    singularity run MaxBin2-2.2.6.sif
 
     # Download test data
     wget -O 20x.scaffold https://downloads.jbei.org/data/microbial_communities/MaxBin/getfile.php?20x.scaffold
     wget -O 20x.abund https://downloads.jbei.org/data/microbial_communities/MaxBin/getfile.php?20x.abund
 
     # Run MaxBin2
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/MaxBin2.sif -contig 20x.scaffold -abund 20x.abund -out 20x.out -thread 4
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/MaxBin2-2.2.6.sif -contig 20x.scaffold -abund 20x.abund -out 20x.out -thread 4
 
 **Module use**:
 
@@ -614,11 +620,11 @@ algorithms to calculate an optimized, non-redundant set of bins from a single as
 .. code-block:: bash
 
     module load singularity/current
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/DAS_Tool.sif
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/DAS_Tool-1.1.1.sif
 
     # You can test the installation (if you've git cloned the repository!)
     git clone https://github.com/cmks/DAS_Tool.git
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/DAS_Tool.sif -i DAS_Tool/sample_data/sample.human.gut_concoct_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_maxbin2_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_metabat_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_tetraESOM_scaffolds2bin.tsv -l concoct,maxbin,metabat,tetraESOM -c DAS_Tool/sample_data/sample.human.gut_contigs.fa --search_engine diamond -o DASToolTestRun --write_bins
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/DAS_Tool-1.1.1.sif -i DAS_Tool/sample_data/sample.human.gut_concoct_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_maxbin2_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_metabat_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_tetraESOM_scaffolds2bin.tsv -l concoct,maxbin,metabat,tetraESOM -c DAS_Tool/sample_data/sample.human.gut_contigs.fa --search_engine diamond -o DASToolTestRun --write_bins
 
 
 **Module use**:
@@ -1020,7 +1026,7 @@ files used in the assembly...
 .. code-block:: bash
 
     module load singularity/current
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/CoverM-0.2.0-alpha7.sif genome --genome-fasta-directory <path-to-bins> -x fna --coupled <reads1.fastq> <reads2.fastq> --output-format sparse --min-read-percent-identity .95 --min-read-aligned-percent .75 --min-covered-fraction .75 > coverage_table.csv
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/CoverM-0.6.1.sif genome --genome-fasta-directory <path-to-bins> -x fna --coupled <reads1.fastq> <reads2.fastq> --output-format sparse --min-read-percent-identity .95 --min-read-aligned-percent .75 --min-covered-fraction .75 > coverage_table.csv
 
 
 GraftM
@@ -1122,6 +1128,17 @@ encapsulate the package + databases.
     DRAM.py annotate -i '<path-to-bins>/*.fa' -o annotation
     DRAM.py distill -i annotation/annotations.tsv -o distill --trna_path annotation/trnas.tsv --rrna_path annotation/rrnas.tsv
 
+There are multiple singularity versions - **each** of these are tied to a specific database location.
+
+**Singularity use**
+
+.. code-block:: bash
+
+    # For PAS1573
+    module load singularity/current
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/DRAM-PAS1573-1.2.1.sif
+
+
 
 dRep
 ~~~~
@@ -1139,15 +1156,15 @@ for each genome set.
 .. code-block:: bash
 
     module load singularity/current
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/dRep.sif
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/dRep-2.3.2.sif
 
     # You can test the installation
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/dRep.sif bonus testDir --check_dependencies
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/dRep-2.3.2.sif bonus testDir --check_dependencies
 
     # More rigorously check
     git clone https://github.com/MrOlm/drep.git
     cd drep/tests
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/dRep.sif dereplicate output_dir -g genomes/*
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/dRep-2.3.2.sif dereplicate output_dir -g genomes/*
 
     # For genome de-replication
     dRep.sif dereplicate outout_directory -g path/to/genomes/*.fasta
@@ -1282,18 +1299,16 @@ closely related species even if those species are from lineages new to science.
 .. code-block:: bash
 
     module load singularity/current
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/SingleM-0.8.1.img
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/SingleM-0.13.2.sif
 
     # Generate OTU table from RAW metagenomic data
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/SingleM-0.8.1.img pipe --sequences my_sequences.fastq.gz --otu_table otu_table.csv --threads <threads>
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/SingleM-0.13.2.sif pipe --sequences my_sequences.fastq.gz --otu_table otu_table.csv --threads <threads>
 
     # Summarize OTU table in Krona plot
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/SingleM-0.8.1.img summarise --input_otu_tables otu_table.csv --krona krona_plot.html
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/SingleM-0.13.2.sif summarise --input_otu_tables otu_table.csv --krona krona_plot.html
 
 There are a lot more options are customization than is presented here. Check the documentation for more information.
-Remember, anything after "singlem" in a command can be copy-and-pasted after the "SingleM.img" in the above examples.
-
-The latest version is 0.13.0. This will be updated alongside GraftM.
+Remember, anything after "singlem" in a command can be copy-and-pasted after the "SingleM-0.13.2.sif" in the above examples.
 
 
 VSEARCH
@@ -1463,6 +1478,14 @@ prediction accuracy for short viral sequences, so it can be used to predict sequ
     module use /fs/project/PAS1117/modulefiles
     module load DeepVirFinder
 
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+
+    /users/PAS1117/osu9664/eMicro-Apps/DeepVirFinder.simg --help
+
 
 DRAM-v
 ~~~~~~
@@ -1548,6 +1571,14 @@ sequencing data.
 
     module use /fs/project/PAS1117/modulefiles
     module load MARVEL/0.2
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/MARVEL-0.1.simg
+
 
 MetaPhinder
 ~~~~~~~~~~~
@@ -1710,7 +1741,15 @@ to classify double-stranded DNA viruses that infect Archaea and Bacteria. PeerJ 
 .. code-block:: bash
 
     module load singularity/current
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/vConTACT2-0.9.20.sif
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/vConTACT2-0.11.1.sif
+
+.. code-block:: bash
+
+    # For PAS1117 users
+    module load singularity/current
+    module use /fs/project/PAS1117/modulefiles
+    module load singularityImages
+    singularity run vConTACT2-0.11.1.sif
 
 VIRSorter
 ~~~~~~~~~
@@ -1758,7 +1797,6 @@ partial or complete viral genomes as well as excise integrated proviruses.
 
 
 Note: There may be numerous DeprecationWarning. They can be safely ignored.
-
 
 **Module use**:
 
@@ -2344,7 +2382,6 @@ conventions
     module load SuperCRUNCH
 
 
-
 Nonpareil
 ~~~~~~~~~
 
@@ -2417,9 +2454,6 @@ implementation, it can merge millions of paired end reads within a couple of min
     module load PEAR/0.9.11
 
 
-
-
-
 Bioscripts-2.7 and Bioscripts
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -2480,8 +2514,6 @@ sequencing data. Bioinformatics 28, 3150–3152 (2012).
     module load cdhit/4.6.1
 
 
-
-
 BLAST+
 ~~~~~~
 
@@ -2497,8 +2529,6 @@ BLAST+
 
     module use /fs/project/PAS1117/modulefiles
     module load blast/2.8.1+
-
-
 
 Clust
 ~~~~~~
@@ -2595,6 +2625,13 @@ contigs.
     WIsH -c build -g prokaryoteGenomesDir -m modelDir
     WIsH -c predict -g phageContigsDir -m modelDir -r outputResultDir -b 1
 
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/WIsH-1.0.0.sif
+
 iPHoP
 ~~~~~
 
@@ -2657,6 +2694,14 @@ command-line pipeline for predicting host genus of novel bacteriophages and arch
 
 **Notes**: Both a $DB and $TB_TEST system variable exist, depending on if you're testing your dataset, or you wish to run
 the full database.
+
+
+**Singularity use**: (Experimental!)
+
+.. code-block:: bash
+
+    module use singularity/current
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/iPHoP-1.1.0.sif
 
 PICRUSt
 ~~~~~~~
@@ -2814,3 +2859,383 @@ cluster algorithm for graphs (also known as networks) based on simulation of (st
     module use /fs/project/PAS1117/modulefiles
     module load mcl/14.137
 
+BAMM
+~~~~
+
+**Website**: http://bamm-project.org/index.html
+
+**Website**: https://github.com/macroevolution/bamm
+
+**Reference**: Rabosky, D. L. Automatic Detection of Key Innovations, Rate Shifts, and Diversity-Dependence on
+Phylogenetic Trees. PLoS One 9, e89543 (2014).
+
+**Short description**: BAMM (Bayesian analysis of macroevolutionary mixtures) is a program for modeling complex dynamics of speciation, extinction, and trait evolution on phylogenetic trees. The program is oriented entirely towards detecting and quantifying heterogeneity in evolutionary rates.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+
+    # For PAS1117 users
+    module use /fs/project/PAS1117/modulefiles
+    module load singularityImages
+    BAMM-2.5.0.sif --help
+
+    # For eMicro
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/BAMM-2.5.0.sif
+
+
+Astral
+~~~~~~
+
+**Website**: https://github.com/smirarab/ASTRAL
+
+**Reference**: Zhang, C., Rabiee, M., Sayyari, E. & Mirarab, S. ASTRAL-III: polynomial time species tree reconstruction
+from partially resolved gene trees. BMC Bioinformatics 19, 153 (2018).
+
+**Short description**: ASTRAL is a tool for estimating an unrooted species tree given a set of unrooted gene trees.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+
+    # For PAS1117 users
+    module use /fs/project/PAS1117/modulefiles
+    module load singularityImages
+    Astral-5.7.8.sif
+
+    # For eMicro
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/Astral-5.7.8.sif
+
+
+Seq-Gen
+~~~~~~~
+
+**Website**: http://tree.bio.ed.ac.uk/software/seqgen/
+
+**Website**: https://github.com/rambaut/Seq-Gen
+
+**Reference**:
+
+**Short description**: Seq-Gen is a program that will simulate the evolution of nucleotide or amino acid sequences along a phylogeny, using common models of the substitution process.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+
+    # For PAS1117 users
+    module use /fs/project/PAS1117/modulefiles
+    module load singularityImages
+    Seq-Gen-1.3.4.sif
+
+    # For eMicro
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/Seq-Gen-1.3.4.sif
+
+
+BioKIT
+~~~~~~~
+
+**Website**: https://github.com/JLSteenwyk/BioKIT
+
+**Reference**: Steenwyk, J. L. et al. BioKIT: a versatile toolkit for processing and analyzing diverse types of
+sequence data. Genetics iyac079 (2022) doi:10.1093/genetics/iyac079.
+
+**Short description**: BioKIT is a UNIX shell toolkit for processing molecular sequence data.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+
+    # For PAS1117 users
+    module use /fs/project/PAS1117/modulefiles
+    module load singularityImages
+    BioKIT-0.0.9.sif -h
+
+    # For eMicro
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/BioKIT-0.0.9.sif -h
+
+
+MIGRATE
+~~~~~~~
+
+**Website**:
+
+**Reference**: Beerli, P., Ashki, H., Mashayekhi, S. & Palczewski, M. Population divergence time estimation using
+individual lineage label switching. G3 Genes|Genomes|Genetics 12, (2022).
+
+**Short description**: Migrate estimates effective population sizes,past migration rates between n population assuming
+a migration matrix model with asymmetric migration rates and different subpopulation sizes, and population divergences or admixture. Migrate uses Bayesian inference to jointly estimate all parameters.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+
+    # For PAS1117 users
+    module use /fs/project/PAS1117/modulefiles
+    module load singularityImages
+    MIGRATE-5.0.4.sif -help
+
+    # For eMicro
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/MIGRATE-5.0.4.sif -help
+
+**Note**: Though built with threads, this is a non-MPI version.
+
+
+DELINEATE
+~~~~~~~~~
+
+**Website**: https://github.com/jeetsukumaran/delineate
+
+**Reference**: Sukumaran, J., Holder, M. T. & Knowles, L. L. Incorporating the speciation process into species
+delimitation. PLOS Comput. Biol. 17, e1008924 (2021).
+
+**Short description**: DELINEATE is an approach to species delimitation that incorporates an extended model of
+speciation to discriminate between population isolation and speciation boundaries in genomic structure. Given a tree of
+population lineages inferred under the classical "censored coalescent" (Rannala and Yang, 2003; Yang and Rannala 2010),
+now more commonly known as the "multipecies coalescent" or MSC (Degnan and Rosenberg, 2009), this package will
+calculate the probabilities of different organizations of the population lineages into species under the Protracted
+Birth Death model of (Etienne et al, 2012)
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+
+    # For PAS1117 users
+    module use /fs/project/PAS1117/modulefiles
+    module load singularityImages
+    DELINEATE-1.2.2.sif delineate-estimate --help
+
+    # For eMicro
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/DELINEATE-1.2.2.sif delineate-estimate --help
+
+    # To run summarize
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/DELINEATE-1.2.2.sif delineate-summarize --help
+
+**Note**: To successfully run the singularity container, you must specify *delineate-estimate* or *delineate-summarize*
+
+
+RANGER-DTL
+~~~~~~~~~~
+
+**Website**: https://compbio.engr.uconn.edu/software/RANGER-DTL/
+
+**Reference**: Bansal, M. S., Kellis, M., Kordi, M. & Kundu, S. RANGER-DTL 2.0: rigorous reconstruction of gene-family
+evolution by duplication, transfer and loss. Bioinformatics 34, 3214–3216 (2018).
+
+**Short description**: RANGER-DTL 2.0 (short for Rapid ANalysis of Gene family Evolution using Reconciliation-DTL)
+is a software package for inferring gene family evolution by speciation, gene duplication, horizontal gene transfer,
+and gene loss. The software takes as input a gene tree (rooted or unrooted) and a rooted species tree and reconciles
+the two by postulating speciation, duplication, transfer, and loss events.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+
+    # For PAS1117 users
+    module use /fs/project/PAS1117/modulefiles
+    module load singularityImages
+    RANGER-DTL-2.0.sif <name-of-program>
+
+    # For eMicro
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/RANGER-DTL-2.0.sif <name-of-program>
+
+**Note**: RANGER-DTL consists of a suite of programs, such as OptRoot, Ranger-DTL, OptResolutions-DTL, and others. Please
+check out the manual for additional information.
+
+
+MAMMaL
+~~~~~~
+
+**Website**:
+
+**Reference**:
+
+**Short description**: (M)ultinomial (A)pproximate (M)ixture (Ma)ximum (L)ikelihood. The main program mammal takes as
+input a number of classes, a sequence file and a tree and outputs estimated frequencies for classes using the methods
+described in Susko, Lincker and Roger (2018).
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+
+    # For PAS1117 users
+    module use /fs/project/PAS1117/modulefiles
+    module load singularityImages
+    MAMMaL-1.1.3.sif
+
+    # For eMicro
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/MAMMaL-1.1.3.sif
+
+**Note**:
+
+
+PAUP*
+~~~~~~
+
+**Website**: http://paup.phylosolutions.com/
+
+**Reference**: Swofford, D. L. 2003. PAUP\*. Phylogenetic Analysis Using Parsimony (\*and Other Methods). Version 4. Sinauer Associates, Sunderland, Massachusetts.
+
+**Short description**: Phylogenetic Analysis Using Parsimony \*and other methods
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+
+    # For PAS1117 users
+    module use /fs/project/PAS1117/modulefiles
+    module load singularityImages
+    PAUP-4a168.sif --help
+
+    # For eMicro
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/PAUP-4a168.sif --help
+
+
+TICR
+~~~~~~
+
+**Website**: https://github.com/nstenz/TICR
+
+**Reference**: Stenz, N. W. M., Larget, B., Baum, D. A. & Ané, C. Exploring Tree-Like and Non-Tree-Like Patterns
+Using Genome Sequences: An Example Using the Inbreeding Plant Species Arabidopsis thaliana (L.) Heynh. Syst. Biol. 64, 809–823 (2015).
+
+**Short description**: These scripts can be utilized to perform highly parallelized concordance analyses on any given
+alignment, with a particular focus on very large datasets which may include dozens of taxa and may span entire
+chromosomes or genomes.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+
+    # For PAS1117 users
+    module use /fs/project/PAS1117/modulefiles
+    module load singularityImages
+    TICR.sif <name-of-program>
+
+    # For eMicro
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/TICR.sif <name-of-program>
+
+VAMB
+~~~~
+
+**Website**: https://github.com/RasmussenLab/vamb
+
+**Reference**: Nissen, J. N. et al. Improved metagenome binning and assembly using deep variational autoencoders. Nat. Biotechnol. 39, 555–560 (2021).
+
+**Short description**: Vamb is a metagenomic binner which feeds sequence composition information from a contig catalogue and
+co-abundance information from BAM files into a variational autoencoder and clusters the latent representation.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+
+    # For PAS1117 users
+    module use /fs/project/PAS1117/modulefiles
+    module load singularityImages
+    VAMB-3.0.2.sif
+
+    # For eMicro
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/VAMB-3.0.2.sif
+
+
+RNAmmer
+~~~~~~~
+
+**Website**: https://services.healthtech.dtu.dk/service.php?RNAmmer-1.2
+
+**Reference**: Lagesen, K. et al. RNAmmer: consistent and rapid annotation of ribosomal RNA genes. Nucleic Acids Res. 35, 3100–3108 (2007).
+
+**Short description**: The RNAmmer 1.2 server predicts 5s/8s, 16s/18s, and 23s/28s ribosomal RNA in full genome sequences.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+
+    # For PAS1117 users
+    module use /fs/project/PAS1117/modulefiles
+    module load singularityImages
+    RNAmmer-1.2.sif
+
+    # For eMicro
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/RNAmmer-1.2.sif
+
+ExpressBetaDiversity
+~~~~~~~~~~~~~~~~~~~~
+
+**Website**: https://github.com/dparks1134/ExpressBetaDiversity
+
+**Reference**: Parks, D. H. & Beiko, R. G. Measures of phylogenetic differentiation provide
+robust and complementary insights into microbial communities. ISME J. 7, 173–183 (2013).
+
+**Short description**: Open-source software implementing the phylogenetic β-diversity measures.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+
+    # For PAS1117 users
+    module use /fs/project/PAS1117/modulefiles
+    module load singularityImages
+    EBD-1.0.10.sif
+
+    # For eMicro
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/EBD-1.0.10.sif
+
+Note: Many users may find one of the EBD scripts useful: convertToEBD.py, which is used to convert from Unifrac/QIIME
+file formats to an EBD format.
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity exec /users/PAS1117/osu9664/eMicro-Apps/EBD-1.0.10.sif convertToEBD.py --help
+
+DeePhage
+~~~~~~~~
+
+**Website**: https://github.com/shufangwu/DeePhage
+
+**Reference**: Shufang Wu, Zhencheng Fang, Jie Tan, Mo Li, Congmin Xu, and Huaiqiu Zhu. DeePhage:
+distinguish temperate phage-derived and virulent phage-derived sequence in metavirome data using deep learning.
+
+**Short description**: DeePhage is designed to identify metavirome sequences as temperate
+phage-derived and virulent phage-derived sequences. The program calculate a score reflecting the
+likelihood of each input fragment as temperate phage-derived and virulent phage-derived sequences.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+
+    # For PAS1117 users
+    module use /fs/project/PAS1117/modulefiles
+    module load singularityImages
+    DeePhage.sif
+
+    # For eMicro
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/DeePhage.sif

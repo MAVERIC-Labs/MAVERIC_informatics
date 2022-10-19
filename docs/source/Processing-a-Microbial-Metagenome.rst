@@ -246,13 +246,13 @@ that should assemble your data.
 
 .. code-block:: bash
 
-    #PBS -l walltime=12:00:00
-    #PBS -l nodes=1:ppn=40
-    #PBS -N SPAdes_SRR7151490_Trimmomatic
-    #PBS -A PAS1573
-    #PBS -S /bin/bash
-    #PBS -j oe
-    #PBS -m ae
+    #SBATCH --time=12:00:00
+    #SBATCH --nodes=1
+    #SBATCH --ntasks=40
+    #SBATCH --job-name=SPAdes_SRR7151490_Trimmomatic
+    #SBATCH --account=PAS1573
+    #SBATCH --mail-type=START
+    #SBATCH --mail-type=END
 
     # Load modules that we'll need
     module load singularity
@@ -288,7 +288,7 @@ Submit using:
 
 .. code-block:: bash
 
-    qsub spades_assembly_trimmomatic_reads.sh
+    sbatch spades_assembly_trimmomatic_reads.sh
 
 Please see the OSC guide for how this job script was created. Since I'm familiar with the sample background (sample
 complexity, microbes, relative sequencing depth) and the SPAdes assembler for this sample, I can guess at how long to
@@ -326,13 +326,13 @@ And now, what if we wanted to use a different assembler, let's say MEGAHIT?
 
 .. code-block:: bash
 
-    #PBS -l walltime=2:00:00
-    #PBS -l nodes=1:ppn=40
-    #PBS -N METAHIT_SRR7151490_Trimmomatic
-    #PBS -A PAS1573
-    #PBS -S /bin/bash
-    #PBS -j oe
-    #PBS -m ae
+    #SBATCH --time=2:00:00
+    #SBATCH --nodes=1
+    #SBATCH --ntasks=40
+    #SBATCH --job-name=METAHIT_SRR7151490_Trimmomatic
+    #SBATCH --account=PAS1573
+    #SBATCH --mail-type=START
+    #SBATCH --mail-type=END
 
     # Load modules that we'll need
     module load singularity
@@ -395,13 +395,13 @@ We just converted our gzip-decompressed fastq files into fasta. Now we can submi
 
 .. code-block:: bash
 
-    #PBS -l walltime=2:00:00
-    #PBS -l nodes=1:ppn=40
-    #PBS -N IDBA_UD_SRR7151490_BBDuk
-    #PBS -A PAS1573
-    #PBS -S /bin/bash
-    #PBS -j oe
-    #PBS -m ae
+    #SBATCH --time=2:00:00
+    #SBATCH --nodes=1
+    #SBATCH --ntasks=40
+    #SBATCH --job-name=IDBA_UD_SRR7151490_BBDuk
+    #SBATCH --account=PAS1573
+    #SBATCH --mail-type=START
+    #SBATCH --mail-type=END
 
     # Load modules that we'll need
     module load singularity
@@ -504,7 +504,7 @@ for this example we'll be letting MaxBin2 handle everything!
 
 .. code-block:: bash
 
-    $ singularity run /users/PAS1117/osu9664/eMicro-Apps/MaxBin2.sif -contig /fs/project/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta -reads /fs/project/PAS1573/week7_processing/trimmed_trimmomatic/SRR7151490_1_t_paired.fastq.gz -reads2 /fs/project/PAS1573/week7_processing/trimmed_trimmomatic/SRR7151490_2_t_paired.fastq.gz -out maxbin2
+    $ singularity run /users/PAS1117/osu9664/eMicro-Apps/MaxBin2-2.2.6.sif -contig /fs/project/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta -reads /fs/project/PAS1573/week7_processing/trimmed_trimmomatic/SRR7151490_1_t_paired.fastq.gz -reads2 /fs/project/PAS1573/week7_processing/trimmed_trimmomatic/SRR7151490_2_t_paired.fastq.gz -out maxbin2
 
 The last binning tool we'll use is CONCOCT. Before getting started, we're going to *index* our BAM-sorted file, so
 CONCOCT can (later) generate a coverage table from it. For this, we'll continue to use the BamM singularity container
@@ -689,7 +689,7 @@ Finally, let's run DAS Tool!
 
 .. code-block:: bash
 
-    $ singularity run /users/PAS1117/osu9664/eMicro-Apps/DAS_Tool.sif -i spades_trimmomatic_das_tool/concoct.scaffolds2bin.tsv,spades_trimmomatic_das_tool/maxbin.scaffolds2bin.tsv,spades_trimmomatic_das_tool/metabat2.scaffolds2bin.tsv -l concoct,maxbin,metabat -c /fs/project/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta -o spades_trimmomatic_das_tool/DAS_Tool_results --search_engine diamond --threads 40
+    $ singularity run /users/PAS1117/osu9664/eMicro-Apps/DAS_Tool-.sif -i spades_trimmomatic_das_tool/concoct.scaffolds2bin.tsv,spades_trimmomatic_das_tool/maxbin.scaffolds2bin.tsv,spades_trimmomatic_das_tool/metabat2.scaffolds2bin.tsv -l concoct,maxbin,metabat -c /fs/project/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta -o spades_trimmomatic_das_tool/DAS_Tool_results --search_engine diamond --threads 40
     /miniconda3/bin//DAS_Tool: line 241: usearch: command not found
     Running DAS Tool using 40 threads.
     predicting genes using Prodigal V2.6.3: February, 2016
