@@ -332,5 +332,3 @@ high-performance computing (HPC) on the `Ohio Supercomputer Center (OSC) <https:
 step-by-step guide to pretty much everything you need to know to get started. You'll learn, through the course, what is
 the HPC, how to connect, how to use the scheduler (i.e. how to submit jobs), how to use the cluster efficiently, as well
 as a basic guide to UNIX commands.
-
-

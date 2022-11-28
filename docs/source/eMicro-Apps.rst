@@ -1107,37 +1107,26 @@ further analyzed to identify potential AMGs. This is done via assigning an auxil
 likelihood that a gene is metabolic and viral. The auxiliary score represents the confidence that a gene is viral in
 origin based on surrounding genes.
 
-**PAS1573 use**: (This is now an out-of-date version but these commands will still work!)
-
-.. code-block:: bash
-
-    export PATH=/fs/project/PAS1573/week10_pathways/DRAM/bin/:$PATH
-    DRAM.py annotate -i '<path-to-bins>/*.fasta' -o dram_annotations
-    DRAM.py summarize_genomes -i dram_annotations/annotations.tsv -o dram_results --rrna_path dram_annotations/rrnas.tsv
-
-You'll notice that the command to run the tool is different, this is because of the challenge in using Singularity to
-encapsulate the package + databases.
-
 **Module use**: (This is always the most up-to-date version, barring the Wrighton lab's constant updates!)
 
 .. code-block:: bash
 
+    # For PAS1117
     module use /fs/project/PAS1117/modulefiles
     module load DRAM
 
     DRAM.py annotate -i '<path-to-bins>/*.fa' -o annotation
     DRAM.py distill -i annotation/annotations.tsv -o distill --trna_path annotation/trnas.tsv --rrna_path annotation/rrnas.tsv
 
-There are multiple singularity versions - **each** of these are tied to a specific database location.
+    # For PAS1573
+    export PATH=/fs/ess/PAS1573/modules/DRAM-1.4.0/bin:$PATH
+    DRAM.py annotate -i '<path-to-bins>/*.fa' -o annotation
+    DRAM.py distill -i annotation/annotations.tsv -o distill --trna_path annotation/trnas.tsv --rrna_path annotation/rrnas.tsv
 
 **Singularity use**
 
-.. code-block:: bash
-
-    # For PAS1573
-    module load singularity/current
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/DRAM-PAS1573-1.2.1.sif
-
+Unfortunately, due to the size of the database, this is not currently possible. While we work on a solution, please use
+the module version!
 
 
 dRep
@@ -2513,6 +2502,26 @@ sequencing data. Bioinformatics 28, 3150–3152 (2012).
     module use /fs/project/PAS1117/modulefiles
     module load cdhit/4.6.1
 
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+
+    # For eMicro users
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/CD-HIT-4.8.1.sif
+
+By default, the Singularity/Apptainer container uses the "cd-hit" program. If you want to use the other cd-hit tools,
+use *exec*
+
+.. code-block:: bash
+
+    singularity exec /users/PAS1117/osu9664/eMicro-Apps/cd-hit
+    singularity exec /users/PAS1117/osu9664/eMicro-Apps/cd-hit-2d
+    singularity exec /users/PAS1117/osu9664/eMicro-Apps/cd-hit-est
+    singularity exec /users/PAS1117/osu9664/eMicro-Apps/cd-hit-454
+    singularity exec /users/PAS1117/osu9664/eMicro-Apps/cd-hit-dup
+    ...
 
 BLAST+
 ~~~~~~
@@ -3239,3 +3248,10 @@ likelihood of each input fragment as temperate phage-derived and virulent phage-
 
     # For eMicro
     singularity run /users/PAS1117/osu9664/eMicro-Apps/DeePhage.sif
+
+    # To run with GPU enabled
+    module load singularity
+    module load cuda
+    singularity run --nv /users/PAS1117/osu9664/eMicro-Apps/DeePhage.sif example.fna deephage_results.csv
+
+For CUDA, ensure that you request a GPU-enabled node with "#SBATCH --gpus-per-node=1"

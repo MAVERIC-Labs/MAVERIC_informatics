@@ -854,29 +854,23 @@ MEROPS peptidase database as well as custom user databases. DRAM is ran in two s
 further analyzed to identify potential AMGs. This is done via assigning an auxilary score and flags representing the
 likelihood that a gene is metabolic and viral. The auxiliary score represents the confidence that a gene is viral in
 origin based on surrounding genes.</p>
-<p><strong>PAS1573 use</strong>: (This is now an out-of-date version but these commands will still work!)</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span>/fs/project/PAS1573/week10_pathways/DRAM/bin/:<span class="nv">$PATH</span>
-DRAM.py annotate -i <span class="s1">&#39;&lt;path-to-bins&gt;/*.fasta&#39;</span> -o dram_annotations
-DRAM.py summarize_genomes -i dram_annotations/annotations.tsv -o dram_results --rrna_path dram_annotations/rrnas.tsv
-</pre></div>
-</div>
-<p>You’ll notice that the command to run the tool is different, this is because of the challenge in using Singularity to
-encapsulate the package + databases.</p>
 <p><strong>Module use</strong>: (This is always the most up-to-date version, barring the Wrighton lab’s constant updates!)</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use /fs/project/PAS1117/modulefiles
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># For PAS1117</span>
+module use /fs/project/PAS1117/modulefiles
 module load DRAM
 
 DRAM.py annotate -i <span class="s1">&#39;&lt;path-to-bins&gt;/*.fa&#39;</span> -o annotation
 DRAM.py distill -i annotation/annotations.tsv -o distill --trna_path annotation/trnas.tsv --rrna_path annotation/rrnas.tsv
+
+<span class="c1"># For PAS1573</span>
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span>/fs/ess/PAS1573/modules/DRAM-1.4.0/bin:<span class="nv">$PATH</span>
+DRAM.py annotate -i <span class="s1">&#39;&lt;path-to-bins&gt;/*.fa&#39;</span> -o annotation
+DRAM.py distill -i annotation/annotations.tsv -o distill --trna_path annotation/trnas.tsv --rrna_path annotation/rrnas.tsv
 </pre></div>
 </div>
-<p>There are multiple singularity versions - <strong>each</strong> of these are tied to a specific database location.</p>
 <p><strong>Singularity use</strong></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># For PAS1573</span>
-module load singularity/current
-singularity run /users/PAS1117/osu9664/eMicro-Apps/DRAM-PAS1573-1.2.1.sif
-</pre></div>
-</div>
+<p>Unfortunately, due to the size of the database, this is not currently possible. While we work on a solution, please use
+the module version!</p>
 </section>
 <section id="drep">
 <h3>dRep<a class="headerlink" href="#drep" title="Permalink to this headline">¶</a></h3>
@@ -1883,6 +1877,23 @@ sequencing data. Bioinformatics 28, 3150–3152 (2012).</p>
 module load cdhit/4.6.1
 </pre></div>
 </div>
+<p><strong>Singularity use</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
+
+<span class="c1"># For eMicro users</span>
+singularity run /users/PAS1117/osu9664/eMicro-Apps/CD-HIT-4.8.1.sif
+</pre></div>
+</div>
+<p>By default, the Singularity/Apptainer container uses the “cd-hit” program. If you want to use the other cd-hit tools,
+use <em>exec</em></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>singularity <span class="nb">exec</span> /users/PAS1117/osu9664/eMicro-Apps/cd-hit
+singularity <span class="nb">exec</span> /users/PAS1117/osu9664/eMicro-Apps/cd-hit-2d
+singularity <span class="nb">exec</span> /users/PAS1117/osu9664/eMicro-Apps/cd-hit-est
+singularity <span class="nb">exec</span> /users/PAS1117/osu9664/eMicro-Apps/cd-hit-454
+singularity <span class="nb">exec</span> /users/PAS1117/osu9664/eMicro-Apps/cd-hit-dup
+...
+</pre></div>
+</div>
 </section>
 <section id="blast">
 <h3>BLAST+<a class="headerlink" href="#blast" title="Permalink to this headline">¶</a></h3>
@@ -2429,8 +2440,14 @@ DeePhage.sif
 
 <span class="c1"># For eMicro</span>
 singularity run /users/PAS1117/osu9664/eMicro-Apps/DeePhage.sif
+
+<span class="c1"># To run with GPU enabled</span>
+module load singularity
+module load cuda
+singularity run --nv /users/PAS1117/osu9664/eMicro-Apps/DeePhage.sif example.fna deephage_results.csv
 </pre></div>
 </div>
+<p>For CUDA, ensure that you request a GPU-enabled node with “#SBATCH –gpus-per-node=1”</p>
 </section>
 </section>
 </section>

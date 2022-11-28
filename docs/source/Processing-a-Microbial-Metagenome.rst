@@ -15,7 +15,7 @@ Everything here uses Singularity. All of the singularity images are located at:
 
 OR
 
-**/fs/project/PAS1573/sif/**
+**/fs/ess/PAS1573/sif/**
 
 You need to either provide full paths to the images/containers, or extend your system's PATH variable (see :ref:`eMicroApps`)
 
@@ -28,7 +28,7 @@ NCBI+SRA websites, or directly using their SRA Toolkit.
 .. code-block:: bash
 
     # Move to project directory
-    $ cd /fs/project/PAS1573/week7_processing
+    $ cd /fs/ess/PAS1573/week7_processing
     # Load modules necessary
     $ module load singularity
     $ singularity run SRA_Toolkit.sif fasterq-dump –e 4 SRR7151490
@@ -261,7 +261,7 @@ that should assemble your data.
     # Some get confused by this, but in the long run it'll save a lot of typing
 
     # Root/core directories
-    projectDir="/fs/project/PAS1573/week7_processing/"
+    projectDir="/fs/ess/PAS1573/week7_processing/"
     readsDir="${projectDir}/trimmed_trimmomatic/"
     spadesLoc="/users/PAS1117/osu9664/eMicro-Apps/SPAdes-3.13.0.sif"
     outputDir="${projectDir}/assemblies/SPAdes_with_Trimmomatic"
@@ -338,7 +338,7 @@ And now, what if we wanted to use a different assembler, let's say MEGAHIT?
     module load singularity
 
     # Root/core directories
-    projectDir="/fs/project/PAS1573/week7_processing/"
+    projectDir="/fs/ess/PAS1573/week7_processing/"
     readsDir="${projectDir}/trimmed_trimmomatic/"
     megahitLoc="/users/PAS1117/osu9664/eMicro-Apps/MEGAHIT-1.2.8.sif"
     outputDir="${projectDir}/assemblies/MEGAHIT_with_Trimmomatic"
@@ -407,7 +407,7 @@ We just converted our gzip-decompressed fastq files into fasta. Now we can submi
     module load singularity
 
     # Root/core directories
-    projectDir="/fs/project/PAS1573/week7_processing/"
+    projectDir="/fs/ess/PAS1573/week7_processing/"
     readsDir="${projectDir}/trimmed_bbduk/"
     idbaLoc="/users/PAS1117/osu9664/eMicro-Apps/IDBA-UD-1.1.3.sif"
     outputDir="${projectDir}/assemblies/IDBA_UD_with_BBDuk"
@@ -447,13 +447,13 @@ SPAdes.
 
 .. code-block:: bash
 
-    $ singularity exec /users/PAS1117/osu9664/eMicro-Apps/BamM-1.7.0.sif bowtie2-build -f /fs/project/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta contigs_bowtie2
+    $ singularity exec /users/PAS1117/osu9664/eMicro-Apps/BamM-1.7.0.sif bowtie2-build -f /fs/ess/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta contigs_bowtie2
 
 Next, we map our reads using bowtie2.
 
 .. code-block:: bash
 
-    $ singularity exec /users/PAS1117/osu9664/eMicro-Apps/BamM-1.7.0.sif bowtie2 -q --phred33 --end-to-end -p 40 -I 0 -X 2000 --no-unal -x contigs_bowtie2 -1 /fs/project/PAS1573/week7_processing/trimmed_trimmomatic/SRR7151490_1_t_paired.fastq.gz -2 /fs/project/PAS1573/week7_processing/trimmed_trimmomatic/SRR7151490_2_t_paired.fastq.gz -S SPades_contigs_vs_SRR7151490.sam
+    $ singularity exec /users/PAS1117/osu9664/eMicro-Apps/BamM-1.7.0.sif bowtie2 -q --phred33 --end-to-end -p 40 -I 0 -X 2000 --no-unal -x contigs_bowtie2 -1 /fs/ess/PAS1573/week7_processing/trimmed_trimmomatic/SRR7151490_1_t_paired.fastq.gz -2 /fs/ess/PAS1573/week7_processing/trimmed_trimmomatic/SRR7151490_2_t_paired.fastq.gz -S SPades_contigs_vs_SRR7151490.sam
 
 Convert the sam file into a bam via samtools. We're essentially "viewing" with an input format of SAM and outputting a
 BAM format. Notice the use of the ">" redirect.
@@ -473,16 +473,16 @@ entire Metabat pipeline.
 
 .. code-block:: bash
 
-    $ singularity exec /users/PAS1117/osu9664/eMicro-Apps/MetaBAT2-2.14.sif runMetaBat.sh /fs/project/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta SPades_contigs_vs_SRR7151490.sorted.bam
-    Executing: 'jgi_summarize_bam_contig_depths --outputDepth contigs.fasta.depth.txt --percentIdentity 97 --minContigLength 1000 --minContigDepth 1.0  --referenceFasta /fs/project/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta SPades_contigs_vs_SRR7151490.sorted.bam' at Mon Oct  7 16:26:18 UTC 2019
+    $ singularity exec /users/PAS1117/osu9664/eMicro-Apps/MetaBAT2-2.14.sif runMetaBat.sh /fs/ess/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta SPades_contigs_vs_SRR7151490.sorted.bam
+    Executing: 'jgi_summarize_bam_contig_depths --outputDepth contigs.fasta.depth.txt --percentIdentity 97 --minContigLength 1000 --minContigDepth 1.0  --referenceFasta /fs/ess/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta SPades_contigs_vs_SRR7151490.sorted.bam' at Mon Oct  7 16:26:18 UTC 2019
     Output depth matrix to contigs.fasta.depth.txt
     Minimum percent identity for a mapped read: 0.97
     minContigLength: 1000
     minContigDepth: 1
-    Reference fasta file /fs/project/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta
+    Reference fasta file /fs/ess/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta
     jgi_summarize_bam_contig_depths v2.14 2019-10-01T04:25:59
     Output matrix to contigs.fasta.depth.txt
-    Reading reference fasta file: /fs/project/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta
+    Reading reference fasta file: /fs/ess/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta
     ... 484282 sequences
     0: Opening bam: SPades_contigs_vs_SRR7151490.sorted.bam
     Processing bam files
@@ -493,7 +493,7 @@ entire Metabat pipeline.
     Finished
     Finished jgi_summarize_bam_contig_depths at Mon Oct  7 16:28:49 UTC 2019
     Creating depth file for metabat at Mon Oct  7 16:28:49 UTC 2019
-    Executing: 'metabat2  --inFile /fs/project/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta --outFile contigs.fasta.metabat-bins-20191007_162849/bin --abdFile contigs.fasta.depth.txt' at Mon Oct  7 16:28:49 UTC 2019
+    Executing: 'metabat2  --inFile /fs/ess/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta --outFile contigs.fasta.metabat-bins-20191007_162849/bin --abdFile contigs.fasta.depth.txt' at Mon Oct  7 16:28:49 UTC 2019
     MetaBAT 2 (v2.14) using minContig 2500, minCV 1.0, minCVSum 1.0, maxP 95%, minS 60, and maxEdges 200.
     8 bins (22664127 bases in total) formed.
 
@@ -504,7 +504,7 @@ for this example we'll be letting MaxBin2 handle everything!
 
 .. code-block:: bash
 
-    $ singularity run /users/PAS1117/osu9664/eMicro-Apps/MaxBin2-2.2.6.sif -contig /fs/project/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta -reads /fs/project/PAS1573/week7_processing/trimmed_trimmomatic/SRR7151490_1_t_paired.fastq.gz -reads2 /fs/project/PAS1573/week7_processing/trimmed_trimmomatic/SRR7151490_2_t_paired.fastq.gz -out maxbin2
+    $ singularity run /users/PAS1117/osu9664/eMicro-Apps/MaxBin2-2.2.6.sif -contig /fs/ess/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta -reads /fs/ess/PAS1573/week7_processing/trimmed_trimmomatic/SRR7151490_1_t_paired.fastq.gz -reads2 /fs/ess/PAS1573/week7_processing/trimmed_trimmomatic/SRR7151490_2_t_paired.fastq.gz -out maxbin2
 
 The last binning tool we'll use is CONCOCT. Before getting started, we're going to *index* our BAM-sorted file, so
 CONCOCT can (later) generate a coverage table from it. For this, we'll continue to use the BamM singularity container
@@ -520,7 +520,7 @@ Now we need to cut up our contigs into 10-kb chunks.
 
 .. code-block:: bash
 
-    $ singularity exec /users/PAS1117/osu9664/eMicro-Apps/CONCOCT-1.1.0.sif cut_up_fasta.py /fs/project/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta -c 10000 -o 0 --merge_last -b contigs_10K.bed > contigs_10K.fa
+    $ singularity exec /users/PAS1117/osu9664/eMicro-Apps/CONCOCT-1.1.0.sif cut_up_fasta.py /fs/ess/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta -c 10000 -o 0 --merge_last -b contigs_10K.bed > contigs_10K.fa
 
 Next, we need to generate a CONCOCT-formatted coverage table from our BAM file.
 
@@ -533,7 +533,7 @@ Now we can finally run CONCOCT!
 .. code-block:: bash
 
     $ singularity run /users/PAS1117/osu9664/eMicro-Apps/CONCOCT-1.1.0.sif --threads 40 --composition_file contigs_10K.fa --coverage_file coverage_table.tsv -b concoct_output/
-    Up and running. Check /fs/project/PAS1573/week7_processing/bins/spades_trimmomatic_concoct/concoct_output/log.txt for progress
+    Up and running. Check /fs/ess/PAS1573/week7_processing/bins/spades_trimmomatic_concoct/concoct_output/log.txt for progress
     29628 926 40
     Setting 40 OMP threads
     Generate input data
@@ -572,7 +572,7 @@ Finally, we need to extract each of the bins as fasta files (this makes downstre
 
 .. code-block:: bash
 
-    $ singularity exec /users/PAS1117/osu9664/eMicro-Apps/CONCOCT-1.1.0.sif extract_fasta_bins.py /fs/project/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta concoct_output/clustering_merged.csv --output_path concoct_output/fasta_bins
+    $ singularity exec /users/PAS1117/osu9664/eMicro-Apps/CONCOCT-1.1.0.sif extract_fasta_bins.py /fs/ess/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta concoct_output/clustering_merged.csv --output_path concoct_output/fasta_bins
 
     real	0m14.276s
     user	0m7.543s
@@ -689,7 +689,7 @@ Finally, let's run DAS Tool!
 
 .. code-block:: bash
 
-    $ singularity run /users/PAS1117/osu9664/eMicro-Apps/DAS_Tool-.sif -i spades_trimmomatic_das_tool/concoct.scaffolds2bin.tsv,spades_trimmomatic_das_tool/maxbin.scaffolds2bin.tsv,spades_trimmomatic_das_tool/metabat2.scaffolds2bin.tsv -l concoct,maxbin,metabat -c /fs/project/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta -o spades_trimmomatic_das_tool/DAS_Tool_results --search_engine diamond --threads 40
+    $ singularity run /users/PAS1117/osu9664/eMicro-Apps/DAS_Tool-.sif -i spades_trimmomatic_das_tool/concoct.scaffolds2bin.tsv,spades_trimmomatic_das_tool/maxbin.scaffolds2bin.tsv,spades_trimmomatic_das_tool/metabat2.scaffolds2bin.tsv -l concoct,maxbin,metabat -c /fs/ess/PAS1573/week7_processing/assemblies/SPAdes_with_Trimmomatic/contigs.fasta -o spades_trimmomatic_das_tool/DAS_Tool_results --search_engine diamond --threads 40
     /miniconda3/bin//DAS_Tool: line 241: usearch: command not found
     Running DAS Tool using 40 threads.
     predicting genes using Prodigal V2.6.3: February, 2016
