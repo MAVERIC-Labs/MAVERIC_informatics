@@ -2646,7 +2646,7 @@ iPHoP
 
 **Website**: https://bitbucket.org/srouxjgi/iphop
 
-**Reference**: https://bitbucket.org/srouxjgi/iphop
+**Reference**: Roux, S., Camargo, A.P., Coutinho, F.H., Dabdoub, S.M., Dutilh, B.E., Nayfach, S. and Tritt, A., 2023. iPHoP: An integrated machine learning framework to maximize host prediction for metagenome-derived viruses of archaea and bacteria. PLoS biology, 21(4), p.e3002083. https://doi.org/10.1371/journal.pbio.3002083.
 
 **Short description**: iPHoP stands for **i**\ntegrated **P**\hage **H**o\st **P**\rediction. It is an automated
 command-line pipeline for predicting host genus of novel bacteriophages and archaeoviruses based on their genome sequences.
