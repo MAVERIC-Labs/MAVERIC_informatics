@@ -1,7 +1,7 @@
 Microbiome Informatics (M8161)
 ==============================
 
-Read on for Microbiology 8161: Microbiome Informatics (Fall 2021). Here, you'll find a list of topics covered by the course
+Read on for Microbiology 8161: Microbiome Informatics (Fall 2023). Here, you'll find a list of topics covered by the course
 and a set of references (if available) on this website.
 
 Conceptual instructor:

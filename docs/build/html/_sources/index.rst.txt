@@ -17,7 +17,7 @@ At this site you'll find information relating to:
 * A public-facing portion of the Sullivan lab's informatics wiki, primarily focused on viral ecology research
 
 Please keep in mind that **this guide is very much a work in progress!**. It is being built, week-by-week, as the microbiome
-informatics course is taught during the Fall of 2021. Every week (and often, daily) this site will be updated, built upon
+informatics course is taught during the Fall of 2023. Every week (and often, daily) this site will be updated, built upon
 the lectures of M8161, with the goal of providing sufficient information to support class projects and research overall.
 
 
