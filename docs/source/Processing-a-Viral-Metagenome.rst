@@ -665,16 +665,17 @@ in, ensure you go through them.
 
     workDir="/fs/project/PAS1117/ben/VEP"
 
-    vs2_genomes="${workDir}/analyses/VirSorter2-Pass2/for-dramv/final-viral-combined-for-dramv.fa"
-    vs2_final_score="${workDir}/analyses/VirSorter2-Pass2/final-viral-score.tsv"
+    vs2_genomes="${workDir}/analyses/CheckV/combined.fna"
+    vs2_final_score="${workDir}/analyses/VirSorter2-Pass1/final-viral-score.tsv"
     amg_summary="${workDir}/analyses/DRAMv-distill/amg_summary.tsv"
     checkv_contamination="${workDir}/analyses/CheckV/contamination.tsv"
 
     output_dir="${workDir}/analyses/VS2-SOP"
 
-    python /users/PAS1117/osu9664/eMicro-Apps/Process-VS2_and_DRAMv.py --vs2-scores $vs2_final_score \
-    --checkv-contam $checkv_contamination --dramv-amg $amg_summary --vs2-genomes $vs2_genomes \
-    --output-dir $output_dir --drop-manual
+    # NOTE: --dramv-amg is optional
+
+    python /users/PAS1117/osu9664/eMicro-Apps/Process-VS2_and_DRAMv.py --vs2-scores $vs2_final_score --checkv-contam $checkv_contamination --dramv-amg $amg_summary --vs2-genomes $vs2_genomes --output-dir $output_dir --drop-manual
+
 
 .. code-block:: bash
 

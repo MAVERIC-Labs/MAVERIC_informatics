@@ -59,7 +59,7 @@ to 1) run these tools on OSC or 2) on your local machine.</p>
 <p>For Linux: You’ll need to install xorg and xauth, either through apt-get, yum, aptitude, etc.</p>
 <p><em>Everytime</em> you want to interact with these tools <em>connecting to OSC</em>, you’ll need to enable the X server connection so
 it can communicate with the one you’ve installed/enabled (above).</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ ssh -X username@pitzer.osc.edu
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ssh<span class="w"> </span>-X<span class="w"> </span>username@pitzer.osc.edu
 </pre></div>
 </div>
 <p>Alternatively, you can connect to OSC through <a class="reference external" href="http://ondemand.osc.edu/">onDemand</a> and request a desktop: Log in –&gt;
@@ -73,16 +73,16 @@ it runs Pathway Tools and collects the results from that tool to integrate it in
 at the <a class="reference external" href="https://github.com/hallamlab/metapathways2">metapathways2</a> documentation.</p>
 <section id="on-mac-ubuntu-osc">
 <h3>On Mac/Ubuntu/OSC<a class="headerlink" href="#on-mac-ubuntu-osc" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ wget https://github.com/hallamlab/metapathways2/archive/v2.5.2.tar.gz
-$ tar xf v2.5.2.tar.gz
-$ <span class="nb">cd</span> metapathways2-2.5.2
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>wget<span class="w"> </span>https://github.com/hallamlab/metapathways2/archive/v2.5.2.tar.gz
+$<span class="w"> </span>tar<span class="w"> </span>xf<span class="w"> </span>v2.5.2.tar.gz
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>metapathways2-2.5.2
 <span class="c1"># Download the database</span>
-$ wget https://www.dropbox.com/s/ye3kpve041e0r39/MetaPathways_DBs.zip
-$ unzip MetaPathways_DBs.zip
+$<span class="w"> </span>wget<span class="w"> </span>https://www.dropbox.com/s/ye3kpve041e0r39/MetaPathways_DBs.zip
+$<span class="w"> </span>unzip<span class="w"> </span>MetaPathways_DBs.zip
 <span class="c1"># Download and “install” CAZy</span>
-$ <span class="nb">cd</span> MetaPathways_DBs/functional
-$ wget https://www.dropbox.com/s/sewcecys04dk0ho/CAZY_2014_09_04.zip
-$ unzip CAZY_2014_09_04.zip
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>MetaPathways_DBs/functional
+$<span class="w"> </span>wget<span class="w"> </span>https://www.dropbox.com/s/sewcecys04dk0ho/CAZY_2014_09_04.zip
+$<span class="w"> </span>unzip<span class="w"> </span>CAZY_2014_09_04.zip
 </pre></div>
 </div>
 <p>If on a Mac, Navigate to the metapathways2-2.5.2 directory in Finder, find the MetaPathways2.dmg file, and copy-and-paste
@@ -102,8 +102,8 @@ the tool as well as the “Tier 1” databases (MetaCyc and EcoCyc). You can (an
 The website will send out a download link to both the executable/installer (for Windows, Mac, Linux) and datafiles. The
 download will include installation instructions, but a quick setup is below:</p>
 <p>Linux</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ chmod +x pathway-tools-23.0-linux-64-tier1-install
-$ ./pathway-tools-23.0-linux-64-tier1-install
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>chmod<span class="w"> </span>+x<span class="w"> </span>pathway-tools-23.0-linux-64-tier1-install
+$<span class="w"> </span>./pathway-tools-23.0-linux-64-tier1-install
 </pre></div>
 </div>
 <p>Mac</p>
@@ -124,25 +124,25 @@ from their respective GUIs.</p>
 <h2>Processing MAGs with MetaPathways2 and Pathway Tools<a class="headerlink" href="#processing-mags-with-metapathways2-and-pathway-tools" title="Permalink to this headline">¶</a></h2>
 <p>So if you remember our bins from processing our microbial metagenome with MetaBAT2 (trimmomatic+SPAdes):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  Bin Id          Marker lineage         <span class="c1"># genomes   # markers   # marker sets    0     1    2    3   4   5+   Completeness   Contamination   Strain heterogeneity</span>
+<span class="w">  </span>Bin<span class="w"> </span>Id<span class="w">          </span>Marker<span class="w"> </span>lineage<span class="w">         </span><span class="c1"># genomes   # markers   # marker sets    0     1    2    3   4   5+   Completeness   Contamination   Strain heterogeneity</span>
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  bin.8        k__Bacteria <span class="o">(</span>UID203<span class="o">)</span>         <span class="m">5449</span>        <span class="m">104</span>            <span class="m">58</span>         <span class="m">2</span>     <span class="m">51</span>   <span class="m">51</span>   <span class="m">0</span>   <span class="m">0</span>   <span class="m">0</span>       <span class="m">97</span>.41           <span class="m">43</span>.09               <span class="m">9</span>.80
-  bin.4    p__Actinobacteria <span class="o">(</span>UID1454<span class="o">)</span>      <span class="m">732</span>         <span class="m">200</span>           <span class="m">117</span>         <span class="m">8</span>    <span class="m">191</span>   <span class="m">1</span>    <span class="m">0</span>   <span class="m">0</span>   <span class="m">0</span>       <span class="m">93</span>.59            <span class="m">0</span>.43              <span class="m">100</span>.00
-  bin.6       k__Bacteria <span class="o">(</span>UID3187<span class="o">)</span>         <span class="m">2258</span>        <span class="m">188</span>           <span class="m">117</span>         <span class="m">85</span>    <span class="m">84</span>   <span class="m">15</span>   <span class="m">4</span>   <span class="m">0</span>   <span class="m">0</span>       <span class="m">59</span>.36           <span class="m">16</span>.20               <span class="m">7</span>.41
-  bin.2        k__Bacteria <span class="o">(</span>UID203<span class="o">)</span>         <span class="m">5449</span>        <span class="m">104</span>            <span class="m">58</span>         <span class="m">65</span>    <span class="m">34</span>   <span class="m">5</span>    <span class="m">0</span>   <span class="m">0</span>   <span class="m">0</span>       <span class="m">51</span>.90            <span class="m">6</span>.38              <span class="m">20</span>.00
-  bin.3       k__Bacteria <span class="o">(</span>UID2982<span class="o">)</span>          <span class="m">88</span>         <span class="m">227</span>           <span class="m">146</span>        <span class="m">131</span>    <span class="m">93</span>   <span class="m">3</span>    <span class="m">0</span>   <span class="m">0</span>   <span class="m">0</span>       <span class="m">46</span>.53            <span class="m">2</span>.05               <span class="m">0</span>.00
-  bin.1        k__Bacteria <span class="o">(</span>UID203<span class="o">)</span>         <span class="m">5449</span>        <span class="m">104</span>            <span class="m">58</span>         <span class="m">79</span>    <span class="m">23</span>   <span class="m">2</span>    <span class="m">0</span>   <span class="m">0</span>   <span class="m">0</span>       <span class="m">32</span>.04            <span class="m">2</span>.07               <span class="m">0</span>.00
-  bin.5        k__Bacteria <span class="o">(</span>UID203<span class="o">)</span>         <span class="m">5449</span>        <span class="m">104</span>            <span class="m">58</span>         <span class="m">88</span>    <span class="m">16</span>   <span class="m">0</span>    <span class="m">0</span>   <span class="m">0</span>   <span class="m">0</span>       <span class="m">15</span>.60            <span class="m">0</span>.00               <span class="m">0</span>.00
-  bin.7        k__Bacteria <span class="o">(</span>UID203<span class="o">)</span>         <span class="m">5449</span>        <span class="m">104</span>            <span class="m">58</span>         <span class="m">94</span>    <span class="m">10</span>   <span class="m">0</span>    <span class="m">0</span>   <span class="m">0</span>   <span class="m">0</span>       <span class="m">15</span>.52            <span class="m">0</span>.00               <span class="m">0</span>.00
+<span class="w">  </span>bin.8<span class="w">        </span>k__Bacteria<span class="w"> </span><span class="o">(</span>UID203<span class="o">)</span><span class="w">         </span><span class="m">5449</span><span class="w">        </span><span class="m">104</span><span class="w">            </span><span class="m">58</span><span class="w">         </span><span class="m">2</span><span class="w">     </span><span class="m">51</span><span class="w">   </span><span class="m">51</span><span class="w">   </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">       </span><span class="m">97</span>.41<span class="w">           </span><span class="m">43</span>.09<span class="w">               </span><span class="m">9</span>.80
+<span class="w">  </span>bin.4<span class="w">    </span>p__Actinobacteria<span class="w"> </span><span class="o">(</span>UID1454<span class="o">)</span><span class="w">      </span><span class="m">732</span><span class="w">         </span><span class="m">200</span><span class="w">           </span><span class="m">117</span><span class="w">         </span><span class="m">8</span><span class="w">    </span><span class="m">191</span><span class="w">   </span><span class="m">1</span><span class="w">    </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">       </span><span class="m">93</span>.59<span class="w">            </span><span class="m">0</span>.43<span class="w">              </span><span class="m">100</span>.00
+<span class="w">  </span>bin.6<span class="w">       </span>k__Bacteria<span class="w"> </span><span class="o">(</span>UID3187<span class="o">)</span><span class="w">         </span><span class="m">2258</span><span class="w">        </span><span class="m">188</span><span class="w">           </span><span class="m">117</span><span class="w">         </span><span class="m">85</span><span class="w">    </span><span class="m">84</span><span class="w">   </span><span class="m">15</span><span class="w">   </span><span class="m">4</span><span class="w">   </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">       </span><span class="m">59</span>.36<span class="w">           </span><span class="m">16</span>.20<span class="w">               </span><span class="m">7</span>.41
+<span class="w">  </span>bin.2<span class="w">        </span>k__Bacteria<span class="w"> </span><span class="o">(</span>UID203<span class="o">)</span><span class="w">         </span><span class="m">5449</span><span class="w">        </span><span class="m">104</span><span class="w">            </span><span class="m">58</span><span class="w">         </span><span class="m">65</span><span class="w">    </span><span class="m">34</span><span class="w">   </span><span class="m">5</span><span class="w">    </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">       </span><span class="m">51</span>.90<span class="w">            </span><span class="m">6</span>.38<span class="w">              </span><span class="m">20</span>.00
+<span class="w">  </span>bin.3<span class="w">       </span>k__Bacteria<span class="w"> </span><span class="o">(</span>UID2982<span class="o">)</span><span class="w">          </span><span class="m">88</span><span class="w">         </span><span class="m">227</span><span class="w">           </span><span class="m">146</span><span class="w">        </span><span class="m">131</span><span class="w">    </span><span class="m">93</span><span class="w">   </span><span class="m">3</span><span class="w">    </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">       </span><span class="m">46</span>.53<span class="w">            </span><span class="m">2</span>.05<span class="w">               </span><span class="m">0</span>.00
+<span class="w">  </span>bin.1<span class="w">        </span>k__Bacteria<span class="w"> </span><span class="o">(</span>UID203<span class="o">)</span><span class="w">         </span><span class="m">5449</span><span class="w">        </span><span class="m">104</span><span class="w">            </span><span class="m">58</span><span class="w">         </span><span class="m">79</span><span class="w">    </span><span class="m">23</span><span class="w">   </span><span class="m">2</span><span class="w">    </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">       </span><span class="m">32</span>.04<span class="w">            </span><span class="m">2</span>.07<span class="w">               </span><span class="m">0</span>.00
+<span class="w">  </span>bin.5<span class="w">        </span>k__Bacteria<span class="w"> </span><span class="o">(</span>UID203<span class="o">)</span><span class="w">         </span><span class="m">5449</span><span class="w">        </span><span class="m">104</span><span class="w">            </span><span class="m">58</span><span class="w">         </span><span class="m">88</span><span class="w">    </span><span class="m">16</span><span class="w">   </span><span class="m">0</span><span class="w">    </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">       </span><span class="m">15</span>.60<span class="w">            </span><span class="m">0</span>.00<span class="w">               </span><span class="m">0</span>.00
+<span class="w">  </span>bin.7<span class="w">        </span>k__Bacteria<span class="w"> </span><span class="o">(</span>UID203<span class="o">)</span><span class="w">         </span><span class="m">5449</span><span class="w">        </span><span class="m">104</span><span class="w">            </span><span class="m">58</span><span class="w">         </span><span class="m">94</span><span class="w">    </span><span class="m">10</span><span class="w">   </span><span class="m">0</span><span class="w">    </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">       </span><span class="m">15</span>.52<span class="w">            </span><span class="m">0</span>.00<span class="w">               </span><span class="m">0</span>.00
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 </pre></div>
 </div>
 <p>We’ll need to copy these bins from Week 7 over to Week 10.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">cd</span> /fs/project/PAS1573/week10_pathways/
-$ cp -r ../week7_processing/bins/spades_trimmomatic_metabat2/contigs.fasta.metabat-bins-20191007_162849/ <span class="nv">$PWD</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/fs/project/PAS1573/week10_pathways/
+$<span class="w"> </span>cp<span class="w"> </span>-r<span class="w"> </span>../week7_processing/bins/spades_trimmomatic_metabat2/contigs.fasta.metabat-bins-20191007_162849/<span class="w"> </span><span class="nv">$PWD</span>
 <span class="c1"># Rename files to make them suitable for MP2</span>
-$ rename bin. bin contigs.fasta.metabat-bins-20191007_162849/*
-$ rename fa fasta contigs.fasta.metabat-bins-20191007_162849/*
+$<span class="w"> </span>rename<span class="w"> </span>bin.<span class="w"> </span>bin<span class="w"> </span>contigs.fasta.metabat-bins-20191007_162849/*
+$<span class="w"> </span>rename<span class="w"> </span>fa<span class="w"> </span>fasta<span class="w"> </span>contigs.fasta.metabat-bins-20191007_162849/*
 </pre></div>
 </div>
 <p>For MetaPathways2 on OSC, we can use both the GUI and the command line. For this, we’ll use the command line. We can go
@@ -150,7 +150,7 @@ over the GUI in the next step.</p>
 <p>There are two required files (well, only 1), template_param and template_config, that are already in the Week 10 directory.
 I’ve already adjusted these files to work on OSC. We’re only looking at bins 4, 6 and 8, as they were the most complete
 (they’re specified using -s)</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ singularity <span class="nb">exec</span> /fs/project/PAS1573/week10_pathways/MetaPathways2-PAS1573.sif python /metapathways2-2.5.1/MetaPathways.py -i contigs.fasta.metabat-bins-20191007_162849/ -o metabat_bins_results/ -p template_param.txt -c template_config.txt -d <span class="m">8</span> -s bin6 -s bin8 -s bin4
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>singularity<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>/fs/project/PAS1573/week10_pathways/MetaPathways2-PAS1573.sif<span class="w"> </span>python<span class="w"> </span>/metapathways2-2.5.1/MetaPathways.py<span class="w"> </span>-i<span class="w"> </span>contigs.fasta.metabat-bins-20191007_162849/<span class="w"> </span>-o<span class="w"> </span>metabat_bins_results/<span class="w"> </span>-p<span class="w"> </span>template_param.txt<span class="w"> </span>-c<span class="w"> </span>template_config.txt<span class="w"> </span>-d<span class="w"> </span><span class="m">8</span><span class="w"> </span>-s<span class="w"> </span>bin6<span class="w"> </span>-s<span class="w"> </span>bin8<span class="w"> </span>-s<span class="w"> </span>bin4
 </pre></div>
 </div>
 <p>And that’s it! You’re done. MetaPathways2 took care of everything for you. Seriously. You can either open the GUI (below)
@@ -204,15 +204,15 @@ set of pathways and/or groups matched.</p>
 Tools executable (handled in the setup tab), Pathway Tools should be run <em>by</em> MetaPathways2. <em>You’ll see a Pathway Tools window open up, don’t close it</em>.</p>
 <p>If there is a problem during MetaPathways2 running Pathway Tools, you can do so:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Change to the results directory of MetaPathways2</span>
-$ <span class="nb">cd</span> /fs/project/PAS1573/week10_pathways/metabat_bins_results
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/fs/project/PAS1573/week10_pathways/metabat_bins_results
 <span class="c1"># On OSC</span>
-$ week10_pathways/pathway-tools/pathway-tools -patho ptools/ -no-taxonomic-pruning -no-web-cel-overview
+$<span class="w"> </span>week10_pathways/pathway-tools/pathway-tools<span class="w"> </span>-patho<span class="w"> </span>ptools/<span class="w"> </span>-no-taxonomic-pruning<span class="w"> </span>-no-web-cel-overview
 <span class="c1"># OR on Mac/Ubuntu</span>
-$ ~/pathway-tools/pathway-tools -patho ptools/ -no-taxonomic-pruning -no-web-cel-overview
+$<span class="w"> </span>~/pathway-tools/pathway-tools<span class="w"> </span>-patho<span class="w"> </span>ptools/<span class="w"> </span>-no-taxonomic-pruning<span class="w"> </span>-no-web-cel-overview
 </pre></div>
 </div>
 <p>To run Pathway Tools separately, it’s just the above command without parameters.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pathway-tools/pathway-tools
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>pathway-tools/pathway-tools
 </pre></div>
 </div>
 <p>And when Pathway Tools open, you’ll see the Available Databases:</p>
@@ -228,16 +228,16 @@ It’s not a coincidence that we selected our 3 most complete bins…</p>
 <p>Another way of looking at metabolic pathways is <a class="reference external" href="https://github.com/shafferm/DRAM">DRAM</a>. Installation can take a
 while, but there’s a version installed in the week10_pathways directory.</p>
 <p>For this we’ll use the same dataset as above:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">cd</span> /fs/project/PAS1573/week10_pathways/
-$ cp -r ../week7_processing/bins/spades_trimmomatic_metabat2/contigs.fasta.metabat-bins-20191007_162849/ <span class="nv">$PWD</span>
-$ rename bin. bin contigs.fasta.metabat-bins-20191007_162849/*
-$ rename fa fasta contigs.fasta.metabat-bins-20191007_162849/*
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/fs/project/PAS1573/week10_pathways/
+$<span class="w"> </span>cp<span class="w"> </span>-r<span class="w"> </span>../week7_processing/bins/spades_trimmomatic_metabat2/contigs.fasta.metabat-bins-20191007_162849/<span class="w"> </span><span class="nv">$PWD</span>
+$<span class="w"> </span>rename<span class="w"> </span>bin.<span class="w"> </span>bin<span class="w"> </span>contigs.fasta.metabat-bins-20191007_162849/*
+$<span class="w"> </span>rename<span class="w"> </span>fa<span class="w"> </span>fasta<span class="w"> </span>contigs.fasta.metabat-bins-20191007_162849/*
 </pre></div>
 </div>
 <p>(If you’ve already completed the MetaPathways2 portion you do not need to re-do this step!)</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span>/fs/project/PAS1573/week10_pathways/DRAM/bin/:<span class="nv">$PATH</span>
-$ DRAM.py annotate -i <span class="s1">&#39;contigs.fasta.metabat-bins-20191007_162849/*.fasta&#39;</span> -o <span class="nv">$PWD</span>/dram_annotations --skip_trnascan --skip_uniref --gtdb_taxonomy gtdbtk_output/gtdbtk.bac120.summary.tsv --threads <span class="m">40</span> --verbose
-$ DRAM.py summarize_genomes -i <span class="nv">$PWD</span>/dram_annotations/annotations.tsv -o <span class="nv">$PWD</span>/dram_results --rrna_path <span class="nv">$PWD</span>/dram_annotations/rrnas.tsv
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span>/fs/project/PAS1573/week10_pathways/DRAM/bin/:<span class="nv">$PATH</span>
+$<span class="w"> </span>DRAM.py<span class="w"> </span>annotate<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;contigs.fasta.metabat-bins-20191007_162849/*.fasta&#39;</span><span class="w"> </span>-o<span class="w"> </span><span class="nv">$PWD</span>/dram_annotations<span class="w"> </span>--skip_trnascan<span class="w"> </span>--skip_uniref<span class="w"> </span>--gtdb_taxonomy<span class="w"> </span>gtdbtk_output/gtdbtk.bac120.summary.tsv<span class="w"> </span>--threads<span class="w"> </span><span class="m">40</span><span class="w"> </span>--verbose
+$<span class="w"> </span>DRAM.py<span class="w"> </span>summarize_genomes<span class="w"> </span>-i<span class="w"> </span><span class="nv">$PWD</span>/dram_annotations/annotations.tsv<span class="w"> </span>-o<span class="w"> </span><span class="nv">$PWD</span>/dram_results<span class="w"> </span>--rrna_path<span class="w"> </span><span class="nv">$PWD</span>/dram_annotations/rrnas.tsv
 </pre></div>
 </div>
 </section>

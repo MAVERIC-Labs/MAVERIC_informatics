@@ -57,7 +57,7 @@ set of proteins (myProteins.faa) against NCBI’s non-redundant (nr) database, w
 <h3>Directly<a class="headerlink" href="#directly" title="Permalink to this headline">¶</a></h3>
 <p>If you know the exact location of the blastp executable on the system, then you can call the program directly using the
 “full path” to the executable:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/fs/project/PAS1573/tools/ncbi-blast+/2.8.0+/bin/blastp -query myProteins.faa -db nr --outfmt <span class="m">6</span> -out myProteins-vs-NR.tsv
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/fs/project/PAS1573/tools/ncbi-blast+/2.8.0+/bin/blastp<span class="w"> </span>-query<span class="w"> </span>myProteins.faa<span class="w"> </span>-db<span class="w"> </span>nr<span class="w"> </span>--outfmt<span class="w"> </span><span class="m">6</span><span class="w"> </span>-out<span class="w"> </span>myProteins-vs-NR.tsv
 </pre></div>
 </div>
 </section>
@@ -67,18 +67,18 @@ set of proteins (myProteins.faa) against NCBI’s non-redundant (nr) database, w
 to remember the full path to every tool. Instead, you can build and/or load a module, which extends your $PATH (i.e.
 what folders the system looks in to find executables) and modifies other system variables so that all your tools/dependencies
 can be found.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load blast/2.8.0+
-blastp -query myProteins.faa -db nr --outfmt <span class="m">6</span> -out myProteins-vs-NR.tsv
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module<span class="w"> </span>load<span class="w"> </span>blast/2.8.0+
+blastp<span class="w"> </span>-query<span class="w"> </span>myProteins.faa<span class="w"> </span>-db<span class="w"> </span>nr<span class="w"> </span>--outfmt<span class="w"> </span><span class="m">6</span><span class="w"> </span>-out<span class="w"> </span>myProteins-vs-NR.tsv
 </pre></div>
 </div>
 <p>For this example, it seems like an extra line, but in a “real” data analysis pipeline, you can load a single module and
 be able to run dozens of tools. Or, using the example above, what if you wanted to compare your sequence against multiple
 NCBI databases?</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load blast/2.8.0+
-blastn -query myNucleotides.fna -db nt --outfmt <span class="m">6</span> -out myNucleotides-vs-NT.tsv
-blastx -query myNucleotides.fna -db nr --outfmt <span class="m">6</span> -out myNucleotides-vs-NR.tsv
-blastp -query myProteins.fna -db nr --outfmt <span class="m">6</span> -out myProteins-vs-NR.tsv
-rpsblast -query myProteins.fna -db CDD --outfmt <span class="m">6</span> -out myProteins-vs-CDD.tsv
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module<span class="w"> </span>load<span class="w"> </span>blast/2.8.0+
+blastn<span class="w"> </span>-query<span class="w"> </span>myNucleotides.fna<span class="w"> </span>-db<span class="w"> </span>nt<span class="w"> </span>--outfmt<span class="w"> </span><span class="m">6</span><span class="w"> </span>-out<span class="w"> </span>myNucleotides-vs-NT.tsv
+blastx<span class="w"> </span>-query<span class="w"> </span>myNucleotides.fna<span class="w"> </span>-db<span class="w"> </span>nr<span class="w"> </span>--outfmt<span class="w"> </span><span class="m">6</span><span class="w"> </span>-out<span class="w"> </span>myNucleotides-vs-NR.tsv
+blastp<span class="w"> </span>-query<span class="w"> </span>myProteins.fna<span class="w"> </span>-db<span class="w"> </span>nr<span class="w"> </span>--outfmt<span class="w"> </span><span class="m">6</span><span class="w"> </span>-out<span class="w"> </span>myProteins-vs-NR.tsv
+rpsblast<span class="w"> </span>-query<span class="w"> </span>myProteins.fna<span class="w"> </span>-db<span class="w"> </span>CDD<span class="w"> </span>--outfmt<span class="w"> </span><span class="m">6</span><span class="w"> </span>-out<span class="w"> </span>myProteins-vs-CDD.tsv
 </pre></div>
 </div>
 <p>Instead of using long paths for every command, or loading a module for every BLAST+ tool individually, you can simply
@@ -104,16 +104,16 @@ down an entire cluster.</p>
 you need in order to run a tool. So if you can install the tool in linux (which covers the vast majority of bioinformatic
 tools), then you can use Singularity to package it.</p>
 <p>To run a Singularity container on OSC, you must first load Singularity and then you can execute the container.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
-singularity run blastp.simg -query myProteins.faa -db nr --outfmt <span class="m">6</span> -out myProteins-vs-NR.tsv
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module<span class="w"> </span>load<span class="w"> </span>singularity/current
+singularity<span class="w"> </span>run<span class="w"> </span>blastp.simg<span class="w"> </span>-query<span class="w"> </span>myProteins.faa<span class="w"> </span>-db<span class="w"> </span>nr<span class="w"> </span>--outfmt<span class="w"> </span><span class="m">6</span><span class="w"> </span>-out<span class="w"> </span>myProteins-vs-NR.tsv
 </pre></div>
 </div>
 <p>There’s a bunch of ways to run a container - but keep in mind that the container is treated just like any executable on
 the system.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module load singularity/current
-singularity run blastp.simg -query myProteins.faa -db nr --outfmt <span class="m">6</span> -out myProteins-vs-NR.tsv
-singularity <span class="nb">exec</span> blastp.simg blastp -query myProteins.faa -db nr --outfmt <span class="m">6</span> -out myProteins-vs-NR.tsv
-blastp.simg -query myProteins.faa -db nr --outfmt <span class="m">6</span> -out myProteins-vs-NR.tsv
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module<span class="w"> </span>load<span class="w"> </span>singularity/current
+singularity<span class="w"> </span>run<span class="w"> </span>blastp.simg<span class="w"> </span>-query<span class="w"> </span>myProteins.faa<span class="w"> </span>-db<span class="w"> </span>nr<span class="w"> </span>--outfmt<span class="w"> </span><span class="m">6</span><span class="w"> </span>-out<span class="w"> </span>myProteins-vs-NR.tsv
+singularity<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>blastp.simg<span class="w"> </span>blastp<span class="w"> </span>-query<span class="w"> </span>myProteins.faa<span class="w"> </span>-db<span class="w"> </span>nr<span class="w"> </span>--outfmt<span class="w"> </span><span class="m">6</span><span class="w"> </span>-out<span class="w"> </span>myProteins-vs-NR.tsv
+blastp.simg<span class="w"> </span>-query<span class="w"> </span>myProteins.faa<span class="w"> </span>-db<span class="w"> </span>nr<span class="w"> </span>--outfmt<span class="w"> </span><span class="m">6</span><span class="w"> </span>-out<span class="w"> </span>myProteins-vs-NR.tsv
 </pre></div>
 </div>
 <p>Notice in the last line you don’t even need to call singularity? That’s because the Singularity container is smart enough

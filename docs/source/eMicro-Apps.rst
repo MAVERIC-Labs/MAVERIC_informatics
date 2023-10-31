@@ -1796,6 +1796,28 @@ Note: There may be numerous DeprecationWarning. They can be safely ignored.
     # OR
     module load VIBRANT/1.2.1
 
+ViralCC
+~~~~~~~
+
+**Website**: https://github.com/dyxstat/ViralCC.git
+
+**Reference**: Du, Y., Fuhrman, J. A. & Sun, F. ViralCC retrieves complete viral genomes and virus-host pairs from
+metagenomic Hi-C data. Nat Commun 14, 502 (2023). https://doi.org/10.1038/s41467-023-35945-y
+
+**Short description**: ViralCC is a new open-source metagenomic Hi-C-based binning pipeline to recover high-quality
+viral genomes. ViralCC not only considers the Hi-C interaction graph, but also puts forward a novel host proximity
+graph of viral contigs as a complementary source of information to the remarkably sparse Hi-C interaction map. The
+two graphs are then integrated together, followed by the Leiden graph clustering using the integrative graph to
+generate draft viral genomes.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load ViralCC/1.0.0
+    ViralCC pipeline -v <virus-contigs-FASTA> <sorted-BAM> <virus-contigs-CSV> <output-directory>
+
 
 ViralRecall
 ~~~~~~~~~~~

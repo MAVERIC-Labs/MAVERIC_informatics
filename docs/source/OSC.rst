@@ -332,3 +332,35 @@ high-performance computing (HPC) on the `Ohio Supercomputer Center (OSC) <https:
 step-by-step guide to pretty much everything you need to know to get started. You'll learn, through the course, what is
 the HPC, how to connect, how to use the scheduler (i.e. how to submit jobs), how to use the cluster efficiently, as well
 as a basic guide to UNIX commands.
+
+Job Arrays
+----------
+
+Sometimes you need to run the same analysis on many different inputs, e.g. assemble different datasets using
+identical parameters or identify viruses. Another reason, size. With some analyses, while it's simplier to concatenate
+the dataset (like combine contigs from multiple assemblies), it might take too long to for the analysis to complete
+in any reasonable amount of time. OR, maybe the data is too large to be processed by the program (i.e. memory limits).
+INSTEAD, you can use job arrays to split up your job and apply it to many different inputs. That's job arrays.
+
+To submit your job:
+
+.. code-block:: bash
+
+    sbatch --array=1-25 job.sh
+
+When your job runs, the job system creates a variable, *SLURM_ARRAY_TASK_ID* that can be used to specify the files you
+want to run your analysis on. Let's look at the job file.
+
+.. code-block:: bash
+
+    #!/bin/bash
+    #SBATCH --job-name=analysis_name
+    #SBATCH --time=1:00:00
+    #SBATCH --nodes=1
+    #SBATCH --ntasks=40
+    #SBATCH --account=PAS1573
+    #SBATCH --output=job.log
+
+    singularity_dir=/users/PAS1117/osu9664/eMicro-Apps/
+
+    singularity run $singularity_dir/iPHoP-1.1.0.sif predict --fa_file ${SLURM_ARRAY_TASK_ID} --db_dir iphop_db/Sept_2021_pub/ -o results/${SLURM_ARRAY_TASK_ID}

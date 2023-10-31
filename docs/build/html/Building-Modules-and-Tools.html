@@ -54,24 +54,24 @@ according to universality.</p>
 advanced use to their respective documentations.</p>
 <p>For this section we’ll use SPAdes, a common metagenomic assembler, as our example.</p>
 <p>Let’s download it first, so we all start at the same place:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ wget http://cab.spbu.ru/files/release3.13.2/SPAdes-3.13.2-Linux.tar.gz
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>wget<span class="w"> </span>http://cab.spbu.ru/files/release3.13.2/SPAdes-3.13.2-Linux.tar.gz
 </pre></div>
 </div>
 <p>And unpack it</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Untar</span>
-$ tar xf SPAdes-3.13.2-Linux.tar.gz
+$<span class="w"> </span>tar<span class="w"> </span>xf<span class="w"> </span>SPAdes-3.13.2-Linux.tar.gz
 <span class="c1"># Check to see it decompressed</span>
-$ ls
-SPAdes-3.13.2-Linux.tar.gz SPAdes-3.13.2-Linux
+$<span class="w"> </span>ls
+SPAdes-3.13.2-Linux.tar.gz<span class="w"> </span>SPAdes-3.13.2-Linux
 </pre></div>
 </div>
 <p>And check the files in our new SPAdes directory…</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ ls SPAdes-3.13.2-Linux
-bin share
-$ ls -l SPAdes-3.13.2-Linux/bin
-metaspades.py -&gt; spades.py
-plasmidspades.py -&gt; spades.py
-rnaspades.py -&gt; spades.py
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ls<span class="w"> </span>SPAdes-3.13.2-Linux
+bin<span class="w"> </span>share
+$<span class="w"> </span>ls<span class="w"> </span>-l<span class="w"> </span>SPAdes-3.13.2-Linux/bin
+metaspades.py<span class="w"> </span>-&gt;<span class="w"> </span>spades.py
+plasmidspades.py<span class="w"> </span>-&gt;<span class="w"> </span>spades.py
+rnaspades.py<span class="w"> </span>-&gt;<span class="w"> </span>spades.py
 spades-bwa
 spades-core
 spades-corrector-core
@@ -91,12 +91,12 @@ truspades.py
 <h2>Directly<a class="headerlink" href="#directly" title="Permalink to this headline">¶</a></h2>
 <p>The simplest way to load and/or run a tool.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Full path</span>
-/fs/project/PAS1117/modules/spades/3.13.2/bin/spades.py --version
-SPAdes v3.13.2
+/fs/project/PAS1117/modules/spades/3.13.2/bin/spades.py<span class="w"> </span>--version
+SPAdes<span class="w"> </span>v3.13.2
 <span class="c1"># Within the directory</span>
-<span class="nb">cd</span> /fs/project/PAS1117/modules/spades/3.13.2/bin/
-./spades.py --version
-SPAdes v3.13.2
+<span class="nb">cd</span><span class="w"> </span>/fs/project/PAS1117/modules/spades/3.13.2/bin/
+./spades.py<span class="w"> </span>--version
+SPAdes<span class="w"> </span>v3.13.2
 </pre></div>
 </div>
 <p>SPAdes is a python program that can run on python 2+. Since python is already installed on OSC, there’s no need to load
@@ -110,26 +110,26 @@ In this example, <strong>only</strong> people in PAS1117 can use this. Bummer.</
 <p><em>However</em>, what if you didn’t want to write the full path or change to the directory in order to use the tool? Normally,
 you’d add this to your system’s $PATH variable so when you typed “spades.py” it’d know <em>exactly</em> where to find your
 tool.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="nv">$PWD</span>/SPAdes-3.13.2-Linux/bin:<span class="nv">$PATH</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PWD</span>/SPAdes-3.13.2-Linux/bin:<span class="nv">$PATH</span>
 </pre></div>
 </div>
 <p>Now you can run SPAdes without worrying about where it’s located!</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spades.py --version
-SPAdes v3.13.2
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spades.py<span class="w"> </span>--version
+SPAdes<span class="w"> </span>v3.13.2
 </pre></div>
 </div>
 <p>What OSC’s module system does is let’s you easily modify you paths and other variables, and provide a convenient way of
 allowing others to do the same. All that’s required is a single file with that information - a lua file.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>-- Local Variables
-<span class="nb">local</span> <span class="nv">name</span> <span class="o">=</span> <span class="s2">&quot;spades&quot;</span>
-<span class="nb">local</span> <span class="nv">version</span> <span class="o">=</span> <span class="s2">&quot;3.13.2&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>--<span class="w"> </span>Local<span class="w"> </span>Variables
+<span class="nb">local</span><span class="w"> </span><span class="nv">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;spades&quot;</span>
+<span class="nb">local</span><span class="w"> </span><span class="nv">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;3.13.2&quot;</span>
 
--- Locate Home Directory
-<span class="nb">local</span> <span class="nv">projectDir</span> <span class="o">=</span> <span class="s2">&quot;/fs/project/PAS1117/&quot;</span>
-<span class="nb">local</span> <span class="nv">root</span> <span class="o">=</span> pathJoin<span class="o">(</span>projectDir, <span class="s2">&quot;modules&quot;</span>, name, version<span class="o">)</span>
+--<span class="w"> </span>Locate<span class="w"> </span>Home<span class="w"> </span>Directory
+<span class="nb">local</span><span class="w"> </span><span class="nv">projectDir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/fs/project/PAS1117/&quot;</span>
+<span class="nb">local</span><span class="w"> </span><span class="nv">root</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>pathJoin<span class="o">(</span>projectDir,<span class="w"> </span><span class="s2">&quot;modules&quot;</span>,<span class="w"> </span>name,<span class="w"> </span>version<span class="o">)</span>
 
--- Set Paths
-prepend_path<span class="o">(</span><span class="s2">&quot;PATH&quot;</span>, pathJoin<span class="o">(</span>root, <span class="s2">&quot;bin&quot;</span><span class="o">))</span>
+--<span class="w"> </span>Set<span class="w"> </span>Paths
+prepend_path<span class="o">(</span><span class="s2">&quot;PATH&quot;</span>,<span class="w"> </span>pathJoin<span class="o">(</span>root,<span class="w"> </span><span class="s2">&quot;bin&quot;</span><span class="o">))</span>
 </pre></div>
 </div>
 <p>What’s happening? There’s only 1 thing that’s happening, “prepend_path” is adding a folder/directory path to your $PATH.
@@ -154,26 +154,26 @@ and is more detailed than here. But let’s summarize what they say.</p>
 “local”. This example also uses your home directory ($HOME), and everything is assumed to be installed there. They
 [OSC] recommends the following file structure:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">local</span>
-<span class="p">|</span>-- src
-<span class="p">|</span>-- share
-    <span class="sb">`</span>-- lmodfiles
+<span class="p">|</span>--<span class="w"> </span>src
+<span class="p">|</span>--<span class="w"> </span>share
+<span class="w">    </span><span class="sb">`</span>--<span class="w"> </span>lmodfiles
 </pre></div>
 </div>
 <p>In our example, above, it’d look like this for us:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">local</span>
-<span class="p">|</span>-- src
-    <span class="p">|</span> -- SPAdes-3.13.2-Linux.tar.gz
-<span class="p">|</span>-- spades
-    <span class="p">|</span> -- SPAdes-3.13.2-Linux
-<span class="p">|</span>-- share
-    <span class="p">|</span> -- lmodfiles
-        <span class="p">|</span> -- spades
-            -- <span class="m">3</span>.13.2.lua
+<span class="p">|</span>--<span class="w"> </span>src
+<span class="w">    </span><span class="p">|</span><span class="w"> </span>--<span class="w"> </span>SPAdes-3.13.2-Linux.tar.gz
+<span class="p">|</span>--<span class="w"> </span>spades
+<span class="w">    </span><span class="p">|</span><span class="w"> </span>--<span class="w"> </span>SPAdes-3.13.2-Linux
+<span class="p">|</span>--<span class="w"> </span>share
+<span class="w">    </span><span class="p">|</span><span class="w"> </span>--<span class="w"> </span>lmodfiles
+<span class="w">        </span><span class="p">|</span><span class="w"> </span>--<span class="w"> </span>spades
+<span class="w">            </span>--<span class="w"> </span><span class="m">3</span>.13.2.lua
 </pre></div>
 </div>
 <p>Notice how both tarfile and extracted folders/files are in different directories. Now, to load the module:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module use local/share/lmodfiles/
-module load spades/3.13.2
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module<span class="w"> </span>use<span class="w"> </span>local/share/lmodfiles/
+module<span class="w"> </span>load<span class="w"> </span>spades/3.13.2
 </pre></div>
 </div>
 <p>You <em>must</em> <strong>module use</strong> and <strong>module load</strong> every time you log into OSC and in every job script (if you are loading

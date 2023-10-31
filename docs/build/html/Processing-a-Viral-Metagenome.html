@@ -47,15 +47,15 @@ can’t be nicely placed here, but are available (as links to files) or in the M
 <p><strong>/users/PAS1117/osu9664/eMicro-Apps/</strong></p>
 <p>So you must prepend each *.img, *.simg or *.sif Singularity container w/ this path OR link them (see <a class="reference internal" href="Linux-Unix.html#unix-linux"><span class="std std-ref">UNIX/LINUX Introduction and Guide</span></a>).
 Another way to avoid needing to prepend every Singularity container is to add them to your $PATH</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span>/users/PAS1117/osu9664/eMicro-Apps/:<span class="nv">$PATH</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span>/users/PAS1117/osu9664/eMicro-Apps/:<span class="nv">$PATH</span>
 </pre></div>
 </div>
 <p>Now, instead of typing:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>singularity run /users/PAS1117/osu9664/eMicro-Apps/SRA_Toolkit.sif fasterq-dump -e <span class="m">4</span> -p --split-files ERR594369
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>singularity<span class="w"> </span>run<span class="w"> </span>/users/PAS1117/osu9664/eMicro-Apps/SRA_Toolkit.sif<span class="w"> </span>fasterq-dump<span class="w"> </span>-e<span class="w"> </span><span class="m">4</span><span class="w"> </span>-p<span class="w"> </span>--split-files<span class="w"> </span>ERR594369
 </pre></div>
 </div>
 <p>You can now type:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>SRA_Toolkit.sif fasterq-dump -e <span class="m">4</span> -p --split-files ERR594369
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>SRA_Toolkit.sif<span class="w"> </span>fasterq-dump<span class="w"> </span>-e<span class="w"> </span><span class="m">4</span><span class="w"> </span>-p<span class="w"> </span>--split-files<span class="w"> </span>ERR594369
 </pre></div>
 </div>
 <section id="downloading-the-data">
@@ -63,19 +63,19 @@ Another way to avoid needing to prepend every Singularity container is to add th
 <p>The first thing we need to do is grab the data from the SRA. You can do this a few ways, either through navigating the
 NCBI+SRA websites, or directly using their SRA Toolkit.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Move to project directory</span>
-$ /fs/project/PAS1117/viral_ecogenomics_pipeline/
+$<span class="w"> </span>/fs/project/PAS1117/viral_ecogenomics_pipeline/
 <span class="c1"># Load modules necessary</span>
-$ module load singularity
-$ <span class="nb">time</span> SRA_Toolkit.sif fasterq-dump -e <span class="m">4</span> -p --split-files ERR594369
-join   :<span class="p">|</span>-------------------------------------------------- <span class="m">100</span>.00%
-concat :<span class="p">|</span>-------------------------------------------------- <span class="m">100</span>.00%
-spots <span class="nb">read</span>      : <span class="m">37</span>,151,587
-reads <span class="nb">read</span>      : <span class="m">74</span>,303,174
-reads written   : <span class="m">74</span>,303,174
+$<span class="w"> </span>module<span class="w"> </span>load<span class="w"> </span>singularity
+$<span class="w"> </span><span class="nb">time</span><span class="w"> </span>SRA_Toolkit.sif<span class="w"> </span>fasterq-dump<span class="w"> </span>-e<span class="w"> </span><span class="m">4</span><span class="w"> </span>-p<span class="w"> </span>--split-files<span class="w"> </span>ERR594369
+join<span class="w">   </span>:<span class="p">|</span>--------------------------------------------------<span class="w"> </span><span class="m">100</span>.00%
+concat<span class="w"> </span>:<span class="p">|</span>--------------------------------------------------<span class="w"> </span><span class="m">100</span>.00%
+spots<span class="w"> </span><span class="nb">read</span><span class="w">      </span>:<span class="w"> </span><span class="m">37</span>,151,587
+reads<span class="w"> </span><span class="nb">read</span><span class="w">      </span>:<span class="w"> </span><span class="m">74</span>,303,174
+reads<span class="w"> </span>written<span class="w">   </span>:<span class="w"> </span><span class="m">74</span>,303,174
 
-real        21m9.644s
-user        6m21.745s
-sys 0m45.333s
+real<span class="w">        </span>21m9.644s
+user<span class="w">        </span>6m21.745s
+sys<span class="w"> </span>0m45.333s
 </pre></div>
 </div>
 <p>In the example above, we used <em>fasterq-dump</em>, which is designated to download two paired end read files in fastq format.
@@ -87,18 +87,18 @@ and ERR594369_2.fastq. fasterq-dump won’t compress the files for you, so you�
 <p>We will be using either <a class="reference external" href="https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/bbduk-guide/">BBDuk</a> or
 <a class="reference external" href="http://www.usadellab.org/cms/?page=trimmomatic">Trimmomatic</a> to process our input reads. <em>You only need to select one</em>.
 We’ll be using both for examples, but typically stick with one and use it.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">time</span> Trimmomatic-0.36.0.img PE ERR594369_1.fastq.gz ERR594369_2.fastq.gz ERR594369_1_t_paired.fastq.gz ERR594369_1_t_unpaired.fastq.gz ERR594369_2_t_paired.fastq.gz ERR594369_2_t_unpaired.fastq.gz ILLUMINACLIP:/Trimmomatic-0.36/adapters/TruSeq3-PE.fa:2:30:10:2 LEADING:3 TRAILING:3 MINLEN:36
-TrimmomaticPE: Started with arguments:
- ERR594369_1.fastq.gz ERR594369_2.fastq.gz ERR594369_1_t_paired.fastq.gz ERR594369_1_t_unpaired.fastq.gz ERR594369_2_t_paired.fastq.gz ERR594369_2_t_unpaired.fastq.gz ILLUMINACLIP:/Trimmomatic-0.36/adapters/TruSeq3-PE.fa:2:30:10:2 LEADING:3 TRAILING:3 MINLEN:36
-Using PrefixPair: <span class="s1">&#39;TACACTCTTTCCCTACACGACGCTCTTCCGATCT&#39;</span> and <span class="s1">&#39;GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT&#39;</span>
-ILLUMINACLIP: Using <span class="m">1</span> prefix pairs, <span class="m">0</span> forward/reverse sequences, <span class="m">0</span> forward only sequences, <span class="m">0</span> reverse only sequences
-Quality encoding detected as phred33
-Input Read Pairs: <span class="m">37151587</span> Both Surviving: <span class="m">36444033</span> <span class="o">(</span><span class="m">98</span>.10%<span class="o">)</span> Forward Only Surviving: <span class="m">632370</span> <span class="o">(</span><span class="m">1</span>.70%<span class="o">)</span> Reverse Only Surviving: <span class="m">67275</span> <span class="o">(</span><span class="m">0</span>.18%<span class="o">)</span> Dropped: <span class="m">7909</span> <span class="o">(</span><span class="m">0</span>.02%<span class="o">)</span>
-TrimmomaticPE: Completed successfully
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">time</span><span class="w"> </span>Trimmomatic-0.36.0.img<span class="w"> </span>PE<span class="w"> </span>ERR594369_1.fastq.gz<span class="w"> </span>ERR594369_2.fastq.gz<span class="w"> </span>ERR594369_1_t_paired.fastq.gz<span class="w"> </span>ERR594369_1_t_unpaired.fastq.gz<span class="w"> </span>ERR594369_2_t_paired.fastq.gz<span class="w"> </span>ERR594369_2_t_unpaired.fastq.gz<span class="w"> </span>ILLUMINACLIP:/Trimmomatic-0.36/adapters/TruSeq3-PE.fa:2:30:10:2<span class="w"> </span>LEADING:3<span class="w"> </span>TRAILING:3<span class="w"> </span>MINLEN:36
+TrimmomaticPE:<span class="w"> </span>Started<span class="w"> </span>with<span class="w"> </span>arguments:
+<span class="w"> </span>ERR594369_1.fastq.gz<span class="w"> </span>ERR594369_2.fastq.gz<span class="w"> </span>ERR594369_1_t_paired.fastq.gz<span class="w"> </span>ERR594369_1_t_unpaired.fastq.gz<span class="w"> </span>ERR594369_2_t_paired.fastq.gz<span class="w"> </span>ERR594369_2_t_unpaired.fastq.gz<span class="w"> </span>ILLUMINACLIP:/Trimmomatic-0.36/adapters/TruSeq3-PE.fa:2:30:10:2<span class="w"> </span>LEADING:3<span class="w"> </span>TRAILING:3<span class="w"> </span>MINLEN:36
+Using<span class="w"> </span>PrefixPair:<span class="w"> </span><span class="s1">&#39;TACACTCTTTCCCTACACGACGCTCTTCCGATCT&#39;</span><span class="w"> </span>and<span class="w"> </span><span class="s1">&#39;GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT&#39;</span>
+ILLUMINACLIP:<span class="w"> </span>Using<span class="w"> </span><span class="m">1</span><span class="w"> </span>prefix<span class="w"> </span>pairs,<span class="w"> </span><span class="m">0</span><span class="w"> </span>forward/reverse<span class="w"> </span>sequences,<span class="w"> </span><span class="m">0</span><span class="w"> </span>forward<span class="w"> </span>only<span class="w"> </span>sequences,<span class="w"> </span><span class="m">0</span><span class="w"> </span>reverse<span class="w"> </span>only<span class="w"> </span>sequences
+Quality<span class="w"> </span>encoding<span class="w"> </span>detected<span class="w"> </span>as<span class="w"> </span>phred33
+Input<span class="w"> </span>Read<span class="w"> </span>Pairs:<span class="w"> </span><span class="m">37151587</span><span class="w"> </span>Both<span class="w"> </span>Surviving:<span class="w"> </span><span class="m">36444033</span><span class="w"> </span><span class="o">(</span><span class="m">98</span>.10%<span class="o">)</span><span class="w"> </span>Forward<span class="w"> </span>Only<span class="w"> </span>Surviving:<span class="w"> </span><span class="m">632370</span><span class="w"> </span><span class="o">(</span><span class="m">1</span>.70%<span class="o">)</span><span class="w"> </span>Reverse<span class="w"> </span>Only<span class="w"> </span>Surviving:<span class="w"> </span><span class="m">67275</span><span class="w"> </span><span class="o">(</span><span class="m">0</span>.18%<span class="o">)</span><span class="w"> </span>Dropped:<span class="w"> </span><span class="m">7909</span><span class="w"> </span><span class="o">(</span><span class="m">0</span>.02%<span class="o">)</span>
+TrimmomaticPE:<span class="w"> </span>Completed<span class="w"> </span>successfully
 
-real        30m23.395s
-user        29m11.982s
-sys 0m55.359s
+real<span class="w">        </span>30m23.395s
+user<span class="w">        </span>29m11.982s
+sys<span class="w"> </span>0m55.359s
 </pre></div>
 </div>
 <p>For Trimmomatic, the defaults work pretty well. Note the location of the IlluminaClip - it’s already “in” the Singularity
@@ -107,97 +107,97 @@ file.</p>
 <p>Next, BBDuk. BBDuk is usually done in 2-3 steps, with 1st being an adapter trimming step, and 2nd with the removal of
 low quality sequences. You can do both steps in a single command, but doing so in two steps allows us to see what was
 removed during each (more below)</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">time</span> BBTools-38.69.sif bbduk.sh <span class="nv">in1</span><span class="o">=</span>ERR594369_1.fastq.gz <span class="nv">in2</span><span class="o">=</span>ERR594369_2.fastq.gz <span class="nv">out1</span><span class="o">=</span>ERR594369_1_t.fastq.gz <span class="nv">out2</span><span class="o">=</span>ERR594369_2_t.fastq.gz <span class="nv">ref</span><span class="o">=</span>/bbmap/resources/adapters.fa <span class="nv">ktrim</span><span class="o">=</span>r <span class="nv">k</span><span class="o">=</span><span class="m">23</span> <span class="nv">mink</span><span class="o">=</span><span class="m">11</span> <span class="nv">hdist</span><span class="o">=</span><span class="m">1</span> tpe tbo
-java -ea -Xmx154371m -Xms154371m -cp /bbmap/current/ jgi.BBDuk <span class="nv">in1</span><span class="o">=</span>ERR594369_1.fastq.gz <span class="nv">in2</span><span class="o">=</span>ERR594369_2.fastq.gz <span class="nv">out1</span><span class="o">=</span>ERR594369_1_t.fastq.gz <span class="nv">out2</span><span class="o">=</span>ERR594369_2_t.fastq.gz <span class="nv">ref</span><span class="o">=</span>/bbmap/resources/adapters.fa <span class="nv">ktrim</span><span class="o">=</span>r <span class="nv">k</span><span class="o">=</span><span class="m">23</span> <span class="nv">mink</span><span class="o">=</span><span class="m">11</span> <span class="nv">hdist</span><span class="o">=</span><span class="m">1</span> tpe tbo
-Executing jgi.BBDuk <span class="o">[</span><span class="nv">in1</span><span class="o">=</span>ERR594369_1.fastq.gz, <span class="nv">in2</span><span class="o">=</span>ERR594369_2.fastq.gz, <span class="nv">out1</span><span class="o">=</span>ERR594369_1_t.fastq.gz, <span class="nv">out2</span><span class="o">=</span>ERR594369_2_t.fastq.gz, <span class="nv">ref</span><span class="o">=</span>/bbmap/resources/adapters.fa, <span class="nv">ktrim</span><span class="o">=</span>r, <span class="nv">k</span><span class="o">=</span><span class="m">23</span>, <span class="nv">mink</span><span class="o">=</span><span class="m">11</span>, <span class="nv">hdist</span><span class="o">=</span><span class="m">1</span>, tpe, tbo<span class="o">]</span>
-Version <span class="m">38</span>.69
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">time</span><span class="w"> </span>BBTools-38.69.sif<span class="w"> </span>bbduk.sh<span class="w"> </span><span class="nv">in1</span><span class="o">=</span>ERR594369_1.fastq.gz<span class="w"> </span><span class="nv">in2</span><span class="o">=</span>ERR594369_2.fastq.gz<span class="w"> </span><span class="nv">out1</span><span class="o">=</span>ERR594369_1_t.fastq.gz<span class="w"> </span><span class="nv">out2</span><span class="o">=</span>ERR594369_2_t.fastq.gz<span class="w"> </span><span class="nv">ref</span><span class="o">=</span>/bbmap/resources/adapters.fa<span class="w"> </span><span class="nv">ktrim</span><span class="o">=</span>r<span class="w"> </span><span class="nv">k</span><span class="o">=</span><span class="m">23</span><span class="w"> </span><span class="nv">mink</span><span class="o">=</span><span class="m">11</span><span class="w"> </span><span class="nv">hdist</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>tpe<span class="w"> </span>tbo
+java<span class="w"> </span>-ea<span class="w"> </span>-Xmx154371m<span class="w"> </span>-Xms154371m<span class="w"> </span>-cp<span class="w"> </span>/bbmap/current/<span class="w"> </span>jgi.BBDuk<span class="w"> </span><span class="nv">in1</span><span class="o">=</span>ERR594369_1.fastq.gz<span class="w"> </span><span class="nv">in2</span><span class="o">=</span>ERR594369_2.fastq.gz<span class="w"> </span><span class="nv">out1</span><span class="o">=</span>ERR594369_1_t.fastq.gz<span class="w"> </span><span class="nv">out2</span><span class="o">=</span>ERR594369_2_t.fastq.gz<span class="w"> </span><span class="nv">ref</span><span class="o">=</span>/bbmap/resources/adapters.fa<span class="w"> </span><span class="nv">ktrim</span><span class="o">=</span>r<span class="w"> </span><span class="nv">k</span><span class="o">=</span><span class="m">23</span><span class="w"> </span><span class="nv">mink</span><span class="o">=</span><span class="m">11</span><span class="w"> </span><span class="nv">hdist</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>tpe<span class="w"> </span>tbo
+Executing<span class="w"> </span>jgi.BBDuk<span class="w"> </span><span class="o">[</span><span class="nv">in1</span><span class="o">=</span>ERR594369_1.fastq.gz,<span class="w"> </span><span class="nv">in2</span><span class="o">=</span>ERR594369_2.fastq.gz,<span class="w"> </span><span class="nv">out1</span><span class="o">=</span>ERR594369_1_t.fastq.gz,<span class="w"> </span><span class="nv">out2</span><span class="o">=</span>ERR594369_2_t.fastq.gz,<span class="w"> </span><span class="nv">ref</span><span class="o">=</span>/bbmap/resources/adapters.fa,<span class="w"> </span><span class="nv">ktrim</span><span class="o">=</span>r,<span class="w"> </span><span class="nv">k</span><span class="o">=</span><span class="m">23</span>,<span class="w"> </span><span class="nv">mink</span><span class="o">=</span><span class="m">11</span>,<span class="w"> </span><span class="nv">hdist</span><span class="o">=</span><span class="m">1</span>,<span class="w"> </span>tpe,<span class="w"> </span>tbo<span class="o">]</span>
+Version<span class="w"> </span><span class="m">38</span>.69
 
-maskMiddle was disabled because <span class="nv">useShortKmers</span><span class="o">=</span><span class="nb">true</span>
-<span class="m">0</span>.019 seconds.
+maskMiddle<span class="w"> </span>was<span class="w"> </span>disabled<span class="w"> </span>because<span class="w"> </span><span class="nv">useShortKmers</span><span class="o">=</span><span class="nb">true</span>
+<span class="m">0</span>.019<span class="w"> </span>seconds.
 Initial:
-Memory: <span class="nv">max</span><span class="o">=</span>156475m, <span class="nv">total</span><span class="o">=</span>156475m, <span class="nv">free</span><span class="o">=</span>153885m, <span class="nv">used</span><span class="o">=</span>2590m
+Memory:<span class="w"> </span><span class="nv">max</span><span class="o">=</span>156475m,<span class="w"> </span><span class="nv">total</span><span class="o">=</span>156475m,<span class="w"> </span><span class="nv">free</span><span class="o">=</span>153885m,<span class="w"> </span><span class="nv">used</span><span class="o">=</span>2590m
 
-Added <span class="m">217135</span> kmers<span class="p">;</span> time:   <span class="m">0</span>.299 seconds.
-Memory: <span class="nv">max</span><span class="o">=</span>156475m, <span class="nv">total</span><span class="o">=</span>156475m, <span class="nv">free</span><span class="o">=</span>151295m, <span class="nv">used</span><span class="o">=</span>5180m
+Added<span class="w"> </span><span class="m">217135</span><span class="w"> </span>kmers<span class="p">;</span><span class="w"> </span>time:<span class="w">   </span><span class="m">0</span>.299<span class="w"> </span>seconds.
+Memory:<span class="w"> </span><span class="nv">max</span><span class="o">=</span>156475m,<span class="w"> </span><span class="nv">total</span><span class="o">=</span>156475m,<span class="w"> </span><span class="nv">free</span><span class="o">=</span>151295m,<span class="w"> </span><span class="nv">used</span><span class="o">=</span>5180m
 
-Input is being processed as paired
-Started output streams:     <span class="m">0</span>.099 seconds.
-Processing time:            <span class="m">1052</span>.958 seconds.
+Input<span class="w"> </span>is<span class="w"> </span>being<span class="w"> </span>processed<span class="w"> </span>as<span class="w"> </span>paired
+Started<span class="w"> </span>output<span class="w"> </span>streams:<span class="w">     </span><span class="m">0</span>.099<span class="w"> </span>seconds.
+Processing<span class="w"> </span>time:<span class="w">            </span><span class="m">1052</span>.958<span class="w"> </span>seconds.
 
-Input:                      <span class="m">74303174</span> reads          <span class="m">7164049847</span> bases.
-KTrimmed:                   <span class="m">480321</span> reads <span class="o">(</span><span class="m">0</span>.65%<span class="o">)</span>    <span class="m">11406582</span> bases <span class="o">(</span><span class="m">0</span>.16%<span class="o">)</span>
-Trimmed by overlap:         <span class="m">262843</span> reads <span class="o">(</span><span class="m">0</span>.35%<span class="o">)</span>    <span class="m">1383411</span> bases <span class="o">(</span><span class="m">0</span>.02%<span class="o">)</span>
-Total Removed:              <span class="m">3298</span> reads <span class="o">(</span><span class="m">0</span>.00%<span class="o">)</span>      <span class="m">12789993</span> bases <span class="o">(</span><span class="m">0</span>.18%<span class="o">)</span>
-Result:                     <span class="m">74299876</span> reads <span class="o">(</span><span class="m">100</span>.00%<span class="o">)</span>        <span class="m">7151259854</span> bases <span class="o">(</span><span class="m">99</span>.82%<span class="o">)</span>
+Input:<span class="w">                      </span><span class="m">74303174</span><span class="w"> </span>reads<span class="w">          </span><span class="m">7164049847</span><span class="w"> </span>bases.
+KTrimmed:<span class="w">                   </span><span class="m">480321</span><span class="w"> </span>reads<span class="w"> </span><span class="o">(</span><span class="m">0</span>.65%<span class="o">)</span><span class="w">    </span><span class="m">11406582</span><span class="w"> </span>bases<span class="w"> </span><span class="o">(</span><span class="m">0</span>.16%<span class="o">)</span>
+Trimmed<span class="w"> </span>by<span class="w"> </span>overlap:<span class="w">         </span><span class="m">262843</span><span class="w"> </span>reads<span class="w"> </span><span class="o">(</span><span class="m">0</span>.35%<span class="o">)</span><span class="w">    </span><span class="m">1383411</span><span class="w"> </span>bases<span class="w"> </span><span class="o">(</span><span class="m">0</span>.02%<span class="o">)</span>
+Total<span class="w"> </span>Removed:<span class="w">              </span><span class="m">3298</span><span class="w"> </span>reads<span class="w"> </span><span class="o">(</span><span class="m">0</span>.00%<span class="o">)</span><span class="w">      </span><span class="m">12789993</span><span class="w"> </span>bases<span class="w"> </span><span class="o">(</span><span class="m">0</span>.18%<span class="o">)</span>
+Result:<span class="w">                     </span><span class="m">74299876</span><span class="w"> </span>reads<span class="w"> </span><span class="o">(</span><span class="m">100</span>.00%<span class="o">)</span><span class="w">        </span><span class="m">7151259854</span><span class="w"> </span>bases<span class="w"> </span><span class="o">(</span><span class="m">99</span>.82%<span class="o">)</span>
 
-Time:                               <span class="m">1053</span>.358 seconds.
-Reads Processed:      74303k        <span class="m">70</span>.54k reads/sec
-Bases Processed:       7164m        <span class="m">6</span>.80m bases/sec
+Time:<span class="w">                               </span><span class="m">1053</span>.358<span class="w"> </span>seconds.
+Reads<span class="w"> </span>Processed:<span class="w">      </span>74303k<span class="w">        </span><span class="m">70</span>.54k<span class="w"> </span>reads/sec
+Bases<span class="w"> </span>Processed:<span class="w">       </span>7164m<span class="w">        </span><span class="m">6</span>.80m<span class="w"> </span>bases/sec
 
-real        17m35.086s
-user        17m9.820s
-sys 0m21.397s
+real<span class="w">        </span>17m35.086s
+user<span class="w">        </span>17m9.820s
+sys<span class="w"> </span>0m21.397s
 </pre></div>
 </div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">time</span> BBTools-38.69.sif bbduk.sh <span class="nv">in1</span><span class="o">=</span>ERR594369_1_t.fastq.gz <span class="nv">in2</span><span class="o">=</span>ERR594369_2_t.fastq.gz <span class="nv">qtrim</span><span class="o">=</span>rl <span class="nv">trimq</span><span class="o">=</span><span class="m">10</span> <span class="nv">out1</span><span class="o">=</span>ERR594369_1_t_qc.fastq.gz <span class="nv">out2</span><span class="o">=</span>ERR594369_2_t_qc.fastq.gz
-java -ea -Xmx161251m -Xms161251m -cp /bbmap/current/ jgi.BBDuk <span class="nv">in1</span><span class="o">=</span>ERR594369_1_t.fastq.gz <span class="nv">in2</span><span class="o">=</span>ERR594369_2_t.fastq.gz <span class="nv">qtrim</span><span class="o">=</span>rl <span class="nv">trimq</span><span class="o">=</span><span class="m">10</span> <span class="nv">out1</span><span class="o">=</span>ERR594369_1_t_qc.fastq.gz <span class="nv">out2</span><span class="o">=</span>ERR594369_2_t_qc.fastq.gz
-Executing jgi.BBDuk <span class="o">[</span><span class="nv">in1</span><span class="o">=</span>ERR594369_1_t.fastq.gz, <span class="nv">in2</span><span class="o">=</span>ERR594369_2_t.fastq.gz, <span class="nv">qtrim</span><span class="o">=</span>rl, <span class="nv">trimq</span><span class="o">=</span><span class="m">10</span>, <span class="nv">out1</span><span class="o">=</span>ERR594369_1_t_qc.fastq.gz, <span class="nv">out2</span><span class="o">=</span>ERR594369_2_t_qc.fastq.gz<span class="o">]</span>
-Version <span class="m">38</span>.69
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">time</span><span class="w"> </span>BBTools-38.69.sif<span class="w"> </span>bbduk.sh<span class="w"> </span><span class="nv">in1</span><span class="o">=</span>ERR594369_1_t.fastq.gz<span class="w"> </span><span class="nv">in2</span><span class="o">=</span>ERR594369_2_t.fastq.gz<span class="w"> </span><span class="nv">qtrim</span><span class="o">=</span>rl<span class="w"> </span><span class="nv">trimq</span><span class="o">=</span><span class="m">10</span><span class="w"> </span><span class="nv">out1</span><span class="o">=</span>ERR594369_1_t_qc.fastq.gz<span class="w"> </span><span class="nv">out2</span><span class="o">=</span>ERR594369_2_t_qc.fastq.gz
+java<span class="w"> </span>-ea<span class="w"> </span>-Xmx161251m<span class="w"> </span>-Xms161251m<span class="w"> </span>-cp<span class="w"> </span>/bbmap/current/<span class="w"> </span>jgi.BBDuk<span class="w"> </span><span class="nv">in1</span><span class="o">=</span>ERR594369_1_t.fastq.gz<span class="w"> </span><span class="nv">in2</span><span class="o">=</span>ERR594369_2_t.fastq.gz<span class="w"> </span><span class="nv">qtrim</span><span class="o">=</span>rl<span class="w"> </span><span class="nv">trimq</span><span class="o">=</span><span class="m">10</span><span class="w"> </span><span class="nv">out1</span><span class="o">=</span>ERR594369_1_t_qc.fastq.gz<span class="w"> </span><span class="nv">out2</span><span class="o">=</span>ERR594369_2_t_qc.fastq.gz
+Executing<span class="w"> </span>jgi.BBDuk<span class="w"> </span><span class="o">[</span><span class="nv">in1</span><span class="o">=</span>ERR594369_1_t.fastq.gz,<span class="w"> </span><span class="nv">in2</span><span class="o">=</span>ERR594369_2_t.fastq.gz,<span class="w"> </span><span class="nv">qtrim</span><span class="o">=</span>rl,<span class="w"> </span><span class="nv">trimq</span><span class="o">=</span><span class="m">10</span>,<span class="w"> </span><span class="nv">out1</span><span class="o">=</span>ERR594369_1_t_qc.fastq.gz,<span class="w"> </span><span class="nv">out2</span><span class="o">=</span>ERR594369_2_t_qc.fastq.gz<span class="o">]</span>
+Version<span class="w"> </span><span class="m">38</span>.69
 
-<span class="m">0</span>.018 seconds.
+<span class="m">0</span>.018<span class="w"> </span>seconds.
 Initial:
-Memory: <span class="nv">max</span><span class="o">=</span>163448m, <span class="nv">total</span><span class="o">=</span>163448m, <span class="nv">free</span><span class="o">=</span>160743m, <span class="nv">used</span><span class="o">=</span>2705m
+Memory:<span class="w"> </span><span class="nv">max</span><span class="o">=</span>163448m,<span class="w"> </span><span class="nv">total</span><span class="o">=</span>163448m,<span class="w"> </span><span class="nv">free</span><span class="o">=</span>160743m,<span class="w"> </span><span class="nv">used</span><span class="o">=</span>2705m
 
-Input is being processed as paired
-Started output streams:     <span class="m">0</span>.088 seconds.
-Processing time:            <span class="m">534</span>.071 seconds.
+Input<span class="w"> </span>is<span class="w"> </span>being<span class="w"> </span>processed<span class="w"> </span>as<span class="w"> </span>paired
+Started<span class="w"> </span>output<span class="w"> </span>streams:<span class="w">     </span><span class="m">0</span>.088<span class="w"> </span>seconds.
+Processing<span class="w"> </span>time:<span class="w">            </span><span class="m">534</span>.071<span class="w"> </span>seconds.
 
-Input:                      <span class="m">74299876</span> reads          <span class="m">7151259854</span> bases.
-QTrimmed:                   <span class="m">238190</span> reads <span class="o">(</span><span class="m">0</span>.32%<span class="o">)</span>    <span class="m">2587818</span> bases <span class="o">(</span><span class="m">0</span>.04%<span class="o">)</span>
-Total Removed:              <span class="m">3352</span> reads <span class="o">(</span><span class="m">0</span>.00%<span class="o">)</span>      <span class="m">2587818</span> bases <span class="o">(</span><span class="m">0</span>.04%<span class="o">)</span>
-Result:                     <span class="m">74296524</span> reads <span class="o">(</span><span class="m">100</span>.00%<span class="o">)</span>        <span class="m">7148672036</span> bases <span class="o">(</span><span class="m">99</span>.96%<span class="o">)</span>
+Input:<span class="w">                      </span><span class="m">74299876</span><span class="w"> </span>reads<span class="w">          </span><span class="m">7151259854</span><span class="w"> </span>bases.
+QTrimmed:<span class="w">                   </span><span class="m">238190</span><span class="w"> </span>reads<span class="w"> </span><span class="o">(</span><span class="m">0</span>.32%<span class="o">)</span><span class="w">    </span><span class="m">2587818</span><span class="w"> </span>bases<span class="w"> </span><span class="o">(</span><span class="m">0</span>.04%<span class="o">)</span>
+Total<span class="w"> </span>Removed:<span class="w">              </span><span class="m">3352</span><span class="w"> </span>reads<span class="w"> </span><span class="o">(</span><span class="m">0</span>.00%<span class="o">)</span><span class="w">      </span><span class="m">2587818</span><span class="w"> </span>bases<span class="w"> </span><span class="o">(</span><span class="m">0</span>.04%<span class="o">)</span>
+Result:<span class="w">                     </span><span class="m">74296524</span><span class="w"> </span>reads<span class="w"> </span><span class="o">(</span><span class="m">100</span>.00%<span class="o">)</span><span class="w">        </span><span class="m">7148672036</span><span class="w"> </span>bases<span class="w"> </span><span class="o">(</span><span class="m">99</span>.96%<span class="o">)</span>
 
-Time:                               <span class="m">534</span>.172 seconds.
-Reads Processed:      74299k        <span class="m">139</span>.09k reads/sec
-Bases Processed:       7151m        <span class="m">13</span>.39m bases/sec
+Time:<span class="w">                               </span><span class="m">534</span>.172<span class="w"> </span>seconds.
+Reads<span class="w"> </span>Processed:<span class="w">      </span>74299k<span class="w">        </span><span class="m">139</span>.09k<span class="w"> </span>reads/sec
+Bases<span class="w"> </span>Processed:<span class="w">       </span>7151m<span class="w">        </span><span class="m">13</span>.39m<span class="w"> </span>bases/sec
 
-real        8m55.146s
-user        8m32.838s
-sys 0m20.188s
+real<span class="w">        </span>8m55.146s
+user<span class="w">        </span>8m32.838s
+sys<span class="w"> </span>0m20.188s
 </pre></div>
 </div>
 <p>Now, let’s do the same two commands in one:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">time</span> BBTools-38.69.sif bbduk.sh <span class="nv">in1</span><span class="o">=</span>ERR594369_1.fastq.gz <span class="nv">in2</span><span class="o">=</span>ERR594369_2.fastq.gz <span class="nv">out1</span><span class="o">=</span>ERR594369_1_t_qc.fastq.gz <span class="nv">out2</span><span class="o">=</span>ERR594369_2_t_qc.fastq.gz <span class="nv">ref</span><span class="o">=</span>/bbmap/resources/adapters.fa <span class="nv">qtrim</span><span class="o">=</span>rl <span class="nv">trimq</span><span class="o">=</span><span class="m">10</span> <span class="nv">ktrim</span><span class="o">=</span>r <span class="nv">k</span><span class="o">=</span><span class="m">23</span> <span class="nv">mink</span><span class="o">=</span><span class="m">11</span> <span class="nv">hdist</span><span class="o">=</span><span class="m">1</span> tpe tbo
-java -ea -Xmx44523m -Xms44523m -cp /bbmap/current/ jgi.BBDuk <span class="nv">in1</span><span class="o">=</span>ERR594369_1.fastq.gz <span class="nv">in2</span><span class="o">=</span>ERR594369_2.fastq.gz <span class="nv">out1</span><span class="o">=</span>ERR594369_1_t_qc.fastq.gz <span class="nv">out2</span><span class="o">=</span>ERR594369_2_t_qc.fastq.gz <span class="nv">ref</span><span class="o">=</span>/bbmap/resources/adapters.fa <span class="nv">qtrim</span><span class="o">=</span>rl <span class="nv">trimq</span><span class="o">=</span><span class="m">10</span> <span class="nv">ktrim</span><span class="o">=</span>r <span class="nv">k</span><span class="o">=</span><span class="m">23</span> <span class="nv">mink</span><span class="o">=</span><span class="m">11</span> <span class="nv">hdist</span><span class="o">=</span><span class="m">1</span> tpe tbo
-Executing jgi.BBDuk <span class="o">[</span><span class="nv">in1</span><span class="o">=</span>ERR594369_1.fastq.gz, <span class="nv">in2</span><span class="o">=</span>ERR594369_2.fastq.gz, <span class="nv">out1</span><span class="o">=</span>ERR594369_1_t_qc.fastq.gz, <span class="nv">out2</span><span class="o">=</span>ERR594369_2_t_qc.fastq.gz, <span class="nv">ref</span><span class="o">=</span>/bbmap/resources/adapters.fa, <span class="nv">qtrim</span><span class="o">=</span>rl, <span class="nv">trimq</span><span class="o">=</span><span class="m">10</span>, <span class="nv">ktrim</span><span class="o">=</span>r, <span class="nv">k</span><span class="o">=</span><span class="m">23</span>, <span class="nv">mink</span><span class="o">=</span><span class="m">11</span>, <span class="nv">hdist</span><span class="o">=</span><span class="m">1</span>, tpe, tbo<span class="o">]</span>
-Version <span class="m">38</span>.69
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">time</span><span class="w"> </span>BBTools-38.69.sif<span class="w"> </span>bbduk.sh<span class="w"> </span><span class="nv">in1</span><span class="o">=</span>ERR594369_1.fastq.gz<span class="w"> </span><span class="nv">in2</span><span class="o">=</span>ERR594369_2.fastq.gz<span class="w"> </span><span class="nv">out1</span><span class="o">=</span>ERR594369_1_t_qc.fastq.gz<span class="w"> </span><span class="nv">out2</span><span class="o">=</span>ERR594369_2_t_qc.fastq.gz<span class="w"> </span><span class="nv">ref</span><span class="o">=</span>/bbmap/resources/adapters.fa<span class="w"> </span><span class="nv">qtrim</span><span class="o">=</span>rl<span class="w"> </span><span class="nv">trimq</span><span class="o">=</span><span class="m">10</span><span class="w"> </span><span class="nv">ktrim</span><span class="o">=</span>r<span class="w"> </span><span class="nv">k</span><span class="o">=</span><span class="m">23</span><span class="w"> </span><span class="nv">mink</span><span class="o">=</span><span class="m">11</span><span class="w"> </span><span class="nv">hdist</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>tpe<span class="w"> </span>tbo
+java<span class="w"> </span>-ea<span class="w"> </span>-Xmx44523m<span class="w"> </span>-Xms44523m<span class="w"> </span>-cp<span class="w"> </span>/bbmap/current/<span class="w"> </span>jgi.BBDuk<span class="w"> </span><span class="nv">in1</span><span class="o">=</span>ERR594369_1.fastq.gz<span class="w"> </span><span class="nv">in2</span><span class="o">=</span>ERR594369_2.fastq.gz<span class="w"> </span><span class="nv">out1</span><span class="o">=</span>ERR594369_1_t_qc.fastq.gz<span class="w"> </span><span class="nv">out2</span><span class="o">=</span>ERR594369_2_t_qc.fastq.gz<span class="w"> </span><span class="nv">ref</span><span class="o">=</span>/bbmap/resources/adapters.fa<span class="w"> </span><span class="nv">qtrim</span><span class="o">=</span>rl<span class="w"> </span><span class="nv">trimq</span><span class="o">=</span><span class="m">10</span><span class="w"> </span><span class="nv">ktrim</span><span class="o">=</span>r<span class="w"> </span><span class="nv">k</span><span class="o">=</span><span class="m">23</span><span class="w"> </span><span class="nv">mink</span><span class="o">=</span><span class="m">11</span><span class="w"> </span><span class="nv">hdist</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>tpe<span class="w"> </span>tbo
+Executing<span class="w"> </span>jgi.BBDuk<span class="w"> </span><span class="o">[</span><span class="nv">in1</span><span class="o">=</span>ERR594369_1.fastq.gz,<span class="w"> </span><span class="nv">in2</span><span class="o">=</span>ERR594369_2.fastq.gz,<span class="w"> </span><span class="nv">out1</span><span class="o">=</span>ERR594369_1_t_qc.fastq.gz,<span class="w"> </span><span class="nv">out2</span><span class="o">=</span>ERR594369_2_t_qc.fastq.gz,<span class="w"> </span><span class="nv">ref</span><span class="o">=</span>/bbmap/resources/adapters.fa,<span class="w"> </span><span class="nv">qtrim</span><span class="o">=</span>rl,<span class="w"> </span><span class="nv">trimq</span><span class="o">=</span><span class="m">10</span>,<span class="w"> </span><span class="nv">ktrim</span><span class="o">=</span>r,<span class="w"> </span><span class="nv">k</span><span class="o">=</span><span class="m">23</span>,<span class="w"> </span><span class="nv">mink</span><span class="o">=</span><span class="m">11</span>,<span class="w"> </span><span class="nv">hdist</span><span class="o">=</span><span class="m">1</span>,<span class="w"> </span>tpe,<span class="w"> </span>tbo<span class="o">]</span>
+Version<span class="w"> </span><span class="m">38</span>.69
 
-maskMiddle was disabled because <span class="nv">useShortKmers</span><span class="o">=</span><span class="nb">true</span>
-<span class="m">0</span>.024 seconds.
+maskMiddle<span class="w"> </span>was<span class="w"> </span>disabled<span class="w"> </span>because<span class="w"> </span><span class="nv">useShortKmers</span><span class="o">=</span><span class="nb">true</span>
+<span class="m">0</span>.024<span class="w"> </span>seconds.
 Initial:
-Memory: <span class="nv">max</span><span class="o">=</span>45130m, <span class="nv">total</span><span class="o">=</span>45130m, <span class="nv">free</span><span class="o">=</span>44383m, <span class="nv">used</span><span class="o">=</span>747m
+Memory:<span class="w"> </span><span class="nv">max</span><span class="o">=</span>45130m,<span class="w"> </span><span class="nv">total</span><span class="o">=</span>45130m,<span class="w"> </span><span class="nv">free</span><span class="o">=</span>44383m,<span class="w"> </span><span class="nv">used</span><span class="o">=</span>747m
 
-Added <span class="m">217135</span> kmers<span class="p">;</span> time:   <span class="m">0</span>.378 seconds.
-Memory: <span class="nv">max</span><span class="o">=</span>45130m, <span class="nv">total</span><span class="o">=</span>45130m, <span class="nv">free</span><span class="o">=</span>43387m, <span class="nv">used</span><span class="o">=</span>1743m
+Added<span class="w"> </span><span class="m">217135</span><span class="w"> </span>kmers<span class="p">;</span><span class="w"> </span>time:<span class="w">   </span><span class="m">0</span>.378<span class="w"> </span>seconds.
+Memory:<span class="w"> </span><span class="nv">max</span><span class="o">=</span>45130m,<span class="w"> </span><span class="nv">total</span><span class="o">=</span>45130m,<span class="w"> </span><span class="nv">free</span><span class="o">=</span>43387m,<span class="w"> </span><span class="nv">used</span><span class="o">=</span>1743m
 
-Input is being processed as paired
-Started output streams:     <span class="m">0</span>.181 seconds.
-Processing time:            <span class="m">1190</span>.179 seconds.
+Input<span class="w"> </span>is<span class="w"> </span>being<span class="w"> </span>processed<span class="w"> </span>as<span class="w"> </span>paired
+Started<span class="w"> </span>output<span class="w"> </span>streams:<span class="w">     </span><span class="m">0</span>.181<span class="w"> </span>seconds.
+Processing<span class="w"> </span>time:<span class="w">            </span><span class="m">1190</span>.179<span class="w"> </span>seconds.
 
-Input:                      <span class="m">74303174</span> reads          <span class="m">7164049847</span> bases.
-QTrimmed:                   <span class="m">238190</span> reads <span class="o">(</span><span class="m">0</span>.32%<span class="o">)</span>    <span class="m">2587818</span> bases <span class="o">(</span><span class="m">0</span>.04%<span class="o">)</span>
-KTrimmed:                   <span class="m">480321</span> reads <span class="o">(</span><span class="m">0</span>.65%<span class="o">)</span>    <span class="m">11406582</span> bases <span class="o">(</span><span class="m">0</span>.16%<span class="o">)</span>
-Trimmed by overlap:         <span class="m">262843</span> reads <span class="o">(</span><span class="m">0</span>.35%<span class="o">)</span>    <span class="m">1383411</span> bases <span class="o">(</span><span class="m">0</span>.02%<span class="o">)</span>
-Total Removed:              <span class="m">6650</span> reads <span class="o">(</span><span class="m">0</span>.01%<span class="o">)</span>      <span class="m">15377811</span> bases <span class="o">(</span><span class="m">0</span>.21%<span class="o">)</span>
-Result:                     <span class="m">74296524</span> reads <span class="o">(</span><span class="m">99</span>.99%<span class="o">)</span>         <span class="m">7148672036</span> bases <span class="o">(</span><span class="m">99</span>.79%<span class="o">)</span>
+Input:<span class="w">                      </span><span class="m">74303174</span><span class="w"> </span>reads<span class="w">          </span><span class="m">7164049847</span><span class="w"> </span>bases.
+QTrimmed:<span class="w">                   </span><span class="m">238190</span><span class="w"> </span>reads<span class="w"> </span><span class="o">(</span><span class="m">0</span>.32%<span class="o">)</span><span class="w">    </span><span class="m">2587818</span><span class="w"> </span>bases<span class="w"> </span><span class="o">(</span><span class="m">0</span>.04%<span class="o">)</span>
+KTrimmed:<span class="w">                   </span><span class="m">480321</span><span class="w"> </span>reads<span class="w"> </span><span class="o">(</span><span class="m">0</span>.65%<span class="o">)</span><span class="w">    </span><span class="m">11406582</span><span class="w"> </span>bases<span class="w"> </span><span class="o">(</span><span class="m">0</span>.16%<span class="o">)</span>
+Trimmed<span class="w"> </span>by<span class="w"> </span>overlap:<span class="w">         </span><span class="m">262843</span><span class="w"> </span>reads<span class="w"> </span><span class="o">(</span><span class="m">0</span>.35%<span class="o">)</span><span class="w">    </span><span class="m">1383411</span><span class="w"> </span>bases<span class="w"> </span><span class="o">(</span><span class="m">0</span>.02%<span class="o">)</span>
+Total<span class="w"> </span>Removed:<span class="w">              </span><span class="m">6650</span><span class="w"> </span>reads<span class="w"> </span><span class="o">(</span><span class="m">0</span>.01%<span class="o">)</span><span class="w">      </span><span class="m">15377811</span><span class="w"> </span>bases<span class="w"> </span><span class="o">(</span><span class="m">0</span>.21%<span class="o">)</span>
+Result:<span class="w">                     </span><span class="m">74296524</span><span class="w"> </span>reads<span class="w"> </span><span class="o">(</span><span class="m">99</span>.99%<span class="o">)</span><span class="w">         </span><span class="m">7148672036</span><span class="w"> </span>bases<span class="w"> </span><span class="o">(</span><span class="m">99</span>.79%<span class="o">)</span>
 
-Time:                               <span class="m">1190</span>.739 seconds.
-Reads Processed:      74303k        <span class="m">62</span>.40k reads/sec
-Bases Processed:       7164m        <span class="m">6</span>.02m bases/sec
+Time:<span class="w">                               </span><span class="m">1190</span>.739<span class="w"> </span>seconds.
+Reads<span class="w"> </span>Processed:<span class="w">      </span>74303k<span class="w">        </span><span class="m">62</span>.40k<span class="w"> </span>reads/sec
+Bases<span class="w"> </span>Processed:<span class="w">       </span>7164m<span class="w">        </span><span class="m">6</span>.02m<span class="w"> </span>bases/sec
 
-real        19m52.888s
-user        19m32.398s
-sys 0m16.636s
+real<span class="w">        </span>19m52.888s
+user<span class="w">        </span>19m32.398s
+sys<span class="w"> </span>0m16.636s
 </pre></div>
 </div>
 <p>How does the quality check out?</p>
@@ -207,68 +207,68 @@ sys 0m16.636s
 <p>Here, we’ve already loaded singularity (above) and moved to the project directory. In this example, I’m going to run
 FastQC on all of the input files (2), the results from Trimmomatic (4) and the adapter trimmed (2) and quality filtered
 (2) read <em>pairs</em> of BBDuk.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">time</span> FastQC-0.11.8.sif ERR594369_1.fastq.gz ERR594369_2.fastq.gz ERR594369_1_t.fastq.gz ERR594369_2_t.fastq.gz ERR594369_1_t_qc.fastq.gz ERR594369_2_t_qc.fastq.gz ERR594369_1_t_paired.fastq.gz ERR594369_1_t_unpaired.fastq.gz ERR594369_2_t_paired.fastq.gz ERR594369_2_t_unpaired.fastq.gz
-Started analysis of ERR594369_1.fastq.gz
-Approx <span class="m">5</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1.fastq.gz
-Approx <span class="m">10</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1.fastq.gz
-Approx <span class="m">15</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1.fastq.gz
-Approx <span class="m">20</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1.fastq.gz
-Approx <span class="m">25</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1.fastq.gz
-Approx <span class="m">30</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1.fastq.gz
-Approx <span class="m">35</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1.fastq.gz
-Approx <span class="m">40</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1.fastq.gz
-Approx <span class="m">45</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1.fastq.gz
-Approx <span class="m">50</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1.fastq.gz
-Approx <span class="m">55</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1.fastq.gz
-Approx <span class="m">60</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1.fastq.gz
-Approx <span class="m">65</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1.fastq.gz
-Approx <span class="m">70</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1.fastq.gz
-Approx <span class="m">75</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1.fastq.gz
-Approx <span class="m">80</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1.fastq.gz
-Approx <span class="m">85</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1.fastq.gz
-Approx <span class="m">90</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1.fastq.gz
-Approx <span class="m">95</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_1.fastq.gz
-Analysis <span class="nb">complete</span> <span class="k">for</span> ERR594369_1.fastq.gz
-Started analysis of ERR594369_2.fastq.gz
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">time</span><span class="w"> </span>FastQC-0.11.8.sif<span class="w"> </span>ERR594369_1.fastq.gz<span class="w"> </span>ERR594369_2.fastq.gz<span class="w"> </span>ERR594369_1_t.fastq.gz<span class="w"> </span>ERR594369_2_t.fastq.gz<span class="w"> </span>ERR594369_1_t_qc.fastq.gz<span class="w"> </span>ERR594369_2_t_qc.fastq.gz<span class="w"> </span>ERR594369_1_t_paired.fastq.gz<span class="w"> </span>ERR594369_1_t_unpaired.fastq.gz<span class="w"> </span>ERR594369_2_t_paired.fastq.gz<span class="w"> </span>ERR594369_2_t_unpaired.fastq.gz
+Started<span class="w"> </span>analysis<span class="w"> </span>of<span class="w"> </span>ERR594369_1.fastq.gz
+Approx<span class="w"> </span><span class="m">5</span>%<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>ERR594369_1.fastq.gz
+Approx<span class="w"> </span><span class="m">10</span>%<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>ERR594369_1.fastq.gz
+Approx<span class="w"> </span><span class="m">15</span>%<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>ERR594369_1.fastq.gz
+Approx<span class="w"> </span><span class="m">20</span>%<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>ERR594369_1.fastq.gz
+Approx<span class="w"> </span><span class="m">25</span>%<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>ERR594369_1.fastq.gz
+Approx<span class="w"> </span><span class="m">30</span>%<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>ERR594369_1.fastq.gz
+Approx<span class="w"> </span><span class="m">35</span>%<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>ERR594369_1.fastq.gz
+Approx<span class="w"> </span><span class="m">40</span>%<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>ERR594369_1.fastq.gz
+Approx<span class="w"> </span><span class="m">45</span>%<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>ERR594369_1.fastq.gz
+Approx<span class="w"> </span><span class="m">50</span>%<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>ERR594369_1.fastq.gz
+Approx<span class="w"> </span><span class="m">55</span>%<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>ERR594369_1.fastq.gz
+Approx<span class="w"> </span><span class="m">60</span>%<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>ERR594369_1.fastq.gz
+Approx<span class="w"> </span><span class="m">65</span>%<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>ERR594369_1.fastq.gz
+Approx<span class="w"> </span><span class="m">70</span>%<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>ERR594369_1.fastq.gz
+Approx<span class="w"> </span><span class="m">75</span>%<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>ERR594369_1.fastq.gz
+Approx<span class="w"> </span><span class="m">80</span>%<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>ERR594369_1.fastq.gz
+Approx<span class="w"> </span><span class="m">85</span>%<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>ERR594369_1.fastq.gz
+Approx<span class="w"> </span><span class="m">90</span>%<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>ERR594369_1.fastq.gz
+Approx<span class="w"> </span><span class="m">95</span>%<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>ERR594369_1.fastq.gz
+Analysis<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>ERR594369_1.fastq.gz
+Started<span class="w"> </span>analysis<span class="w"> </span>of<span class="w"> </span>ERR594369_2.fastq.gz
 ...
 ...
 ...
-Approx <span class="m">5</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_2.fastq.gz
-Approx <span class="m">70</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_2_t_unpaired.fastq.gz
-Approx <span class="m">75</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_2_t_unpaired.fastq.gz
-Approx <span class="m">80</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_2_t_unpaired.fastq.gz
-Approx <span class="m">85</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_2_t_unpaired.fastq.gz
-Approx <span class="m">90</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_2_t_unpaired.fastq.gz
-Approx <span class="m">95</span>% <span class="nb">complete</span> <span class="k">for</span> ERR594369_2_t_unpaired.fastq.gz
-Analysis <span class="nb">complete</span> <span class="k">for</span> ERR594369_2_t_unpaired.fastq.gz
+Approx<span class="w"> </span><span class="m">5</span>%<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>ERR594369_2.fastq.gz
+Approx<span class="w"> </span><span class="m">70</span>%<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>ERR594369_2_t_unpaired.fastq.gz
+Approx<span class="w"> </span><span class="m">75</span>%<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>ERR594369_2_t_unpaired.fastq.gz
+Approx<span class="w"> </span><span class="m">80</span>%<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>ERR594369_2_t_unpaired.fastq.gz
+Approx<span class="w"> </span><span class="m">85</span>%<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>ERR594369_2_t_unpaired.fastq.gz
+Approx<span class="w"> </span><span class="m">90</span>%<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>ERR594369_2_t_unpaired.fastq.gz
+Approx<span class="w"> </span><span class="m">95</span>%<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>ERR594369_2_t_unpaired.fastq.gz
+Analysis<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>ERR594369_2_t_unpaired.fastq.gz
 
-real        33m29.151s
-user        31m33.573s
-sys 1m44.834s
+real<span class="w">        </span>33m29.151s
+user<span class="w">        </span>31m33.573s
+sys<span class="w"> </span>1m44.834s
 </pre></div>
 </div>
 <p>I’ve omitted the lengthy 5% increments for all 10 files. Basically, FastQC will process each file individually and
 deposit the results in &lt;filename&gt;_fastqc.zip and &lt;filename&gt;_fastqc.html.</p>
 <p>Next, we’ll want to visually summarize these results using MultiQC. I’m running MultiQC in the directory with all the
 FastQC results, so I’m using “.” to specify “the current directory” on the command line.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">time</span> MultiQC-1.7.sif .
-<span class="o">[</span>WARNING<span class="o">]</span>         multiqc : MultiQC Version v1.11 now available!
-<span class="o">[</span>INFO   <span class="o">]</span>         multiqc : This is MultiQC v1.7
-<span class="o">[</span>INFO   <span class="o">]</span>         multiqc : Template    : default
-<span class="o">[</span>INFO   <span class="o">]</span>         multiqc : Searching <span class="s1">&#39;.&#39;</span>
-<span class="o">[</span>INFO   <span class="o">]</span>          fastqc : Found <span class="m">10</span> reports
-<span class="o">[</span>INFO   <span class="o">]</span>         multiqc : Compressing plot data
-<span class="o">[</span>INFO   <span class="o">]</span>         multiqc : Report      : multiqc_report.html
-<span class="o">[</span>INFO   <span class="o">]</span>         multiqc : Data        : multiqc_data
-<span class="o">[</span>INFO   <span class="o">]</span>         multiqc : MultiQC <span class="nb">complete</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">time</span><span class="w"> </span>MultiQC-1.7.sif<span class="w"> </span>.
+<span class="o">[</span>WARNING<span class="o">]</span><span class="w">         </span>multiqc<span class="w"> </span>:<span class="w"> </span>MultiQC<span class="w"> </span>Version<span class="w"> </span>v1.11<span class="w"> </span>now<span class="w"> </span>available!
+<span class="o">[</span>INFO<span class="w">   </span><span class="o">]</span><span class="w">         </span>multiqc<span class="w"> </span>:<span class="w"> </span>This<span class="w"> </span>is<span class="w"> </span>MultiQC<span class="w"> </span>v1.7
+<span class="o">[</span>INFO<span class="w">   </span><span class="o">]</span><span class="w">         </span>multiqc<span class="w"> </span>:<span class="w"> </span>Template<span class="w">    </span>:<span class="w"> </span>default
+<span class="o">[</span>INFO<span class="w">   </span><span class="o">]</span><span class="w">         </span>multiqc<span class="w"> </span>:<span class="w"> </span>Searching<span class="w"> </span><span class="s1">&#39;.&#39;</span>
+<span class="o">[</span>INFO<span class="w">   </span><span class="o">]</span><span class="w">          </span>fastqc<span class="w"> </span>:<span class="w"> </span>Found<span class="w"> </span><span class="m">10</span><span class="w"> </span>reports
+<span class="o">[</span>INFO<span class="w">   </span><span class="o">]</span><span class="w">         </span>multiqc<span class="w"> </span>:<span class="w"> </span>Compressing<span class="w"> </span>plot<span class="w"> </span>data
+<span class="o">[</span>INFO<span class="w">   </span><span class="o">]</span><span class="w">         </span>multiqc<span class="w"> </span>:<span class="w"> </span>Report<span class="w">      </span>:<span class="w"> </span>multiqc_report.html
+<span class="o">[</span>INFO<span class="w">   </span><span class="o">]</span><span class="w">         </span>multiqc<span class="w"> </span>:<span class="w"> </span>Data<span class="w">        </span>:<span class="w"> </span>multiqc_data
+<span class="o">[</span>INFO<span class="w">   </span><span class="o">]</span><span class="w">         </span>multiqc<span class="w"> </span>:<span class="w"> </span>MultiQC<span class="w"> </span><span class="nb">complete</span>
 
-real        0m7.186s
-user        0m1.958s
-sys 0m1.499s
+real<span class="w">        </span>0m7.186s
+user<span class="w">        </span>0m1.958s
+sys<span class="w"> </span>0m1.499s
 </pre></div>
 </div>
 <p>Once that’s done, the resulting directory should look like:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ ls -lh
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ls<span class="w"> </span>-lh
 <span class="c1"># Original input data</span>
 ERR594369_1_fastqc.zip
 ERR594369_2_fastqc.zip
@@ -306,15 +306,15 @@ that should assemble your data.</p>
 <span class="c1">#SBATCH --partition=hugemem</span>
 
 <span class="c1"># Load the SPAdes module - or can be loaded directly</span>
-module load singularity
+module<span class="w"> </span>load<span class="w"> </span>singularity
 <span class="nv">spadesLoc</span><span class="o">=</span>/users/PAS1117/osu9664/eMicro-Apps/SPAdes-3.13.0.sif
 
 <span class="c1"># General Options, can&#39;t use --careful with --meta</span>
-<span class="nv">genOpts</span><span class="o">=</span><span class="s2">&quot;--meta -k 21,33,55,77,99,121&quot;</span>  <span class="c1"># Paired end, 1 pair only</span>
+<span class="nv">genOpts</span><span class="o">=</span><span class="s2">&quot;--meta -k 21,33,55,77,99,121&quot;</span><span class="w">  </span><span class="c1"># Paired end, 1 pair only</span>
 
-<span class="nv">runOpts</span><span class="o">=</span><span class="s2">&quot;-t 48 -m 124&quot;</span>  <span class="c1"># Match to job request. This is 48 cores and 124 GB memory (a node on Owens = 128 GB)</span>
+<span class="nv">runOpts</span><span class="o">=</span><span class="s2">&quot;-t 48 -m 124&quot;</span><span class="w">  </span><span class="c1"># Match to job request. This is 48 cores and 124 GB memory (a node on Owens = 128 GB)</span>
 
-<span class="nv">spadesRun</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">spadesLoc</span><span class="si">}</span><span class="s2"> </span><span class="si">${</span><span class="nv">genOpts</span><span class="si">}</span><span class="s2"> </span><span class="si">${</span><span class="nv">runOpts</span><span class="si">}</span><span class="s2">&quot;</span>  <span class="c1"># Because we loaded the module, the system knows where to look</span>
+<span class="nv">spadesRun</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">spadesLoc</span><span class="si">}</span><span class="s2"> </span><span class="si">${</span><span class="nv">genOpts</span><span class="si">}</span><span class="s2"> </span><span class="si">${</span><span class="nv">runOpts</span><span class="si">}</span><span class="s2">&quot;</span><span class="w">  </span><span class="c1"># Because we loaded the module, the system knows where to look</span>
 
 <span class="nv">workDir</span><span class="o">=</span><span class="s2">&quot;/fs/project/PAS1117/ben/VEP&quot;</span>
 
@@ -325,13 +325,13 @@ module load singularity
 
 <span class="c1"># I always like to know what command was actually sent to SPAdes</span>
 <span class="c1"># -o will send the output of SPAdes to the assembly directory, defined above</span>
-<span class="nb">echo</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">spadesRun</span><span class="si">}</span><span class="s2"> -o </span><span class="si">${</span><span class="nv">workDir</span><span class="si">}</span><span class="s2">/MetaSPAdes_Trimmomatic&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">spadesRun</span><span class="si">}</span><span class="s2"> -o </span><span class="si">${</span><span class="nv">workDir</span><span class="si">}</span><span class="s2">/MetaSPAdes_Trimmomatic&quot;</span>
 
-<span class="si">${</span><span class="nv">spadesRun</span><span class="si">}</span> -o <span class="s2">&quot;</span><span class="si">${</span><span class="nv">workDir</span><span class="si">}</span><span class="s2">/MetaSPAdes_Trimmomatic&quot;</span>
+<span class="si">${</span><span class="nv">spadesRun</span><span class="si">}</span><span class="w"> </span>-o<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">workDir</span><span class="si">}</span><span class="s2">/MetaSPAdes_Trimmomatic&quot;</span>
 </pre></div>
 </div>
 <p>Submit using:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ sbatch SPAdes.sh
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sbatch<span class="w"> </span>SPAdes.sh
 </pre></div>
 </div>
 <p>Please see the OSC guide for how this job script was created. Since I’m familiar with the sample background (sample
@@ -340,24 +340,24 @@ request for the job. I requested 24 hours and a full large memory node (48 cores
 that at the end of the run, OSC would let you know the resources you used, but sadly, they do not (or I haven’t figured
 out how to automatically get it). Instead, we can use “sacct” to figure out what resources were used.</p>
 <p>For this job:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ sacct -j <span class="m">5181167</span>  --format <span class="s2">&quot;CPUTime,MaxRSS,Elapsed&quot;</span>
-   CPUTime     MaxRSS    Elapsed
----------- ---------- ----------
-<span class="m">9</span>-10:48:00  64883592K   <span class="m">04</span>:43:30
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sacct<span class="w"> </span>-j<span class="w"> </span><span class="m">5181167</span><span class="w">  </span>--format<span class="w"> </span><span class="s2">&quot;CPUTime,MaxRSS,Elapsed&quot;</span>
+<span class="w">   </span>CPUTime<span class="w">     </span>MaxRSS<span class="w">    </span>Elapsed
+----------<span class="w"> </span>----------<span class="w"> </span>----------
+<span class="m">9</span>-10:48:00<span class="w">  </span>64883592K<span class="w">   </span><span class="m">04</span>:43:30
 </pre></div>
 </div>
 <p>Oops! The job required ~65 GB and took 4 hr 43 minutes. Considerably less than I had anticipated. We can’t do anything
 about the GB requested, as asking for 48 cores will give you <em>at least</em> a large memory node. We could request 70 GB of
 memory, but OSC will still charge you for the whole node.</p>
 <p>The SPAdes directory:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ ls MetaSPAdes_Trimmomatic
-assembly_graph.fastg               contigs.fasta  dataset.info            K21  K77   params.txt       spades.log
-assembly_graph_with_scaffolds.gfa  contigs.paths  first_pe_contigs.fasta  K33  K99   scaffolds.fasta  tmp
-before_rr.fasta                    corrected      input_dataset.yaml      K55  misc  scaffolds.paths
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ls<span class="w"> </span>MetaSPAdes_Trimmomatic
+assembly_graph.fastg<span class="w">               </span>contigs.fasta<span class="w">  </span>dataset.info<span class="w">            </span>K21<span class="w">  </span>K77<span class="w">   </span>params.txt<span class="w">       </span>spades.log
+assembly_graph_with_scaffolds.gfa<span class="w">  </span>contigs.paths<span class="w">  </span>first_pe_contigs.fasta<span class="w">  </span>K33<span class="w">  </span>K99<span class="w">   </span>scaffolds.fasta<span class="w">  </span>tmp
+before_rr.fasta<span class="w">                    </span>corrected<span class="w">      </span>input_dataset.yaml<span class="w">      </span>K55<span class="w">  </span>misc<span class="w">  </span>scaffolds.paths
 </pre></div>
 </div>
 <p>If we check the number of contigs generated, we get 322,596.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ grep -c <span class="s2">&quot;&gt;&quot;</span> final.contigs.fa
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>grep<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;&gt;&quot;</span><span class="w"> </span>final.contigs.fa
 <span class="m">322596</span>
 </pre></div>
 </div>
@@ -369,7 +369,7 @@ before_rr.fasta                    corrected      input_dataset.yaml      K55  m
 <span class="c1">#SBATCH -J MEGAHIT</span>
 <span class="c1">#SBATCH --partition=hugemem</span>
 
-module load singularity
+module<span class="w"> </span>load<span class="w"> </span>singularity
 
 <span class="c1"># Directories</span>
 <span class="nv">projectDir</span><span class="o">=</span><span class="s2">&quot;/fs/project/PAS1117/ben/VEP&quot;</span>
@@ -377,8 +377,8 @@ module load singularity
 <span class="nv">outputDir</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">projectDir</span><span class="si">}</span><span class="s2">/assemblies/MEGAHIT_with_Trimmomatic&quot;</span>
 
 <span class="c1"># Assembling with MEGAHIT, so setting up parameters</span>
-<span class="nv">genOpts</span><span class="o">=</span><span class="s2">&quot;--k-list 21,41,61,81,99&quot;</span>  <span class="c1"># K-mer selection is a PhD itself...</span>
-<span class="nv">runOpts</span><span class="o">=</span><span class="s2">&quot;-t 48 -m 0.9&quot;</span>  <span class="c1"># Match to job request, 40 cores and 90% of memory</span>
+<span class="nv">genOpts</span><span class="o">=</span><span class="s2">&quot;--k-list 21,41,61,81,99&quot;</span><span class="w">  </span><span class="c1"># K-mer selection is a PhD itself...</span>
+<span class="nv">runOpts</span><span class="o">=</span><span class="s2">&quot;-t 48 -m 0.9&quot;</span><span class="w">  </span><span class="c1"># Match to job request, 40 cores and 90% of memory</span>
 
 <span class="c1"># Whare are the reads we&#39;ll need?</span>
 <span class="nv">forReads</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">projectDir</span><span class="si">}</span><span class="s2">/processed_reads/ERR594369_1_t_paired.fastq.gz&quot;</span>
@@ -388,27 +388,27 @@ module load singularity
 <span class="nv">megahitCmd</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">megahitLoc</span><span class="si">}</span><span class="s2"> </span><span class="si">${</span><span class="nv">genOpts</span><span class="si">}</span><span class="s2"> </span><span class="si">${</span><span class="nv">runOpts</span><span class="si">}</span><span class="s2">&quot;</span>
 <span class="nv">megahitCmd</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">megahitCmd</span><span class="si">}</span><span class="s2"> -1 </span><span class="si">${</span><span class="nv">forReads</span><span class="si">}</span><span class="s2"> -2 </span><span class="si">${</span><span class="nv">revReads</span><span class="si">}</span><span class="s2">&quot;</span>
 
-<span class="nb">echo</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">megahitCmd</span><span class="si">}</span><span class="s2"> -o </span><span class="si">${</span><span class="nv">outputDir</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">megahitCmd</span><span class="si">}</span><span class="s2"> -o </span><span class="si">${</span><span class="nv">outputDir</span><span class="si">}</span><span class="s2">&quot;</span>
 
-<span class="nb">time</span> <span class="si">${</span><span class="nv">megahitCmd</span><span class="si">}</span> -o <span class="si">${</span><span class="nv">outputDir</span><span class="si">}</span>
+<span class="nb">time</span><span class="w"> </span><span class="si">${</span><span class="nv">megahitCmd</span><span class="si">}</span><span class="w"> </span>-o<span class="w"> </span><span class="si">${</span><span class="nv">outputDir</span><span class="si">}</span>
 </pre></div>
 </div>
 <p>Submit!</p>
 <p>And resources used:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ sacct -j <span class="m">5181104</span> --format <span class="s2">&quot;CPUTime,MaxRSS,Elapsed&quot;</span>
-   CPUTime     MaxRSS    Elapsed
----------- ---------- ----------
-<span class="m">1</span>-12:56:00   5717660K   <span class="m">00</span>:46:10
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sacct<span class="w"> </span>-j<span class="w"> </span><span class="m">5181104</span><span class="w"> </span>--format<span class="w"> </span><span class="s2">&quot;CPUTime,MaxRSS,Elapsed&quot;</span>
+<span class="w">   </span>CPUTime<span class="w">     </span>MaxRSS<span class="w">    </span>Elapsed
+----------<span class="w"> </span>----------<span class="w"> </span>----------
+<span class="m">1</span>-12:56:00<span class="w">   </span>5717660K<span class="w">   </span><span class="m">00</span>:46:10
 </pre></div>
 </div>
 <p>That took 46 minutes and used ~5.7 GB. That’s… quite a bit faster and significantly less memory.</p>
 <p>Let’s also take a look at the output files:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ ls MEGAHIT_with_Trimmomatic
-checkpoints.txt  <span class="k">done</span>  final.contigs.fa  intermediate_contigs  log  options.json
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ls<span class="w"> </span>MEGAHIT_with_Trimmomatic
+checkpoints.txt<span class="w">  </span><span class="k">done</span><span class="w">  </span>final.contigs.fa<span class="w">  </span>intermediate_contigs<span class="w">  </span>log<span class="w">  </span>options.json
 </pre></div>
 </div>
 <p>If we check the number of contigs generated, we get 297,969.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ grep -c <span class="s2">&quot;&gt;&quot;</span> final.contigs.fa
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>grep<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;&gt;&quot;</span><span class="w"> </span>final.contigs.fa
 <span class="m">297969</span>
 </pre></div>
 </div>
@@ -440,26 +440,26 @@ quality, this newer version uses CheckV alongside VirSorter2 to assist in virome
 <span class="c1">#SBATCH -J VS2_p1</span>
 
 <span class="c1"># Load the SPAdes module - or can be loaded directly</span>
-module load singularity
+module<span class="w"> </span>load<span class="w"> </span>singularity
 <span class="nv">vs2Loc</span><span class="o">=</span>/users/PAS1117/osu9664/eMicro-Apps/VirSorter2-2.2.3.sif
 <span class="nv">workDir</span><span class="o">=</span><span class="s2">&quot;/fs/project/PAS1117/ben/VEP&quot;</span>
 
-<span class="nb">cd</span> <span class="nv">$workDir</span>
+<span class="nb">cd</span><span class="w"> </span><span class="nv">$workDir</span>
 
 <span class="c1"># Variables to pass to VirSorter2</span>
 <span class="nv">opts</span><span class="o">=</span><span class="s2">&quot;--keep-original-seq --include-groups dsDNAphage,ssDNA --min-length 5000 --min-score 0.5 -j 40&quot;</span>
 <span class="nv">outDir</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">workDir</span><span class="si">}</span><span class="s2">/analyses/VirSorter2-Pass1&quot;</span>
 <span class="nv">input</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">workDir</span><span class="si">}</span><span class="s2">/assemblies/MetaSPAdes_Trimmomatic/contigs.fasta&quot;</span>
 
-<span class="nb">time</span> <span class="nv">$vs2Loc</span> run -i <span class="nv">$input</span> -w <span class="nv">$outDir</span> <span class="nv">$opts</span> all
+<span class="nb">time</span><span class="w"> </span><span class="nv">$vs2Loc</span><span class="w"> </span>run<span class="w"> </span>-i<span class="w"> </span><span class="nv">$input</span><span class="w"> </span>-w<span class="w"> </span><span class="nv">$outDir</span><span class="w"> </span><span class="nv">$opts</span><span class="w"> </span>all
 </pre></div>
 </div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ sbatch VirSorter2-Pass1.sh
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sbatch<span class="w"> </span>VirSorter2-Pass1.sh
 
-$ sacct -j <span class="m">5276291</span> --format <span class="s2">&quot;CPUTime,MaxRSS,Elapsed&quot;</span>
-   CPUTime     MaxRSS    Elapsed
----------- ---------- ----------
-<span class="m">4</span>-16:18:00   1229896K   <span class="m">02</span>:48:27
+$<span class="w"> </span>sacct<span class="w"> </span>-j<span class="w"> </span><span class="m">5276291</span><span class="w"> </span>--format<span class="w"> </span><span class="s2">&quot;CPUTime,MaxRSS,Elapsed&quot;</span>
+<span class="w">   </span>CPUTime<span class="w">     </span>MaxRSS<span class="w">    </span>Elapsed
+----------<span class="w"> </span>----------<span class="w"> </span>----------
+<span class="m">4</span>-16:18:00<span class="w">   </span>1229896K<span class="w">   </span><span class="m">02</span>:48:27
 </pre></div>
 </div>
 <p>If you noticed, we used VirSorter2’s filter argument to limit the SPAdes contigs to 5k. Alternatively, you could also
@@ -472,45 +472,45 @@ use DeepVirFinder and combine the two results.</p>
 <span class="c1">#SBATCH -J CheckV</span>
 
 <span class="c1"># Load the SPAdes module - or can be loaded directly</span>
-module load singularity
+module<span class="w"> </span>load<span class="w"> </span>singularity
 <span class="nv">checkVLoc</span><span class="o">=</span>/users/PAS1117/osu9664/eMicro-Apps/CheckV-0.8.1.sif
 <span class="nv">workDir</span><span class="o">=</span><span class="s2">&quot;/fs/project/PAS1117/ben/VEP&quot;</span>
 
-<span class="nb">cd</span> <span class="nv">$workDir</span>
+<span class="nb">cd</span><span class="w"> </span><span class="nv">$workDir</span>
 
 <span class="c1"># Variables to pass to VirSorter2</span>
 <span class="nv">opts</span><span class="o">=</span><span class="s2">&quot;-t 40&quot;</span>
 <span class="nv">input</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">workDir</span><span class="si">}</span><span class="s2">/analyses/VirSorter2-Pass1/final-viral-combined.fa&quot;</span>
 <span class="nv">outDir</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">workDir</span><span class="si">}</span><span class="s2">/analyses/CheckV&quot;</span>
 
-<span class="nb">time</span> <span class="nv">$checkVLoc</span> end_to_end <span class="nv">$input</span> <span class="nv">$outDir</span> <span class="nv">$opts</span>
+<span class="nb">time</span><span class="w"> </span><span class="nv">$checkVLoc</span><span class="w"> </span>end_to_end<span class="w"> </span><span class="nv">$input</span><span class="w"> </span><span class="nv">$outDir</span><span class="w"> </span><span class="nv">$opts</span>
 </pre></div>
 </div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ sbatch CheckV.sh
-$ sacct -j <span class="m">5286506</span> --format <span class="s2">&quot;CPUTime,MaxRSS,Elapsed&quot;</span>
-   CPUTime     MaxRSS    Elapsed
----------- ---------- ----------
-  <span class="m">04</span>:30:00   1403380K   <span class="m">00</span>:06:45
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sbatch<span class="w"> </span>CheckV.sh
+$<span class="w"> </span>sacct<span class="w"> </span>-j<span class="w"> </span><span class="m">5286506</span><span class="w"> </span>--format<span class="w"> </span><span class="s2">&quot;CPUTime,MaxRSS,Elapsed&quot;</span>
+<span class="w">   </span>CPUTime<span class="w">     </span>MaxRSS<span class="w">    </span>Elapsed
+----------<span class="w"> </span>----------<span class="w"> </span>----------
+<span class="w">  </span><span class="m">04</span>:30:00<span class="w">   </span>1403380K<span class="w">   </span><span class="m">00</span>:06:45
 </pre></div>
 </div>
 <p>Let’s check into the results of CheckV before we continue with the SOP. Open up “quality_summary.tsv” from the CheckV
 results directory:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ ls /fs/project/PAS1117/ben/VEP/CheckV
-completeness.tsv   proviruses.fna       tmp          complete_genomes.tsv
-contamination.tsv  quality_summary.tsv  viruses.fna
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ls<span class="w"> </span>/fs/project/PAS1117/ben/VEP/CheckV
+completeness.tsv<span class="w">   </span>proviruses.fna<span class="w">       </span>tmp<span class="w">          </span>complete_genomes.tsv
+contamination.tsv<span class="w">  </span>quality_summary.tsv<span class="w">  </span>viruses.fna
 </pre></div>
 </div>
 <p>You can download this file to your computer and open in Google Sheets, Microsoft Excel, Numbers, or any other
 spreadsheet. Alternatively, you could look through the file using “less” or similar unix-tool.
 <em>What we want to do is get an overview of CheckV’s quality assessment of the 1st-pass VirSorter2 genomes.</em></p>
 <p>Another way of examining them is with a quick “grep -c” (for count).</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ grep -c <span class="s2">&quot;Low-quality&quot;</span> quality_summary.tsv
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>grep<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;Low-quality&quot;</span><span class="w"> </span>quality_summary.tsv
 <span class="m">2825</span>
-$ grep -c <span class="s2">&quot;Medium-quality&quot;</span> quality_summary.tsv
+$<span class="w"> </span>grep<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;Medium-quality&quot;</span><span class="w"> </span>quality_summary.tsv
 <span class="m">25</span>
-$ grep -c <span class="s2">&quot;High-quality&quot;</span> quality_summary.tsv
+$<span class="w"> </span>grep<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;High-quality&quot;</span><span class="w"> </span>quality_summary.tsv
 <span class="m">1</span>
-$ grep -c <span class="s2">&quot;Not-determined&quot;</span> quality_summary.tsv
+$<span class="w"> </span>grep<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;Not-determined&quot;</span><span class="w"> </span>quality_summary.tsv
 <span class="m">528</span>
 </pre></div>
 </div>
@@ -524,31 +524,31 @@ check, so you can quickly screen contigs.</p>
 <span class="c1">#SBATCH -J VS2_p2</span>
 
 <span class="c1"># Load VirSorter</span>
-module load singularity
+module<span class="w"> </span>load<span class="w"> </span>singularity
 <span class="nv">vs2Loc</span><span class="o">=</span>/users/PAS1117/osu9664/eMicro-Apps/VirSorter2-2.2.3.sif
 <span class="nv">workDir</span><span class="o">=</span><span class="s2">&quot;/fs/project/PAS1117/ben/VEP&quot;</span>
 
 <span class="c1"># Merge CheckV&#39;s proviruses and viruses</span>
 <span class="nv">input</span><span class="o">=</span><span class="nv">$workDir</span>/analyses/CheckV/combined.fna
-cat <span class="nv">$workDir</span>/analyses/CheckV/proviruses.fna <span class="nv">$workDir</span>/analyses/CheckV/viruses.fna &gt; <span class="nv">$input</span>
+cat<span class="w"> </span><span class="nv">$workDir</span>/analyses/CheckV/proviruses.fna<span class="w"> </span><span class="nv">$workDir</span>/analyses/CheckV/viruses.fna<span class="w"> </span>&gt;<span class="w"> </span><span class="nv">$input</span>
 
-<span class="nb">cd</span> <span class="nv">$workDir</span>
+<span class="nb">cd</span><span class="w"> </span><span class="nv">$workDir</span>
 
 <span class="c1"># Variables to pass to VirSorter2</span>
 <span class="nv">opts</span><span class="o">=</span><span class="s2">&quot;--seqname-suffix-off --viral-gene-enrich-off --provirus-off --prep-for-dramv -j 40 --include-groups dsDNAphage,ssDNA --min-length 5000 --min-score 0.5&quot;</span>
 <span class="nv">outDir</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">workDir</span><span class="si">}</span><span class="s2">/analyses/VirSorter2-Pass2&quot;</span>
 
-<span class="nb">time</span> <span class="nv">$vs2Loc</span> run -i <span class="nv">$input</span> -w <span class="nv">$outDir</span> <span class="nv">$opts</span> all
+<span class="nb">time</span><span class="w"> </span><span class="nv">$vs2Loc</span><span class="w"> </span>run<span class="w"> </span>-i<span class="w"> </span><span class="nv">$input</span><span class="w"> </span>-w<span class="w"> </span><span class="nv">$outDir</span><span class="w"> </span><span class="nv">$opts</span><span class="w"> </span>all
 
 <span class="c1"># Wait for the command to complete before ending the job</span>
 <span class="nb">wait</span>
 </pre></div>
 </div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ sbatch VirSorter2-Pass2.sh
-$ sacct -j <span class="m">5286779</span> --format <span class="s2">&quot;CPUTime,MaxRSS,Elapsed&quot;</span>
-   CPUTime     MaxRSS    Elapsed
----------- ---------- ----------
-<span class="m">5</span>-02:28:40   1249568K   <span class="m">03</span>:03:43
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sbatch<span class="w"> </span>VirSorter2-Pass2.sh
+$<span class="w"> </span>sacct<span class="w"> </span>-j<span class="w"> </span><span class="m">5286779</span><span class="w"> </span>--format<span class="w"> </span><span class="s2">&quot;CPUTime,MaxRSS,Elapsed&quot;</span>
+<span class="w">   </span>CPUTime<span class="w">     </span>MaxRSS<span class="w">    </span>Elapsed
+----------<span class="w"> </span>----------<span class="w"> </span>----------
+<span class="m">5</span>-02:28:40<span class="w">   </span>1249568K<span class="w">   </span><span class="m">03</span>:03:43
 </pre></div>
 </div>
 <p>Now we want to annotate our putative viral genomes and then manually screen them to ensure they are of high confidence.
@@ -563,11 +563,11 @@ genomes and can lead to them being called viral.</p>
 <span class="c1">#SBATCH -J DRAMv</span>
 
 <span class="c1"># Load the SPAdes module - or can be loaded directly</span>
-module load singularity
+module<span class="w"> </span>load<span class="w"> </span>singularity
 <span class="nv">dramLoc</span><span class="o">=</span>/users/PAS1117/osu9664/eMicro-Apps/DRAM-PAS1573-1.2.1.sif
 <span class="nv">workDir</span><span class="o">=</span><span class="s2">&quot;/fs/project/PAS1117/ben/VEP&quot;</span>
 
-<span class="nb">cd</span> <span class="nv">$workDir</span>
+<span class="nb">cd</span><span class="w"> </span><span class="nv">$workDir</span>
 
 <span class="c1"># Annotate</span>
 <span class="nv">fasta_input</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">workDir</span><span class="si">}</span><span class="s2">/analyses/VirSorter2-Pass2/for-dramv/final-viral-combined-for-dramv.fa&quot;</span>
@@ -577,19 +577,19 @@ module load singularity
 <span class="nv">opts</span><span class="o">=</span><span class="s2">&quot;--skip_trnascan --threads 40 --min_contig_size 1000&quot;</span>
 <span class="nv">outDir</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">workDir</span><span class="si">}</span><span class="s2">/analyses/DRAMv-annotate&quot;</span>
 
-<span class="nb">time</span> dramLoc annotate -i <span class="nv">$fasta_input</span> -v <span class="nv">$affi_input</span> -o <span class="nv">$outDir</span> <span class="nv">$opts</span>
+<span class="nb">time</span><span class="w"> </span>dramLoc<span class="w"> </span>annotate<span class="w"> </span>-i<span class="w"> </span><span class="nv">$fasta_input</span><span class="w"> </span>-v<span class="w"> </span><span class="nv">$affi_input</span><span class="w"> </span>-o<span class="w"> </span><span class="nv">$outDir</span><span class="w"> </span><span class="nv">$opts</span>
 
 <span class="c1"># Then summarize</span>
-<span class="nb">time</span> dramLoc distill -i <span class="nv">$outDir</span>/annotations.tsv -o <span class="s2">&quot;</span><span class="si">${</span><span class="nv">workDir</span><span class="si">}</span><span class="s2">/analyses/DRAMv-distill&quot;</span>
+<span class="nb">time</span><span class="w"> </span>dramLoc<span class="w"> </span>distill<span class="w"> </span>-i<span class="w"> </span><span class="nv">$outDir</span>/annotations.tsv<span class="w"> </span>-o<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">workDir</span><span class="si">}</span><span class="s2">/analyses/DRAMv-distill&quot;</span>
 </pre></div>
 </div>
 <p>Two things to notice. 1) We’re still continuing with the  <a class="reference external" href="https://dx.doi.org/10.17504/protocols.io.bwm5pc86">VirSorter2 SOP</a>
 and 2) we’re using a special Singularity version of DRAMv. Feel free to use the module version or your own installation.</p>
 <p>Let’s see how long this took.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ sacct -j <span class="m">5371984</span> --format <span class="s2">&quot;CPUTime,MaxRSS,Elapsed&quot;</span>
-   CPUTime     MaxRSS    Elapsed
----------- ---------- ----------
-<span class="m">135</span>-17:22:00   9029732K <span class="m">3</span>-09:26:03
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sacct<span class="w"> </span>-j<span class="w"> </span><span class="m">5371984</span><span class="w"> </span>--format<span class="w"> </span><span class="s2">&quot;CPUTime,MaxRSS,Elapsed&quot;</span>
+<span class="w">   </span>CPUTime<span class="w">     </span>MaxRSS<span class="w">    </span>Elapsed
+----------<span class="w"> </span>----------<span class="w"> </span>----------
+<span class="m">135</span>-17:22:00<span class="w">   </span>9029732K<span class="w"> </span><span class="m">3</span>-09:26:03
 </pre></div>
 </div>
 <p>Three days and 9 hours using 40 cores to annotate 3313 contigs.</p>
@@ -607,27 +607,27 @@ in, ensure you go through them.</p>
 
 <span class="nv">workDir</span><span class="o">=</span><span class="s2">&quot;/fs/project/PAS1117/ben/VEP&quot;</span>
 
-<span class="nv">vs2_genomes</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">workDir</span><span class="si">}</span><span class="s2">/analyses/VirSorter2-Pass2/for-dramv/final-viral-combined-for-dramv.fa&quot;</span>
-<span class="nv">vs2_final_score</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">workDir</span><span class="si">}</span><span class="s2">/analyses/VirSorter2-Pass2/final-viral-score.tsv&quot;</span>
+<span class="nv">vs2_genomes</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">workDir</span><span class="si">}</span><span class="s2">/analyses/CheckV/combined.fna&quot;</span>
+<span class="nv">vs2_final_score</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">workDir</span><span class="si">}</span><span class="s2">/analyses/VirSorter2-Pass1/final-viral-score.tsv&quot;</span>
 <span class="nv">amg_summary</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">workDir</span><span class="si">}</span><span class="s2">/analyses/DRAMv-distill/amg_summary.tsv&quot;</span>
 <span class="nv">checkv_contamination</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">workDir</span><span class="si">}</span><span class="s2">/analyses/CheckV/contamination.tsv&quot;</span>
 
 <span class="nv">output_dir</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">workDir</span><span class="si">}</span><span class="s2">/analyses/VS2-SOP&quot;</span>
 
-python /users/PAS1117/osu9664/eMicro-Apps/Process-VS2_and_DRAMv.py --vs2-scores <span class="nv">$vs2_final_score</span> <span class="se">\</span>
---checkv-contam <span class="nv">$checkv_contamination</span> --dramv-amg <span class="nv">$amg_summary</span> --vs2-genomes <span class="nv">$vs2_genomes</span> <span class="se">\</span>
---output-dir <span class="nv">$output_dir</span> --drop-manual
+<span class="c1"># NOTE: --dramv-amg is optional</span>
+
+python<span class="w"> </span>/users/PAS1117/osu9664/eMicro-Apps/Process-VS2_and_DRAMv.py<span class="w"> </span>--vs2-scores<span class="w"> </span><span class="nv">$vs2_final_score</span><span class="w"> </span>--checkv-contam<span class="w"> </span><span class="nv">$checkv_contamination</span><span class="w"> </span>--dramv-amg<span class="w"> </span><span class="nv">$amg_summary</span><span class="w"> </span>--vs2-genomes<span class="w"> </span><span class="nv">$vs2_genomes</span><span class="w"> </span>--output-dir<span class="w"> </span><span class="nv">$output_dir</span><span class="w"> </span>--drop-manual
 </pre></div>
 </div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ sacct -j <span class="m">5427090</span> --format <span class="s2">&quot;CPUTime,MaxRSS,Elapsed&quot;</span>
-   CPUTime     MaxRSS    Elapsed
----------- ---------- ----------
-  <span class="m">00</span>:00:20          <span class="m">0</span>   <span class="m">00</span>:00:20
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sacct<span class="w"> </span>-j<span class="w"> </span><span class="m">5427090</span><span class="w"> </span>--format<span class="w"> </span><span class="s2">&quot;CPUTime,MaxRSS,Elapsed&quot;</span>
+<span class="w">   </span>CPUTime<span class="w">     </span>MaxRSS<span class="w">    </span>Elapsed
+----------<span class="w"> </span>----------<span class="w"> </span>----------
+<span class="w">  </span><span class="m">00</span>:00:20<span class="w">          </span><span class="m">0</span><span class="w">   </span><span class="m">00</span>:00:20
 </pre></div>
 </div>
 <p>The log file for the script is as follows:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Wrote <span class="m">3243</span> records to /fs/project/PAS1117/ben/VEP/analyses/VS2-SOP/final-viral-scored.fa
-Saved summary table to /fs/project/PAS1117/ben/VEP/analyses/VS2-SOP/final-viral-scored.tsv
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Wrote<span class="w"> </span><span class="m">3243</span><span class="w"> </span>records<span class="w"> </span>to<span class="w"> </span>/fs/project/PAS1117/ben/VEP/analyses/VS2-SOP/final-viral-scored.fa
+Saved<span class="w"> </span>summary<span class="w"> </span>table<span class="w"> </span>to<span class="w"> </span>/fs/project/PAS1117/ben/VEP/analyses/VS2-SOP/final-viral-scored.tsv
 </pre></div>
 </div>
 <p>Two files are generated. A summary table with information incorporating CheckV and VirSorter2, and the final viral genomes.
@@ -644,9 +644,9 @@ we’ll run prodigal first - to generate proteins - and then use an accessory fu
 <span class="c1">#SBATCH -J vConTACT2</span>
 <span class="c1">#SBATCH --partition=hugemem</span>
 
-module load singularity
-module use /fs/project/PAS1117/modulefiles
-module load singularityImages
+module<span class="w"> </span>load<span class="w"> </span>singularity
+module<span class="w"> </span>use<span class="w"> </span>/fs/project/PAS1117/modulefiles
+module<span class="w"> </span>load<span class="w"> </span>singularityImages
 
 <span class="c1"># Directories</span>
 <span class="nv">workDir</span><span class="o">=</span><span class="s2">&quot;/fs/project/PAS1117/ben/VEP&quot;</span>
@@ -656,48 +656,48 @@ module load singularityImages
 <span class="nv">input_fna</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">workDir</span><span class="si">}</span><span class="s2">/analyses/VS2-SOP/final-viral-scored.fa&quot;</span>
 <span class="nv">prodigal_outputDir</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">workDir</span><span class="si">}</span><span class="s2">/analyses/Prodigal_output&quot;</span>
 
-mkdir <span class="nv">$prodigal_outputDir</span>
+mkdir<span class="w"> </span><span class="nv">$prodigal_outputDir</span>
 
-<span class="nb">time</span> <span class="nv">$prodigalLoc</span> -i <span class="nv">$input_fna</span> -p meta -a <span class="nv">$prodigal_outputDir</span>/VirSorter2_genomes.faa <span class="se">\</span>
--o <span class="nv">$prodigal_outputDir</span>/VirSorter2_genomes.prodigal
+<span class="nb">time</span><span class="w"> </span><span class="nv">$prodigalLoc</span><span class="w"> </span>-i<span class="w"> </span><span class="nv">$input_fna</span><span class="w"> </span>-p<span class="w"> </span>meta<span class="w"> </span>-a<span class="w"> </span><span class="nv">$prodigal_outputDir</span>/VirSorter2_genomes.faa<span class="w"> </span><span class="se">\</span>
+-o<span class="w"> </span><span class="nv">$prodigal_outputDir</span>/VirSorter2_genomes.prodigal
 
 <span class="c1"># Run vConTACT2</span>
 <span class="nv">vcontact2Loc</span><span class="o">=</span><span class="s2">&quot;/users/PAS1117/osu9664/eMicro-Apps/vConTACT2-0.9.20.sif&quot;</span>
 <span class="nv">outputDir</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">workDir</span><span class="si">}</span><span class="s2">/analyses/vConTACT2_output&quot;</span>
 
-<span class="nb">time</span> singularity <span class="nb">exec</span> <span class="nv">$vcontact2Loc</span> vcontact2_gene2genome -p <span class="nv">$prodigal_outputDir</span>/VirSorter2_genomes.faa <span class="se">\</span>
--o <span class="nv">$prodigal_outputDir</span>/VirSorter2_proteins.csv -s Prodigal-FAA
+<span class="nb">time</span><span class="w"> </span>singularity<span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="nv">$vcontact2Loc</span><span class="w"> </span>vcontact2_gene2genome<span class="w"> </span>-p<span class="w"> </span><span class="nv">$prodigal_outputDir</span>/VirSorter2_genomes.faa<span class="w"> </span><span class="se">\</span>
+-o<span class="w"> </span><span class="nv">$prodigal_outputDir</span>/VirSorter2_proteins.csv<span class="w"> </span>-s<span class="w"> </span>Prodigal-FAA
 
-<span class="nb">time</span> <span class="nv">$vcontact2Loc</span> --pcs-mode MCL --vcs-mode ClusterONE --threads <span class="m">48</span> --raw-proteins <span class="nv">$prodigal_outputDir</span>/VirSorter2_genomes.faa <span class="se">\</span>
---rel-mode Diamond --proteins-fp <span class="nv">$prodigal_outputDir</span>/VirSorter2_proteins.csv --db <span class="s1">&#39;ProkaryoticViralRefSeq201-Merged&#39;</span> <span class="se">\</span>
---output-dir <span class="nv">$outputDir</span>
+<span class="nb">time</span><span class="w"> </span><span class="nv">$vcontact2Loc</span><span class="w"> </span>--pcs-mode<span class="w"> </span>MCL<span class="w"> </span>--vcs-mode<span class="w"> </span>ClusterONE<span class="w"> </span>--threads<span class="w"> </span><span class="m">48</span><span class="w"> </span>--raw-proteins<span class="w"> </span><span class="nv">$prodigal_outputDir</span>/VirSorter2_genomes.faa<span class="w"> </span><span class="se">\</span>
+--rel-mode<span class="w"> </span>Diamond<span class="w"> </span>--proteins-fp<span class="w"> </span><span class="nv">$prodigal_outputDir</span>/VirSorter2_proteins.csv<span class="w"> </span>--db<span class="w"> </span><span class="s1">&#39;ProkaryoticViralRefSeq201-Merged&#39;</span><span class="w"> </span><span class="se">\</span>
+--output-dir<span class="w"> </span><span class="nv">$outputDir</span>
 
 <span class="nb">wait</span>
 </pre></div>
 </div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ sacct -j <span class="m">5430686</span> --format <span class="s2">&quot;CPUTime,MaxRSS,Elapsed&quot;</span>
-   CPUTime     MaxRSS    Elapsed
----------- ---------- ----------
-<span class="m">3</span>-05:38:24   9884748K   <span class="m">01</span>:37:03
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sacct<span class="w"> </span>-j<span class="w"> </span><span class="m">5430686</span><span class="w"> </span>--format<span class="w"> </span><span class="s2">&quot;CPUTime,MaxRSS,Elapsed&quot;</span>
+<span class="w">   </span>CPUTime<span class="w">     </span>MaxRSS<span class="w">    </span>Elapsed
+----------<span class="w"> </span>----------<span class="w"> </span>----------
+<span class="m">3</span>-05:38:24<span class="w">   </span>9884748K<span class="w">   </span><span class="m">01</span>:37:03
 </pre></div>
 </div>
 <p>The job only took 1 hr 37 min, provided 48 cores and 1.5 TB of memory. Based on the results,
 <em>we would not re-run this job with these parameters</em>! Next time, a “standard” 28, 40 or 48-core node on Owens or Pitzer
 would suffice.</p>
 <p>There are a lot of files generated from vConTACT2, here’s a list of files that should be generated:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ ls /fs/project/PAS1117/ben/VEP/analyses/vConTACT2_output
-c1.clusters                             modules_mcl_5.0_modules.pandas
-c1.ntw                                  modules_mcl_5.0_pcs.pandas
-genome_by_genome_overview.csv           modules.ntwk
-merged_df.csv                           sig1.0_mcl2.0_clusters.csv
-merged.dmnd                             sig1.0_mcl2.0_contigs.csv
-merged.faa                              sig1.0_mcl2.0_modsig1.0_modmcl5.0_minshared3_link_mod_cluster.csv
-merged.self-diamond.tab                 sig1.0_mcl5.0_minshared3_modules.csv
-merged.self-diamond.tab.abc             vConTACT_contigs.csv
-merged.self-diamond.tab.mci             vConTACT_pcs.csv
-merged.self-diamond.tab_mcl20.clusters  vConTACT_profiles.csv
-merged.self-diamond.tab_mcxload.tab     vConTACT_proteins.csv
-modules_mcl_5.0.clusters                viral_cluster_overview.csv
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ls<span class="w"> </span>/fs/project/PAS1117/ben/VEP/analyses/vConTACT2_output
+c1.clusters<span class="w">                             </span>modules_mcl_5.0_modules.pandas
+c1.ntw<span class="w">                                  </span>modules_mcl_5.0_pcs.pandas
+genome_by_genome_overview.csv<span class="w">           </span>modules.ntwk
+merged_df.csv<span class="w">                           </span>sig1.0_mcl2.0_clusters.csv
+merged.dmnd<span class="w">                             </span>sig1.0_mcl2.0_contigs.csv
+merged.faa<span class="w">                              </span>sig1.0_mcl2.0_modsig1.0_modmcl5.0_minshared3_link_mod_cluster.csv
+merged.self-diamond.tab<span class="w">                 </span>sig1.0_mcl5.0_minshared3_modules.csv
+merged.self-diamond.tab.abc<span class="w">             </span>vConTACT_contigs.csv
+merged.self-diamond.tab.mci<span class="w">             </span>vConTACT_pcs.csv
+merged.self-diamond.tab_mcl20.clusters<span class="w">  </span>vConTACT_profiles.csv
+merged.self-diamond.tab_mcxload.tab<span class="w">     </span>vConTACT_proteins.csv
+modules_mcl_5.0.clusters<span class="w">                </span>viral_cluster_overview.csv
 </pre></div>
 </div>
 <p>The two most important files are “genome_by_genome_overview.csv”, which provides an overview of all the genomes that
