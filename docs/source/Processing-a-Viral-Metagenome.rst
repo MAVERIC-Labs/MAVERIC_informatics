@@ -677,6 +677,7 @@ in, ensure you go through them.
     python /users/PAS1117/osu9664/eMicro-Apps/Process-VS2_and_DRAMv.py --vs2-scores $vs2_final_score --checkv-contam $checkv_contamination --dramv-amg $amg_summary --vs2-genomes $vs2_genomes --output-dir $output_dir --drop-manual
 
 
+
 .. code-block:: bash
 
     $ sacct -j 5427090 --format "CPUTime,MaxRSS,Elapsed"

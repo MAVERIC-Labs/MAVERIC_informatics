@@ -364,3 +364,4 @@ want to run your analysis on. Let's look at the job file.
     singularity_dir=/users/PAS1117/osu9664/eMicro-Apps/
 
     singularity run $singularity_dir/iPHoP-1.1.0.sif predict --fa_file ${SLURM_ARRAY_TASK_ID} --db_dir iphop_db/Sept_2021_pub/ -o results/${SLURM_ARRAY_TASK_ID}
+

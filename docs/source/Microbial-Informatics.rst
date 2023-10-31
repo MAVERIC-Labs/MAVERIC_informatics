@@ -10,8 +10,15 @@ Conceptual instructor:
 
 Practical instructors:
 
-* Dr. Shareef M. Dabdoub
+* Dr. Ahmed Zayed
 * Dr. Ben Bolduc
+* Dr. Mike Sovic
+* Dr. Dean Vik
+
+Teaching assistants
+
+* Dr. Marion Urvoy
+* Dr. Ricardo Pavan
 
 **Course learning objectives**: This course seeks to inspire creativity and innovation for answering fundamental
 microbiological questions using sequence data. Specific learning objectives include the following:
@@ -26,15 +33,15 @@ microbiological questions using sequence data. Specific learning objectives incl
 
 Week 1: Intro to the Course and OSC (see :ref:`OSC`)
 
-Week 2: Review 5161
+Week 2: OSC and HPC, Review 5161
 
-Week 3: Intro to Human, Ocean and Soil Microbiomes
+Week 3: Genome-resolved MetaG + Intro to R for Microbiome Science
 
-Week 4: Project option small group discussions, commit to project, establish teams
+Week 4: Introduction to R Parts 2 + 3, Genome-resolved MetaG workflow
 
-Week 5: In-class troubleshoot project work (QC, assembly, read mapping, binning)
+Week 5: Ecological stats primer and hands-on applications
 
-Week 6: Project report-outs
+Week 6: Select projects and transition to project phase
 
 Week 7: In-class troubleshoot project work (MAGs, DRAM)
 
