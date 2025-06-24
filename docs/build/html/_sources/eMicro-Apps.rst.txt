@@ -1778,11 +1778,15 @@ partial or complete viral genomes as well as excise integrated proviruses.
     module load singularity/current
 
     # For eMicro and PAS1573
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/VIBRANT-1.2.1.sif -i <input-fasta> -m /users/PAS1117/osu9664/eMicro-Apps/vibrant_dbs/20211025
+    VIBRANT_DATA_PATH=/users/PAS1117/osu9664/eMicro-Apps/vibrant_dbs/20231102  # Optional
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/VIBRANT-1.2.1.sif -i <input-fasta> -folder <output-dir>
 
+    # If VIBRANT_DATA_PATH is not specified, then you will need to specify -d /users/PAS1117/osu9664/eMicro-Apps/vibrant_dbs/20231102
+
+    # For PAS1117
     module use /fs/project/PAS1117/modulefiles
     module load singularityImages
-    VIBRANT-1.2.1.sif -i <input-fasta> -m /fs/project/PAS1117/modules/sequence_dbs/VIBRANT/20211025
+    VIBRANT-1.2.1.sif -i <input-fasta> -i <input-fasta> -folder <output-dir>
 
 
 Note: There may be numerous DeprecationWarning. They can be safely ignored.

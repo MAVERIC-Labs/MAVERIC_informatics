@@ -1355,11 +1355,15 @@ partial or complete viral genomes as well as excise integrated proviruses.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module<span class="w"> </span>load<span class="w"> </span>singularity/current
 
 <span class="c1"># For eMicro and PAS1573</span>
-singularity<span class="w"> </span>run<span class="w"> </span>/users/PAS1117/osu9664/eMicro-Apps/VIBRANT-1.2.1.sif<span class="w"> </span>-i<span class="w"> </span>&lt;input-fasta&gt;<span class="w"> </span>-m<span class="w"> </span>/users/PAS1117/osu9664/eMicro-Apps/vibrant_dbs/20211025
+<span class="nv">VIBRANT_DATA_PATH</span><span class="o">=</span>/users/PAS1117/osu9664/eMicro-Apps/vibrant_dbs/20231102<span class="w">  </span><span class="c1"># Optional</span>
+singularity<span class="w"> </span>run<span class="w"> </span>/users/PAS1117/osu9664/eMicro-Apps/VIBRANT-1.2.1.sif<span class="w"> </span>-i<span class="w"> </span>&lt;input-fasta&gt;<span class="w"> </span>-folder<span class="w"> </span>&lt;output-dir&gt;
 
+<span class="c1"># If VIBRANT_DATA_PATH is not specified, then you will need to specify -d /users/PAS1117/osu9664/eMicro-Apps/vibrant_dbs/20231102</span>
+
+<span class="c1"># For PAS1117</span>
 module<span class="w"> </span>use<span class="w"> </span>/fs/project/PAS1117/modulefiles
 module<span class="w"> </span>load<span class="w"> </span>singularityImages
-VIBRANT-1.2.1.sif<span class="w"> </span>-i<span class="w"> </span>&lt;input-fasta&gt;<span class="w"> </span>-m<span class="w"> </span>/fs/project/PAS1117/modules/sequence_dbs/VIBRANT/20211025
+VIBRANT-1.2.1.sif<span class="w"> </span>-i<span class="w"> </span>&lt;input-fasta&gt;<span class="w"> </span>-i<span class="w"> </span>&lt;input-fasta&gt;<span class="w"> </span>-folder<span class="w"> </span>&lt;output-dir&gt;
 </pre></div>
 </div>
 <p>Note: There may be numerous DeprecationWarning. They can be safely ignored.</p>

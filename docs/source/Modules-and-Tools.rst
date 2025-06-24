@@ -5,6 +5,12 @@ Modules and Tools on OSC
 
 On OSC there are a number of different ways to run a tool/app/executable/binary/etc.
 
+
+.. code-block:: bash
+
+    $ /fs/ess/PAS1117
+    $ run app
+
 1) Directly
 2) Loading a module
 3) Executing/running a Singularity container
