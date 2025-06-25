@@ -1,24 +1,22 @@
-
 <!DOCTYPE html>
 
-<html>
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Pathways and Metabolisms of MAGs &#8212; MAVERIC Informatics  documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css?v=279e0f84" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="End-to-End Processing of a Viral Metagenome" href="Processing-a-Viral-Metagenome.html" />
     <link rel="prev" title="End-to-End Processing of a Microbial Metagenome" href="Processing-a-Microbial-Metagenome.html" /> 
   </head><body>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -41,7 +39,7 @@
           <div class="body" role="main">
             
   <section id="pathways-and-metabolisms-of-mags">
-<span id="pathways-metabolism"></span><h1>Pathways and Metabolisms of MAGs<a class="headerlink" href="#pathways-and-metabolisms-of-mags" title="Permalink to this headline">¶</a></h1>
+<span id="pathways-metabolism"></span><h1>Pathways and Metabolisms of MAGs<a class="headerlink" href="#pathways-and-metabolisms-of-mags" title="Link to this heading">¶</a></h1>
 <p>This section will be a little different than the others, as we’ll be exploring the tools more than defining
 best-practices or commonly used methods. Use whichever tool works best for your data and project objectives.</p>
 <p>We’ll continue working with the MAGs from our <a class="reference internal" href="Processing-a-Microbial-Metagenome.html#processing-microbe"><span class="std std-ref">End-to-End Processing of a Microbial Metagenome</span></a>, specifically the trimmomatic-cleaned,
@@ -50,7 +48,7 @@ bins (MetaWRAP, DAS_Tool) instead.</p>
 <p>We’ll be using Metapathways2 and Pathway Tools. In the future, I might be adding a few other methods, especially a few
 that are likely more suitable for large-scale metagenomic data.</p>
 <section id="before-beginning">
-<h2>Before beginning<a class="headerlink" href="#before-beginning" title="Permalink to this headline">¶</a></h2>
+<h2>Before beginning<a class="headerlink" href="#before-beginning" title="Link to this heading">¶</a></h2>
 <p>Unlike the other tools we’ve used, most of them we’re using to analyze pathways require an X Windows server. Put simply,
 it’s what lets you see graphics. Practically, that means is that you will need to install some software on your system
 to 1) run these tools on OSC or 2) on your local machine.</p>
@@ -66,13 +64,13 @@ it can communicate with the one you’ve installed/enabled (above).</p>
 “Interactive Apps” –&gt; “Pitzer Desktop”</p>
 </section>
 <section id="installing-meapathways2">
-<h2>Installing MeaPathways2<a class="headerlink" href="#installing-meapathways2" title="Permalink to this headline">¶</a></h2>
+<h2>Installing MeaPathways2<a class="headerlink" href="#installing-meapathways2" title="Link to this heading">¶</a></h2>
 <p>MetaPathways2 handles most of the processing from bins (MAGs) to the pathways part of the pipeline. To identify pathways,
 it runs Pathway Tools and collects the results from that tool to integrate it into its [MetaPathways2] final results.</p>
 <p>Complete instructions (far more detailed and… from the actual authors) are available
 at the <a class="reference external" href="https://github.com/hallamlab/metapathways2">metapathways2</a> documentation.</p>
 <section id="on-mac-ubuntu-osc">
-<h3>On Mac/Ubuntu/OSC<a class="headerlink" href="#on-mac-ubuntu-osc" title="Permalink to this headline">¶</a></h3>
+<h3>On Mac/Ubuntu/OSC<a class="headerlink" href="#on-mac-ubuntu-osc" title="Link to this heading">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>wget<span class="w"> </span>https://github.com/hallamlab/metapathways2/archive/v2.5.2.tar.gz
 $<span class="w"> </span>tar<span class="w"> </span>xf<span class="w"> </span>v2.5.2.tar.gz
 $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>metapathways2-2.5.2
@@ -90,13 +88,13 @@ MetaPathways2 to Applications.</p>
 <p>If on Ubuntu/OSC, unzip MetaPathways2.Ubuntu.zip. The unzipped directory will have a bash script for MetaPathways2</p>
 </section>
 <section id="on-windows">
-<h3>On Windows<a class="headerlink" href="#on-windows" title="Permalink to this headline">¶</a></h3>
+<h3>On Windows<a class="headerlink" href="#on-windows" title="Link to this heading">¶</a></h3>
 <p>For Windows, you’ll need a virtual machine and the disk image <a class="reference external" href="https://www.dropbox.com/s/0nozjbmn7a4wzig/MetaPathways_2_5.vmdk.zip?dl=0">here</a>.
 More instructions are found <a class="reference external" href="https://github.com/hallamlab/metapathways2/wiki#setup-installation-and-configuration-1">on the wiki</a>.</p>
 </section>
 </section>
 <section id="installing-pathway-tools">
-<h2>Installing Pathway Tools<a class="headerlink" href="#installing-pathway-tools" title="Permalink to this headline">¶</a></h2>
+<h2>Installing Pathway Tools<a class="headerlink" href="#installing-pathway-tools" title="Link to this heading">¶</a></h2>
 <p>Pathway Tools requires a license to download the tool and requisite pathway databases. A free academic license exists for
 the tool as well as the “Tier 1” databases (MetaCyc and EcoCyc). You can (and <em>should</em>) <a class="reference external" href="https://biocyc.org/download-bundle.shtml">fill out the license</a>.
 The website will send out a download link to both the executable/installer (for Windows, Mac, Linux) and datafiles. The
@@ -121,7 +119,7 @@ machine that is a Unix-based system.</em> Both can be run from the command line 
 from their respective GUIs.</p>
 </section>
 <section id="processing-mags-with-metapathways2-and-pathway-tools">
-<h2>Processing MAGs with MetaPathways2 and Pathway Tools<a class="headerlink" href="#processing-mags-with-metapathways2-and-pathway-tools" title="Permalink to this headline">¶</a></h2>
+<h2>Processing MAGs with MetaPathways2 and Pathway Tools<a class="headerlink" href="#processing-mags-with-metapathways2-and-pathway-tools" title="Link to this heading">¶</a></h2>
 <p>So if you remember our bins from processing our microbial metagenome with MetaBAT2 (trimmomatic+SPAdes):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 <span class="w">  </span>Bin<span class="w"> </span>Id<span class="w">          </span>Marker<span class="w"> </span>lineage<span class="w">         </span><span class="c1"># genomes   # markers   # marker sets    0     1    2    3   4   5+   Completeness   Contamination   Strain heterogeneity</span>
@@ -157,18 +155,21 @@ I’ve already adjusted these files to work on OSC. We’re only looking at bins
 or navigate through the output folders for results.</p>
 <p>Alternatively, let’s use the GUI. To use the GUI, open up the MetaPathways2 app (on Mac) or run it via the bash script.</p>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/screenshot-metapathways2-setup.png"><img alt="MetaPathways2 Setup" src="_images/screenshot-metapathways2-setup.png" style="width: 426.5px; height: 454.5px;" /></a>
+<a class="reference internal image-reference" href="_images/screenshot-metapathways2-setup.png"><img alt="MetaPathways2 Setup" src="_images/screenshot-metapathways2-setup.png" style="width: 426.5px; height: 454.5px;" />
+</a>
 </figure>
 <p>Fill in the settings as appropriate for your system.</p>
 <p>Once that’s done, we’ll move over to the parameters.</p>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/screenshot-metapathways2-parameters.png"><img alt="MetaPathways2 Parameters" src="_images/screenshot-metapathways2-parameters.png" style="width: 495.0px; height: 454.5px;" /></a>
+<a class="reference internal image-reference" href="_images/screenshot-metapathways2-parameters.png"><img alt="MetaPathways2 Parameters" src="_images/screenshot-metapathways2-parameters.png" style="width: 495.0px; height: 454.5px;" />
+</a>
 </figure>
 <p>Select the databases you’d like to use. You’ll notice that they only include databases that are in the MetaPathways_DBs
 folder that you uncompressed earlier. MetaPathways2 will handle database formatting.</p>
 <p>Then to set up what processing steps to Run, Skip, or Rerun.</p>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/screenshot-metapathways2-stages.png"><img alt="MetaPathways2 Stages" src="_images/screenshot-metapathways2-stages.png" style="width: 456.0px; height: 454.5px;" /></a>
+<a class="reference internal image-reference" href="_images/screenshot-metapathways2-stages.png"><img alt="MetaPathways2 Stages" src="_images/screenshot-metapathways2-stages.png" style="width: 456.0px; height: 454.5px;" />
+</a>
 </figure>
 <p>For the purposes of processing our dataset, you can run everything except the RPKM. For that we’d need to move reads
 around, which we’ll “Skip” for now. <em>If your job ever fails, you can always rerun a stage</em>. Finally, set the input and
@@ -176,30 +177,35 @@ output directories. We’ve updated the filenames to <em>remove</em> “.” and
 searches through the input directory, it will find each fasta bin. Once that’s done, you can select which samples to
 process.</p>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/screenshot-metapathways2-sample_select.png"><img alt="MetaPathways2 Selecting Samples" src="_images/screenshot-metapathways2-sample_select.png" style="width: 197.5px; height: 164.5px;" /></a>
+<a class="reference internal image-reference" href="_images/screenshot-metapathways2-sample_select.png"><img alt="MetaPathways2 Selecting Samples" src="_images/screenshot-metapathways2-sample_select.png" style="width: 197.5px; height: 164.5px;" />
+</a>
 </figure>
 <p>Then, move over to the run tab and select “Run”. On the left side of the window you’ll see each stage as its processed,
 on the right, a text log (saved per bin in the results directory), and the bottom, the commands executed.</p>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/screenshot-metapathways2-run.png"><img alt="MetaPathways2 Run" src="_images/screenshot-metapathways2-run.png" style="width: 543.0px; height: 454.5px;" /></a>
+<a class="reference internal image-reference" href="_images/screenshot-metapathways2-run.png"><img alt="MetaPathways2 Run" src="_images/screenshot-metapathways2-run.png" style="width: 543.0px; height: 454.5px;" />
+</a>
 </figure>
 <p>Once done, select the results tab and click on the “+” to add the location of the output directory. Once done, you can
 select which samples to use.</p>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/screenshot-metapathways2-results.png"><img alt="MetaPathways2 Results" src="_images/screenshot-metapathways2-results.png" style="width: 543.0px; height: 454.5px;" /></a>
+<a class="reference internal image-reference" href="_images/screenshot-metapathways2-results.png"><img alt="MetaPathways2 Results" src="_images/screenshot-metapathways2-results.png" style="width: 543.0px; height: 454.5px;" />
+</a>
 </figure>
 <p>This will bring up a “RUN STATS” summary, along with a set of tabs corresponding to all the databases compared against.
 We won’t go into the details for each tab - you’ll need to explore on your own - but each database will have its own
 set of pathways and/or groups matched.</p>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/screenshot-metapathways2-results_multisample.png"><img alt="MetaPathways2 Multi Sample Results" src="_images/screenshot-metapathways2-results_multisample.png" style="width: 543.0px; height: 454.5px;" /></a>
+<a class="reference internal image-reference" href="_images/screenshot-metapathways2-results_multisample.png"><img alt="MetaPathways2 Multi Sample Results" src="_images/screenshot-metapathways2-results_multisample.png" style="width: 543.0px; height: 454.5px;" />
+</a>
 </figure>
 <p>One example…</p>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/screenshot-metapathways2-results_COG.png"><img alt="MetaPathways2 COG Results" src="_images/screenshot-metapathways2-results_COG.png" style="width: 512.0px; height: 454.5px;" /></a>
+<a class="reference internal image-reference" href="_images/screenshot-metapathways2-results_COG.png"><img alt="MetaPathways2 COG Results" src="_images/screenshot-metapathways2-results_COG.png" style="width: 512.0px; height: 454.5px;" />
+</a>
 </figure>
 <section id="pathway-tools">
-<h3>Pathway Tools<a class="headerlink" href="#pathway-tools" title="Permalink to this headline">¶</a></h3>
+<h3>Pathway Tools<a class="headerlink" href="#pathway-tools" title="Link to this heading">¶</a></h3>
 <p>With an appropriately installed Pathway Tools and a MetaPathways2 installation that is directed towards the Pathway
 Tools executable (handled in the setup tab), Pathway Tools should be run <em>by</em> MetaPathways2. <em>You’ll see a Pathway Tools window open up, don’t close it</em>.</p>
 <p>If there is a problem during MetaPathways2 running Pathway Tools, you can do so:</p>
@@ -217,14 +223,15 @@ $<span class="w"> </span>~/pathway-tools/pathway-tools<span class="w"> </span>-p
 </div>
 <p>And when Pathway Tools open, you’ll see the Available Databases:</p>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/screenshot-pathwaytools-available_databases.png"><img alt="Pathway Tools" src="_images/screenshot-pathwaytools-available_databases.png" style="width: 716.0px; height: 436.0px;" /></a>
+<a class="reference internal image-reference" href="_images/screenshot-pathwaytools-available_databases.png"><img alt="Pathway Tools" src="_images/screenshot-pathwaytools-available_databases.png" style="width: 716.0px; height: 436.0px;" />
+</a>
 </figure>
 <p>From here you can navigate through all the menus. But at least you’ll notice that there’s 3 unclassified sequences.
 It’s not a coincidence that we selected our 3 most complete bins…</p>
 <p>We’ll let you explore it from here!</p>
 </section>
 <section id="dram">
-<h3>DRAM<a class="headerlink" href="#dram" title="Permalink to this headline">¶</a></h3>
+<h3>DRAM<a class="headerlink" href="#dram" title="Link to this heading">¶</a></h3>
 <p>Another way of looking at metabolic pathways is <a class="reference external" href="https://github.com/shafferm/DRAM">DRAM</a>. Installation can take a
 while, but there’s a version installed in the week10_pathways directory.</p>
 <p>For this we’ll use the same dataset as above:</p>
@@ -249,10 +256,11 @@ $<span class="w"> </span>DRAM.py<span class="w"> </span>summarize_genomes<span c
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">Pathways and Metabolisms of MAGs</a><ul>
 <li><a class="reference internal" href="#before-beginning">Before beginning</a></li>
 <li><a class="reference internal" href="#installing-meapathways2">Installing MeaPathways2</a><ul>
@@ -270,12 +278,17 @@ $<span class="w"> </span>DRAM.py<span class="w"> </span>summarize_genomes<span c
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="Processing-a-Microbial-Metagenome.html"
-                        title="previous chapter">End-to-End Processing of a Microbial Metagenome</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="Processing-a-Viral-Metagenome.html"
-                        title="next chapter">End-to-End Processing of a Viral Metagenome</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Processing-a-Microbial-Metagenome.html"
+                          title="previous chapter">End-to-End Processing of a Microbial Metagenome</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Processing-a-Viral-Metagenome.html"
+                          title="next chapter">End-to-End Processing of a Viral Metagenome</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -283,7 +296,7 @@ $<span class="w"> </span>DRAM.py<span class="w"> </span>summarize_genomes<span c
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
@@ -291,13 +304,13 @@ $<span class="w"> </span>DRAM.py<span class="w"> </span>summarize_genomes<span c
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
-<script>$('#searchbox').show(0);</script>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -314,8 +327,8 @@ $<span class="w"> </span>DRAM.py<span class="w"> </span>summarize_genomes<span c
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2019, Benjamin Bolduc.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+    &#169; Copyright 2019, Benjamin Bolduc.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
   </body>
 </html>

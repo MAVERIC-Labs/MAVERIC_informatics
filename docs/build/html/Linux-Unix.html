@@ -1,24 +1,22 @@
-
 <!DOCTYPE html>
 
-<html>
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>UNIX/LINUX Introduction and Guide &#8212; MAVERIC Informatics  documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css?v=279e0f84" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="OSC Introduction and Guide" href="OSC.html" />
     <link rel="prev" title="Microbiome Informatics (M8161)" href="Microbial-Informatics.html" /> 
   </head><body>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -41,7 +39,7 @@
           <div class="body" role="main">
             
   <section id="unix-linux-introduction-and-guide">
-<span id="unix-linux"></span><h1>UNIX/LINUX Introduction and Guide<a class="headerlink" href="#unix-linux-introduction-and-guide" title="Permalink to this headline">¶</a></h1>
+<span id="unix-linux"></span><h1>UNIX/LINUX Introduction and Guide<a class="headerlink" href="#unix-linux-introduction-and-guide" title="Link to this heading">¶</a></h1>
 <p>There are anthologies to using Unix operating systems. Unix is a family of many different OS’s, including Apple’s macOS
 and Linux distributions (derivatives of unix). We won’t cover <strong>any</strong> of the histories or flavors of them here. There’s
 a lot of “spirited” discussions, and we’d like to avoid all of that.</p>
@@ -53,7 +51,7 @@ new user oriented to OSC and right into doing basic bioinformatics. Sure, there 
 commands for managing systems, but those aren’t really <em>useful</em> for beginners who aren’t sysadmins. If you’re looking for
 that here, you’ve come to the wrong place.</p>
 <section id="basic-navigation-and-universally-common-commands">
-<h2>Basic Navigation and Universally Common Commands<a class="headerlink" href="#basic-navigation-and-universally-common-commands" title="Permalink to this headline">¶</a></h2>
+<h2>Basic Navigation and Universally Common Commands<a class="headerlink" href="#basic-navigation-and-universally-common-commands" title="Link to this heading">¶</a></h2>
 <p>When you first login to OSC (via any means), you’ll be greeted by a bunch of OSC-related messages, ending with:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>userid@pitzer-login01<span class="w"> </span>~<span class="o">]</span>$
 </pre></div>
@@ -83,7 +81,7 @@ test_file.txt
 directory.</p>
 </section>
 <section id="the-profile-aliases-environmental-variables-path">
-<h2>The Profile (aliases, environmental variables, $PATH)<a class="headerlink" href="#the-profile-aliases-environmental-variables-path" title="Permalink to this headline">¶</a></h2>
+<h2>The Profile (aliases, environmental variables, $PATH)<a class="headerlink" href="#the-profile-aliases-environmental-variables-path" title="Link to this heading">¶</a></h2>
 <p>When you want to run a tool and you don’t want to write the full path to that tool every time, i.e.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>/fs/project/PAS1573/bin/bowtie2
 </pre></div>
@@ -149,7 +147,7 @@ system will load up .bash_profile when you log in.</p>
 </div>
 </section>
 <section id="file-and-folder-permissions">
-<h2>File and Folder Permissions<a class="headerlink" href="#file-and-folder-permissions" title="Permalink to this headline">¶</a></h2>
+<h2>File and Folder Permissions<a class="headerlink" href="#file-and-folder-permissions" title="Link to this heading">¶</a></h2>
 <p>The dreaded “Permission Denied” error.</p>
 <p>Since our class/project comprises multiple members who may/may not be a part of different OSC projects, that means each
 person is potentially a member of different system “groups.” If you’re only a member of one project - one group - then
@@ -171,7 +169,7 @@ $<span class="w"> </span>chmod<span class="w"> </span><span class="m">770</span>
 </div>
 </section>
 <section id="advanced-or-maybe-convenient-commands">
-<h2>Advanced (or maybe “convenient”?) commands<a class="headerlink" href="#advanced-or-maybe-convenient-commands" title="Permalink to this headline">¶</a></h2>
+<h2>Advanced (or maybe “convenient”?) commands<a class="headerlink" href="#advanced-or-maybe-convenient-commands" title="Link to this heading">¶</a></h2>
 <p>Below is a list of commands Ben uses way too much and wants to keep around for posterity.</p>
 <p><strong>Count the number of sequences in a fasta file</strong></p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>grep<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;&gt;&quot;</span><span class="w"> </span>sequences.fasta
@@ -198,7 +196,7 @@ you will need to wait for those resouces to become available. So if you request 
 </pre></div>
 </div>
 <section id="checking-for-non-ascii-characters">
-<h3>Checking for non-ASCII characters<a class="headerlink" href="#checking-for-non-ascii-characters" title="Permalink to this headline">¶</a></h3>
+<h3>Checking for non-ASCII characters<a class="headerlink" href="#checking-for-non-ascii-characters" title="Link to this heading">¶</a></h3>
 <p>If you ever run a command and somewhere along the line there’s an error that includes “Non-ACSII character at X line”
 it’s probably due to using (often) Windows or software that auto-formats characters into something else. One great example
 is the <a class="reference external" href="https://www.thepunctuationguide.com/em-dash.html">em dash</a>. While great for punctuation (I use it often!), it
@@ -224,10 +222,11 @@ $<span class="w"> </span>pcregrep<span class="w"> </span>--color<span class="o">
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">UNIX/LINUX Introduction and Guide</a><ul>
 <li><a class="reference internal" href="#basic-navigation-and-universally-common-commands">Basic Navigation and Universally Common Commands</a></li>
 <li><a class="reference internal" href="#the-profile-aliases-environmental-variables-path">The Profile (aliases, environmental variables, $PATH)</a></li>
@@ -240,12 +239,17 @@ $<span class="w"> </span>pcregrep<span class="w"> </span>--color<span class="o">
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="Microbial-Informatics.html"
-                        title="previous chapter">Microbiome Informatics (M8161)</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="OSC.html"
-                        title="next chapter">OSC Introduction and Guide</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Microbial-Informatics.html"
+                          title="previous chapter">Microbiome Informatics (M8161)</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="OSC.html"
+                          title="next chapter">OSC Introduction and Guide</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -253,7 +257,7 @@ $<span class="w"> </span>pcregrep<span class="w"> </span>--color<span class="o">
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
@@ -261,13 +265,13 @@ $<span class="w"> </span>pcregrep<span class="w"> </span>--color<span class="o">
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
-<script>$('#searchbox').show(0);</script>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -284,8 +288,8 @@ $<span class="w"> </span>pcregrep<span class="w"> </span>--color<span class="o">
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2019, Benjamin Bolduc.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+    &#169; Copyright 2019, Benjamin Bolduc.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
   </body>
 </html>

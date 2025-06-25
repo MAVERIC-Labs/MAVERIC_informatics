@@ -1,24 +1,22 @@
-
 <!DOCTYPE html>
 
-<html>
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>OSC Introduction and Guide &#8212; MAVERIC Informatics  documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css?v=279e0f84" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="QIIME2" href="QIIME2.html" />
     <link rel="prev" title="UNIX/LINUX Introduction and Guide" href="Linux-Unix.html" /> 
   </head><body>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -41,7 +39,7 @@
           <div class="body" role="main">
             
   <section id="osc-introduction-and-guide">
-<span id="osc"></span><h1>OSC Introduction and Guide<a class="headerlink" href="#osc-introduction-and-guide" title="Permalink to this headline">¶</a></h1>
+<span id="osc"></span><h1>OSC Introduction and Guide<a class="headerlink" href="#osc-introduction-and-guide" title="Link to this heading">¶</a></h1>
 <p>This documentation is taken from a variety of resources, with a number of links and external resources available at the
 end of this guide.</p>
 <p>Remember, during our first week of the course we received an excellent overview of the
@@ -50,14 +48,8 @@ end of this guide.</p>
 <p>Below is an <em>intro</em> into using OSC (using Dr. Cahill’s slides as a guide) and should not serve as an all-encompassing
 list. If you need that, please consult the links at the bottom.</p>
 <section id="systems">
-<h2>Systems<a class="headerlink" href="#systems" title="Permalink to this headline">¶</a></h2>
+<h2>Systems<a class="headerlink" href="#systems" title="Link to this heading">¶</a></h2>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 52%" />
-<col style="width: 16%" />
-<col style="width: 16%" />
-<col style="width: 16%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p>System</p></td>
 <td><p>Pitzer</p></td>
@@ -100,7 +92,7 @@ list. If you need that, please consult the links at the bottom.</p>
 theoretical performance. Why would that be? Turns out the CPUs are faster and there are more CPUs/node.</p>
 </section>
 <section id="login-nodes">
-<h2>Login Nodes<a class="headerlink" href="#login-nodes" title="Permalink to this headline">¶</a></h2>
+<h2>Login Nodes<a class="headerlink" href="#login-nodes" title="Link to this heading">¶</a></h2>
 <p>The login nodes are where you:</p>
 <ol class="arabic simple">
 <li><p>Submit jobs</p></li>
@@ -111,31 +103,31 @@ theoretical performance. Why would that be? Turns out the CPUs are faster and th
 doing large scale jobs</strong>!</p>
 </section>
 <section id="filesystems">
-<h2>Filesystems<a class="headerlink" href="#filesystems" title="Permalink to this headline">¶</a></h2>
+<h2>Filesystems<a class="headerlink" href="#filesystems" title="Link to this heading">¶</a></h2>
 <p>There are a number of different filesystems available on OSC, each with a different purpose.</p>
 <section id="home">
-<h3>Home<a class="headerlink" href="#home" title="Permalink to this headline">¶</a></h3>
+<h3>Home<a class="headerlink" href="#home" title="Link to this heading">¶</a></h3>
 <p>Where to store your files. This is backed up daily. Use $HOME to reference it.</p>
 </section>
 <section id="project">
-<h3>Project<a class="headerlink" href="#project" title="Permalink to this headline">¶</a></h3>
+<h3>Project<a class="headerlink" href="#project" title="Link to this heading">¶</a></h3>
 <p>Available to project PIs by request. Shared by all users on a project. Backed up daily.</p>
 <p>Our project is PAS1573. It should be available at /fs/scratch/PAS1573.</p>
 </section>
 <section id="scratch">
-<h3>Scratch<a class="headerlink" href="#scratch" title="Permalink to this headline">¶</a></h3>
+<h3>Scratch<a class="headerlink" href="#scratch" title="Link to this heading">¶</a></h3>
 <p>Where to store large input or output files. This has faster I/O than the home or project directories. What does that
 mean? It means reading and writing to the disk is faster. It’s like downloading a large file from the internet verses
 copying a file from one folder to another on your local machine. This is also <em>temporary</em> storage and is not backed up.
 If you really need to keep a copy of data, copy/keep it in $HOME.</p>
 </section>
 <section id="tmpdir">
-<h3>$TMPDIR<a class="headerlink" href="#tmpdir" title="Permalink to this headline">¶</a></h3>
+<h3>$TMPDIR<a class="headerlink" href="#tmpdir" title="Link to this heading">¶</a></h3>
 <p>This is <em>local</em> (relative to the compute node) storage during job execution. There’s about 1 TB available on Owens</p>
 </section>
 </section>
 <section id="connecting-to-osc">
-<h2>Connecting to OSC<a class="headerlink" href="#connecting-to-osc" title="Permalink to this headline">¶</a></h2>
+<h2>Connecting to OSC<a class="headerlink" href="#connecting-to-osc" title="Link to this heading">¶</a></h2>
 <p>From a Mac, Linux or UNIX-based machine:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>userid@pitzer.osc.edu
 </pre></div>
@@ -150,26 +142,26 @@ simple selection of which machine to log into.</p>
 <p>If you need to connect to OSC and be able to use a X-based GUI, simply append “-X” flag after ssh (node: X is capitalized).</p>
 </section>
 <section id="transferring-data-to-from-osc">
-<h2>Transferring Data to/from OSC<a class="headerlink" href="#transferring-data-to-from-osc" title="Permalink to this headline">¶</a></h2>
+<h2>Transferring Data to/from OSC<a class="headerlink" href="#transferring-data-to-from-osc" title="Link to this heading">¶</a></h2>
 <p>There are 3 main ways of transferring data to/from OSC, each with advantages or disadvantages.</p>
 <section id="ondemand">
-<h3>OnDemand<a class="headerlink" href="#ondemand" title="Permalink to this headline">¶</a></h3>
+<h3>OnDemand<a class="headerlink" href="#ondemand" title="Link to this heading">¶</a></h3>
 <p>Login to OSC’s OnDemand, navigate to “Files” and then drag-and-drop files (up to 5 GB) from your local computer to OSC.</p>
 </section>
 <section id="sftp-scp">
-<h3>SFTP/SCP<a class="headerlink" href="#sftp-scp" title="Permalink to this headline">¶</a></h3>
+<h3>SFTP/SCP<a class="headerlink" href="#sftp-scp" title="Link to this heading">¶</a></h3>
 <p>To connect to OSC:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sftp<span class="w"> </span>userid@sftp.osc.edu
 </pre></div>
 </div>
 </section>
 <section id="cyberduck">
-<h3>Cyberduck<a class="headerlink" href="#cyberduck" title="Permalink to this headline">¶</a></h3>
+<h3>Cyberduck<a class="headerlink" href="#cyberduck" title="Link to this heading">¶</a></h3>
 <p>You can also download and setup <a class="reference external" href="https://cyberduck.io/?l=en">Cyberduck</a>.</p>
 </section>
 </section>
 <section id="batch-processing-i-e-submitting-jobs">
-<h2>Batch Processing (i.e. submitting jobs)<a class="headerlink" href="#batch-processing-i-e-submitting-jobs" title="Permalink to this headline">¶</a></h2>
+<h2>Batch Processing (i.e. submitting jobs)<a class="headerlink" href="#batch-processing-i-e-submitting-jobs" title="Link to this heading">¶</a></h2>
 <p>“Where the real data processing gets done.”</p>
 <p>To create a job and submit it to OSC, the following steps are usually done (we’ll break down the steps afterward):</p>
 <ol class="arabic simple">
@@ -180,7 +172,7 @@ simple selection of which machine to log into.</p>
 <li><p>Job finishes up, output is written</p></li>
 </ol>
 <section id="creating-a-batch-script">
-<h3>Creating a batch script<a class="headerlink" href="#creating-a-batch-script" title="Permalink to this headline">¶</a></h3>
+<h3>Creating a batch script<a class="headerlink" href="#creating-a-batch-script" title="Link to this heading">¶</a></h3>
 <p>There are a minimum number of resources that must be specified in order for OSC to accept &amp; run a job. First of all,
 the job file (we’re going to call it “ourJob.sh”):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
@@ -214,13 +206,13 @@ cp<span class="w"> </span>results.tsv<span class="w"> </span><span class="nv">$S
 </div>
 </section>
 <section id="submitting-the-job">
-<h3>Submitting the job<a class="headerlink" href="#submitting-the-job" title="Permalink to this headline">¶</a></h3>
+<h3>Submitting the job<a class="headerlink" href="#submitting-the-job" title="Link to this heading">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbatch<span class="w"> </span>ourJob.sh
 </pre></div>
 </div>
 </section>
 <section id="job-gets-queued">
-<h3>Job gets queued<a class="headerlink" href="#job-gets-queued" title="Permalink to this headline">¶</a></h3>
+<h3>Job gets queued<a class="headerlink" href="#job-gets-queued" title="Link to this heading">¶</a></h3>
 <p>How to show the status:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sstat<span class="w"> </span>-a<span class="w"> </span>jobid
 squeue<span class="w"> </span>-u<span class="w"> </span>username
@@ -236,7 +228,7 @@ squeue<span class="w"> </span>-u<span class="w"> </span>username
 </div>
 </section>
 <section id="when-resources-become-available-job-runs">
-<h3>When resources become available, job runs<a class="headerlink" href="#when-resources-become-available-job-runs" title="Permalink to this headline">¶</a></h3>
+<h3>When resources become available, job runs<a class="headerlink" href="#when-resources-become-available-job-runs" title="Link to this heading">¶</a></h3>
 <p>Walltime limits:</p>
 <ul class="simple">
 <li><p>168 hours for serial (single node) jobs</p></li>
@@ -258,12 +250,12 @@ OSC, how many resources requested (nodes, cores, GPUs, software licenses), and i
 (or requesting) a lot of resources. But you can use the squeue command (see above) to get an estimate for when the job will start. Note that this is only an estimate at that particular point in time. Newer jobs could be submitted that have higher priority, pushing your job lower in the queue which would result in a later estimated start time.</p>
 </section>
 <section id="job-finishes-up-with-results">
-<h3>Job finishes up, with results!<a class="headerlink" href="#job-finishes-up-with-results" title="Permalink to this headline">¶</a></h3>
+<h3>Job finishes up, with results!<a class="headerlink" href="#job-finishes-up-with-results" title="Link to this heading">¶</a></h3>
 <p>What does the output look like? <em>Besides</em> the output generated from the tool, the job will generate a couple more files.</p>
 <p>A job output file is immediately created as soon as the job starts. This file will be named according to what you specified in the <code class="code docutils literal notranslate"><span class="pre">#SBATCH</span> <span class="pre">--output=</span></code> parameter. It will contain output printed to stdout, but <em>it may also</em> contain errors that were written to stderr. By default that SLURM batch parameter joins both STDOUT and STDERR together. If you want separate output files for each, you can additionally specify <code class="code docutils literal notranslate"><span class="pre">#SBATCH</span> <span class="pre">--error=</span></code>.</p>
 </section>
 <section id="other-cases">
-<h3>Other cases<a class="headerlink" href="#other-cases" title="Permalink to this headline">¶</a></h3>
+<h3>Other cases<a class="headerlink" href="#other-cases" title="Link to this heading">¶</a></h3>
 <p><strong>Interactive batch jobs</strong>: good for jobs that can’t be run on the login nodes, or as debugging (when you need more
 than 1 hour).</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sinteractive<span class="w"> </span>-A<span class="w"> </span>PAS1573<span class="w"> </span>-t<span class="w"> </span><span class="m">12</span>:00:00<span class="w"> </span>-J<span class="w"> </span>jobname<span class="w"> </span>-M<span class="w"> </span><span class="m">178000</span><span class="w"> </span>-n<span class="w"> </span><span class="m">48</span><span class="w"> </span>-N<span class="w"> </span><span class="m">1</span>
@@ -287,7 +279,7 @@ than 1 hour).</p>
 </section>
 </section>
 <section id="modules">
-<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this headline">¶</a></h2>
+<h2>Modules<a class="headerlink" href="#modules" title="Link to this heading">¶</a></h2>
 <p>Modules modify environmental variables like $PATH and $MANPATH. By loading a module, you modify your $PATH and lets the
 system find the tool you need.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module<span class="w"> </span>load<span class="w"> </span>blast/2.8.0+
@@ -330,7 +322,7 @@ to the command:</p>
 </div>
 </section>
 <section id="links">
-<h2>Links<a class="headerlink" href="#links" title="Permalink to this headline">¶</a></h2>
+<h2>Links<a class="headerlink" href="#links" title="Link to this heading">¶</a></h2>
 <p><a class="reference external" href="https://www.osc.edu/resources/getting_started">OSC Getting started guide</a>: a first stop for figuring out how to navigate
 OSC and its resources.</p>
 <p><a class="reference external" href="https://khill42.github.io/OSC_IntroHPC/">Kate Cahill’s guide to OSC</a>: this is an excellent BEGINNERS guide to
@@ -340,7 +332,7 @@ the HPC, how to connect, how to use the scheduler (i.e. how to submit jobs), how
 as a basic guide to UNIX commands.</p>
 </section>
 <section id="job-arrays">
-<h2>Job Arrays<a class="headerlink" href="#job-arrays" title="Permalink to this headline">¶</a></h2>
+<h2>Job Arrays<a class="headerlink" href="#job-arrays" title="Link to this heading">¶</a></h2>
 <p>Sometimes you need to run the same analysis on many different inputs, e.g. assemble different datasets using
 identical parameters or identify viruses. Another reason, size. With some analyses, while it’s simplier to concatenate
 the dataset (like combine contigs from multiple assemblies), it might take too long to for the analysis to complete
@@ -373,10 +365,11 @@ singularity<span class="w"> </span>run<span class="w"> </span><span class="nv">$
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">OSC Introduction and Guide</a><ul>
 <li><a class="reference internal" href="#systems">Systems</a></li>
 <li><a class="reference internal" href="#login-nodes">Login Nodes</a></li>
@@ -410,12 +403,17 @@ singularity<span class="w"> </span>run<span class="w"> </span><span class="nv">$
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="Linux-Unix.html"
-                        title="previous chapter">UNIX/LINUX Introduction and Guide</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="QIIME2.html"
-                        title="next chapter">QIIME2</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Linux-Unix.html"
+                          title="previous chapter">UNIX/LINUX Introduction and Guide</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="QIIME2.html"
+                          title="next chapter">QIIME2</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -423,7 +421,7 @@ singularity<span class="w"> </span>run<span class="w"> </span><span class="nv">$
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
@@ -431,13 +429,13 @@ singularity<span class="w"> </span>run<span class="w"> </span><span class="nv">$
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
-<script>$('#searchbox').show(0);</script>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -454,8 +452,8 @@ singularity<span class="w"> </span>run<span class="w"> </span><span class="nv">$
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2019, Benjamin Bolduc.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+    &#169; Copyright 2019, Benjamin Bolduc.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
   </body>
 </html>

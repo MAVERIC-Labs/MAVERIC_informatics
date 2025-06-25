@@ -1,23 +1,21 @@
-
 <!DOCTYPE html>
 
-<html>
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>End-to-End Processing of a Viral Metagenome &#8212; MAVERIC Informatics  documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css?v=279e0f84" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="Pathways and Metabolisms of MAGs" href="Metabolic-and-Pathway-Analyses.html" /> 
   </head><body>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -37,7 +35,7 @@
           <div class="body" role="main">
             
   <section id="end-to-end-processing-of-a-viral-metagenome">
-<span id="processing-viral"></span><h1>End-to-End Processing of a Viral Metagenome<a class="headerlink" href="#end-to-end-processing-of-a-viral-metagenome" title="Permalink to this headline">¶</a></h1>
+<span id="processing-viral"></span><h1>End-to-End Processing of a Viral Metagenome<a class="headerlink" href="#end-to-end-processing-of-a-viral-metagenome" title="Link to this heading">¶</a></h1>
 <p>For this dataset, we’ll be <strong>fully</strong> processing <a class="reference external" href="https://www.ncbi.nlm.nih.gov/sra/ERX552322">ERR594369</a>, viral
 metagenome with 37 million paired reads and 7.2Gbp. The SRA Run is ERR594369, which will be important when downloading
 the data from SRA.</p>
@@ -59,7 +57,7 @@ Another way to avoid needing to prepend every Singularity container is to add th
 </pre></div>
 </div>
 <section id="downloading-the-data">
-<h2>Downloading the data<a class="headerlink" href="#downloading-the-data" title="Permalink to this headline">¶</a></h2>
+<h2>Downloading the data<a class="headerlink" href="#downloading-the-data" title="Link to this heading">¶</a></h2>
 <p>The first thing we need to do is grab the data from the SRA. You can do this a few ways, either through navigating the
 NCBI+SRA websites, or directly using their SRA Toolkit.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Move to project directory</span>
@@ -83,7 +81,7 @@ We also specified 4 threads (-e 4) so it would run a little faster. There should
 and ERR594369_2.fastq. fasterq-dump won’t compress the files for you, so you’ll have to do this after the download completes.</p>
 </section>
 <section id="read-quality-control">
-<h2>Read Quality Control<a class="headerlink" href="#read-quality-control" title="Permalink to this headline">¶</a></h2>
+<h2>Read Quality Control<a class="headerlink" href="#read-quality-control" title="Link to this heading">¶</a></h2>
 <p>We will be using either <a class="reference external" href="https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/bbduk-guide/">BBDuk</a> or
 <a class="reference external" href="http://www.usadellab.org/cms/?page=trimmomatic">Trimmomatic</a> to process our input reads. <em>You only need to select one</em>.
 We’ll be using both for examples, but typically stick with one and use it.</p>
@@ -203,7 +201,7 @@ sys<span class="w"> </span>0m16.636s
 <p>How does the quality check out?</p>
 </section>
 <section id="read-quality-control-visualizing">
-<h2>Read Quality Control (Visualizing)<a class="headerlink" href="#read-quality-control-visualizing" title="Permalink to this headline">¶</a></h2>
+<h2>Read Quality Control (Visualizing)<a class="headerlink" href="#read-quality-control-visualizing" title="Link to this heading">¶</a></h2>
 <p>Here, we’ve already loaded singularity (above) and moved to the project directory. In this example, I’m going to run
 FastQC on all of the input files (2), the results from Trimmomatic (4) and the adapter trimmed (2) and quality filtered
 (2) read <em>pairs</em> of BBDuk.</p>
@@ -292,7 +290,7 @@ multiqc_data
 down what files came from where.</p>
 </section>
 <section id="assembly">
-<h2>Assembly<a class="headerlink" href="#assembly" title="Permalink to this headline">¶</a></h2>
+<h2>Assembly<a class="headerlink" href="#assembly" title="Link to this heading">¶</a></h2>
 <p>Assembly isn’t for the faint of heart. It can be frustrating and it can fail for a lot of reasons, often due to insufficient
 memory or due to the dataset complexity. There’s only so much you can do.</p>
 <p>However, our example dataset will finish on OSC within a few hours. Below is the bash script that can be submitted to OSC
@@ -414,7 +412,7 @@ checkpoints.txt<span class="w">  </span><span class="k">done</span><span class="
 </div>
 </section>
 <section id="post-assembly-cleanup">
-<h2>Post-Assembly Cleanup?<a class="headerlink" href="#post-assembly-cleanup" title="Permalink to this headline">¶</a></h2>
+<h2>Post-Assembly Cleanup?<a class="headerlink" href="#post-assembly-cleanup" title="Link to this heading">¶</a></h2>
 <p>After assembly, we’re left with a few decisions. Which read QC and which assembly method do we want to use? Even though
 we only use MEGAHIT or SPAdes + Trimmomatic, we could have easily used BBduk. Depending on your sample background and
 the types of viruses you expect to see, SPAdes or MEGAHIT could be “better” or “worse” contigs. <em>In reality</em>,
@@ -422,7 +420,7 @@ the differences are minor, so you can move forward with either of them.</p>
 <p>At this point you could de-replicate/-duplicate your contigs. If you have a lot of contigs</p>
 </section>
 <section id="identifying-viruses">
-<h2>Identifying Viruses<a class="headerlink" href="#identifying-viruses" title="Permalink to this headline">¶</a></h2>
+<h2>Identifying Viruses<a class="headerlink" href="#identifying-viruses" title="Link to this heading">¶</a></h2>
 <p>The next step is to identify which contigs are viral, and which are not.</p>
 <dl class="simple">
 <dt>There are many, many tools (now in 2021) to identify viruses in metagenomic data. We’ll follow the</dt><dd><p><a class="reference external" href="https://dx.doi.org/10.17504/protocols.io.bwm5pc86">VirSorter2 SOP</a> .
@@ -634,7 +632,7 @@ Saved<span class="w"> </span>summary<span class="w"> </span>table<span class="w"
 We’ll use these results for vConTACT2 and taxonomic classification.</p>
 </section>
 <section id="preparing-for-vcontact2-and-running-vcontact2">
-<h2>Preparing for vConTACT2 and Running vConTACT2<a class="headerlink" href="#preparing-for-vcontact2-and-running-vcontact2" title="Permalink to this headline">¶</a></h2>
+<h2>Preparing for vConTACT2 and Running vConTACT2<a class="headerlink" href="#preparing-for-vcontact2-and-running-vcontact2" title="Link to this heading">¶</a></h2>
 <p>vConTACT2 is a tool to classify viral genomes. But first, we need to get the input files setup. In the script below,
 we’ll run prodigal first - to generate proteins - and then use an accessory function to prepare vConTACT2 files.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
@@ -708,13 +706,15 @@ select Advanced options, Delimiter is space, deselect “Use first line as colum
 <p>Now, click on Column 1, set it as Source Node, click on Column 2, set it as Target Node -&gt; OK.</p>
 <p>You should see this:</p>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/screencapture-Cytoscape-after-import.png"><img alt="Cytoscape import" src="_images/screencapture-Cytoscape-after-import.png" style="width: 593.0px; height: 454.5px;" /></a>
+<a class="reference internal image-reference" href="_images/screencapture-Cytoscape-after-import.png"><img alt="Cytoscape import" src="_images/screencapture-Cytoscape-after-import.png" style="width: 593.0px; height: 454.5px;" />
+</a>
 </figure>
 <p>Next, we want to add annotations to our network. Go to File -&gt; Import -&gt; Table from File. Upon import, on “Where to Import Table Data”,
 select “To A Network Collection”, then import Data as “Node Table Columns”.
 Finally, in the Preview, click on the “Genome” column and  and then click on the “key” symbol, then OK.</p>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/screencapture-Cytoscape-after-table.png"><img alt="Cytoscape table" src="_images/screencapture-Cytoscape-after-table.png" style="width: 593.0px; height: 454.5px;" /></a>
+<a class="reference internal image-reference" href="_images/screencapture-Cytoscape-after-table.png"><img alt="Cytoscape table" src="_images/screencapture-Cytoscape-after-table.png" style="width: 593.0px; height: 454.5px;" />
+</a>
 </figure>
 <p>Now you have all the annotations added to the network. You can style and adjust the network to whatever is appropriate
 for your research goals.</p>
@@ -729,10 +729,11 @@ Ecology pipeline, we’re only a few steps away from a published manuscript!</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">End-to-End Processing of a Viral Metagenome</a><ul>
 <li><a class="reference internal" href="#downloading-the-data">Downloading the data</a></li>
 <li><a class="reference internal" href="#read-quality-control">Read Quality Control</a></li>
@@ -745,9 +746,12 @@ Ecology pipeline, we’re only a few steps away from a published manuscript!</p>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="Metabolic-and-Pathway-Analyses.html"
-                        title="previous chapter">Pathways and Metabolisms of MAGs</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Metabolic-and-Pathway-Analyses.html"
+                          title="previous chapter">Pathways and Metabolisms of MAGs</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -755,7 +759,7 @@ Ecology pipeline, we’re only a few steps away from a published manuscript!</p>
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
@@ -763,13 +767,13 @@ Ecology pipeline, we’re only a few steps away from a published manuscript!</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
-<script>$('#searchbox').show(0);</script>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -783,8 +787,8 @@ Ecology pipeline, we’re only a few steps away from a published manuscript!</p>
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2019, Benjamin Bolduc.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+    &#169; Copyright 2019, Benjamin Bolduc.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
   </body>
 </html>

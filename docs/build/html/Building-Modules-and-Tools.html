@@ -1,24 +1,22 @@
-
 <!DOCTYPE html>
 
-<html>
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Building Modules and Tools on OSC &#8212; MAVERIC Informatics  documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css?v=279e0f84" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Available Environmental Microbiology (“eMicro”) Apps and Tools" href="eMicro-Apps.html" />
     <link rel="prev" title="QIIME2" href="QIIME2.html" /> 
   </head><body>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -41,7 +39,7 @@
           <div class="body" role="main">
             
   <section id="building-modules-and-tools-on-osc">
-<span id="buildingtools"></span><h1>Building Modules and Tools on OSC<a class="headerlink" href="#building-modules-and-tools-on-osc" title="Permalink to this headline">¶</a></h1>
+<span id="buildingtools"></span><h1>Building Modules and Tools on OSC<a class="headerlink" href="#building-modules-and-tools-on-osc" title="Link to this heading">¶</a></h1>
 <p>There are several ways of using tools on OSC.</p>
 <ol class="arabic simple">
 <li><p>Directly</p></li>
@@ -88,7 +86,7 @@ truspades.py
 </div>
 <p>Now, for the 3 methods.</p>
 <section id="directly">
-<h2>Directly<a class="headerlink" href="#directly" title="Permalink to this headline">¶</a></h2>
+<h2>Directly<a class="headerlink" href="#directly" title="Link to this heading">¶</a></h2>
 <p>The simplest way to load and/or run a tool.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Full path</span>
 /fs/project/PAS1117/modules/spades/3.13.2/bin/spades.py<span class="w"> </span>--version
@@ -106,7 +104,7 @@ share this with a co-worker, you would need to send them the full path <em>and</
 In this example, <strong>only</strong> people in PAS1117 can use this. Bummer.</p>
 </section>
 <section id="modules">
-<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this headline">¶</a></h2>
+<h2>Modules<a class="headerlink" href="#modules" title="Link to this heading">¶</a></h2>
 <p><em>However</em>, what if you didn’t want to write the full path or change to the directory in order to use the tool? Normally,
 you’d add this to your system’s $PATH variable so when you typed “spades.py” it’d know <em>exactly</em> where to find your
 tool.</p>
@@ -147,7 +145,7 @@ and then adding that path/folder to the system’s $PATH variable, so it knows t
 <p>/fs/project/PAS1117/modules/spades/3.13.2/bin/spades.py</p>
 <p>What a coincidence. PATH = the full path to the spades.py directory.</p>
 <section id="so-that-s-great-how-to-i-use-this-lua-file">
-<h3>So that’s great, how to I use this LUA file?<a class="headerlink" href="#so-that-s-great-how-to-i-use-this-lua-file" title="Permalink to this headline">¶</a></h3>
+<h3>So that’s great, how to I use this LUA file?<a class="headerlink" href="#so-that-s-great-how-to-i-use-this-lua-file" title="Link to this heading">¶</a></h3>
 <p>OSC has a great <a class="reference external" href="https://www.osc.edu/resources/getting_started/howto/howto_locally_installing_software">howto site</a>,
 and is more detailed than here. But let’s summarize what they say.</p>
 <p>Save your LUA files, also known as <em>modulefiles</em> in some directory, like “lmodfiles”. Save all your tools and stuff in
@@ -183,7 +181,7 @@ what the folder is storing vs what system it’s actually running.</p>
 </section>
 </section>
 <section id="singularity">
-<h2>Singularity<a class="headerlink" href="#singularity" title="Permalink to this headline">¶</a></h2>
+<h2>Singularity<a class="headerlink" href="#singularity" title="Link to this heading">¶</a></h2>
 <p>Forthcoming!</p>
 </section>
 </section>
@@ -193,10 +191,11 @@ what the folder is storing vs what system it’s actually running.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">Building Modules and Tools on OSC</a><ul>
 <li><a class="reference internal" href="#directly">Directly</a></li>
 <li><a class="reference internal" href="#modules">Modules</a><ul>
@@ -208,12 +207,17 @@ what the folder is storing vs what system it’s actually running.</p>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="QIIME2.html"
-                        title="previous chapter">QIIME2</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="eMicro-Apps.html"
-                        title="next chapter">Available Environmental Microbiology (“eMicro”) Apps and Tools</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="QIIME2.html"
+                          title="previous chapter">QIIME2</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="eMicro-Apps.html"
+                          title="next chapter">Available Environmental Microbiology (“eMicro”) Apps and Tools</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -221,7 +225,7 @@ what the folder is storing vs what system it’s actually running.</p>
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
@@ -229,13 +233,13 @@ what the folder is storing vs what system it’s actually running.</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
-<script>$('#searchbox').show(0);</script>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -252,8 +256,8 @@ what the folder is storing vs what system it’s actually running.</p>
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2019, Benjamin Bolduc.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+    &#169; Copyright 2019, Benjamin Bolduc.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
   </body>
 </html>

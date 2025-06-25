@@ -1,24 +1,22 @@
-
 <!DOCTYPE html>
 
-<html>
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>End-to-End Processing of a Microbial Metagenome &#8212; MAVERIC Informatics  documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css?v=279e0f84" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Pathways and Metabolisms of MAGs" href="Metabolic-and-Pathway-Analyses.html" />
     <link rel="prev" title="R" href="R.html" /> 
   </head><body>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -41,7 +39,7 @@
           <div class="body" role="main">
             
   <section id="end-to-end-processing-of-a-microbial-metagenome">
-<span id="processing-microbe"></span><h1>End-to-End Processing of a Microbial Metagenome<a class="headerlink" href="#end-to-end-processing-of-a-microbial-metagenome" title="Permalink to this headline">¶</a></h1>
+<span id="processing-microbe"></span><h1>End-to-End Processing of a Microbial Metagenome<a class="headerlink" href="#end-to-end-processing-of-a-microbial-metagenome" title="Link to this heading">¶</a></h1>
 <p>For this dataset, we’ll be <strong>fully</strong> processing <a class="reference external" href="https://www.ncbi.nlm.nih.gov/sra/SRX4071230">SRX4071230</a>, a peat
 metagenome with 14.1M reads. The SRA Run is SRR7151490, which will be important when downloading the data from SRA.</p>
 <p>This will include (nearly) all steps and <em>most</em> of the results returned from the command line. Clearly, some outputs
@@ -52,7 +50,7 @@ can’t be nicely placed here, but are available (as links to files) or in the M
 <p><strong>/fs/ess/PAS1573/sif/</strong></p>
 <p>You need to either provide full paths to the images/containers, or extend your system’s PATH variable (see <a class="reference internal" href="eMicro-Apps.html#emicroapps"><span class="std std-ref">Available Environmental Microbiology (“eMicro”) Apps and Tools</span></a>)</p>
 <section id="downloading-the-data">
-<h2>Downloading the data<a class="headerlink" href="#downloading-the-data" title="Permalink to this headline">¶</a></h2>
+<h2>Downloading the data<a class="headerlink" href="#downloading-the-data" title="Link to this heading">¶</a></h2>
 <p>The first thing we need to do is grab the data from the SRA. You can do this a few ways, either through navigating the
 NCBI+SRA websites, or directly using their SRA Toolkit.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Move to project directory</span>
@@ -72,25 +70,29 @@ and SRR7151490_2.fastq. fasterq-dump won’t compress the files for you, so you�
 <p>Go to <a class="reference external" href="https://www.ncbi.nlm.nih.gov/">https://www.ncbi.nlm.nih.gov/</a>, and under the search bar, select BioProject and type “PRJNA386568”. It should
 immediately pull up a single page:</p>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/screencapture-ncbi-bioproject.png"><img alt="NCBI BioProject" src="_images/screencapture-ncbi-bioproject.png" style="width: 593.0px; height: 647.0px;" /></a>
+<a class="reference internal image-reference" href="_images/screencapture-ncbi-bioproject.png"><img alt="NCBI BioProject" src="_images/screencapture-ncbi-bioproject.png" style="width: 593.0px; height: 647.0px;" />
+</a>
 </figure>
 <p>Nagivate to SRA Experiments (should be 304 of them), select. This should pull up a list of… SRA experiments.</p>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/screencapture-ncbi-sra.png"><img alt="NCBI SRA list of Experiments" src="_images/screencapture-ncbi-sra.png" style="width: 591.75px; height: 324.0px;" /></a>
+<a class="reference internal image-reference" href="_images/screencapture-ncbi-sra.png"><img alt="NCBI SRA list of Experiments" src="_images/screencapture-ncbi-sra.png" style="width: 591.75px; height: 324.0px;" />
+</a>
 </figure>
 <p>Select (or find) “metagenome of peat: 20120700_P3M”. Select.</p>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/screencapture-ncbi-sra-accn.png"><img alt="NCBI SRA Experiment" src="_images/screencapture-ncbi-sra-accn.png" style="width: 595.25px; height: 310.75px;" /></a>
+<a class="reference internal image-reference" href="_images/screencapture-ncbi-sra-accn.png"><img alt="NCBI SRA Experiment" src="_images/screencapture-ncbi-sra-accn.png" style="width: 595.25px; height: 310.75px;" />
+</a>
 </figure>
 <p>Now we have some info about the SRA experiment. Click on the Run (should start with SRR) towards the bottom of the
 metadata fields and select the run.</p>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/screencapture-ncbi-sra-run.png"><img alt="NCBI SRA Experiment" src="_images/screencapture-ncbi-sra-run.png" style="width: 484.5px; height: 466.5px;" /></a>
+<a class="reference internal image-reference" href="_images/screencapture-ncbi-sra-run.png"><img alt="NCBI SRA Experiment" src="_images/screencapture-ncbi-sra-run.png" style="width: 484.5px; height: 466.5px;" />
+</a>
 </figure>
 <p>Click on the “Data access” tab and <em>voila</em>, a download will start.</p>
 </section>
 <section id="read-quality-control">
-<h2>Read Quality Control<a class="headerlink" href="#read-quality-control" title="Permalink to this headline">¶</a></h2>
+<h2>Read Quality Control<a class="headerlink" href="#read-quality-control" title="Link to this heading">¶</a></h2>
 <p>We will be using either <a class="reference external" href="https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/bbduk-guide/">BBDuk</a> or
 <a class="reference external" href="http://www.usadellab.org/cms/?page=trimmomatic">Trimmomatic</a> to process our input reads. <em>You only need to select one</em>.
 We’ll be using both for examples, but typically stick with one and use it.</p>
@@ -177,7 +179,7 @@ sys<span class="w"> </span>0m7.407s
 check out?</p>
 </section>
 <section id="read-quality-control-visualizing">
-<h2>Read Quality Control (Visualizing)<a class="headerlink" href="#read-quality-control-visualizing" title="Permalink to this headline">¶</a></h2>
+<h2>Read Quality Control (Visualizing)<a class="headerlink" href="#read-quality-control-visualizing" title="Link to this heading">¶</a></h2>
 <p>Here, we’ve already loaded singularity (above) and moved to the project directory. In this example, I’m going to run
 FastQC on all of the input files (2), the results from Trimmomatic (4) and the adapter trimmed (2) and quality filtered
 (2) read <em>pairs</em> of BBDuk.</p>
@@ -233,7 +235,7 @@ down what files came from where.</p>
 <p>Let’s look at the results <a class="reference download internal" download="" href="_downloads/bcd6a1759fcdd65276f3cfcb7b499c10/SRR7151490_all_reads_multiqc_report.html"><code class="xref download docutils literal notranslate"><span class="pre">here</span></code></a>.</p>
 </section>
 <section id="assembly">
-<h2>Assembly<a class="headerlink" href="#assembly" title="Permalink to this headline">¶</a></h2>
+<h2>Assembly<a class="headerlink" href="#assembly" title="Link to this heading">¶</a></h2>
 <p>Assembly isn’t for the faint of heart. It can be frustrating and it can fail for a lot of reasons, often due to insufficient
 memory or due to the dataset complexity. There’s only so much you can do.</p>
 <p>However, our example dataset will finish on OSC within a few hours. Below is the bash script that can be submitted to OSC
@@ -414,7 +416,7 @@ module<span class="w"> </span>load<span class="w"> </span>singularity
 </ul>
 </section>
 <section id="binning">
-<h2>Binning<a class="headerlink" href="#binning" title="Permalink to this headline">¶</a></h2>
+<h2>Binning<a class="headerlink" href="#binning" title="Link to this heading">¶</a></h2>
 <p>For all the binning tools, we’re going to use the SPAdes assembly results that used the Trimmomatic-cleaned reads. Why?
 Because it’s the one I selected - no rhyme or reason. Feel free to choose SPAdes w/ BBDuk, or Megahit with BBDuk, or
 whichever assembler+QC reads you want.</p>
@@ -611,7 +613,7 @@ MetaWRAP <em>is installed</em> to the lab project directory via modules. For eve
 available and instructions follow!</p>
 </section>
 <section id="bin-refinement">
-<h2>Bin Refinement<a class="headerlink" href="#bin-refinement" title="Permalink to this headline">¶</a></h2>
+<h2>Bin Refinement<a class="headerlink" href="#bin-refinement" title="Link to this heading">¶</a></h2>
 <p>We’ll use DAS Tool to refine our bins generated from CONCOCT, MetaBAT2 and MaxBin2. Half the work is formatting the
 input files, so we’ll start with that.</p>
 <p>Convert the CONCOCT csv into a tsv.</p>
@@ -684,10 +686,11 @@ with CheckM. Only a little further and the manuscript will be published!</strong
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">End-to-End Processing of a Microbial Metagenome</a><ul>
 <li><a class="reference internal" href="#downloading-the-data">Downloading the data</a></li>
 <li><a class="reference internal" href="#read-quality-control">Read Quality Control</a></li>
@@ -699,12 +702,17 @@ with CheckM. Only a little further and the manuscript will be published!</strong
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="R.html"
-                        title="previous chapter">R</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="Metabolic-and-Pathway-Analyses.html"
-                        title="next chapter">Pathways and Metabolisms of MAGs</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="R.html"
+                          title="previous chapter">R</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Metabolic-and-Pathway-Analyses.html"
+                          title="next chapter">Pathways and Metabolisms of MAGs</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -712,7 +720,7 @@ with CheckM. Only a little further and the manuscript will be published!</strong
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
@@ -720,13 +728,13 @@ with CheckM. Only a little further and the manuscript will be published!</strong
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
-<script>$('#searchbox').show(0);</script>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -743,8 +751,8 @@ with CheckM. Only a little further and the manuscript will be published!</strong
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2019, Benjamin Bolduc.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.2.0.
+    &#169; Copyright 2019, Benjamin Bolduc.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
   </body>
 </html>
