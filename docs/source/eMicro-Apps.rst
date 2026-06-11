@@ -21,6 +21,10 @@ and literature.
 
 /fs/project/PAS1573/sif/
 
+**Members of the Sullivan Lab can find apptainer containers at:**
+
+/fs/ess/PAS1117/modules/singularity/
+
 You must provide full paths to each image/container, or link them  (see :ref:`UNIX_LINUX`).
 
 **Example**:
