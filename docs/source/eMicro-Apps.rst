@@ -13,16 +13,13 @@ Some of this documentation is lifted from the `iVirus project <https://ivirus.re
 reinventing the wheel. Every effort is being made to ensure that **both** locations are up-to-date with the latest tools
 and literature.
 
-**One last thing to note: All of the eMicro singularity images are located at:**
-
+**All of the eMicro singularity images are located at:**
 /users/PAS1117/osu9664/eMicro-Apps/
 
-**Additionally Microbial Informatics students can also find additional images at:**
-
+**Additionally, Microbial Informatics students can also find additional images at:**
 /fs/project/PAS1573/sif/
 
 **Members of the Sullivan Lab can find apptainer containers at:**
-
 /fs/ess/PAS1117/modules/singularity/
 
 You must provide full paths to each image/container, or link them  (see :ref:`UNIX_LINUX`).
@@ -89,12 +86,12 @@ compressed or raw, with autodetection of quality encoding and interleaving.
 **Note**: This is SEVERAL tools, BBDuk (discussed below) is just one of them. We'll be working on detailing this here,
 but in the meantime, any tool available on https://jgi.doe.gov/data-and-tools/bbtools/ is available through this image.
 
-**Singularity use**:
+**Apptainer use**:
 
 .. code-block:: bash
 
-    module load singularity/current
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/BBTools-38.97.sif
+    module load apptainer/current
+    apptainer run /users/PAS1117/osu9664/eMicro-Apps/BBTools-38.97.sif
 
     # For PAS1117
     module use /fs/project/PAS1117/modulefiles
@@ -113,22 +110,23 @@ quality-trimming and filtering, adapter-trimming, contaminant-filtering via kmer
 GC-filtering, length filtering, entropy-filtering, format conversion, histogram generation, subsampling, quality-score
 recalibration, kmer cardinality estimation, and various other operations in a single pass.
 
-**Singularity use**:
+**Apptainer use**:
 
 .. code-block:: bash
 
-    module load singularity/current
+    module load apptainer/current
     # Just adapter trimming
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/BBTools-38.69.sif bbduk.sh in1=<input-pair1> in2=<input-pair2> out1=<trimmed-pair1> out2=<trimmed-pair2> ref=/bbmap/resources/adapters.fa ktrim=r k=23 mink=11 hdist=1 tpe tbo
+    apptainer run /users/PAS1117/osu9664/eMicro-Apps/BBTools-38.69.sif bbduk.sh in1=<input-pair1> in2=<input-pair2> out1=<trimmed-pair1> out2=<trimmed-pair2> ref=/bbmap/resources/adapters.fa ktrim=r k=23 mink=11 hdist=1 tpe tbo
     # Just quality filtering
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/BBTools-38.69.sif bbduk.sh in1=<trimmed-pair1> in2=<trimmed-pair2> qtrim=rl trimq=10 out1=<trimmed-and-quality-pair1> out2=<trimmed-and-quality-pair2>
+    apptainer run /users/PAS1117/osu9664/eMicro-Apps/BBTools-38.69.sif bbduk.sh in1=<trimmed-pair1> in2=<trimmed-pair2> qtrim=rl trimq=10 out1=<trimmed-and-quality-pair1> out2=<trimmed-and-quality-pair2>
 
 Alternatively, run them both at the same time!
 
 .. code-block:: bash
 
     # Adapter and quality filtering *at the same time*
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/BBTools-38.69.sif bbduk.sh in1=<input-pair1> in2=<input-pair2> out1=<qc-trimmed-pair1> out2=<qc-trimmed-pair2> ref=/bbmap/resources/adapters.fa ktrim=r k=23 mink=11 hdist=1 tpe tbo trimq=10 qtrim=rl minlength=35
+    apptainer run /users/PAS1117/osu9664/eMicro-Apps/BBTools-38.69.sif bbduk.sh in1=<input-pair1> in2=<input-pair2> out1=<qc-trimmed-pair1> out2=<qc-trimmed-pair2> ref=/bbmap/resources/adapters.fa ktrim=r k=23 mink=11 hdist=1 tpe tbo trimq=10 qtrim=rl minlength=35
+
 
 BWA
 ~~~
@@ -151,6 +149,54 @@ than BWA-backtrack for 70-100bp Illumina reads.
 
     module use /fs/project/PAS1117/modulefiles
     module load bwa/0.7.17-r1198
+
+
+bcftools
+~~~~~~~
+
+**Website**: Coming soon!
+
+**Reference**: Coming soon!
+
+**Short description**: Coming soon!
+
+**Singularity use**:
+
+.. code-block:: bash
+    
+    Coming soon!
+
+
+Cramino
+~~~~~~~
+
+**Website**: Coming soon!
+
+**Reference**: Coming soon!
+
+**Short description**: Coming soon!
+
+**Singularity use**:
+
+.. code-block:: bash
+    
+    Coming soon!
+
+
+Dorado
+~~~~~~~
+
+**Website**: Coming soon!
+
+**Reference**: Coming soon!
+
+**Short description**: Coming soon!
+
+**Singularity use**:
+
+.. code-block:: bash
+    
+    Coming soon!
 
 
 FastQC
@@ -181,6 +227,38 @@ quick impression of whether your data has any problems of which you should be aw
 .. code-block:: bash
 
     module load fastqc/0.11.8
+
+
+GOTTCHA2
+~~~~~~~
+
+**Website**: Coming soon!
+
+**Reference**: Coming soon!
+
+**Short description**: Coming soon!
+
+**Singularity use**:
+
+.. code-block:: bash
+    
+    Coming soon!
+
+
+Guppy
+~~~~~~~
+
+**Website**: Coming soon!
+
+**Reference**: Coming soon!
+
+**Short description**: Coming soon!
+
+**Singularity use**:
+
+.. code-block:: bash
+    
+    Coming soon!
 
 
 Kraken2
@@ -214,6 +292,22 @@ inform the classification algorithm
     singularity run /users/PAS1117/osu9664/eMicro-Apps/Kraken-2.1.2.sif --db /fs/project/PAS1117/modules/sequence_dbs/kraken2_dbs/standard --gzip-compressed --paired --classified-out Reads_R#.fastq.gz Reads_1.fastq.gz Reads_2.fastq.gz > kraken2_results
 
 Note: Please check the kraken2_dbs folder for additional databases!
+
+
+MetaPhlAn
+~~~~~~~
+
+**Website**: Coming soon!
+
+**Reference**: Coming soon!
+
+**Short description**: Coming soon!
+
+**Singularity use**:
+
+.. code-block:: bash
+    
+    Coming soon!
 
 
 MultiQC
@@ -264,6 +358,88 @@ Forthcoming...
     module load Nanofilt/2.8.0
 
 
+NanoStat
+~~~~~~~~
+
+**Website**: https://github.com/wdecoster/nanostat
+
+**Short Description**: Calculate various statistics from a long read sequencing dataset in fastq, bam or albacore sequencing summary format.
+
+**Reference**: De Coster, W., D’Hert, S., Schultz, D. T., Cruts, M. & Van Broeckhoven, C. NanoPack: visualizing and
+processing long-read sequencing data. Bioinformatics 34, 2666–2669 (2018). https://doi.org/10.1093/bioinformatics/bty149
+
+**Singularity Use**:
+
+Forthcoming...
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load Nanostat/1.6.0
+    
+
+PEAR
+~~~~~
+
+**Website**: https://cme.h-its.org/exelixis/web/software/pear/
+
+**Reference**:
+
+**Short description**: PEAR is an ultrafast, memory-efficient and highly accurate pair-end read merger. It is fully
+parallelized and can run with as low as just a few kilobytes of memory.
+
+PEAR evaluates all possible paired-end read overlaps and without requiring the target fragment size as input.
+In addition, it implements a statistical test for minimizing false-positive results. Together with a highly optimized
+implementation, it can merge millions of paired end reads within a couple of minutes on a standard desktop computer.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load PEAR/0.9.11
+
+
+Pydamage
+~~~~~~~
+
+**Website**: Coming soon!
+
+**Reference**: Coming soon!
+
+**Short description**: Coming soon!
+
+**Singularity use**:
+
+.. code-block:: bash
+    
+    Coming soon!
+
+
+Read2RefMapper
+~~~~~~~~~~~~~~
+
+**Website**: https://bitbucket.org/bolduc/docker-read2refmapper
+
+**Protocols.io**: `Read2Ref on CyVerse <https://dx.doi.org/10.17504/protocols.io.gv2bw8e>`_
+
+**CyVerse App**: https://de.cyverse.org/de/?type=apps&app-id=Read2RefMapper-1.1.0u3&system-id=agave
+
+**Short description**: Read2RefMapper is a python-wrapper for a number of scripts and tools that allow for filtering
+coverage of BAM files against a reference dataset. It filters reads matching reference sequences for those references
+that are not covered over a specified threshold length, as well as alignment identity and alignment coverage. It is
+designed to be used in conjunction with Docker-BatchBowtie.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/Read2RefMapper-1.1.1.simg --dir ${readsDir} --metagenome-sizes reads2refmapper_mysample.csv --num-threads 40 --coverages coverage_table.csv --cov_filter 70 --percent-id 0.95 --percent-aln 0.75 --coverage-mode tpmean --output-fmt png --dpi 300 --log read2refmapper.log
+
+
 QUAST/MetaQUAST
 ~~~~~~~~~~~~~~~
 
@@ -306,21 +482,6 @@ https://doi.org/10.1093/bioinformatics/bty266
     module use /fs/project/PAS1117/modulefiles
     module load quast/4.5
 
-Samtools
-~~~~~~~~
-
-**Website**: http://www.htslib.org/
-
-**Reference**: Danecek, P. et al. Twelve years of SAMtools and BCFtools. Gigascience 10, 1–4 (2021).
-
-**Short description**: Samtools is a suite of programs for interacting with high-throughput sequencing data
-
-**Module use**:
-
-.. code-block:: bash
-
-    module use /fs/project/PAS1117/modulefiles
-    module load samtools/1.10
 
 SAMBAMBA
 ~~~~~~~~
@@ -339,6 +500,62 @@ work horse running in many sequencing centres around the world today.
 
     module use /fs/project/PAS1117/modulefiles
     module load SAMBAMBA/0.7.1
+
+
+Samtools
+~~~~~~~~
+
+**Website**: http://www.htslib.org/
+
+**Reference**: Danecek, P. et al. Twelve years of SAMtools and BCFtools. Gigascience 10, 1–4 (2021).
+
+**Short description**: Samtools is a suite of programs for interacting with high-throughput sequencing data
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load samtools/1.10
+
+
+SRA Toolkit
+~~~~~~~~~~~
+
+**Website**: https://www.ncbi.nlm.nih.gov/sra/docs/toolkitsoft/
+
+**Website 2**: https://github.com/ncbi/sra-tools/wiki
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/SRA_Toolkit.sif
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load sratoolkit/2.10.7
+
+
+Salmon
+~~~~~~~
+
+**Website**: Coming soon!
+
+**Reference**: Coming soon!
+
+**Short description**: Coming soon!
+
+**Singularity use**:
+
+.. code-block:: bash
+    
+    Coming soon!
+
 
 Trimmomatic
 ~~~~~~~~~~~
@@ -1056,28 +1273,6 @@ https://doi.org/10.1093/nar/gky174
 
 The latest version is 0.13.1. This will be updated.
 
-Read2RefMapper
-~~~~~~~~~~~~~~
-
-**Website**: https://bitbucket.org/bolduc/docker-read2refmapper
-
-**Protocols.io**: `Read2Ref on CyVerse <https://dx.doi.org/10.17504/protocols.io.gv2bw8e>`_
-
-**CyVerse App**: https://de.cyverse.org/de/?type=apps&app-id=Read2RefMapper-1.1.0u3&system-id=agave
-
-**Short description**: Read2RefMapper is a python-wrapper for a number of scripts and tools that allow for filtering
-coverage of BAM files against a reference dataset. It filters reads matching reference sequences for those references
-that are not covered over a specified threshold length, as well as alignment identity and alignment coverage. It is
-designed to be used in conjunction with Docker-BatchBowtie.
-
-**Singularity use**:
-
-.. code-block:: bash
-
-    module load singularity/current
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/Read2RefMapper-1.1.1.simg --dir ${readsDir} --metagenome-sizes reads2refmapper_mysample.csv --num-threads 40 --coverages coverage_table.csv --cov_filter 70 --percent-id 0.95 --percent-aln 0.75 --coverage-mode tpmean --output-fmt png --dpi 300 --log read2refmapper.log
-
-
 ClusterGenomes
 ~~~~~~~~~~~~~~
 
@@ -1172,28 +1367,6 @@ for each genome set.
 
     module use /fs/project/PAS1117/modulefiles
     module load dRep/2.4.2
-
-
-NanoStat
-~~~~~~~~
-
-**Website**: https://github.com/wdecoster/nanostat
-
-**Short Description**: Calculate various statistics from a long read sequencing dataset in fastq, bam or albacore sequencing summary format.
-
-**Reference**: De Coster, W., D’Hert, S., Schultz, D. T., Cruts, M. & Van Broeckhoven, C. NanoPack: visualizing and
-processing long-read sequencing data. Bioinformatics 34, 2666–2669 (2018). https://doi.org/10.1093/bioinformatics/bty149
-
-**Singularity Use**:
-
-Forthcoming...
-
-**Module use**:
-
-.. code-block:: bash
-
-    module use /fs/project/PAS1117/modulefiles
-    module load Nanostat/1.6.0
 
 
 ViennaRNA
@@ -2274,28 +2447,6 @@ coming soon...
 Miscellaneous
 -------------
 
-SRA Toolkit
-~~~~~~~~~~~
-
-**Website**: https://www.ncbi.nlm.nih.gov/sra/docs/toolkitsoft/
-
-**Website 2**: https://github.com/ncbi/sra-tools/wiki
-
-**Singularity use**:
-
-.. code-block:: bash
-
-    module load singularity/current
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/SRA_Toolkit.sif
-
-**Module use**:
-
-.. code-block:: bash
-
-    module use /fs/project/PAS1117/modulefiles
-    module load sratoolkit/2.10.7
-
-
 Entrez Direct
 ~~~~~~~~~~~~~~
 
@@ -2449,28 +2600,6 @@ pre-assembled contigs of complex mixed samples.
     vg-flow.sif vg-flow.py -m 10 -c 20 node_abundance.txt contig_graph.final.gfa
 
 **Note**: This was installed prior to tool updates
-
-
-PEAR
-~~~~~
-
-**Website**: https://cme.h-its.org/exelixis/web/software/pear/
-
-**Reference**:
-
-**Short description**: PEAR is an ultrafast, memory-efficient and highly accurate pair-end read merger. It is fully
-parallelized and can run with as low as just a few kilobytes of memory.
-
-PEAR evaluates all possible paired-end read overlaps and without requiring the target fragment size as input.
-In addition, it implements a statistical test for minimizing false-positive results. Together with a highly optimized
-implementation, it can merge millions of paired end reads within a couple of minutes on a standard desktop computer.
-
-**Module use**:
-
-.. code-block:: bash
-
-    module use /fs/project/PAS1117/modulefiles
-    module load PEAR/0.9.11
 
 
 Bioscripts-2.7 and Bioscripts
