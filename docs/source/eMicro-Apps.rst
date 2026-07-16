@@ -611,6 +611,122 @@ good reason otherwise (i.e. reproducing previous results). These are 2.3 and 2.5
 
 The singularity container *does contain* the mapper, but for all intents and purposes, the tool uses runAssembly.
 
+
+IDBA-UD
+~~~~~~~
+
+**Reference**: Peng, Y., et al. (2010) IDBA- A Practical Iterative de Bruijn Graph De Novo Assembler. RECOMB. Lisbon.
+
+Peng, Y., et al. (2012) IDBA-UD: a de novo assembler for single-cell and metagenomic sequencing data with highly uneven
+depth, Bioinformatics, 28, 1420-1428.
+
+**Short description**: IDBA-UD is a iterative De Bruijn Graph De Novo Assembler for Short Reads Sequencing data with
+Highly Uneven Sequencing Depth. It is an extension of IDBA algorithm.
+
+**Long description**: IDBA-UD is a iterative De Bruijn Graph De Novo Assembler for Short Reads Sequencing data with
+Highly Uneven Sequencing Depth. It is an extension of IDBA algorithm. IDBA-UD also iterates from small k to a large k.
+In each iteration, short and low-depth contigs are removed iteratively with cutoff threshold from low to high to reduce
+the errors in low-depth and high-depth regions. Paired-end reads are aligned to contigs and assembled locally to
+generate some missing k-mers in low-depth regions. With these technologies, IDBA-UD can iterate k value of de Bruijn
+graph to a very large value with less gaps and less branches to form long contigs in both low-depth and high-depth
+regions. (taken from website)
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/IDBA-UD-1.1.3.sif --num_threads <threads> -r <reads-in-fasta-format> -o <output-dir>
+   
+    
+MEGAHIT
+~~~~~~~
+
+**Reference**: Li, D., Liu, C. M., Luo, R., Sadakane, K., & Lam, T. W. (2014). MEGAHIT: An ultra-fast single-node
+solution for large and complex metagenomics assembly via succinct de Bruijn graph. Bioinformatics, 31(10), 1674–1676.
+https://doi.org/10.1093/bioinformatics/btv033
+
+**Short description**: MEGAHIT is an ultra-fast and memory-efficient NGS assembler. It is optimized for metagenomes,
+but also works well on generic single genome assembly (small or mammalian size) and single-cell assembly.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load MEGAHIT/1.2.9
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/MEGAHIT-1.2.8.sif --k-list 21,41,61,81,99 -t <threads> -m 0.9 -1 <for-reads> -2 <rev-reads> -o <output-dir> --presets meta-sensitive (or meta-large for complex metagenomes like soils or oceans)
+
+
+MeGAMerge
+~~~~~~~
+
+**Website**: Coming soon!
+
+**Reference**: Coming soon!
+
+**Short description**: Coming soon!
+
+**Singularity use**:
+
+.. code-block:: bash
+    
+    Coming soon!
+
+
+MetaQUAST
+~~~~~~~
+
+**Website**: Coming soon!
+
+**Reference**: Coming soon!
+
+**Short description**: Coming soon!
+
+**Singularity use**:
+
+.. code-block:: bash
+    
+    Coming soon!
+
+
+MIRA
+~~~~~~~
+
+**Website**: Coming soon!
+
+**Reference**: Coming soon!
+
+**Short description**: Coming soon!
+
+**Singularity use**:
+
+.. code-block:: bash
+    
+    Coming soon!
+
+
+PriceTI
+~~~~~~~
+
+**Website**: Coming soon!
+
+**Reference**: Coming soon!
+
+**Short description**: Coming soon!
+
+**Singularity use**:
+
+.. code-block:: bash
+    
+    Coming soon!
+
+
 SPAdes
 ~~~~~~
 
@@ -642,31 +758,6 @@ There are multiple implementations on OSC using different runtimes and memory al
     module load spades/3.15.2
 
 
-IDBA-UD
-~~~~~~~
-
-**Reference**: Peng, Y., et al. (2010) IDBA- A Practical Iterative de Bruijn Graph De Novo Assembler. RECOMB. Lisbon.
-
-Peng, Y., et al. (2012) IDBA-UD: a de novo assembler for single-cell and metagenomic sequencing data with highly uneven
-depth, Bioinformatics, 28, 1420-1428.
-
-**Short description**: IDBA-UD is a iterative De Bruijn Graph De Novo Assembler for Short Reads Sequencing data with
-Highly Uneven Sequencing Depth. It is an extension of IDBA algorithm.
-
-**Long description**: IDBA-UD is a iterative De Bruijn Graph De Novo Assembler for Short Reads Sequencing data with
-Highly Uneven Sequencing Depth. It is an extension of IDBA algorithm. IDBA-UD also iterates from small k to a large k.
-In each iteration, short and low-depth contigs are removed iteratively with cutoff threshold from low to high to reduce
-the errors in low-depth and high-depth regions. Paired-end reads are aligned to contigs and assembled locally to
-generate some missing k-mers in low-depth regions. With these technologies, IDBA-UD can iterate k value of de Bruijn
-graph to a very large value with less gaps and less branches to form long contigs in both low-depth and high-depth
-regions. (taken from website)
-
-**Singularity use**:
-
-.. code-block:: bash
-
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/IDBA-UD-1.1.3.sif --num_threads <threads> -r <reads-in-fasta-format> -o <output-dir>
-
 Trinity
 ~~~~~~~
 
@@ -684,56 +775,78 @@ May 15;29(7):644-52. doi: 10.1038/nbt.1883. PubMed PMID: 21572440.
     module load singularity/current
     singularity run /users/PAS1117/osu9664/eMicro-Apps/Trinity-2.9.0.sif
 
-MEGAHIT
+
+Velvet
 ~~~~~~~
 
-**Reference**: Li, D., Liu, C. M., Luo, R., Sadakane, K., & Lam, T. W. (2014). MEGAHIT: An ultra-fast single-node
-solution for large and complex metagenomics assembly via succinct de Bruijn graph. Bioinformatics, 31(10), 1674–1676.
-https://doi.org/10.1093/bioinformatics/btv033
+**Website**: Coming soon!
 
-**Short description**: MEGAHIT is an ultra-fast and memory-efficient NGS assembler. It is optimized for metagenomes,
-but also works well on generic single genome assembly (small or mammalian size) and single-cell assembly.
+**Reference**: Coming soon!
+
+**Short description**: Coming soon!
+
+**Singularity use**:
+
+.. code-block:: bash
+    
+    Coming soon!
+
+
+Binning
+-------
+
+CONCOCT
+~~~~~~~
+
+**Website**: https://concoct.readthedocs.io/en/latest/
+
+**Reference**: Alneberg, J., Bjarnason, B. S., de Bruijn, I., Schirmer, M., Quick, J., Ijaz, U. Z., … Quince, C. (2013).
+ CONCOCT: Clustering cONtigs on COverage and ComposiTion, 1–28. Retrieved from http://arxiv.org/abs/1312.4038
+
+**Short description**: CONCOCT “bins” metagenomic contigs. Metagenomic binning is the process of clustering sequences
+into clusters corresponding to operational taxonomic units of some level.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/CONCOCT-1.1.0.sif
+
+See :ref:`processing_microbe` for a more detailed explanation on usage.
+
+
+DAS_Tool
+~~~~~~~~
+
+**Website**: https://github.com/cmks/DAS_Tool
+
+**Reference**: Sieber, C. M. K., Probst, A. J., Sharrar, A., Thomas, B. C., Hess, M., Tringe, S. G., & Banfield,
+ J. F. (2018). Recovery of genomes from metagenomes via a dereplication, aggregation and scoring strategy. Nature
+ Microbiology, 3(7), 836–843. https://doi.org/10.1038/s41564-018-0171-1
+
+**Short description**: DAS Tool is an automated method that integrates the results of a flexible number of binning
+algorithms to calculate an optimized, non-redundant set of bins from a single assembly.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/DAS_Tool-1.1.1.sif
+
+    # You can test the installation (if you've git cloned the repository!)
+    git clone https://github.com/cmks/DAS_Tool.git
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/DAS_Tool-1.1.1.sif -i DAS_Tool/sample_data/sample.human.gut_concoct_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_maxbin2_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_metabat_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_tetraESOM_scaffolds2bin.tsv -l concoct,maxbin,metabat,tetraESOM -c DAS_Tool/sample_data/sample.human.gut_contigs.fa --search_engine diamond -o DASToolTestRun --write_bins
+
 
 **Module use**:
 
 .. code-block:: bash
 
     module use /fs/project/PAS1117/modulefiles
-    module load MEGAHIT/1.2.9
+    module load DAS_Tool
 
-**Singularity use**:
-
-.. code-block:: bash
-
-    module load singularity/current
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/MEGAHIT-1.2.8.sif --k-list 21,41,61,81,99 -t <threads> -m 0.9 -1 <for-reads> -2 <rev-reads> -o <output-dir> --presets meta-sensitive (or meta-large for complex metagenomes like soils or oceans)
-
-Binning
--------
-
-MetaBAT2
-~~~~~~~~
-
-**Reference**: https://bitbucket.org/berkeleylab/metabat
-
-**Reference**: Kang, D. D., Froula, J., Egan, R., & Wang, Z. (2015). MetaBAT, an efficient tool for accurately
-reconstructing single genomes from complex microbial communities. PeerJ, 3(8), e1165. https://doi.org/10.7717/peerj.1165
-
-**Short description**: A robust statistical framework for reconstructing genomes from metagenomic data
-
-**Singularity use**:
-
-.. code-block:: bash
-
-    module load singularity/current
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/MetaBAT2-2.14.sif
-
-    # Download test data (instructions from https://bitbucket.org/berkeleylab/metabat/wiki/Best%20Binning%20Practices)
-    wget https://portal.nersc.gov/dna/RD/Metagenome_RD/MetaBAT/Files/BestPractices/V2/CASE1/assembly.fa.gz
-    wget https://portal.nersc.gov/dna/RD/Metagenome_RD/MetaBAT/Files/BestPractices/V2/CASE1/depth.txt
-
-    # Run MetaBAT2
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/MetaBAT2-2.14.sif -i assembly.fa.gz -a depth.txt -o resA1/bin -v
 
 MaxBin2
 ~~~~~~~
@@ -779,25 +892,30 @@ is finished.
     module use /fs/project/PAS1117/modulefiles
     module load MaxBin/2.2.6
 
-CONCOCT
-~~~~~~~
 
-**Website**: https://concoct.readthedocs.io/en/latest/
+MetaBAT2
+~~~~~~~~
 
-**Reference**: Alneberg, J., Bjarnason, B. S., de Bruijn, I., Schirmer, M., Quick, J., Ijaz, U. Z., … Quince, C. (2013).
- CONCOCT: Clustering cONtigs on COverage and ComposiTion, 1–28. Retrieved from http://arxiv.org/abs/1312.4038
+**Reference**: https://bitbucket.org/berkeleylab/metabat
 
-**Short description**: CONCOCT “bins” metagenomic contigs. Metagenomic binning is the process of clustering sequences
-into clusters corresponding to operational taxonomic units of some level.
+**Reference**: Kang, D. D., Froula, J., Egan, R., & Wang, Z. (2015). MetaBAT, an efficient tool for accurately
+reconstructing single genomes from complex microbial communities. PeerJ, 3(8), e1165. https://doi.org/10.7717/peerj.1165
+
+**Short description**: A robust statistical framework for reconstructing genomes from metagenomic data
 
 **Singularity use**:
 
 .. code-block:: bash
 
     module load singularity/current
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/CONCOCT-1.1.0.sif
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/MetaBAT2-2.14.sif
 
-See :ref:`processing_microbe` for a more detailed explanation on usage.
+    # Download test data (instructions from https://bitbucket.org/berkeleylab/metabat/wiki/Best%20Binning%20Practices)
+    wget https://portal.nersc.gov/dna/RD/Metagenome_RD/MetaBAT/Files/BestPractices/V2/CASE1/assembly.fa.gz
+    wget https://portal.nersc.gov/dna/RD/Metagenome_RD/MetaBAT/Files/BestPractices/V2/CASE1/depth.txt
+
+    # Run MetaBAT2
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/MetaBAT2-2.14.sif -i assembly.fa.gz -a depth.txt -o resA1/bin -v
 
 
 MetaWRAP
@@ -824,36 +942,38 @@ you are interested in for your data.
     module use /fs/project/PAS1117/modulefiles
     module load metaWRAP
 
-DAS_Tool
-~~~~~~~~
 
-**Website**: https://github.com/cmks/DAS_Tool
+MetaCC
+~~~~~~~
 
-**Reference**: Sieber, C. M. K., Probst, A. J., Sharrar, A., Thomas, B. C., Hess, M., Tringe, S. G., & Banfield,
- J. F. (2018). Recovery of genomes from metagenomes via a dereplication, aggregation and scoring strategy. Nature
- Microbiology, 3(7), 836–843. https://doi.org/10.1038/s41564-018-0171-1
+**Website**: Coming soon!
 
-**Short description**: DAS Tool is an automated method that integrates the results of a flexible number of binning
-algorithms to calculate an optimized, non-redundant set of bins from a single assembly.
+**Reference**: Coming soon!
+
+**Short description**: Coming soon!
 
 **Singularity use**:
 
 .. code-block:: bash
-
-    module load singularity/current
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/DAS_Tool-1.1.1.sif
-
-    # You can test the installation (if you've git cloned the repository!)
-    git clone https://github.com/cmks/DAS_Tool.git
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/DAS_Tool-1.1.1.sif -i DAS_Tool/sample_data/sample.human.gut_concoct_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_maxbin2_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_metabat_scaffolds2bin.tsv,DAS_Tool/sample_data/sample.human.gut_tetraESOM_scaffolds2bin.tsv -l concoct,maxbin,metabat,tetraESOM -c DAS_Tool/sample_data/sample.human.gut_contigs.fa --search_engine diamond -o DASToolTestRun --write_bins
+    
+    Coming soon!
 
 
-**Module use**:
+metaTOR
+~~~~~~~
+
+**Website**: Coming soon!
+
+**Reference**: Coming soon!
+
+**Short description**: Coming soon!
+
+**Singularity use**:
 
 .. code-block:: bash
+    
+    Coming soon!
 
-    module use /fs/project/PAS1117/modulefiles
-    module load DAS_Tool
 
 UniteM
 ~~~~~~
@@ -873,8 +993,49 @@ non-redundant set of bins from the output of multiple binning methods.
     module load uniteM
 
 
+VAMB
+~~~~
+
+**Website**: https://github.com/RasmussenLab/vamb
+
+**Reference**: Nissen, J. N. et al. Improved metagenome binning and assembly using deep variational autoencoders. Nat. Biotechnol. 39, 555–560 (2021).
+
+**Short description**: Vamb is a metagenomic binner which feeds sequence composition information from a contig catalogue and
+co-abundance information from BAM files into a variational autoencoder and clusters the latent representation.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+
+    # For PAS1117 users
+    module use /fs/project/PAS1117/modulefiles
+    module load singularityImages
+    VAMB-3.0.2.sif
+
+    # For eMicro
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/VAMB-3.0.2.sif
+
+
 Gene Callers
 ------------
+
+CRT
+~~~~~~
+
+**Website**: Coming soon!
+
+**Reference**: Coming soon!
+
+**Short description**: Coming soon!
+
+**Singularity use**:
+
+.. code-block:: bash
+    
+    Coming soon!
+
 
 FragGeneScan
 ~~~~~~~~~~~~
@@ -890,27 +1051,20 @@ FragGeneScan
     module load singularity/current
     singularity run /users/PAS1117/osu9664/eMicro-Apps/FragGeneScan-1.30.0.img
 
-Prodigal
-~~~~~~~~
+GeneMarkS
+~~~~~~
 
-**Reference**: Hyatt, D. Prodigal (2.6.3) [Software]. Available at https://github.com/hyattpd/Prodigal
+**Website**: Coming soon!
 
-**Short description**: Fast, reliable protein-coding gene prediction for prokaryotic genomes.
+**Reference**: Coming soon!
+
+**Short description**: Coming soon!
 
 **Singularity use**:
 
 .. code-block:: bash
-
-    module load singularity/current
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/Prodigal-2.6.3.img -i metagenome.fna -o coords.gbk -a proteins.faa -p anon
-
-**Module use**:
-
-.. code-block:: bash
-
-    module use /fs/project/PAS1117/modulefiles
-    module load prodigal/2.6.3
-    prodigal -i metagenome.fna -o coords.gbk -a proteins.faa -p anon
+    
+    Coming soon!
 
 
 MetaGeneAnnotator ("MGA")
@@ -947,6 +1101,45 @@ Nucleic Acids Res. 38, 1–15 (2010).
     module load MetaGeneMark/3.38
 
     gmhmmp <rest-of-command>
+
+
+MetaGeneMark2
+~~~~~~
+
+**Website**: Coming soon!
+
+**Reference**: Coming soon!
+
+**Short description**: Coming soon!
+
+**Singularity use**:
+
+.. code-block:: bash
+    
+    Coming soon!
+
+
+Prodigal
+~~~~~~~~
+
+**Reference**: Hyatt, D. Prodigal (2.6.3) [Software]. Available at https://github.com/hyattpd/Prodigal
+
+**Short description**: Fast, reliable protein-coding gene prediction for prokaryotic genomes.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/Prodigal-2.6.3.img -i metagenome.fna -o coords.gbk -a proteins.faa -p anon
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load prodigal/2.6.3
+    prodigal -i metagenome.fna -o coords.gbk -a proteins.faa -p anon
 
 
 Annotation and Analyses
@@ -1032,6 +1225,22 @@ sets of genes that are ubiquitous and single-copy within a phylogenetic lineage.
 
     module load singularity/current
     singularity run /users/PAS1117/osu9664/eMicro-Apps/CheckM-1.0.18.sif
+
+
+CheckM2
+~~~~~~~
+
+**Website**: Coming soon!
+
+**Reference**: Coming soon!
+
+**Short description**: Coming soon!
+
+**Singularity use**:
+
+.. code-block:: bash
+    
+    Coming soon!
 
 
 Diamond
@@ -3301,31 +3510,6 @@ chromosomes or genomes.
 
     # For eMicro
     singularity run /users/PAS1117/osu9664/eMicro-Apps/TICR.sif <name-of-program>
-
-VAMB
-~~~~
-
-**Website**: https://github.com/RasmussenLab/vamb
-
-**Reference**: Nissen, J. N. et al. Improved metagenome binning and assembly using deep variational autoencoders. Nat. Biotechnol. 39, 555–560 (2021).
-
-**Short description**: Vamb is a metagenomic binner which feeds sequence composition information from a contig catalogue and
-co-abundance information from BAM files into a variational autoencoder and clusters the latent representation.
-
-**Singularity use**:
-
-.. code-block:: bash
-
-    module load singularity/current
-
-    # For PAS1117 users
-    module use /fs/project/PAS1117/modulefiles
-    module load singularityImages
-    VAMB-3.0.2.sif
-
-    # For eMicro
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/VAMB-3.0.2.sif
-
 
 RNAmmer
 ~~~~~~~
