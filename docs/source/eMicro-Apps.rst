@@ -1142,10 +1142,103 @@ Prodigal
     prodigal -i metagenome.fna -o coords.gbk -a proteins.faa -p anon
 
 
+RNAmmer
+~~~~~~~
+
+**Website**: https://services.healthtech.dtu.dk/service.php?RNAmmer-1.2
+
+**Reference**: Lagesen, K. et al. RNAmmer: consistent and rapid annotation of ribosomal RNA genes. Nucleic Acids Res. 35, 3100–3108 (2007).
+
+**Short description**: The RNAmmer 1.2 server predicts 5s/8s, 16s/18s, and 23s/28s ribosomal RNA in full genome sequences.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+
+    # For PAS1117 users
+    module use /fs/project/PAS1117/modulefiles
+    module load singularityImages
+    RNAmmer-1.2.sif
+
+    # For eMicro
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/RNAmmer-1.2.sif
+
+
+tRNA-Scan SE
+~~~~~~~~~~~~
+
+**Website**: https://github.com/UCSC-LoweLab/tRNAscan-SE
+
+**Reference**: Lowe, T. M. & Eddy, S. R. tRNAscan-SE: A Program for Improved Detection of Transfer RNA Genes in
+Genomic Sequence. Nucleic Acids Res. 25, 0955–0964 (1997).
+
+**Short description**: We describe a program, tRNAscan-SE, which identifies 99–100% of transfer RNA genes in DNA
+sequence while giving less than one false positive per 15 gigabases.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load tRNAscan-SE/1.23
+
+
 Annotation and Analyses
 -----------------------
 
 This is a catch-all category that doesn't fit with the other sections.
+
+
+Bakta
+~~~~~~
+
+**Website**: Coming soon!
+
+**Reference**: Coming soon!
+
+**Short description**: Coming soon!
+
+**Singularity use**:
+
+.. code-block:: bash
+    
+    Coming soon!
+
+
+BamM
+~~~~
+
+**Website**: http://ecogenomics.github.io/BamM/
+
+**Short description**: Metagenomics-focused BAM file manipulation
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/BamM-1.7.0.sif
+
+**Note**: This is no longer actively maintained. CoverM is a direct replacement.
+
+
+BLAST+
+~~~~~~
+
+**Website**:
+
+**Reference**:
+
+**Short description**:
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load blast/2.8.1+
 
 
 CAT
@@ -1243,6 +1336,47 @@ CheckM2
     Coming soon!
 
 
+Clinker
+~~~~~~~
+
+**Website**: https://github.com/gamcil/clinker
+
+**Reference**: Gilchrist, C. L. M. & Chooi, Y.-H. clinker &amp; clustermap.js: automatic generation of gene cluster
+comparison figures. Bioinformatics (2021). doi:10.1093/bioinformatics/btab007
+
+**Short description**: Gene cluster comparison figure generator - clinker is a pipeline for easily generating
+publication-quality gene cluster comparison figures.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load Clinker/Clinker
+    clinker --help
+
+
+CoverM
+~~~~~~
+
+**Website**: https://github.com/wwood/CoverM
+
+**Short description**: CoverM aims to be a configurable, easy to use and fast DNA read coverage and relative abundance
+calculator focused on metagenomics applications. CoverM calculates coverage of genomes/MAGs (coverm genome) or
+individual contigs (coverm contig). Calculating coverage by read mapping, its input can either be BAM files sorted by
+reference, or raw reads and reference FASTA sequences.
+
+**Singularity use**:
+
+For a directory of genome bins (each fasta file is a bin, all files having the "fna" extension) and the original fastq
+files used in the assembly...
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/CoverM-0.6.1.sif genome --genome-fasta-directory <path-to-bins> -x fna --coupled <reads1.fastq> <reads2.fastq> --output-format sparse --min-read-percent-identity .95 --min-read-aligned-percent .75 --min-covered-fraction .75 > coverage_table.csv
+
+
 Diamond
 ~~~~~~~
 
@@ -1268,238 +1402,6 @@ performance analysis of big sequence data.
 
     # OR
     module load diamond/ 2.0.5
-
-Prokka
-~~~~~~
-
-**Reference**: Seemann T. Prokka: rapid prokaryotic genome annotation Bioinformatics 2014 Jul 15;30(14):2068-9.
-PMID:24642063
-
-**Short description**: Prokka is a software tool to annotate bacterial, archaeal and viral genomes quickly and produce
-standards-compliant output files
-
-**Singularity use**:
-
-.. code-block:: bash
-
-    module load singularity/current
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/Prokka-1.12.0.img
-
-**Module use**:
-
-.. code-block:: bash
-
-    module use /fs/project/PAS1117/modulefiles
-    module load Prokka/1.13
-
-
-InterProScan
-~~~~~~~~~~~~
-
-**Website**: https://github.com/ebi-pf-team/interproscan
-
-**Reference**: Quevillon, E. et al. InterProScan: protein domains identifier. Nucleic Acids Res. 33, W116–W120 (2005).
-
-**Short description**: InterPro is a database which integrates together predictive information about proteins’
-function from a number of partner resources, giving an overview of the families that a protein belongs to and the
-domains and sites it contains.
-
-Users who have novel nucleotide or protein sequences that they wish to functionally characterise can use the software
-package InterProScan to run the scanning algorithms from the InterPro database in an integrated way. Sequences are
-submitted in FASTA format. Matches are then calculated against all of the required member database’s signatures and
-the results are then output in a variety of formats.
-
-**Module use**:
-
-.. code-block:: bash
-
-    module use /fs/project/PAS1117/modulefiles
-    module load InterProScan/5.36-75.0
-
-    interproscan.sh <rest-of-command>
-
-
-SortMeRNA
-~~~~~~~~~
-
-**Website**: https://github.com/biocore/sortmerna
-
-**Reference**: Kopylova, E., Noé, L. & Touzet, H. SortMeRNA: fast and accurate filtering of ribosomal RNAs in
-metatranscriptomic data. Bioinformatics 28, 3211–3217 (2012).
-
-**Short description**: SortMeRNA is a local sequence alignment tool for filtering, mapping and clustering.
-
-The core algorithm is based on approximate seeds and allows for sensitive analysis of NGS reads. The main application
-of SortMeRNA is filtering rRNA from metatranscriptomic data. SortMeRNA takes as input files of reads (fasta, fastq,
-fasta.gz, fastq.gz) and one or multiple rRNA database file(s), and sorts apart aligned and rejected reads into two
-files. Additional applications include clustering and taxonomy assignation available through QIIME v1.9.1. SortMeRNA
-works with Illumina, Ion Torrent and PacBio data, and can produce SAM and BLAST-like alignments.
-
-**Module use**:
-
-.. code-block:: bash
-
-    module use /fs/project/PAS1117/modulefiles
-    module load SortMeRNA/4.2.0
-
-    sortmerna -h
-
-
-PROSITE
-~~~~~~~
-
-**Website**:
-
-**Reference**:
-
-**Short description**:
-
-**Singularity use**:
-
-.. code-block:: bash
-
-    module load PROSITE/1.86
-    ps_scan.pl <rest-of-command>
-
-
-HH-Suite
-~~~~~~~~
-
-**Website**: https://github.com/soedinglab/hh-suite
-
-**Reference**: Steinegger, M. et al. HH-suite3 for fast remote homology detection and deep protein annotation.
-BMC Bioinformatics 20, 473 (2019).
-
-**Short description**: The HH-suite is an open-source software package for sensitive protein sequence searching based
-on the pairwise alignment of hidden Markov models (HMMs).
-
-**Module use**:
-
-.. code-block:: bash
-
-    module use /fs/project/PAS1117/modulefiles
-    module load hhsuite/3.2.0
-
-
-MINCED
-~~~~~~
-
-**Website**: https://github.com/ctSkennerton/minced
-
-**Reference**: 1. Bland, C. et al. CRISPR Recognition Tool (CRT): a tool for automatic detection of clustered
-regularly interspaced palindromic repeats. BMC Bioinformatics 8, 209 (2007).
-
-**Short description**: MinCED is a program to find Clustered Regularly Interspaced Short Palindromic Repeats (CRISPRs)
-in full genomes or environmental datasets such as assembled contigs from metagenomes. Iff you want to identify CRISPRs
-in raw short read data, in the size range of 100-200bp try using Crass (https://github.com/ctskennerton/Crass) MinCED
-runs from the command-line and was derived from CRT (http://www.room220.com/crt/)
-
-**Module use**:
-
-.. code-block:: bash
-
-    module use /fs/project/PAS1117/modulefiles
-    module load minced/1.0.0
-
-Clust
-~~~~~
-
-**Website**: https://github.com/baselabujamous/clust
-
-**Reference**: Abu-Jamous, B., & Kelly, S. (2018). Clust: automatic extraction of optimal co-expressed gene clusters
-from gene expression data. Genome Biology, 19(1), 172. https://doi.org/10.1186/s13059-018-1536-8
-
-**Short description**: Clust is a fully automated method for identification of clusters (groups) of genes that are
-consistently co-expressed (well-correlated) in one or more heterogeneous datasets from one or multiple species.
-
-**Singularity use**:
-
-.. code-block:: bash
-
-    module load singularity/current
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/clust-1.8.9.img data_path -o output_directory [...]
-
-Please do read the extensive documentation on the Clust github page.
-
-
-BamM
-~~~~
-
-**Website**: http://ecogenomics.github.io/BamM/
-
-**Short description**: Metagenomics-focused BAM file manipulation
-
-**Singularity use**:
-
-.. code-block:: bash
-
-    module load singularity/current
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/BamM-1.7.0.sif
-
-**Note**: This is no longer actively maintained. CoverM is a direct replacement.
-
-CoverM
-~~~~~~
-
-**Website**: https://github.com/wwood/CoverM
-
-**Short description**: CoverM aims to be a configurable, easy to use and fast DNA read coverage and relative abundance
-calculator focused on metagenomics applications. CoverM calculates coverage of genomes/MAGs (coverm genome) or
-individual contigs (coverm contig). Calculating coverage by read mapping, its input can either be BAM files sorted by
-reference, or raw reads and reference FASTA sequences.
-
-**Singularity use**:
-
-For a directory of genome bins (each fasta file is a bin, all files having the "fna" extension) and the original fastq
-files used in the assembly...
-
-.. code-block:: bash
-
-    module load singularity/current
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/CoverM-0.6.1.sif genome --genome-fasta-directory <path-to-bins> -x fna --coupled <reads1.fastq> <reads2.fastq> --output-format sparse --min-read-percent-identity .95 --min-read-aligned-percent .75 --min-covered-fraction .75 > coverage_table.csv
-
-
-GraftM
-~~~~~~~
-
-**Website**: https://github.com/geronimp/graftM
-
-**Reference**: Boyd, J. A., Woodcroft, B. J., & Tyson, G. W. (2018). GraftM: a tool for scalable, phylogenetically
-informed classification of genes within metagenomes. Nucleic Acids Research, 46(10), e59–e59.
-https://doi.org/10.1093/nar/gky174
-
-**Short description**: GraftM is a tool for finding genes of interest in metagenomes, metatranscriptomes, and whole
- genomes. Using modular gene packages, GraftM will search the provided sequences using hmmsearch (HMMER) and place the
- identified sequences into a pre-constructed phylogenetic tree. The provides fast, phylogenetically informed community
- profiles and genome annotations.
-
-**Singularity use**:
-
-.. code-block:: bash
-
-    module load singularity/current
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/GraftM-0.10.1.img
-
-The latest version is 0.13.1. This will be updated.
-
-ClusterGenomes
-~~~~~~~~~~~~~~
-
-**Website**: https://bitbucket.org/MAVERICLab/stampede-clustergenomes/
-
-**Short description**: ClusterGenomes is a nucmer-based tool designed to cluster viral genomes. It can handle circular
-and short sequences with high accuracy.
-
-**Singularity use**:
-
-.. code-block:: bash
-
-    module load singularity/current
-
-    # Dereplicate
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/ClusterGenomes-1.1.3.img -f <input-viral-genomes.fasta> -c <coverage> -i <identity> -o <output-directory>
-
-Note: Both coverage and identity are 0 - 100, *not* 0.0 - 1.0.
 
 
 DRAM
@@ -1576,6 +1478,234 @@ for each genome set.
 
     module use /fs/project/PAS1117/modulefiles
     module load dRep/2.4.2
+
+
+HH-Suite
+~~~~~~~~
+
+**Website**: https://github.com/soedinglab/hh-suite
+
+**Reference**: Steinegger, M. et al. HH-suite3 for fast remote homology detection and deep protein annotation.
+BMC Bioinformatics 20, 473 (2019).
+
+**Short description**: The HH-suite is an open-source software package for sensitive protein sequence searching based
+on the pairwise alignment of hidden Markov models (HMMs).
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load hhsuite/3.2.0
+
+
+HMMsearch
+~~~~~~
+
+**Website**: Coming soon!
+
+**Reference**: Coming soon!
+
+**Short description**: Coming soon!
+
+**Singularity use**:
+
+.. code-block:: bash
+    
+    Coming soon!
+
+
+InterProScan
+~~~~~~~~~~~~
+
+**Website**: https://github.com/ebi-pf-team/interproscan
+
+**Reference**: Quevillon, E. et al. InterProScan: protein domains identifier. Nucleic Acids Res. 33, W116–W120 (2005).
+
+**Short description**: InterPro is a database which integrates together predictive information about proteins’
+function from a number of partner resources, giving an overview of the families that a protein belongs to and the
+domains and sites it contains.
+
+Users who have novel nucleotide or protein sequences that they wish to functionally characterise can use the software
+package InterProScan to run the scanning algorithms from the InterPro database in an integrated way. Sequences are
+submitted in FASTA format. Matches are then calculated against all of the required member database’s signatures and
+the results are then output in a variety of formats.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load InterProScan/5.36-75.0
+
+    interproscan.sh <rest-of-command>
+
+
+KEGGcharter
+~~~~~~
+
+**Website**: Coming soon!
+
+**Reference**: Coming soon!
+
+**Short description**: Coming soon!
+
+**Singularity use**:
+
+.. code-block:: bash
+    
+    Coming soon!
+
+
+Prokka
+~~~~~~
+
+**Reference**: Seemann T. Prokka: rapid prokaryotic genome annotation Bioinformatics 2014 Jul 15;30(14):2068-9.
+PMID:24642063
+
+**Short description**: Prokka is a software tool to annotate bacterial, archaeal and viral genomes quickly and produce
+standards-compliant output files
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/Prokka-1.12.0.img
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load Prokka/1.13
+
+
+SortMeRNA
+~~~~~~~~~
+
+**Website**: https://github.com/biocore/sortmerna
+
+**Reference**: Kopylova, E., Noé, L. & Touzet, H. SortMeRNA: fast and accurate filtering of ribosomal RNAs in
+metatranscriptomic data. Bioinformatics 28, 3211–3217 (2012).
+
+**Short description**: SortMeRNA is a local sequence alignment tool for filtering, mapping and clustering.
+
+The core algorithm is based on approximate seeds and allows for sensitive analysis of NGS reads. The main application
+of SortMeRNA is filtering rRNA from metatranscriptomic data. SortMeRNA takes as input files of reads (fasta, fastq,
+fasta.gz, fastq.gz) and one or multiple rRNA database file(s), and sorts apart aligned and rejected reads into two
+files. Additional applications include clustering and taxonomy assignation available through QIIME v1.9.1. SortMeRNA
+works with Illumina, Ion Torrent and PacBio data, and can produce SAM and BLAST-like alignments.
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load SortMeRNA/4.2.0
+
+    sortmerna -h
+
+
+PROSITE
+~~~~~~~
+
+**Website**:
+
+**Reference**:
+
+**Short description**:
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load PROSITE/1.86
+    ps_scan.pl <rest-of-command>
+
+
+MINCED
+~~~~~~
+
+**Website**: https://github.com/ctSkennerton/minced
+
+**Reference**: 1. Bland, C. et al. CRISPR Recognition Tool (CRT): a tool for automatic detection of clustered
+regularly interspaced palindromic repeats. BMC Bioinformatics 8, 209 (2007).
+
+**Short description**: MinCED is a program to find Clustered Regularly Interspaced Short Palindromic Repeats (CRISPRs)
+in full genomes or environmental datasets such as assembled contigs from metagenomes. Iff you want to identify CRISPRs
+in raw short read data, in the size range of 100-200bp try using Crass (https://github.com/ctskennerton/Crass) MinCED
+runs from the command-line and was derived from CRT (http://www.room220.com/crt/)
+
+**Module use**:
+
+.. code-block:: bash
+
+    module use /fs/project/PAS1117/modulefiles
+    module load minced/1.0.0
+
+Clust
+~~~~~
+
+**Website**: https://github.com/baselabujamous/clust
+
+**Reference**: Abu-Jamous, B., & Kelly, S. (2018). Clust: automatic extraction of optimal co-expressed gene clusters
+from gene expression data. Genome Biology, 19(1), 172. https://doi.org/10.1186/s13059-018-1536-8
+
+**Short description**: Clust is a fully automated method for identification of clusters (groups) of genes that are
+consistently co-expressed (well-correlated) in one or more heterogeneous datasets from one or multiple species.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/clust-1.8.9.img data_path -o output_directory [...]
+
+Please do read the extensive documentation on the Clust github page.
+
+
+GraftM
+~~~~~~~
+
+**Website**: https://github.com/geronimp/graftM
+
+**Reference**: Boyd, J. A., Woodcroft, B. J., & Tyson, G. W. (2018). GraftM: a tool for scalable, phylogenetically
+informed classification of genes within metagenomes. Nucleic Acids Research, 46(10), e59–e59.
+https://doi.org/10.1093/nar/gky174
+
+**Short description**: GraftM is a tool for finding genes of interest in metagenomes, metatranscriptomes, and whole
+ genomes. Using modular gene packages, GraftM will search the provided sequences using hmmsearch (HMMER) and place the
+ identified sequences into a pre-constructed phylogenetic tree. The provides fast, phylogenetically informed community
+ profiles and genome annotations.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/GraftM-0.10.1.img
+
+The latest version is 0.13.1. This will be updated.
+
+ClusterGenomes
+~~~~~~~~~~~~~~
+
+**Website**: https://bitbucket.org/MAVERICLab/stampede-clustergenomes/
+
+**Short description**: ClusterGenomes is a nucmer-based tool designed to cluster viral genomes. It can handle circular
+and short sequences with high accuracy.
+
+**Singularity use**:
+
+.. code-block:: bash
+
+    module load singularity/current
+
+    # Dereplicate
+    singularity run /users/PAS1117/osu9664/eMicro-Apps/ClusterGenomes-1.1.3.img -f <input-viral-genomes.fasta> -c <coverage> -i <identity> -o <output-directory>
+
+Note: Both coverage and identity are 0 - 100, *not* 0.0 - 1.0.
 
 
 ViennaRNA
@@ -2674,25 +2804,6 @@ multi-step queries. Selected records can then be retrieved in a variety of forma
     module load Entrez-Direct
 
 
-Clinker
-~~~~~~~
-
-**Website**: https://github.com/gamcil/clinker
-
-**Reference**: Gilchrist, C. L. M. & Chooi, Y.-H. clinker &amp; clustermap.js: automatic generation of gene cluster
-comparison figures. Bioinformatics (2021). doi:10.1093/bioinformatics/btab007
-
-**Short description**: Gene cluster comparison figure generator - clinker is a pipeline for easily generating
-publication-quality gene cluster comparison figures.
-
-**Module use**:
-
-.. code-block:: bash
-
-    module use /fs/project/PAS1117/modulefiles
-    module load Clinker/Clinker
-    clinker --help
-
 KronaTools
 ~~~~~~~~~~~
 
@@ -2891,21 +3002,6 @@ use *exec*
     singularity exec /users/PAS1117/osu9664/eMicro-Apps/cd-hit-dup
     ...
 
-BLAST+
-~~~~~~
-
-**Website**:
-
-**Reference**:
-
-**Short description**:
-
-**Module use**:
-
-.. code-block:: bash
-
-    module use /fs/project/PAS1117/modulefiles
-    module load blast/2.8.1+
 
 Clust
 ~~~~~~
@@ -3197,25 +3293,6 @@ sequences in seconds.
 
     module use /fs/project/PAS1117/modulefiles
     module load muscle/3.8.31
-
-
-tRNA-Scan SE
-~~~~~~~~~~~~
-
-**Website**: https://github.com/UCSC-LoweLab/tRNAscan-SE
-
-**Reference**: Lowe, T. M. & Eddy, S. R. tRNAscan-SE: A Program for Improved Detection of Transfer RNA Genes in
-Genomic Sequence. Nucleic Acids Res. 25, 0955–0964 (1997).
-
-**Short description**: We describe a program, tRNAscan-SE, which identifies 99–100% of transfer RNA genes in DNA
-sequence while giving less than one false positive per 15 gigabases.
-
-**Module use**:
-
-.. code-block:: bash
-
-    module use /fs/project/PAS1117/modulefiles
-    module load tRNAscan-SE/1.23
 
 
 MCL
@@ -3510,29 +3587,6 @@ chromosomes or genomes.
 
     # For eMicro
     singularity run /users/PAS1117/osu9664/eMicro-Apps/TICR.sif <name-of-program>
-
-RNAmmer
-~~~~~~~
-
-**Website**: https://services.healthtech.dtu.dk/service.php?RNAmmer-1.2
-
-**Reference**: Lagesen, K. et al. RNAmmer: consistent and rapid annotation of ribosomal RNA genes. Nucleic Acids Res. 35, 3100–3108 (2007).
-
-**Short description**: The RNAmmer 1.2 server predicts 5s/8s, 16s/18s, and 23s/28s ribosomal RNA in full genome sequences.
-
-**Singularity use**:
-
-.. code-block:: bash
-
-    module load singularity/current
-
-    # For PAS1117 users
-    module use /fs/project/PAS1117/modulefiles
-    module load singularityImages
-    RNAmmer-1.2.sif
-
-    # For eMicro
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/RNAmmer-1.2.sif
 
 ExpressBetaDiversity
 ~~~~~~~~~~~~~~~~~~~~
