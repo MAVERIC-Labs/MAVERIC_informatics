@@ -10,12 +10,12 @@ the data from SRA.
 This will include (nearly) all steps and *most* of the results returned from the command line. Clearly, some outputs
 can't be nicely placed here, but are available (as links to files) or in the M8161 project directory.
 
-Everything here uses Singularity. All of the singularity images are located at:
+Everything here uses apptainer. All of the apptainer images are located at:
 
 **/users/PAS1117/osu9664/eMicro-Apps/**
 
-So you must prepend each \*.img, \*.simg or \*.sif Singularity container w/ this path OR link them (see :ref:`UNIX_LINUX`).
-Another way to avoid needing to prepend every Singularity container is to add them to your $PATH
+So you must prepend each \*.img, \*.simg or \*.sif apptainer container w/ this path OR link them (see :ref:`UNIX_LINUX`).
+Another way to avoid needing to prepend every apptainer container is to add them to your $PATH
 
 .. code-block:: bash
 
@@ -25,7 +25,7 @@ Now, instead of typing:
 
 .. code-block:: bash
 
-    singularity run /users/PAS1117/osu9664/eMicro-Apps/SRA_Toolkit.sif fasterq-dump -e 4 -p --split-files ERR594369
+    apptainer run /users/PAS1117/osu9664/eMicro-Apps/SRA_Toolkit.sif fasterq-dump -e 4 -p --split-files ERR594369
 
 You can now type:
 
@@ -43,8 +43,6 @@ NCBI+SRA websites, or directly using their SRA Toolkit.
 
     # Move to project directory
     $ /fs/project/PAS1117/viral_ecogenomics_pipeline/
-    # Load modules necessary
-    $ module load singularity
     $ time SRA_Toolkit.sif fasterq-dump -e 4 -p --split-files ERR594369
     join   :|-------------------------------------------------- 100.00%
     concat :|-------------------------------------------------- 100.00%
@@ -60,6 +58,12 @@ In the example above, we used *fasterq-dump*, which is designated to download tw
 We also specified 4 threads (-e 4) so it would run a little faster. There should be *two* output files: ERR594369_1.fastq
 and ERR594369_2.fastq. fasterq-dump won't compress the files for you, so you'll have to do this after the download completes.
 
+.. code-block:: bash
+
+    # Compress files all files in the project directory
+    $ pigz -r /fs/project/PAS1117/viral_ecogenomics_pipeline/
+
+Pigz stands for the parallel implementation of GZip and is a replacement for gzip that uses multiple processors and cores to compress data. It compresses data faster than gzip.
 
 Read Quality Control
 --------------------
@@ -70,7 +74,7 @@ We'll be using both for examples, but typically stick with one and use it.
 
 .. code-block:: bash
 
-    $ time Trimmomatic-0.36.0.img PE ERR594369_1.fastq.gz ERR594369_2.fastq.gz ERR594369_1_t_paired.fastq.gz ERR594369_1_t_unpaired.fastq.gz ERR594369_2_t_paired.fastq.gz ERR594369_2_t_unpaired.fastq.gz ILLUMINACLIP:/Trimmomatic-0.36/adapters/TruSeq3-PE.fa:2:30:10:2 LEADING:3 TRAILING:3 MINLEN:36
+    $ time Trimmomatic-0.39-2.sif PE ERR594369_1.fastq.gz ERR594369_2.fastq.gz ERR594369_1_t_paired.fastq.gz ERR594369_1_t_unpaired.fastq.gz ERR594369_2_t_paired.fastq.gz ERR594369_2_t_unpaired.fastq.gz ILLUMINACLIP:/Trimmomatic-0.39/adapters/TruSeq3-PE.fa:2:30:10:2 LEADING:3 TRAILING:3 MINLEN:36
     TrimmomaticPE: Started with arguments:
      ERR594369_1.fastq.gz ERR594369_2.fastq.gz ERR594369_1_t_paired.fastq.gz ERR594369_1_t_unpaired.fastq.gz ERR594369_2_t_paired.fastq.gz ERR594369_2_t_unpaired.fastq.gz ILLUMINACLIP:/Trimmomatic-0.36/adapters/TruSeq3-PE.fa:2:30:10:2 LEADING:3 TRAILING:3 MINLEN:36
     Using PrefixPair: 'TACACTCTTTCCCTACACGACGCTCTTCCGATCT' and 'GTGACTGGAGTTCAGACGTGTGCTCTTCCGATCT'
@@ -83,7 +87,7 @@ We'll be using both for examples, but typically stick with one and use it.
     user	29m11.982s
     sys	0m55.359s
 
-For Trimmomatic, the defaults work pretty well. Note the location of the IlluminaClip - it's already "in" the Singularity
+For Trimmomatic, the defaults work pretty well. Note the location of the IlluminaClip - it's already "in" the apptainer
 file. If you have your own custom primers/adapters, you'll need to add your sequences or create your own primer and adapter
 file.
 
@@ -93,7 +97,7 @@ removed during each (more below)
 
 .. code-block:: bash
 
-    $ time BBTools-38.69.sif bbduk.sh in1=ERR594369_1.fastq.gz in2=ERR594369_2.fastq.gz out1=ERR594369_1_t.fastq.gz out2=ERR594369_2_t.fastq.gz ref=/bbmap/resources/adapters.fa ktrim=r k=23 mink=11 hdist=1 tpe tbo
+    $ time BBTools-38.97.sif bbduk.sh in1=ERR594369_1.fastq.gz in2=ERR594369_2.fastq.gz out1=ERR594369_1_t.fastq.gz out2=ERR594369_2_t.fastq.gz ref=/bbmap/resources/adapters.fa ktrim=r k=23 mink=11 hdist=1 tpe tbo
     java -ea -Xmx154371m -Xms154371m -cp /bbmap/current/ jgi.BBDuk in1=ERR594369_1.fastq.gz in2=ERR594369_2.fastq.gz out1=ERR594369_1_t.fastq.gz out2=ERR594369_2_t.fastq.gz ref=/bbmap/resources/adapters.fa ktrim=r k=23 mink=11 hdist=1 tpe tbo
     Executing jgi.BBDuk [in1=ERR594369_1.fastq.gz, in2=ERR594369_2.fastq.gz, out1=ERR594369_1_t.fastq.gz, out2=ERR594369_2_t.fastq.gz, ref=/bbmap/resources/adapters.fa, ktrim=r, k=23, mink=11, hdist=1, tpe, tbo]
     Version 38.69
@@ -194,7 +198,7 @@ How does the quality check out?
 Read Quality Control (Visualizing)
 ----------------------------------
 
-Here, we've already loaded singularity (above) and moved to the project directory. In this example, I'm going to run
+Here, we've already moved to the project directory. In this example, I'm going to run
 FastQC on all of the input files (2), the results from Trimmomatic (4) and the adapter trimmed (2) and quality filtered
 (2) read *pairs* of BBDuk.
 
@@ -309,7 +313,6 @@ that should assemble your data.
     #SBATCH --partition=hugemem
 
     # Load the SPAdes module - or can be loaded directly
-    module load singularity
     spadesLoc=/users/PAS1117/osu9664/eMicro-Apps/SPAdes-3.13.0.sif
 
     # General Options, can't use --careful with --meta
@@ -386,7 +389,6 @@ And now, what if we wanted to use a different assembler, let's say MEGAHIT?
     #SBATCH -J MEGAHIT
     #SBATCH --partition=hugemem
 
-    module load singularity
 
     # Directories
     projectDir="/fs/project/PAS1117/ben/VEP"
@@ -472,7 +474,6 @@ First, we'll run an initial pass using VirSorter2
     #SBATCH -J VS2_p1
 
     # Load the SPAdes module - or can be loaded directly
-    module load singularity
     vs2Loc=/users/PAS1117/osu9664/eMicro-Apps/VirSorter2-2.2.3.sif
     workDir="/fs/project/PAS1117/ben/VEP"
 
@@ -508,7 +509,6 @@ Next, run CheckV...
     #SBATCH -J CheckV
 
     # Load the SPAdes module - or can be loaded directly
-    module load singularity
     checkVLoc=/users/PAS1117/osu9664/eMicro-Apps/CheckV-0.8.1.sif
     workDir="/fs/project/PAS1117/ben/VEP"
 
@@ -569,7 +569,6 @@ Now re-run VirSorter.
     #SBATCH -J VS2_p2
 
     # Load VirSorter
-    module load singularity
     vs2Loc=/users/PAS1117/osu9664/eMicro-Apps/VirSorter2-2.2.3.sif
     workDir="/fs/project/PAS1117/ben/VEP"
 
@@ -613,7 +612,6 @@ genomes and can lead to them being called viral.
     #SBATCH -J DRAMv
 
     # Load the SPAdes module - or can be loaded directly
-    module load singularity
     dramLoc=/users/PAS1117/osu9664/eMicro-Apps/DRAM-PAS1573-1.2.1.sif
     workDir="/fs/project/PAS1117/ben/VEP"
 
@@ -633,7 +631,7 @@ genomes and can lead to them being called viral.
     time dramLoc distill -i $outDir/annotations.tsv -o "${workDir}/analyses/DRAMv-distill"
 
 Two things to notice. 1) We're still continuing with the  `VirSorter2 SOP <https://dx.doi.org/10.17504/protocols.io.bwm5pc86>`_
-and 2) we're using a special Singularity version of DRAMv. Feel free to use the module version or your own installation.
+and 2) we're using a special apptainer version of DRAMv. Feel free to use the module version or your own installation.
 
 Let's see how long this took.
 
@@ -709,10 +707,8 @@ we'll run prodigal first - to generate proteins - and then use an accessory func
     #SBATCH -n 48
     #SBATCH -J vConTACT2
     #SBATCH --partition=hugemem
-
-    module load singularity
+    
     module use /fs/project/PAS1117/modulefiles
-    module load singularityImages
 
     # Directories
     workDir="/fs/project/PAS1117/ben/VEP"
@@ -731,7 +727,7 @@ we'll run prodigal first - to generate proteins - and then use an accessory func
     vcontact2Loc="/users/PAS1117/osu9664/eMicro-Apps/vConTACT2-0.9.20.sif"
     outputDir="${workDir}/analyses/vConTACT2_output"
 
-    time singularity exec $vcontact2Loc vcontact2_gene2genome -p $prodigal_outputDir/VirSorter2_genomes.faa \
+    time apptainer exec $vcontact2Loc vcontact2_gene2genome -p $prodigal_outputDir/VirSorter2_genomes.faa \
     -o $prodigal_outputDir/VirSorter2_proteins.csv -s Prodigal-FAA
 
     time $vcontact2Loc --pcs-mode MCL --vcs-mode ClusterONE --threads 48 --raw-proteins $prodigal_outputDir/VirSorter2_genomes.faa \
