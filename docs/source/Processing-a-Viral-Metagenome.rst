@@ -42,7 +42,7 @@ NCBI+SRA websites, or directly using their SRA Toolkit.
 .. code-block:: bash
 
     # Move to project directory
-    $ /fs/project/PAS1117/viral_ecogenomics_pipeline/
+    $ cd /fs/project/PAS1117/viral_ecogenomics_pipeline/
     $ time SRA_Toolkit.sif fasterq-dump -e 4 -p --split-files ERR594369
     join   :|-------------------------------------------------- 100.00%
     concat :|-------------------------------------------------- 100.00%
@@ -310,10 +310,11 @@ that should assemble your data.
     #SBATCH -t 24:00:00
     #SBATCH -n 48
     #SBATCH -J SPAdes
+    #SBATCH --account=PAS1117
     #SBATCH --partition=hugemem
 
     # Load the SPAdes module - or can be loaded directly
-    spadesLoc=/users/PAS1117/osu9664/eMicro-Apps/SPAdes-3.13.0.sif
+    spadesLoc=/users/PAS1117/osu9664/eMicro-Apps/SPAdes-3.15.5.sif
 
     # General Options, can't use --careful with --meta
     genOpts="--meta -k 21,33,55,77,99,121"  # Paired end, 1 pair only
@@ -322,8 +323,11 @@ that should assemble your data.
 
     spadesRun="${spadesLoc} ${genOpts} ${runOpts}"  # Because we loaded the module, the system knows where to look
 
-    workDir="/fs/project/PAS1117/ben/VEP"
-
+    workDir="/fs/project/PAS1117/viral_ecogenomics_pipeline/"
+    
+    mkdir /fs/project/PAS1117/viral_ecogenomics_pipeline/processed_reads
+    mv *_paired.fastq.gz /fs/project/PAS1117/viral_ecogenomics_pipeline/processed_reads
+    
     pe1f="${workDir}/processed_reads/ERR594369_1_t_paired.fastq.gz"
     pe1r="${workDir}/processed_reads/ERR594369_2_t_paired.fastq.gz"
 
@@ -471,11 +475,12 @@ First, we'll run an initial pass using VirSorter2
     #SBATCH -N 1
     #SBATCH -t 4:00:00
     #SBATCH -n 40
+    #SBATCH --account=PAS1117
     #SBATCH -J VS2_p1
 
     # Load the SPAdes module - or can be loaded directly
     vs2Loc=/users/PAS1117/osu9664/eMicro-Apps/VirSorter2-2.2.3.sif
-    workDir="/fs/project/PAS1117/ben/VEP"
+    workDir="/fs/project/PAS1117/viral_ecogenomics_pipeline"
 
     cd $workDir
 
@@ -506,11 +511,12 @@ Next, run CheckV...
     #SBATCH -N 1
     #SBATCH -t 1:00:00
     #SBATCH -n 40
+    #SBATCH --account=PAS1117
     #SBATCH -J CheckV
 
     # Load the SPAdes module - or can be loaded directly
     checkVLoc=/users/PAS1117/osu9664/eMicro-Apps/CheckV-0.8.1.sif
-    workDir="/fs/project/PAS1117/ben/VEP"
+    workDir="/fs/project/PAS1117/viral_ecogenomics_pipeline"
 
     cd $workDir
 
@@ -534,7 +540,7 @@ results directory:
 
 .. code-block:: bash
 
-    $ ls /fs/project/PAS1117/ben/VEP/CheckV
+    $ ls /fs/project/PAS1117/viral_ecogenomics_pipeline/CheckV
     completeness.tsv   proviruses.fna       tmp          complete_genomes.tsv
     contamination.tsv  quality_summary.tsv  viruses.fna
 
@@ -566,11 +572,12 @@ Now re-run VirSorter.
     #SBATCH -N 1
     #SBATCH -t 4:00:00
     #SBATCH -n 40
+    #SBATCH --account=PAS1117
     #SBATCH -J VS2_p2
 
     # Load VirSorter
     vs2Loc=/users/PAS1117/osu9664/eMicro-Apps/VirSorter2-2.2.3.sif
-    workDir="/fs/project/PAS1117/ben/VEP"
+    workDir="/fs/project/PAS1117/viral_ecogenomics_pipeline"
 
     # Merge CheckV's proviruses and viruses
     input=$workDir/analyses/CheckV/combined.fna
