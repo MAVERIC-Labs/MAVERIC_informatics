@@ -564,7 +564,7 @@ Another way of examining them is with a quick "grep -c" (for count).
 CheckV is conservative with regards to quality, and uses completeness as a measure. It also incorporates a contamination
 check, so you can quickly screen contigs.
 
-Now re-run VirSorter.
+Now re-run VirSorter2.
 
 .. code-block:: bash
 
@@ -606,9 +606,7 @@ Now we want to annotate our putative viral genomes and then manually screen them
 VirSorter2 can contain false positives. No viral tool is completely perfect - every one of them has advantages or
 disadvantages, depending on the viral types present in the sample and biases to the identification tool.
 
-To do this, we'll use DRAM-v to identify AMGs (more below) *and* to identify "suspicious" genes that can be found in viral
-genomes and can lead to them being called viral.
-
+To do this, we’ll use DRAM-v to identify AMGs (more below) and to identify “suspicious” genes that can be found in viral genomes and can lead to them being called viral.
 
 .. code-block:: bash
 
@@ -616,11 +614,12 @@ genomes and can lead to them being called viral.
     #SBATCH -N 1
     #SBATCH -t 120:00:00
     #SBATCH -n 40
+    #SBATCH --account=PAS1117
     #SBATCH -J DRAMv
 
     # Load the SPAdes module - or can be loaded directly
     dramLoc=/users/PAS1117/osu9664/eMicro-Apps/DRAM-PAS1573-1.2.1.sif
-    workDir="/fs/project/PAS1117/ben/VEP"
+    workDir="/fs/project/PAS1117/viral_ecogenomics_pipeline"
 
     cd $workDir
 
@@ -651,7 +650,6 @@ Let's see how long this took.
 
 Three days and 9 hours using 40 cores to annotate 3313 contigs.
 
-
 Next, we need to screen based on the viral and host genes, hallmark genes, and contig lengths between CheckV and VirSorter2,
 and incorporate DRAM results in order to have confidence in our viral calls. The VirSorter2 SOP has a general set of
 guidelines we can use. Basically, they're screening categories: Keep1, Keep2, Manual check, and discard.
@@ -666,9 +664,10 @@ in, ensure you go through them.
     #SBATCH -N 1
     #SBATCH -t 00:05:00
     #SBATCH -n 1
+    #SBATCH --account=PAS1117
     #SBATCH -J VS2-SOP
 
-    workDir="/fs/project/PAS1117/ben/VEP"
+    workDir="/fs/project/PAS1117/viral_ecogenomics_pipeline"
 
     vs2_genomes="${workDir}/analyses/CheckV/combined.fna"
     vs2_final_score="${workDir}/analyses/VirSorter2-Pass1/final-viral-score.tsv"
@@ -680,8 +679,6 @@ in, ensure you go through them.
     # NOTE: --dramv-amg is optional
 
     python /users/PAS1117/osu9664/eMicro-Apps/Process-VS2_and_DRAMv.py --vs2-scores $vs2_final_score --checkv-contam $checkv_contamination --dramv-amg $amg_summary --vs2-genomes $vs2_genomes --output-dir $output_dir --drop-manual
-
-
 
 .. code-block:: bash
 
@@ -700,6 +697,45 @@ The log file for the script is as follows:
 Two files are generated. A summary table with information incorporating CheckV and VirSorter2, and the final viral genomes.
 We'll use these results for vConTACT2 and taxonomic classification.
 
+More Identification Methods
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+geNomad
+
+.. code-block:: bash
+
+    #!/bin/bash
+    #SBATCH -N 1
+    #SBATCH -t 24:00:00
+    #SBATCH -n 48
+    #SBATCH -J geNomad
+    #SBATCH --account=PAS1117
+    #SBATCH --partition=hugemem
+
+    # load the geNomad apptainer
+    geNomadLoc=/users/PAS1117/osu9664/eMicro-Apps/GeNomad-1.8.0.sif
+
+    # general options - cleanup removed intermediate files to save storage space
+    genOpts="genomad end-to-end --cleanup"
+
+    geNomad="${geNomadLoc} ${genOpts}"
+
+    workDir="/fs/project/PAS1117/viral_ecogenomics_pipeline"
+
+    fasta="${workDir}/MetaSPAdes_Trimmomatic/contigs.fasta"
+    output_dir="${workDir}/analyses/geNomad"
+    db_dir="${workDir}/genomad_db"
+
+    geNomadRun="${geNomad} ${fasta} ${output_dir} ${db_dir}"
+
+    echo ${geNomadRun}
+    ${geNomadRun}
+
+.. code-block:: bash
+
+DeepVirFinder
+Coming soon!
+
 Preparing for vConTACT2 and Running vConTACT2
 ---------------------------------------------
 
@@ -713,12 +749,13 @@ we'll run prodigal first - to generate proteins - and then use an accessory func
     #SBATCH -t 4:00:00
     #SBATCH -n 48
     #SBATCH -J vConTACT2
+    #SBATCH --account=PAS1117    
     #SBATCH --partition=hugemem
     
     module use /fs/project/PAS1117/modulefiles
 
     # Directories
-    workDir="/fs/project/PAS1117/ben/VEP"
+    workDir="/fs/project/PAS1117/viral_ecogenomics_pipeline"
 
     # Generate files suitable for vConTACT2
     prodigalLoc="/users/PAS1117/osu9664/eMicro-Apps/Prodigal-2.6.3.img"
@@ -805,4 +842,50 @@ And with that, we've gone from raw, environmental viral metagenome data (downloa
 identified viral genomes, checked their quality, and then got a bit of classification. Just like with the Microbial
 Ecology pipeline, we're only a few steps away from a published manuscript!
 
+Post-Identification Analysis
+----------------------------
 
+We'll use DRAM-v to identify AMGs (more below) *and* to identify "suspicious" genes that can be found in viral genomes and can lead to them being called viral. DRAM-v annotates our putative viral genomes and then manually screen them to ensure they are of high confidence.
+
+
+.. code-block:: bash
+
+    #!/bin/bash
+    #SBATCH -N 1
+    #SBATCH -t 120:00:00
+    #SBATCH -n 40
+    #SBATCH --account=PAS1117
+    #SBATCH -J DRAMv
+
+    # Load the SPAdes module - or can be loaded directly
+    dramLoc=/users/PAS1117/osu9664/eMicro-Apps/DRAM-PAS1573-1.2.1.sif
+    workDir="/fs/project/PAS1117/viral_ecogenomics_pipeline"
+
+    cd $workDir
+
+    # Annotate
+    fasta_input="${workDir}/analyses/VirSorter2-Pass2/for-dramv/final-viral-combined-for-dramv.fa"
+    affi_input="${workDir}/analyses/VirSorter2-Pass2/for-dramv/viral-affi-contigs-for-dramv.tab"
+
+    # Variables to pass to DRAMv annotate
+    opts="--skip_trnascan --threads 40 --min_contig_size 1000"
+    outDir="${workDir}/analyses/DRAMv-annotate"
+
+    time dramLoc annotate -i $fasta_input -v $affi_input -o $outDir $opts
+
+    # Then summarize
+    time dramLoc distill -i $outDir/annotations.tsv -o "${workDir}/analyses/DRAMv-distill"
+
+Two things to notice. 1) We're still continuing with the  `VirSorter2 SOP <https://dx.doi.org/10.17504/protocols.io.bwm5pc86>`_
+and 2) we're using a special apptainer version of DRAMv. Feel free to use the module version or your own installation.
+
+Let's see how long this took.
+
+.. code-block:: bash
+
+    $ sacct -j 5371984 --format "CPUTime,MaxRSS,Elapsed"
+       CPUTime     MaxRSS    Elapsed
+    ---------- ---------- ----------
+    135-17:22:00   9029732K 3-09:26:03
+
+Three days and 9 hours using 40 cores to annotate 3313 contigs.
