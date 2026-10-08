@@ -391,6 +391,7 @@ And now, what if we wanted to use a different assembler, let's say MEGAHIT?
     #SBATCH -t 4:00:00
     #SBATCH -n 48
     #SBATCH -J MEGAHIT
+    #SBATCH --account=PAS1117
     #SBATCH --partition=hugemem
 
 
